@@ -13,6 +13,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class StoryOptionTest {
 
+	private static final String CHANGED_TEXT = "Changed text";
 	private static final int DUMMY_LINK_INDEX = 0;
 	private static final String DUMMY_TEXT = "Dummy text";
 	
@@ -61,7 +62,7 @@ public class StoryOptionTest {
 		final String message = "The story option was not in the store.";
 		assertTrue(message, isOptionInStore);
 	}
-
+	
 	@Test
 	public final void testRead() {
 		createDummyStoryOption();
@@ -75,6 +76,29 @@ public class StoryOptionTest {
 		final String expected = DUMMY_TEXT;
 		final String actual = option.getText();
 		final String message = "The option text was not correct.";
+		assertEquals(message, expected, actual);
+	}
+
+	@Test
+	public final void testUpdate() {
+		createDummyStoryOption();
+		
+		final StoryOption optionBeforeUpdate = new StoryOption();
+		final PageId source = getDummyPageId();
+		optionBeforeUpdate.setSource(source);
+		optionBeforeUpdate.setListIndex(DUMMY_LINK_INDEX);
+		optionBeforeUpdate.read();
+		
+		optionBeforeUpdate.setText(CHANGED_TEXT);
+		optionBeforeUpdate.update();
+		
+		final StoryOption optionAfterUpdate = new StoryOption();
+		optionAfterUpdate.setSource(source);
+		optionAfterUpdate.setListIndex(DUMMY_LINK_INDEX);
+		optionAfterUpdate.read();
+		final String expected = CHANGED_TEXT;
+		final String actual = optionAfterUpdate.getText();
+		final String message = "The changed option text was not correct.";
 		assertEquals(message, expected, actual);
 	}
 
