@@ -13,10 +13,11 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class StoryPageTest {
 	private static final String DUMMY_TEXT = "Dummy text";
+	private static final String DUMMY_NEW_TEXT = "Dummy new text";
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
 			new LocalDatastoreServiceTestConfig());
 
-	private PageId getDummyPageId() {
+	private static PageId getDummyPageId() {
 		final PageId id = new PageId();
 		final int number = 1;
 		id.setNumber(number);
@@ -50,20 +51,45 @@ public class StoryPageTest {
 	}
 	
 	@Test
-	public final void testRead() {
-		final StoryPage createdPage = new StoryPage();
-		final PageId id = getDummyPageId();
-		createdPage.setId(id);
-		createdPage.setText(DUMMY_TEXT);
-		createdPage.create();
+	public final void testUpdate() {
+		createDummyStoryPage();
 		
-		final StoryPage readPage = new StoryPage();
-		readPage.setId(id);
-		readPage.read();
+		final StoryPage pageBeforeUpdate = new StoryPage();
+		final PageId id = getDummyPageId();
+		pageBeforeUpdate.setId(id);
+		pageBeforeUpdate.read();
+		pageBeforeUpdate.setText(DUMMY_NEW_TEXT);
+		pageBeforeUpdate.update();
+		final StoryPage pageAfterUpdate = new StoryPage();
+		pageAfterUpdate.setId(id);
+		pageAfterUpdate.read();
+		
+		final String expected = DUMMY_NEW_TEXT;
+		final String actual = pageAfterUpdate.getText();
+		final String message = "The page text was not updated correctly.";
+		assertEquals(message, expected, actual);
+	}
+	
+	@Test
+	public final void testRead() {
+		createDummyStoryPage();
+		
+		final StoryPage page = new StoryPage();
+		final PageId id = getDummyPageId();
+		page.setId(id);
+		page.read();
 		
 		final String expected = DUMMY_TEXT;
-		final String actual = readPage.getText();
+		final String actual = page.getText();
 		final String message = "The page text was not correct.";
 		assertEquals(message, expected, actual);
+	}
+
+	private static void createDummyStoryPage() {
+		final PageId id = getDummyPageId();
+		final StoryPage page = new StoryPage();
+		page.setId(id);
+		page.setText(DUMMY_TEXT);
+		page.create();
 	}
 }

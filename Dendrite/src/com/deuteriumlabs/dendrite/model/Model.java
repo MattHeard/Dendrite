@@ -11,6 +11,19 @@ import com.google.appengine.api.datastore.Query;
 public abstract class Model {
 
 	/**
+	 * Returns a single entity from the prepared query.
+	 * @param preparedQuery the prepared query matching a single entity
+	 * @return The single entity from the prepared query
+	 */
+	private static Entity getSingleEntity(final PreparedQuery preparedQuery) {
+		try {
+			return preparedQuery.asSingleEntity();
+		} catch (TooManyResultsException e) {
+			return null;
+		}
+	}
+
+	/**
 	 * Returns the datastore. The main purpose of this method is to shorten the
 	 * method name for less clumsy regular use.
 	 * @return The datastore
@@ -18,7 +31,7 @@ public abstract class Model {
 	private static DatastoreService getStore() {
 		return DatastoreServiceFactory.getDatastoreService();
 	}
-
+	
 	/**
 	 * Builds an entity containing the current data of this model and puts it in
 	 * the datastore.
@@ -30,7 +43,7 @@ public abstract class Model {
 		final DatastoreService store = getStore();
 		store.put(entity);
 	}
-	
+
 	/**
 	 * Returns the model's kind. Each model kind has a unique name which allows
 	 * for identification in the datastore. Subclasses implement this method to
@@ -43,7 +56,7 @@ public abstract class Model {
 	 * Returns the entity matching this model instance. Returns 
 	 * <code>null</code> if there is a problem.
 	 * @return The entity matching this model instance, or <code>null</code> if
-	 * the retreival fails
+	 * the retrieval fails
 	 */
 	private Entity getMatchingEntity() {
 		final DatastoreService store = getStore();
@@ -59,19 +72,6 @@ public abstract class Model {
 	 * @return The query for identifying this model instance
 	 */
 	abstract Query getMatchingQuery();
-
-	/**
-	 * Returns a single entity from the prepared query.
-	 * @param preparedQuery the prepared query matching a single entity
-	 * @return The single entity from the prepared query
-	 */
-	private Entity getSingleEntity(final PreparedQuery preparedQuery) {
-		try {
-			return preparedQuery.asSingleEntity();
-		} catch (TooManyResultsException e) {
-			return null;
-		}
-	}
 
 	/**
 	 * Returns <code>true</code> if this model instance is in the store.
@@ -92,7 +92,7 @@ public abstract class Model {
 	 * from the entity, and inserts those properties into this model instance.
 	 */
 	public void read() {
-		final Entity entity = getMatchingEntity();
+		final Entity entity = this.getMatchingEntity();
 		if (entity != null)
 			this.readPropertiesFromEntity(entity);
 	}
@@ -110,5 +110,16 @@ public abstract class Model {
 	 * @param entity The entity storing the properties
 	 */
 	abstract void setPropertiesInEntity(final Entity entity);
+
+	/**
+	 * Retrieves the matching entity from the datastore, replaces all of the
+	 * properties in that entity, and then puts it back in the datastore.
+	 */
+	public void update() {
+		final Entity entity = this.getMatchingEntity();
+		this.setPropertiesInEntity(entity);
+		final DatastoreService store = getStore();
+		store.put(entity);
+	}
 
 }
