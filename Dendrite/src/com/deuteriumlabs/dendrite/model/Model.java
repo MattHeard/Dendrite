@@ -4,6 +4,7 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
 import com.google.appengine.api.datastore.Query;
@@ -42,6 +43,19 @@ public abstract class Model {
 		this.setPropertiesInEntity(entity);
 		final DatastoreService store = getStore();
 		store.put(entity);
+	}
+
+	/**
+	 * Retrieves the entity matching this model instance and deletes it from the
+	 * store.
+	 */
+	public void delete() {
+		final Entity entity = this.getMatchingEntity();
+		if (entity != null) {
+			final Key key = entity.getKey();
+			final DatastoreService store = getStore();
+			store.delete(key);
+		}
 	}
 
 	/**
@@ -96,14 +110,14 @@ public abstract class Model {
 		if (entity != null)
 			this.readPropertiesFromEntity(entity);
 	}
-
+	
 	/**
 	 * Reads the values from the entity corresponding to the properties of this
 	 * model instance.
 	 * @param entity The entity storing the properties
 	 */
 	abstract void readPropertiesFromEntity(final Entity entity);
-	
+
 	/**
 	 * Sets the values in the entity corresponding to the properties of this
 	 * model instance.

@@ -51,14 +51,30 @@ public class StoryPageTest {
 	}
 	
 	@Test
-	public final void testUpdate() {
+	public final void testDelete() {
 		createDummyStoryPage();
 		
+		final StoryPage page = new StoryPage();
+		final PageId id = getDummyPageId();
+		page.setId(id);
+		
+		page.delete();
+		
+		final boolean isPageInStore = page.isInStore();
+		final String message;
+		message = "The story page should not have been in the store.";
+		assertFalse(message, isPageInStore);
+	}
+	
+	@Test
+	public final void testUpdate() {
+		createDummyStoryPage();
 		final StoryPage pageBeforeUpdate = new StoryPage();
 		final PageId id = getDummyPageId();
 		pageBeforeUpdate.setId(id);
 		pageBeforeUpdate.read();
 		pageBeforeUpdate.setText(DUMMY_NEW_TEXT);
+		
 		pageBeforeUpdate.update();
 		final StoryPage pageAfterUpdate = new StoryPage();
 		pageAfterUpdate.setId(id);
