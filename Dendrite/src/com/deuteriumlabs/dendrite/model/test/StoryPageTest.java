@@ -14,6 +14,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 public class StoryPageTest {
 	private static final String DUMMY_TEXT = "Dummy text";
 	private static final String DUMMY_NEW_TEXT = "Dummy new text";
+	
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
 			new LocalDatastoreServiceTestConfig());
 
