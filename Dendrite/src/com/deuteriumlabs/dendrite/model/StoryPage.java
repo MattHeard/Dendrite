@@ -149,7 +149,7 @@ public class StoryPage extends Model {
 	}
 
 	/**
-	 * Reads the values from the entity corresponding to the text of this story
+	 * Reads the value from the entity corresponding to the text of this story
 	 * page.
 	 * @param entity The entity storing the text
 	 */
@@ -159,8 +159,8 @@ public class StoryPage extends Model {
 	}
 
 	/**
-	 * Sets the ID of the story page.
-	 * @param id The new ID for the story page
+	 * Sets the ID of this story page.
+	 * @param id The new ID for this story page
 	 */
 	public void setId(final PageId id) {
 		this.id = id;
@@ -189,8 +189,8 @@ public class StoryPage extends Model {
 	}
 
 	/**
-	 * Sets the text of the story page.
-	 * @param text The new text for the story page
+	 * Sets the text of this story page.
+	 * @param text The new text for this story page
 	 */
 	public void setText(final String text) {
 		this.text = text;
