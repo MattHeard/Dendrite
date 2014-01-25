@@ -64,6 +64,21 @@ public class StoryOptionTest {
 	}
 	
 	@Test
+	public final void testDelete() {
+		createDummyStoryOption();
+		
+		final StoryOption option = new StoryOption();
+		final PageId source = getDummyPageId();
+		option.setSource(source);
+		option.setListIndex(DUMMY_LINK_INDEX);
+		option.delete();
+		
+		final boolean isOptionInStore = option.isInStore();
+		final String message = "The story option should not be in the store.";
+		assertFalse(message, isOptionInStore);
+	}
+	
+	@Test
 	public final void testRead() {
 		createDummyStoryOption();
 		
