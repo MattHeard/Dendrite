@@ -5,6 +5,7 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
 import com.google.appengine.api.datastore.Query;
 
 public abstract class Model {
@@ -12,7 +13,7 @@ public abstract class Model {
 	/**
 	 * Returns the datastore. The main purpose of this method is to shorten the
 	 * method name for less clumsy regular use.
-	 * @return the datastore
+	 * @return The datastore
 	 */
 	private static DatastoreService getStore() {
 		return DatastoreServiceFactory.getDatastoreService();
@@ -34,21 +35,48 @@ public abstract class Model {
 	 * Returns the model's kind. Each model kind has a unique name which allows
 	 * for identification in the datastore. Subclasses implement this method to
 	 * manage their own kind name.
-	 * @return the kind of this model
+	 * @return The kind of this model
 	 */
 	abstract String getKindName();
+
+	/**
+	 * Returns the entity matching this model instance. Returns 
+	 * <code>null</code> if there is a problem.
+	 * @return The entity matching this model instance, or <code>null</code> if
+	 * the retreival fails
+	 */
+	private Entity getMatchingEntity() {
+		final DatastoreService store = getStore();
+		final Query query = this.getMatchingQuery();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		return getSingleEntity(preparedQuery);
+	}
 
 	/**
 	 * Returns a query which should identify a single entity matching this
 	 * model. Subclasses implement this method to use their own unique
 	 * identifying properties to build filters for building this query.
-	 * @return the query for identifying this model instance
+	 * @return The query for identifying this model instance
 	 */
 	abstract Query getMatchingQuery();
 
 	/**
-	 * Returns true if this model instance is in the store.
-	 * @return true if this is in the store, false otherwise.
+	 * Returns a single entity from the prepared query.
+	 * @param preparedQuery the prepared query matching a single entity
+	 * @return The single entity from the prepared query
+	 */
+	private Entity getSingleEntity(final PreparedQuery preparedQuery) {
+		try {
+			return preparedQuery.asSingleEntity();
+		} catch (TooManyResultsException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Returns <code>true</code> if this model instance is in the store.
+	 * @return <code>true</code> if this is in the store, <code>false</code>
+	 * otherwise.
 	 */
 	public boolean isInStore() {
 		final Query query = this.getMatchingQuery();
@@ -60,9 +88,26 @@ public abstract class Model {
 	}
 
 	/**
+	 * Retrieves the matching entity from the datastore, reads the properties
+	 * from the entity, and inserts those properties into this model instance.
+	 */
+	public void read() {
+		final Entity entity = getMatchingEntity();
+		if (entity != null)
+			this.readPropertiesFromEntity(entity);
+	}
+
+	/**
+	 * Reads the values from the entity corresponding to the properties of this
+	 * model instance.
+	 * @param entity The entity storing the properties
+	 */
+	abstract void readPropertiesFromEntity(final Entity entity);
+	
+	/**
 	 * Sets the values in the entity corresponding to the properties of this
 	 * model instance.
-	 * @param entity
+	 * @param entity The entity storing the properties
 	 */
 	abstract void setPropertiesInEntity(final Entity entity);
 
