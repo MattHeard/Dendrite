@@ -14,6 +14,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 public class StoryOptionTest {
 
 	private static final int DUMMY_LINK_INDEX = 0;
+	private static final String DUMMY_TEXT = "Dummy text";
 	
 	private static PageId getDummyPageId() {
 		final PageId id = new PageId();
@@ -36,6 +37,31 @@ public class StoryOptionTest {
 	public void tearDown() {
 		helper.tearDown();
 	}
+	
+	@Test
+	public final void testRead() {
+		createDummyStoryOption();
+		
+		final StoryOption option = new StoryOption();
+		final PageId source = getDummyPageId();
+		option.setSource(source);
+		option.setListIndex(DUMMY_LINK_INDEX);
+		option.read();
+		
+		final String expected = DUMMY_TEXT;
+		final String actual = option.getText();
+		final String message = "The option text was not correct.";
+		assertEquals(message, expected, actual);
+	}
+
+	private void createDummyStoryOption() {
+		final StoryOption option = new StoryOption();
+		final PageId source = getDummyPageId();
+		option.setSource(source);
+		option.setListIndex(DUMMY_LINK_INDEX);
+		option.setText(DUMMY_TEXT);
+		option.create();
+	}
 
 	@Test
 	public final void testCreate() {
@@ -43,6 +69,7 @@ public class StoryOptionTest {
 		final PageId id = getDummyPageId();
 		option.setSource(id);
 		option.setListIndex(DUMMY_LINK_INDEX);
+		option.setText(DUMMY_TEXT);
 		
 		option.create();
 		

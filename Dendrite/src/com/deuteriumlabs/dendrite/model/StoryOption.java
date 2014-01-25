@@ -30,6 +30,7 @@ public class StoryOption extends Model {
 	private static final String LIST_INDEX_PROPERTY = "listIndex";
 	private static final String SOURCE_NUMBER_PROPERTY = "sourceNumber";
 	private static final String SOURCE_VERSION_PROPERTY = "sourceVersion";
+	private static final String TEXT_PROPERTY = "text";
 	
 	/**
 	 * Builds a filter to restrict a query to a particular list index.
@@ -112,8 +113,18 @@ public class StoryOption extends Model {
 		return (String) entity.getProperty(SOURCE_VERSION_PROPERTY);
 	}
 
+	/**
+	 * Returns the text from the given entity.
+	 * @param entity The entity containing the text
+	 * @return The text
+	 */
+	private static String getTextFromEntity(final Entity entity) {
+		return (String) entity.getProperty(TEXT_PROPERTY);
+	}
+	
 	private int listIndex;
 	private PageId source;
+	private String text;
 
 	/* (non-Javadoc)
 	 * @see com.deuteriumlabs.dendrite.model.Model#getKindName()
@@ -154,6 +165,10 @@ public class StoryOption extends Model {
 		return this.source;
 	}
 
+	public String getText() {
+		return this.text;
+	}
+
 	/**
 	 * Reads the value from the entity corresponding to the list index of this
 	 * story option.
@@ -171,6 +186,7 @@ public class StoryOption extends Model {
 	void readPropertiesFromEntity(final Entity entity) {
 		this.readSourceFromEntity(entity);
 		this.readListIndexFromEntity(entity);
+		this.readTextFromEntity(entity); 
 	}
 
 	/**
@@ -185,6 +201,16 @@ public class StoryOption extends Model {
 		final String version = getSourceVersionFromEntity(entity);
 		source.setVersion(version);
 		this.setSource(source);
+	}
+
+	/**
+	 * Reads the value from the entity corresponding to the text of this story
+	 * option.
+	 * @param entity The entity storing the text
+	 */
+	private void readTextFromEntity(final Entity entity) {
+		final String text = getTextFromEntity(entity);
+		this.setText(text);
 	}
 
 	/**
@@ -212,6 +238,7 @@ public class StoryOption extends Model {
 	void setPropertiesInEntity(final Entity entity) {
 		this.setSourceInEntity(entity);
 		this.setListIndexInEntity(entity);
+		this.setTextInEntity(entity);
 	}
 
 	/**
@@ -233,6 +260,24 @@ public class StoryOption extends Model {
 		entity.setProperty(SOURCE_NUMBER_PROPERTY, number);
 		final String version = source.getVersion();
 		entity.setProperty(SOURCE_VERSION_PROPERTY, version);
+	}
+
+	/**
+	 * Sets the text of this story option.
+	 * @param text The new text for this story option
+	 */
+	public void setText(final String text) {
+		this.text = text;
+	}
+
+	/**
+	 * Sets the value in the entity corresponding to the text of this story
+	 * option.
+	 * @param entity The entity in which the value is to be stored
+	 */
+	private void setTextInEntity(final Entity entity) {
+		final String text = this.getText();
+		entity.setProperty(TEXT_PROPERTY, text);
 	}
 
 }
