@@ -26,7 +26,7 @@ Where can I find documentation on how it works?
 -----------------------------------------------
 
 * For information about how to use the website, see [the help page on the 
-  website](write-mattheard.appspot.com/help.jsp).
+  website](http://write-mattheard.appspot.com/help.jsp).
 * For information about how the software works, there should be descriptive
   comments in the source code. As of January 2014, there have been no efforts to
   write documentation outside of the source code.
