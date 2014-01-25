@@ -8,10 +8,10 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 /**
- *	Represents a page of a story. <code>StoryPage</code> instances act as nodes
- *	in a tree to form a complete story. The unordered nature of the page IDs of
- *	the pages in a story causes the branches of different stories to be
- *	interwoven.
+ * Represents a page of a story. <code>StoryPage</code> instances act as nodes
+ * in a tree to form a complete story. The unordered nature of the page IDs of
+ * the pages in a story causes the branches of different stories to be
+ * interwoven.
  */
 public class StoryPage extends Model {
 	private static final String ID_NUMBER_PROPERTY = "idNumber";
@@ -51,7 +51,7 @@ public class StoryPage extends Model {
 	 * @param entity The entity containing the ID
 	 * @return The number component of the story page ID
 	 */
-	private static int getIdNumberPropertyFromEntity(final Entity entity) {
+	private static int getIdNumberFromEntity(final Entity entity) {
 		final Long number = (Long) entity.getProperty(ID_NUMBER_PROPERTY);
 		return number.intValue();
 	}
@@ -74,7 +74,7 @@ public class StoryPage extends Model {
 	 * @param entity The entity containing the ID
 	 * @return The version component of the story page ID
 	 */
-	private static String getIdVersionPropertyFromEntity(final Entity entity) {
+	private static String getIdVersionFromEntity(final Entity entity) {
 		return (String) entity.getProperty(ID_VERSION_PROPERTY);
 	}
 
@@ -121,7 +121,7 @@ public class StoryPage extends Model {
 	 * @param entity The entity containing the text
 	 * @return The text of the story page
 	 */
-	private String getTextPropertyFromEntity(final Entity entity) {
+	private String getTextFromEntity(final Entity entity) {
 		return (String) entity.getProperty(TEXT_PROPERTY);
 	}
 
@@ -130,11 +130,11 @@ public class StoryPage extends Model {
 	 * page.
 	 * @param entity The entity storing the ID
 	 */
-	private void readIdPropertiesFromEntity(final Entity entity) {
+	private void readIdFromEntity(final Entity entity) {
 		final PageId id = new PageId();
-		final int number = getIdNumberPropertyFromEntity(entity);
+		final int number = getIdNumberFromEntity(entity);
 		id.setNumber(number);
-		final String version = getIdVersionPropertyFromEntity(entity);
+		final String version = getIdVersionFromEntity(entity);
 		id.setVersion(version);
 		this.setId(id);
 	}
@@ -144,8 +144,8 @@ public class StoryPage extends Model {
 	 */
 	@Override
 	void readPropertiesFromEntity(final Entity entity) {
-		this.readIdPropertiesFromEntity(entity);
-		this.readTextPropertyFromEntity(entity);
+		this.readIdFromEntity(entity);
+		this.readTextFromEntity(entity);
 	}
 
 	/**
@@ -153,8 +153,8 @@ public class StoryPage extends Model {
 	 * page.
 	 * @param entity The entity storing the text
 	 */
-	private void readTextPropertyFromEntity(final Entity entity) {
-		final String text = getTextPropertyFromEntity(entity);
+	private void readTextFromEntity(final Entity entity) {
+		final String text = getTextFromEntity(entity);
 		this.setText(text);
 	}
 
@@ -171,7 +171,7 @@ public class StoryPage extends Model {
 	 * page.
 	 * @param entity The entity in which the values are to be stored
 	 */
-	private void setIdPropertiesInEntity(final Entity entity) {
+	private void setIdInEntity(final Entity entity) {
 		final PageId id = this.getId();
 		final int number = id.getNumber();
 		entity.setProperty(ID_NUMBER_PROPERTY, number);
@@ -184,8 +184,8 @@ public class StoryPage extends Model {
 	 */
 	@Override
 	void setPropertiesInEntity(final Entity entity) {
-		this.setIdPropertiesInEntity(entity);
-		this.setTextPropertyInEntity(entity);
+		this.setIdInEntity(entity);
+		this.setTextInEntity(entity);
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class StoryPage extends Model {
 	 * page.
 	 * @param entity The entity in which the value is to be stored
 	 */
-	private void setTextPropertyInEntity(Entity entity) {
+	private void setTextInEntity(Entity entity) {
 		final String text = this.getText();
 		entity.setProperty(TEXT_PROPERTY, text);
 	}
