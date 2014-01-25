@@ -28,32 +28,6 @@ public class StoryOptionTest {
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
 			new LocalDatastoreServiceTestConfig());
 
-	@Before
-	public void setUp() {
-		helper.setUp();
-	}
-
-	@After
-	public void tearDown() {
-		helper.tearDown();
-	}
-	
-	@Test
-	public final void testRead() {
-		createDummyStoryOption();
-		
-		final StoryOption option = new StoryOption();
-		final PageId source = getDummyPageId();
-		option.setSource(source);
-		option.setListIndex(DUMMY_LINK_INDEX);
-		option.read();
-		
-		final String expected = DUMMY_TEXT;
-		final String actual = option.getText();
-		final String message = "The option text was not correct.";
-		assertEquals(message, expected, actual);
-	}
-
 	private void createDummyStoryOption() {
 		final StoryOption option = new StoryOption();
 		final PageId source = getDummyPageId();
@@ -61,6 +35,16 @@ public class StoryOptionTest {
 		option.setListIndex(DUMMY_LINK_INDEX);
 		option.setText(DUMMY_TEXT);
 		option.create();
+	}
+
+	@Before
+	public void setUp() {
+		helper.setUp();
+	}
+	
+	@After
+	public void tearDown() {
+		helper.tearDown();
 	}
 
 	@Test
@@ -76,6 +60,22 @@ public class StoryOptionTest {
 		final boolean isOptionInStore = option.isInStore();
 		final String message = "The story option was not in the store.";
 		assertTrue(message, isOptionInStore);
+	}
+
+	@Test
+	public final void testRead() {
+		createDummyStoryOption();
+		
+		final StoryOption option = new StoryOption();
+		final PageId source = getDummyPageId();
+		option.setSource(source);
+		option.setListIndex(DUMMY_LINK_INDEX);
+		option.read();
+		
+		final String expected = DUMMY_TEXT;
+		final String actual = option.getText();
+		final String message = "The option text was not correct.";
+		assertEquals(message, expected, actual);
 	}
 
 }
