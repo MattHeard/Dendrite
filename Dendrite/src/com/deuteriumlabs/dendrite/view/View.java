@@ -29,6 +29,23 @@ public abstract class View {
 		final UserService userService = UserServiceFactory.getUserService();
 		return userService.createLoginURL(returnUrl);
 	}
+	
+	public String getAuthorLink() {
+		final User myUser = User.getMyUser();
+		final String userId = myUser.getId();
+		return "author.jsp?id=" + userId;
+	}
+	
+	public String getUserName() {
+		final User myUser = User.getMyUser();
+		return myUser.getDefaultPenName();
+	}
+	
+	public String getLogoutLink() {
+		final String returnUrl = this.getUrl();
+		final UserService userService = UserServiceFactory.getUserService();
+		return userService.createLogoutURL(returnUrl);
+	}
 
 	/**
 	 * Returns a link to this page, which can be supplied for when the user

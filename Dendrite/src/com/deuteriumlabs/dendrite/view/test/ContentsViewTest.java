@@ -9,4 +9,10 @@ public class ContentsViewTest {
 		// I currently do not know how to test the Google App Engine user with a
 		// unit test.
 	}
+	
+	@Test
+	public final void testGetLoginLink() {
+		// I currently do not know how to test the Google App Engine user
+		// service with a unit test.
+	}
 }

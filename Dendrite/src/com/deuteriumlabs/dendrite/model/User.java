@@ -131,7 +131,7 @@ public class User extends Model {
 	 * 
 	 * @return The unique ID of this user
 	 */
-	private String getId() {
+	public String getId() {
 		return this.id;
 	}
 

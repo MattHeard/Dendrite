@@ -14,16 +14,23 @@
     final ContentsView view = new ContentsView();
     final boolean isUserLoggedIn = ContentsView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
+    	
+    	final String authorLink = view.getAuthorLink();
+    	pageContext.setAttribute("authorLink", authorLink);
+    	final String userName = view.getUserName();
+    	pageContext.setAttribute("userName", userName);
+    	final String logoutLink = view.getLogoutLink();
+    	pageContext.setAttribute("logoutLink", logoutLink);
     
-    %>
-    Welcome back, user! (Logout)<%
+        %>
+    Welcome back, <a href="${authorLink}">${userName}</a>. (<a href="${logoutLink}">Logout</a>)<%
     
     } else {
     	
     	final String loginLink = view.getLoginLink();
     	pageContext.setAttribute("loginLink", loginLink);
     
-    %>
+        %>
     <a href="${loginLink}">Login or register</a><%
 	
     }
