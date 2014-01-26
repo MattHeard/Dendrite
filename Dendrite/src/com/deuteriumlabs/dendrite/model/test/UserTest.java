@@ -1,6 +1,7 @@
 package com.deuteriumlabs.dendrite.model.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -49,6 +50,19 @@ public class UserTest {
 		assertTrue(message, isUserInStore);
 	}
 
+	@Test
+	public final void testDelete() {
+		createDummyUser();
+		
+		final User user = new User();
+		user.setId(DUMMY_ID);
+		user.delete();
+		
+		final boolean isUserInStore = user.isInStore();
+		final String message = "The user should not be in the store.";
+		assertFalse(message, isUserInStore);
+	}
+	
 	@Test
 	public final void testRead() {
 		createDummyUser();
