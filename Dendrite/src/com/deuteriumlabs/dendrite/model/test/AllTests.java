@@ -5,7 +5,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ PageIdTest.class, StoryOptionTest.class, StoryPageTest.class })
+@SuiteClasses({ PageIdTest.class, StoryBeginningTest.class,
+		StoryOptionTest.class, StoryPageTest.class })
 public class AllTests {
 
 }
