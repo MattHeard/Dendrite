@@ -165,6 +165,10 @@ public class StoryOption extends Model {
 		return this.source;
 	}
 
+	/**
+	 * Returns the text of this story option.
+	 * @return The text of this story option
+	 */
 	public String getText() {
 		return this.text;
 	}
