@@ -81,7 +81,7 @@ public class StoryBeginning extends Model {
 	 * Returns the title of this story.
 	 * @return the title of this story
 	 */
-	private String getTitle() {
+	public String getTitle() {
 		return this.title;
 	}
 

@@ -1,5 +1,6 @@
 package com.deuteriumlabs.dendrite.model.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -25,6 +26,26 @@ public class StoryBeginningTest {
 	@After
 	public void tearDown() {
 		helper.tearDown();
+	}
+	
+	@Test
+	public final void testRead() {
+		createDummyStoryBeginning();
+		final StoryBeginning beginning = new StoryBeginning();
+		beginning.setPageNumber(DUMMY_PAGE_NUMBER);
+		beginning.read();
+		
+		final String expected = DUMMY_TITLE;
+		final String actual = beginning.getTitle();
+		final String message = "The story title was not correct.";
+		assertEquals(message, expected, actual);
+	}
+
+	private void createDummyStoryBeginning() {
+		final StoryBeginning beginning = new StoryBeginning();
+		beginning.setPageNumber(DUMMY_PAGE_NUMBER);
+		beginning.setTitle(DUMMY_TITLE);
+		beginning.create();
 	}
 
 	@Test
