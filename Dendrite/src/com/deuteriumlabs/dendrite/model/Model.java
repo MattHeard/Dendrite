@@ -9,6 +9,10 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
 import com.google.appengine.api.datastore.Query;
 
+/**
+ * Represents the data of the website. An interface is provided for putting and
+ * getting data from the Google App Engine datastore.
+ */
 public abstract class Model {
 
 	/**
