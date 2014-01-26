@@ -6,4 +6,8 @@ package com.deuteriumlabs.dendrite.view;
  */
 public class ContentsView extends View {
 
+	@Override
+	String getUrl() {
+		return "/";
+	}
 }

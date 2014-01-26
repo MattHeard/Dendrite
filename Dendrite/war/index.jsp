@@ -19,9 +19,12 @@
     Welcome back, user! (Logout)<%
     
     } else {
+    	
+    	final String loginLink = view.getLoginLink();
+    	pageContext.setAttribute("loginLink", loginLink);
     
     %>
-    Login or register<%
+    <a href="${loginLink}">Login or register</a><%
 	
     }
     
