@@ -5,7 +5,7 @@ Dendrite
 What is it?
 -----------
 
-A website where users write interactive adventure stories with each other.
+A website where users write [interactive adventure stories](https://en.wikipedia.org/wiki/Addventure) with each other.
 
 
 What is it made with?
