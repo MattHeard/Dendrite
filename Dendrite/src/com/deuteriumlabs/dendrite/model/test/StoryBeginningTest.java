@@ -13,6 +13,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class StoryBeginningTest {
 
+	private static final String CHANGED_TITLE = "Changed title";
 	private static final int DUMMY_PAGE_NUMBER = 1;
 	private static final String DUMMY_TITLE = "Dummy title";
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
@@ -47,7 +48,7 @@ public class StoryBeginningTest {
 		final String message = "The story beginning was not in the store.";
 		assertTrue(message, isBeginningInStore);
 	}
-
+	
 	@Test
 	public final void testRead() {
 		createDummyStoryBeginning();
@@ -58,6 +59,26 @@ public class StoryBeginningTest {
 		final String expected = DUMMY_TITLE;
 		final String actual = beginning.getTitle();
 		final String message = "The story title was not correct.";
+		assertEquals(message, expected, actual);
+	}
+
+	@Test
+	public final void testUpdate() {
+		createDummyStoryBeginning();
+		
+		final StoryBeginning beginningBeforeUpdate = new StoryBeginning();
+		beginningBeforeUpdate.setPageNumber(DUMMY_PAGE_NUMBER);
+		beginningBeforeUpdate.read();
+		
+		beginningBeforeUpdate.setTitle(CHANGED_TITLE);
+		beginningBeforeUpdate.update();
+		
+		final StoryBeginning beginningAfterUpdate = new StoryBeginning();
+		beginningAfterUpdate.setPageNumber(DUMMY_PAGE_NUMBER);
+		beginningAfterUpdate.read();
+		final String expected = CHANGED_TITLE;
+		final String actual = beginningAfterUpdate.getTitle();
+		final String message = "The changed story title was not correct.";
 		assertEquals(message, expected, actual);
 	}
 
