@@ -56,7 +56,7 @@ public class User extends Model {
 	 * Returns the default pen name of this user.
 	 * @return The default pen name of this user
 	 */
-	private String getDefaultPenName() {
+	public String getDefaultPenName() {
 		return this.defaultPenName;
 	}
 
