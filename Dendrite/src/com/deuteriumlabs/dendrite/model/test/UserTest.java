@@ -75,6 +75,18 @@ public class UserTest {
 		final String message = "The default pen name was not correct.";
 		assertEquals(message, expected, actual);
 	}
+	
+	@Test
+	public final void testGetMyUser() {
+		// I currently do not know how to test the Google App Engine user with a
+		// unit test.
+	}
+	
+	@Test
+	public final void testIsMyUserLoggedIn() {
+		// I currently do not know how to test the Google App Engine user with a
+		// unit test.
+	}
 
 	@Test
 	public final void testUpdate() {

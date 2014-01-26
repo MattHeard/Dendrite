@@ -5,6 +5,8 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 /**
  * Represents the visitor to the website. <code>User</code> instances provide
@@ -21,7 +23,9 @@ public class User extends Model {
 
 	/**
 	 * Returns the default pen name from the given entity.
-	 * @param entity The entity containing the default pen name
+	 * 
+	 * @param entity
+	 *            The entity containing the default pen name
 	 * @return The default pen name
 	 */
 	private static String getDefaultPenNameFromEntity(final Entity entity) {
@@ -30,7 +34,9 @@ public class User extends Model {
 
 	/**
 	 * Builds a filter to restrict a query to a particular user ID.
-	 * @param id The ID to filter for
+	 * 
+	 * @param id
+	 *            The ID to filter for
 	 * @return The filter to apply to the query
 	 */
 	private static Filter getIdFilter(final String id) {
@@ -42,18 +48,70 @@ public class User extends Model {
 
 	/**
 	 * Returns the user ID from the given entity.
-	 * @param entity The entity containing the user ID
+	 * 
+	 * @param entity
+	 *            The entity containing the user ID
 	 * @return The user ID
 	 */
 	private static String getIdFromEntity(final Entity entity) {
 		return (String) entity.getProperty(ID_PROPERTY);
 	}
 
+	/**
+	 * Returns the <code>User</code> representing the logged-in visitor.
+	 * 
+	 * @return the <code>User</code> representing the logged-in visitor
+	 */
+	public static User getMyUser() {
+		final User myUser = new User();
+		final String myUserId = getMyUserId();
+		if (myUserId != null) {
+			myUser.setId(myUserId);
+			final boolean isInStore = myUser.isInStore();
+			if (isInStore == true)
+				myUser.read();
+			else
+				myUser.create();
+			return myUser;
+		} else
+			return null;
+	}
+
+	/**
+	 * Returns the Google App Engine user ID representing the logged-in visitor.
+	 * 
+	 * @return the Google App Engine user ID representing the logged-in visitor
+	 */
+	private static String getMyUserId() {
+		final UserService userService = UserServiceFactory.getUserService();
+		final com.google.appengine.api.users.User appEngineUser;
+		appEngineUser = userService.getCurrentUser();
+		if (isMyUserLoggedIn() == true)
+			return appEngineUser.getUserId();
+		else
+			return null;
+	}
+
+	/**
+	 * Returns whether the visitor is logged in or not.
+	 * 
+	 * @return <code>true</code> if the visitor is logged in, <code>false</code>
+	 *         otherwise
+	 */
+	public static boolean isMyUserLoggedIn() {
+		final UserService userService = UserServiceFactory.getUserService();
+		final com.google.appengine.api.users.User appEngineUser;
+		appEngineUser = userService.getCurrentUser();
+		return (appEngineUser != null);
+	}
+
 	private String defaultPenName;
+
 	private String id;
 
 	/**
 	 * Returns the default pen name of this user.
+	 * 
 	 * @return The default pen name of this user
 	 */
 	public String getDefaultPenName() {
@@ -62,13 +120,16 @@ public class User extends Model {
 
 	/**
 	 * Returns the unique ID of this user.
+	 * 
 	 * @return The unique ID of this user
 	 */
 	private String getId() {
 		return this.id;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.deuteriumlabs.dendrite.model.Model#getKindName()
 	 */
 	@Override
@@ -76,7 +137,9 @@ public class User extends Model {
 		return KIND_NAME;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.deuteriumlabs.dendrite.model.Model#getMatchingQuery()
 	 */
 	@Override
@@ -90,7 +153,9 @@ public class User extends Model {
 	/**
 	 * Reads the value from the entity corresponding to the default pen name of
 	 * this user.
-	 * @param entity The entity storing the default pen name
+	 * 
+	 * @param entity
+	 *            The entity storing the default pen name
 	 */
 	private void readDefaultPenNameFromEntity(final Entity entity) {
 		final String defaultPenName = getDefaultPenNameFromEntity(entity);
@@ -100,15 +165,21 @@ public class User extends Model {
 	/**
 	 * Reads the value from the entity corresponding to the unique ID of this
 	 * user.
-	 * @param entity The entity storing the user ID
+	 * 
+	 * @param entity
+	 *            The entity storing the user ID
 	 */
 	private void readIdFromEntity(final Entity entity) {
 		final String id = getIdFromEntity(entity);
 		this.setId(id);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.deuteriumlabs.dendrite.model.Model#readPropertiesFromEntity(com.google.appengine.api.datastore.Entity)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.deuteriumlabs.dendrite.model.Model#readPropertiesFromEntity(com.google
+	 * .appengine.api.datastore.Entity)
 	 */
 	@Override
 	void readPropertiesFromEntity(final Entity entity) {
@@ -118,7 +189,9 @@ public class User extends Model {
 
 	/**
 	 * Sets the default pen name of this user.
-	 * @param defaultPenName The default pen name of this user
+	 * 
+	 * @param defaultPenName
+	 *            The default pen name of this user
 	 */
 	public void setDefaultPenName(final String defaultPenName) {
 		this.defaultPenName = defaultPenName;
@@ -127,7 +200,9 @@ public class User extends Model {
 	/**
 	 * Sets the value in the entity corresponding to the default pen name of
 	 * this user.
-	 * @param entity The entity in which the value is to be stored
+	 * 
+	 * @param entity
+	 *            The entity in which the value is to be stored
 	 */
 	private void setDefaultPenNameInEntity(final Entity entity) {
 		final String defaultPenName = this.getDefaultPenName();
@@ -136,7 +211,9 @@ public class User extends Model {
 
 	/**
 	 * Sets the unique ID of this user.
-	 * @param id The unique ID of this user
+	 * 
+	 * @param id
+	 *            The unique ID of this user
 	 */
 	public void setId(final String id) {
 		this.id = id;
@@ -144,15 +221,21 @@ public class User extends Model {
 
 	/**
 	 * Sets the value in the entity corresponding to the unique ID of this user.
-	 * @param entity The entity in which the value is to be stored
+	 * 
+	 * @param entity
+	 *            The entity in which the value is to be stored
 	 */
 	private void setIdInEntity(final Entity entity) {
 		final String id = this.getId();
 		entity.setProperty(ID_PROPERTY, id);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.deuteriumlabs.dendrite.model.Model#setPropertiesInEntity(com.google.appengine.api.datastore.Entity)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.deuteriumlabs.dendrite.model.Model#setPropertiesInEntity(com.google
+	 * .appengine.api.datastore.Entity)
 	 */
 	@Override
 	void setPropertiesInEntity(final Entity entity) {

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII" 
+%><%@ page import="com.deuteriumlabs.dendrite.view.ContentsView"
 
 %><!DOCTYPE html>
 <html>
@@ -8,6 +9,22 @@
     <title>Dendrite</title>
   </head>
   <body>
-  Hello world.
+    <h1><a href="/">Dendrite</a></h1><%
+    
+    final ContentsView view = new ContentsView();
+    final boolean isUserLoggedIn = ContentsView.isUserLoggedIn();
+    if (isUserLoggedIn == true) {
+    
+    %>
+    Welcome back, user! (Logout)<%
+    
+    } else {
+    
+    %>
+    Login or register<%
+	
+    }
+    
+	%>
   </body>
 </html>
