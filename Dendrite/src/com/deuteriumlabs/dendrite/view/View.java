@@ -19,12 +19,22 @@ public abstract class View {
 		return User.isMyUserLoggedIn();
 	}
 	
+	/**
+	 * Returns a link for logging in, with a redirect back to this page after
+	 * the login has completed.
+	 * @return The URL to the login page
+	 */
 	public String getLoginLink() {
 		final String returnUrl = this.getUrl();
 		final UserService userService = UserServiceFactory.getUserService();
 		return userService.createLoginURL(returnUrl);
 	}
 
+	/**
+	 * Returns a link to this page, which can be supplied for when the user
+	 * should be redirected back to this page.
+	 * @return The URL to this page
+	 */
 	abstract String getUrl();
 
 }
