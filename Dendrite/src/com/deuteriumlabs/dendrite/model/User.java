@@ -20,6 +20,11 @@ public class User extends Model {
 	private static final String DEFAULT_PEN_NAME_PROPERTY = "defaultPenName";
 	private static final String ID_PROPERTY = "id";
 	private static final String KIND_NAME = "User";
+	private static final String UNKNOWN_PEN_NAME = "???";
+	
+	public User() {
+		this.setDefaultPenName(UNKNOWN_PEN_NAME);
+	}
 
 	/**
 	 * Returns the default pen name from the given entity.
