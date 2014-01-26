@@ -1,6 +1,7 @@
 package com.deuteriumlabs.dendrite.model.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
@@ -47,6 +48,20 @@ public class StoryBeginningTest {
 		final boolean isBeginningInStore = beginning.isInStore();
 		final String message = "The story beginning was not in the store.";
 		assertTrue(message, isBeginningInStore);
+	}
+	
+	@Test
+	public final void testDelete() {
+		createDummyStoryBeginning();
+		
+		final StoryBeginning beginning = new StoryBeginning();
+		beginning.setPageNumber(DUMMY_PAGE_NUMBER);
+		beginning.delete();
+		
+		final boolean isBeginningInStore = beginning.isInStore();
+		final String message;
+		message = "The story beginning should not be in the store.";
+		assertFalse(message, isBeginningInStore);
 	}
 	
 	@Test
