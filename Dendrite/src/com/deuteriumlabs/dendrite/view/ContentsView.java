@@ -58,6 +58,20 @@ public class ContentsView extends View {
 		}
 		return numbers;
 	}
+	
+	/**
+	 * Returns the list of links to all beginnings on this page of contents.
+	 * @return The list of links to all beginnings on this page of contents
+	 */
+	public List<String> getLinks() {
+		final List<String> links = new ArrayList<String>();
+		List<String> numbers = this.getPageNumbers();
+		for (final String number : numbers) {
+			final String link = "/read.jsp?p=" + number;
+			links.add(link);
+		}
+		return links;
+	}
 
 	/**
 	 * Returns the list of titles of all beginnings on this page of contents.

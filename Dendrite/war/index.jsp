@@ -39,16 +39,19 @@
 	%>
     <h2>Table of Contents</h2><%
 	
+    final List<String> links = view.getLinks();
+    final int length = links.size();
 	final List<String> titles = view.getTitles();
-    final int length = titles.size();
     final List<String> pageNumbers = view.getPageNumbers();
     for (int i = 0; i < length; i++) {
+    	final String link = links.get(i);
+    	pageContext.setAttribute("link", link);
     	final String title = titles.get(i);
     	pageContext.setAttribute("title", title);
     	final String pageNumber = pageNumbers.get(i);
     	pageContext.setAttribute("pageNumber", pageNumber);
     	%>
-    <div>${title} - ${pageNumber}</div><%
+    <div><a href="${link}">${title}</a> - ${pageNumber}</div><%
     }
 	
 	%>
