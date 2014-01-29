@@ -11,6 +11,26 @@ import com.google.appengine.api.users.UserServiceFactory;
 public abstract class View {
 	
 	/**
+	 * Returns the URL to the author page of the logged-in user, using the App
+	 * Engine user ID.
+	 * @return The URL to the author page of the logged-in user 
+	 */
+	public static String getAuthorLink() {
+		final User myUser = User.getMyUser();
+		final String userId = myUser.getId();
+		return "author.jsp?id=" + userId;
+	}
+	
+	/**
+	 * Returns the default pen name of the logged-in user.
+	 * @return The default pen name of the logged-in user
+	 */
+	public static String getUserName() {
+		final User myUser = User.getMyUser();
+		return myUser.getDefaultPenName();
+	}
+	
+	/**
 	 * Returns whether the visitor is logged in or not.
 	 * @return <code>true</code> if the visitor is logged in, <code>false</code>
 	 * otherwise
@@ -30,17 +50,11 @@ public abstract class View {
 		return userService.createLoginURL(returnUrl);
 	}
 	
-	public String getAuthorLink() {
-		final User myUser = User.getMyUser();
-		final String userId = myUser.getId();
-		return "author.jsp?id=" + userId;
-	}
-	
-	public String getUserName() {
-		final User myUser = User.getMyUser();
-		return myUser.getDefaultPenName();
-	}
-	
+	/**
+	 * Returns a link for logging out, with a redirect back to this page after
+	 * the logout has completed.
+	 * @return The URL to the logout page
+	 */
 	public String getLogoutLink() {
 		final String returnUrl = this.getUrl();
 		final UserService userService = UserServiceFactory.getUserService();

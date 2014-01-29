@@ -33,7 +33,7 @@ public abstract class Model {
 	 * method name for less clumsy regular use.
 	 * @return The datastore
 	 */
-	private static DatastoreService getStore() {
+	protected static DatastoreService getStore() {
 		return DatastoreServiceFactory.getDatastoreService();
 	}
 	

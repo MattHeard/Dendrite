@@ -1,6 +1,12 @@
 package com.deuteriumlabs.dendrite.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
@@ -15,6 +21,43 @@ public class StoryBeginning extends Model {
 	private static final String KIND_NAME = "StoryBeginning";
 	private static final String PAGE_NUMBER_PROPERTY = "pageNumber";
 	private static final String TITLE_PROPERTY = "title";
+
+	/**
+	 * Returns a subsection of the list of all beginnings. This is particularly
+	 * useful for getting paginated lists of beginnings in order of page number.
+	 * @param start The first index for retrieval
+	 * @param end The off-the-end index for retrieval
+	 * @return The list of beginnings between start and end, not including end
+	 */
+	public static List<StoryBeginning> getBeginnings(final int start, 
+			final int end) {
+		final Query query = new Query(KIND_NAME);
+		query.addSort(PAGE_NUMBER_PROPERTY);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final int limit = end - start;
+		final FetchOptions fetchOptions = FetchOptions.Builder.withLimit(limit);
+		final int offset = start;
+		fetchOptions.offset(offset);
+		List<Entity> entities = preparedQuery.asList(fetchOptions);
+		List<StoryBeginning> beginnings = getBeginningsFromEntities(entities);
+		return beginnings;
+	}
+	
+	/**
+	 * Returns a list of story beginnings extracted from beginning entities. 
+	 * @param entities The entities containing the story beginning properties
+	 * @return The list of story beginnings with extracted properties
+	 */
+	private static List<StoryBeginning> getBeginningsFromEntities(
+			final List<Entity> entities) {
+		List<StoryBeginning> beginnings = new ArrayList<StoryBeginning>();
+		for (Entity entity : entities) {
+			StoryBeginning beginning = new StoryBeginning(entity);
+			beginnings.add(beginning);
+		}
+		return beginnings;
+	}
 
 	/**
 	 * Builds a filter to restrict a query to a particular page number.
@@ -49,6 +92,19 @@ public class StoryBeginning extends Model {
 
 	private int pageNumber;
 	private String title;
+
+	/**
+	 * Default constructor. Explicitly defined because of the other constructor.
+	 */
+	public StoryBeginning() { }
+
+	/**
+	 * Builds a story beginning from the properties extracted from the entity.
+	 * @param entity The entity containing the properties
+	 */
+	public StoryBeginning(Entity entity) {
+		this.readPropertiesFromEntity(entity);
+	}
 
 	/* (non-Javadoc)
 	 * @see com.deuteriumlabs.dendrite.model.Model#getKindName()

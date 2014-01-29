@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.ContentsView"
+%><%@ page import="java.util.List"
 
 %><!DOCTYPE html>
 <html>
@@ -14,19 +15,19 @@
     final ContentsView view = new ContentsView();
     final boolean isUserLoggedIn = ContentsView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
-    	
-    	final String authorLink = view.getAuthorLink();
+    	final String authorLink = ContentsView.getAuthorLink();
     	pageContext.setAttribute("authorLink", authorLink);
-    	final String userName = view.getUserName();
+    	final String userName = ContentsView.getUserName();
     	pageContext.setAttribute("userName", userName);
     	final String logoutLink = view.getLogoutLink();
     	pageContext.setAttribute("logoutLink", logoutLink);
     
         %>
-    Welcome back, <a href="${authorLink}">${userName}</a>. (<a href="${logoutLink}">Logout</a>)<%
+    <div>Welcome back, <a href="${authorLink}">${userName}</a>.
+      (<a href="${logoutLink}">Logout</a>)
+    </div><%
     
     } else {
-    	
     	final String loginLink = view.getLoginLink();
     	pageContext.setAttribute("loginLink", loginLink);
     
@@ -36,5 +37,20 @@
     }
     
 	%>
+    <h2>Table of Contents</h2><%
+	
+	final List<String> titles = view.getTitles();
+    for (String title : titles) {
+    	pageContext.setAttribute("title", title);
+    	%>
+    <div>${title}</div><%
+    }
+	
+	%>
+    <div><a href="/write.jsp?from=0">Start a new story</a></div>
+    <div><a href="/about.jsp">About</a></div>
+    <div><a href="/terms.jsp">Terms of use</a></div>
+    <div><a href="/privacy.jsp">Privacy</a></div>
+    <div><a href="/contact.jsp">Contact</a></div>
   </body>
 </html>
