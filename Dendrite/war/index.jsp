@@ -40,10 +40,15 @@
     <h2>Table of Contents</h2><%
 	
 	final List<String> titles = view.getTitles();
-    for (String title : titles) {
+    final int length = titles.size();
+    final List<String> pageNumbers = view.getPageNumbers();
+    for (int i = 0; i < length; i++) {
+    	final String title = titles.get(i);
     	pageContext.setAttribute("title", title);
+    	final String pageNumber = pageNumbers.get(i);
+    	pageContext.setAttribute("pageNumber", pageNumber);
     	%>
-    <div>${title}</div><%
+    <div>${title} - ${pageNumber}</div><%
     }
 	
 	%>

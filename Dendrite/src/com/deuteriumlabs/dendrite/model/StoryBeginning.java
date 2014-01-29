@@ -129,7 +129,7 @@ public class StoryBeginning extends Model {
 	 * Returns the page number of the first page in this story.
 	 * @return the page number of the first page in this story
 	 */
-	private int getPageNumber() {
+	public int getPageNumber() {
 		return this.pageNumber;
 	}
 

@@ -15,28 +15,15 @@ public class ContentsView extends View {
 	private List<StoryBeginning> beginnings;
 	private int contentsPageNumber;
 
-	/* (non-Javadoc)
-	 * @see com.deuteriumlabs.dendrite.view.View#getUrl()
+	/**
+	 * Default constructor. Sets the default page number to 1, which displays
+	 * the first page of story beginnings.
 	 */
-	@Override
-	String getUrl() {
-		return "/";
+	public ContentsView() {
+		this.setBeginnings(null);
+		this.setContentsPageNumber(1);
 	}
 	
-	/**
-	 * Returns the list of titles of all beginnings on this page of contents.
-	 * @return The list of titles of all beginnings on this page of contents
-	 */
-	public List<String> getTitles() {
-		List<String> titles = new ArrayList<String>();
-		List<StoryBeginning> beginnings = this.getBeginnings();
-		for (StoryBeginning beginning : beginnings) {
-			final String title = beginning.getTitle();
-			titles.add(title);
-		}
-		return titles;
-	}
-
 	/**
 	 * Returns the list of all beginnings on this page of contents.
 	 * @return The list of all beginnings on this page of contents
@@ -45,6 +32,53 @@ public class ContentsView extends View {
 		if (this.beginnings == null)
 			this.readBeginnings();
 		return this.beginnings;
+	}
+
+	/**
+	 * Returns which page of beginnings are currently being displayed.
+	 * @return The page number of contents currently being displayed
+	 */
+	private int getContentsPageNumber() {
+		return this.contentsPageNumber;
+	}
+
+	/**
+	 * Returns the list of page numbers of all beginnings on this page of
+	 * contents.
+	 * @return The list of page numbers of all beginnings on this page of
+	 * contents
+	 */
+	public List<String> getPageNumbers() {
+		final List<String> numbers = new ArrayList<String>();
+		List<StoryBeginning> beginnings = this.getBeginnings();
+		for (final StoryBeginning beginning : beginnings) {
+			final int numberValue = beginning.getPageNumber();
+			final String numberString = Integer.toString(numberValue);
+			numbers.add(numberString);
+		}
+		return numbers;
+	}
+
+	/**
+	 * Returns the list of titles of all beginnings on this page of contents.
+	 * @return The list of titles of all beginnings on this page of contents
+	 */
+	public List<String> getTitles() {
+		final List<String> titles = new ArrayList<String>();
+		List<StoryBeginning> beginnings = this.getBeginnings();
+		for (final StoryBeginning beginning : beginnings) {
+			final String title = beginning.getTitle();
+			titles.add(title);
+		}
+		return titles;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.deuteriumlabs.dendrite.view.View#getUrl()
+	 */
+	@Override
+	String getUrl() {
+		return "/";
 	}
 
 	/**
@@ -62,22 +96,13 @@ public class ContentsView extends View {
 	}
 
 	/**
-	 * Returns which page of beginnings are currently being displayed.
-	 * @return The page number of contents currently being displayed
+	 * Sets the list of beginnings to display.
+	 * @param beginnings The list of beginnings to display
 	 */
-	private int getContentsPageNumber() {
-		return this.contentsPageNumber;
+	private void setBeginnings(final List<StoryBeginning> beginnings) {
+		this.beginnings = beginnings;
 	}
 	
-	/**
-	 * Default constructor. Sets the default page number to 1, which displays
-	 * the first page of story beginnings.
-	 */
-	public ContentsView() {
-		this.setBeginnings(null);
-		this.setContentsPageNumber(1);
-	}
-
 	/**
 	 * Sets the current contents page number. The page number must be positive.
 	 * If the page number is changed successfully, the cached list of beginnings
@@ -93,13 +118,5 @@ public class ContentsView extends View {
 			this.contentsPageNumber = 1;
 		if (contentsPageNumber != previousPageNum)
 			this.setBeginnings(null);
-	}
-
-	/**
-	 * Sets the list of beginnings to display.
-	 * @param beginnings The list of beginnings to display
-	 */
-	private void setBeginnings(final List<StoryBeginning> beginnings) {
-		this.beginnings = beginnings;
 	}
 }
