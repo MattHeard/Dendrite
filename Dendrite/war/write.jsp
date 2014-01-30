@@ -36,23 +36,35 @@
     	pageContext.setAttribute("loginLink", loginLink);
     
         %>
-    <a href="${loginLink}">Login or register</a><%
+    <a href="${loginLink}">Login or register</a>
+    <form><%
     
     }
     final boolean isNewStory = view.isNewStory();
    	if (isNewStory == true) {
     
     %>
-    <div>New Story</div><%
+      <label for="title">Title: </label>
+      <input id="title" type="text"></input><%
     
    	} else {
+   		final boolean isValidOption = view.isValidOption();
+   		if (isValidOption == true) {
     
     %>
-    <div>Continue</div><%
+    <label>Valid option</label><%
     
+   		} else {
+   			
+   			%>
+    <label>Invalid option</label><%
+   			
+   		}
    	}
     
     %>
+      <button type="submit">Submit</button>
+    </form>
     <div><a href="/about.jsp">About</a></div>
     <div><a href="/terms.jsp">Terms of use</a></div>
     <div><a href="/privacy.jsp">Privacy</a></div>

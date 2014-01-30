@@ -38,4 +38,34 @@ public class WriteView extends View {
 		final String from = this.getFrom();
 		return ("0".equals(from));
 	}
+	
+	public boolean isValidOption() {
+		final boolean isFromValid = this.isFromValid();
+		final boolean isLinkIndexValid = this.isLinkIndexValid();
+		return (isFromValid && isLinkIndexValid);
+	}
+
+	private boolean isLinkIndexValid() {
+		final String linkIndex = this.getLinkIndex();
+		int linkIndexValue;
+		try {
+			linkIndexValue = Integer.parseInt(linkIndex);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		final boolean isZeroOrGreater = (linkIndexValue >= 0);
+		final boolean isLessThanFive = (linkIndexValue < 5);
+		return (isZeroOrGreater && isLessThanFive);
+	}
+
+	private boolean isFromValid() {
+		final String from = this.getFrom();
+		int fromValue;
+		try {
+			fromValue = Integer.parseInt(from);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return (fromValue > 0);
+	}
 }
