@@ -11,18 +11,16 @@
   </head>
   <body>
     <h1><a href="/">Dendrite</a></h1><%
-    
-    final ContentsView view = new ContentsView();
-    final boolean isUserLoggedIn = ContentsView.isUserLoggedIn();
-    if (isUserLoggedIn == true) {
-    	final String authorLink = ContentsView.getAuthorLink();
-    	pageContext.setAttribute("authorLink", authorLink);
-    	final String userName = ContentsView.getUserName();
-    	pageContext.setAttribute("userName", userName);
-    	final String logoutLink = view.getLogoutLink();
-    	pageContext.setAttribute("logoutLink", logoutLink);
-    
-        %>
+    	final ContentsView view = new ContentsView();
+        final boolean isUserLoggedIn = ContentsView.isUserLoggedIn();
+        if (isUserLoggedIn == true) {
+        	final String authorLink = ContentsView.getAuthorLink();
+        	pageContext.setAttribute("authorLink", authorLink);
+        	final String userName = ContentsView.getMyUserName();
+        	pageContext.setAttribute("userName", userName);
+        	final String logoutLink = view.getLogoutLink();
+        	pageContext.setAttribute("logoutLink", logoutLink);
+    %>
     <div>Welcome back, <a href="${authorLink}">${userName}</a>.
       (<a href="${logoutLink}">Logout</a>)
     </div><%

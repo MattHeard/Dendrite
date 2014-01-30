@@ -25,7 +25,7 @@ public abstract class View {
 	 * Returns the default pen name of the logged-in user.
 	 * @return The default pen name of the logged-in user
 	 */
-	public static String getUserName() {
+	public static String getMyUserName() {
 		final User myUser = User.getMyUser();
 		return myUser.getDefaultPenName();
 	}
