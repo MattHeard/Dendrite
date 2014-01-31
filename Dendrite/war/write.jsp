@@ -36,30 +36,47 @@
     	pageContext.setAttribute("loginLink", loginLink);
     
         %>
-    <a href="${loginLink}">Login or register</a>
-    <form><%
+    <a href="${loginLink}">Login or register</a><%
     
     }
+    
+    %>
+    <form><%
+    
     final boolean isNewStory = view.isNewStory();
    	if (isNewStory == true) {
     
     %>
-      <label for="title">Title: </label>
-      <input id="title" type="text"></input><%
+      <label for="title">Title</label>
+      <br />
+      <input id="title" type="text"></input>
+      <br /><%
+      
+   	}
+    final boolean isValidOption = view.isValidOption();
+   	if (isNewStory == true || isValidOption == true) {
     
+        %>
+      <label for="content">Story</label>
+      <br />
+      <textarea id="content"></textarea>
+      <br />
+      <label for="option0">Options</label>
+      <br /><%
+      
+        for (int i = 0; i < 5; i++) {
+        	pageContext.setAttribute("optionNumber", i);
+        	
+        	%>
+      <input id="option${optionNumber}" type="text"></input>
+      <br /><%
+        	
+        }
    	} else {
-   		final boolean isValidOption = view.isValidOption();
-   		if (isValidOption == true) {
-    
-    %>
-    <label>Valid option</label><%
-    
-   		} else {
    			
-   			%>
-    <label>Invalid option</label><%
-   			
-   		}
+   	  %>
+      <label>Invalid option</label><%
+   	
    	}
     
     %>
