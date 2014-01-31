@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=US-ASCII"
-    pageEncoding="US-ASCII" 
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.AuthorView"
 %><%@ page import="com.deuteriumlabs.dendrite.view.ContentsView"
 %><%@ page import="java.util.List"
@@ -7,7 +7,7 @@
 %><!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII"><%
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><%
     
     final AuthorView view = new AuthorView();
     final String id = request.getParameter("id");
