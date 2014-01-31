@@ -119,6 +119,14 @@ public class PageId {
 		final String string = number + version;
 		return string;
 	}
+
+	public boolean isValid() {
+		final int number = this.getNumber();
+		final boolean isValidNumber = (number > 0);
+		final String version = this.getVersion();
+		final boolean isValidVersion = isValidVersion(version);
+		return (isValidNumber && isValidVersion);
+	}
 	
 	
 }

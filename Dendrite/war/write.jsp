@@ -7,7 +7,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-    <title>Dendrite</title>
+    <title>Dendrite - Write</title>
   </head>
   <body>
     <h1><a href="/">Dendrite</a></h1><%
@@ -39,22 +39,22 @@
     <a href="${loginLink}">Login or register</a><%
     
     }
-    
+    final boolean isNewStory = view.isNewStory();
+    final boolean isValidOption = view.isValidOption();
+   	if (isNewStory == true || isValidOption == true) {
+   		
     %>
     <form><%
+
+   		if (isNewStory == true) {
     
-    final boolean isNewStory = view.isNewStory();
-   	if (isNewStory == true) {
-    
-    %>
+    	%>
       <label for="title">Title</label>
       <br />
       <input id="title" type="text"></input>
       <br /><%
       
-   	}
-    final boolean isValidOption = view.isValidOption();
-   	if (isNewStory == true || isValidOption == true) {
+   		}
     
         %>
       <label for="content">Story</label>
@@ -72,16 +72,19 @@
       <br /><%
         	
         }
+      
+      %>
+      <button type="submit">Submit</button>
+    </form><%
+      
    	} else {
    			
    	  %>
-      <label>Invalid option</label><%
+    Oh. What happened? This doesn't seem to be the right page.<%
    	
    	}
     
     %>
-      <button type="submit">Submit</button>
-    </form>
     <div><a href="/about.jsp">About</a></div>
     <div><a href="/terms.jsp">Terms of use</a></div>
     <div><a href="/privacy.jsp">Privacy</a></div>

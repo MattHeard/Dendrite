@@ -1,5 +1,7 @@
 package com.deuteriumlabs.dendrite.view;
 
+import com.deuteriumlabs.dendrite.model.PageId;
+
 /**
  * Represents a story page.
  */
@@ -60,12 +62,7 @@ public class WriteView extends View {
 
 	private boolean isFromValid() {
 		final String from = this.getFrom();
-		int fromValue;
-		try {
-			fromValue = Integer.parseInt(from);
-		} catch (NumberFormatException e) {
-			return false;
-		}
-		return (fromValue > 0);
+		PageId fromId = new PageId(from);
+		return fromId.isValid();
 	}
 }
