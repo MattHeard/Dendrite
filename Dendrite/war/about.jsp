@@ -37,6 +37,7 @@
     }
     
     %>
+    <h2>About Dendrite</h2>
     <p><i>Dendrite</i> is an online, choose-your-own-adventure book that you can
       both read, and write. This allows you, the reader and author, to
       participate in the story however you see fit. The stories branch through
