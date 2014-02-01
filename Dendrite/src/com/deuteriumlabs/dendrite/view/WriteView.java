@@ -62,6 +62,8 @@ public class WriteView extends View {
 
 	private boolean isFromValid() {
 		final String from = this.getFrom();
+		if (from == null)
+			return false;
 		PageId fromId = new PageId(from);
 		return fromId.isValid();
 	}

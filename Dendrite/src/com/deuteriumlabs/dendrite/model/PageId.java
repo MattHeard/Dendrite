@@ -104,7 +104,9 @@ public class PageId {
 			return false;
 		for (int i = 0; i < version.length(); i++) {
 			char ch = version.charAt(i);
-			if (Character.isLetter(ch) == false)
+			ch = Character.toLowerCase(ch);
+			final boolean isCharacterValid = (ch >= 'a' || ch <= 'z');
+			if (isCharacterValid == false)
 				return false;
 		}
 		return true;
