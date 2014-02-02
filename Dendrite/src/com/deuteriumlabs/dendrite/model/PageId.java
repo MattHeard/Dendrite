@@ -105,7 +105,7 @@ public class PageId {
 		for (int i = 0; i < version.length(); i++) {
 			char ch = version.charAt(i);
 			ch = Character.toLowerCase(ch);
-			final boolean isCharacterValid = (ch >= 'a' || ch <= 'z');
+			final boolean isCharacterValid = (ch >= 'a' && ch <= 'z');
 			if (isCharacterValid == false)
 				return false;
 		}
