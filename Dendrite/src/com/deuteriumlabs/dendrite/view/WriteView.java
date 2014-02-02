@@ -1,6 +1,7 @@
 package com.deuteriumlabs.dendrite.view;
 
 import com.deuteriumlabs.dendrite.model.PageId;
+import com.deuteriumlabs.dendrite.model.StoryOption;
 
 /**
  * Represents a story page.
@@ -14,13 +15,13 @@ public class WriteView extends View {
 	String getUrl() {
 		final String from = this.getFrom();
 		String url = "/write.jsp?from=" + from;
-		final String linkIndex = this.getLinkIndex();
+		final String linkIndex = this.getListIndex();
 		if (linkIndex != null)
 			url += "&linkIndex=" + linkIndex;
 		return url;
 	}
 
-	private String getLinkIndex() {
+	private String getListIndex() {
 		return this.linkIndex;
 	}
 
@@ -42,29 +43,33 @@ public class WriteView extends View {
 	}
 	
 	public boolean isValidOption() {
-		final boolean isFromValid = this.isFromValid();
-		final boolean isLinkIndexValid = this.isLinkIndexValid();
-		return (isFromValid && isLinkIndexValid);
-	}
-
-	private boolean isLinkIndexValid() {
-		final String linkIndex = this.getLinkIndex();
-		int linkIndexValue;
-		try {
-			linkIndexValue = Integer.parseInt(linkIndex);
-		} catch (NumberFormatException e) {
-			return false;
-		}
-		final boolean isZeroOrGreater = (linkIndexValue >= 0);
-		final boolean isLessThanFive = (linkIndexValue < 5);
-		return (isZeroOrGreater && isLessThanFive);
-	}
-
-	private boolean isFromValid() {
+		final StoryOption option = new StoryOption();
 		final String from = this.getFrom();
-		if (from == null)
-			return false;
-		PageId fromId = new PageId(from);
-		return fromId.isValid();
+		final PageId source = new PageId(from);
+		option.setSource(source);
+		final String listIndex = this.getListIndex();
+		int listIndexValue = getListIndexValue(listIndex);
+		option.setListIndex(listIndexValue);
+		return option.isInStore();
+	}
+
+	private static int getListIndexValue(final String listIndex) {
+		try {
+			return Integer.parseInt(listIndex);
+		} catch (NumberFormatException e) {
+			return -1;
+		}
+	}
+	
+	public String getOptionText() {
+		final StoryOption option = new StoryOption();
+		final String from = this.getFrom();
+		final PageId source = new PageId(from);
+		option.setSource(source);
+		final String listIndex = this.getListIndex();
+		int listIndexValue = getListIndexValue(listIndex);
+		option.setListIndex(listIndexValue);
+		option.read();
+		return option.getText();
 	}
 }

@@ -39,24 +39,14 @@
     <a href="${loginLink}">Login or register</a><%
     
     }
-    final boolean isNewStory = view.isNewStory();
     final boolean isValidOption = view.isValidOption();
-   	if (isNewStory == true || isValidOption == true) {
+   	if (isValidOption == true) {
+   		final String optionText = view.getOptionText();
+   		pageContext.setAttribute("optionText", optionText);
    		
     %>
-    <form><%
-
-   		if (isNewStory == true) {
-    
-    	%>
-      <label for="title">Title</label>
-      <br />
-      <input id="title" type="text"></input>
-      <br /><%
-      
-   		}
-    
-        %>
+    <div>${optionText}</div>
+    <form>
       <label for="content">Story</label>
       <br />
       <textarea id="content"></textarea>
