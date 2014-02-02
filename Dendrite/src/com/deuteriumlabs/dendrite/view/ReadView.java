@@ -2,6 +2,7 @@ package com.deuteriumlabs.dendrite.view;
 
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
+import com.deuteriumlabs.dendrite.model.StoryOption;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 import com.google.appengine.api.datastore.Text;
 
@@ -89,5 +90,34 @@ public class ReadView extends View {
 		final StoryPage page = this.getPage();
 		final Text text = page.getText();
 		return text.getValue();
+	}
+	
+	public int getNumberOfOptions() {
+		final PageId source = this.getPageId();
+		return StoryOption.countOptions(source);
+	}
+	
+	public String getOptionText(final int index) {
+		final StoryOption option = new StoryOption();
+		final PageId source = this.getPageId();
+		option.setSource(source);
+		option.setListIndex(index);
+		option.read();
+		return option.getText();
+	}
+	
+	public String getOptionLink(final int index) {
+		final StoryOption option = new StoryOption();
+		final PageId source = this.getPageId();
+		option.setSource(source);
+		option.setListIndex(index);
+		option.read();
+		final int target = option.getTarget();
+		if (target == 0) {
+			final String from = source.toString();
+			return "/write.jsp?from=" + from + "&linkIndex=" + index;
+		} else {
+			return "/read.jsp?p=" + target;
+		}
 	}
 }

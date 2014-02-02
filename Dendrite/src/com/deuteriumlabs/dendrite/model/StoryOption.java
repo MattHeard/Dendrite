@@ -1,6 +1,9 @@
 package com.deuteriumlabs.dendrite.model;
 
+import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -31,6 +34,11 @@ public class StoryOption extends Model {
 	private static final String SOURCE_NUMBER_PROPERTY = "sourceNumber";
 	private static final String SOURCE_VERSION_PROPERTY = "sourceVersion";
 	private static final String TEXT_PROPERTY = "text";
+	private static final String TARGET_PROPERTY = "target";
+	
+	public StoryOption() {
+		this.setTarget(0);
+	}
 	
 	/**
 	 * Builds a filter to restrict a query to a particular list index.
@@ -125,6 +133,7 @@ public class StoryOption extends Model {
 	private int listIndex;
 	private PageId source;
 	private String text;
+	private int target;
 
 	/* (non-Javadoc)
 	 * @see com.deuteriumlabs.dendrite.model.Model#getKindName()
@@ -190,7 +199,25 @@ public class StoryOption extends Model {
 	void readPropertiesFromEntity(final Entity entity) {
 		this.readSourceFromEntity(entity);
 		this.readListIndexFromEntity(entity);
-		this.readTextFromEntity(entity); 
+		this.readTextFromEntity(entity);
+		this.readTargetFromEntity(entity);
+	}
+
+	private void readTargetFromEntity(final Entity entity) {
+		final int target = getTargetFromEntity(entity);
+		this.setTarget(target);
+	}
+
+	private void setTarget(final int target) {
+		this.target = target;
+	}
+
+	private int getTargetFromEntity(final Entity entity) {
+		final Long number = (Long) entity.getProperty(TARGET_PROPERTY);
+		if (number != null)
+			return number.intValue();
+		else
+			return 0;
 	}
 
 	/**
@@ -243,6 +270,13 @@ public class StoryOption extends Model {
 		this.setSourceInEntity(entity);
 		this.setListIndexInEntity(entity);
 		this.setTextInEntity(entity);
+		this.setTargetInEntity(entity);
+	}
+
+	private void setTargetInEntity(final Entity entity) {
+		final int target = this.getTarget();
+		if (target != 0)
+			entity.setProperty(TARGET_PROPERTY, target);
 	}
 
 	/**
@@ -282,6 +316,20 @@ public class StoryOption extends Model {
 	private void setTextInEntity(final Entity entity) {
 		final String text = this.getText();
 		entity.setProperty(TEXT_PROPERTY, text);
+	}
+	
+	public static int countOptions(final PageId source) {
+		final Query query = new Query(KIND_NAME);
+		final Filter filter = getSourceFilter(source);
+		query.setFilter(filter);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		return preparedQuery.countEntities(fetchOptions);
+	}
+
+	public int getTarget() {
+		return this.target;
 	}
 
 }

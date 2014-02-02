@@ -62,6 +62,19 @@
     
 	%>
     <div>${text}</div><%
+    
+    	final int numberOfOptions = view.getNumberOfOptions();
+    	for (int i = 0; i < numberOfOptions; i++) {
+    		final String optionLink = view.getOptionLink(i);
+    		pageContext.setAttribute("optionLink", optionLink);
+    		final String optionText = view.getOptionText(i);
+    		pageContext.setAttribute("optionText", optionText);
+    		
+    		%>
+    <div><a href="${optionLink}"
+        >${optionText}</a></div><%
+
+    	}
 	
     } else {
 	
