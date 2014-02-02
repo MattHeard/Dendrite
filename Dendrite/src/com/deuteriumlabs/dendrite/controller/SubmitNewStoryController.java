@@ -49,7 +49,6 @@ public class SubmitNewStoryController {
 
 	private void setNewPageId() {
 		final PageId id = this.findUnallocatedPageId();
-		System.out.println(id);
 		this.setPageId(id);
 	}
 
