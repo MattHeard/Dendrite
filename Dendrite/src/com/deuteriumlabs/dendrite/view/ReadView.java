@@ -3,6 +3,7 @@ package com.deuteriumlabs.dendrite.view;
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryPage;
+import com.google.appengine.api.datastore.Text;
 
 /**
  * Represents a story page.
@@ -86,6 +87,7 @@ public class ReadView extends View {
 	
 	public String getPageText() {
 		final StoryPage page = this.getPage();
-		return page.getText();
+		final Text text = page.getText();
+		return text.getValue();
 	}
 }

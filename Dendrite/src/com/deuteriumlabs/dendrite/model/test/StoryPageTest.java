@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryPage;
+import com.google.appengine.api.datastore.Text;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
@@ -82,7 +83,8 @@ public class StoryPageTest {
 		pageAfterUpdate.read();
 		
 		final String expected = DUMMY_NEW_TEXT;
-		final String actual = pageAfterUpdate.getText();
+		final Text text = pageAfterUpdate.getText();
+		final String actual = text.getValue();
 		final String message = "The page text was not updated correctly.";
 		assertEquals(message, expected, actual);
 	}
@@ -97,7 +99,8 @@ public class StoryPageTest {
 		page.read();
 		
 		final String expected = DUMMY_TEXT;
-		final String actual = page.getText();
+		final Text text = page.getText();
+		final String actual = text.getValue();
 		final String message = "The page text was not correct.";
 		assertEquals(message, expected, actual);
 	}

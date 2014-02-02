@@ -13,6 +13,7 @@ import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Text;
 
 /**
  * Represents a page of a story. <code>StoryPage</code> instances act as nodes
@@ -90,7 +91,7 @@ public class StoryPage extends Model {
 	}
 
 	private PageId id;
-	private String text;
+	private Text text;
 
 	/**
 	 * Returns the ID of this story page.
@@ -123,7 +124,7 @@ public class StoryPage extends Model {
 	 * Returns the text of this story page.
 	 * @return The text of this story page
 	 */
-	public String getText() {
+	public Text getText() {
 		return this.text;
 	}
 
@@ -132,8 +133,8 @@ public class StoryPage extends Model {
 	 * @param entity The entity containing the text
 	 * @return The text of the story page
 	 */
-	private String getTextFromEntity(final Entity entity) {
-		return (String) entity.getProperty(TEXT_PROPERTY);
+	private Text getTextFromEntity(final Entity entity) {
+		return (Text) entity.getProperty(TEXT_PROPERTY);
 	}
 
 	/**
@@ -165,7 +166,7 @@ public class StoryPage extends Model {
 	 * @param entity The entity storing the text
 	 */
 	private void readTextFromEntity(final Entity entity) {
-		final String text = getTextFromEntity(entity);
+		final Text text = getTextFromEntity(entity);
 		this.setText(text);
 	}
 
@@ -201,9 +202,14 @@ public class StoryPage extends Model {
 
 	/**
 	 * Sets the text of this story page.
-	 * @param text The new text for this story page
+	 * @param string The new text for this story page
 	 */
-	public void setText(final String text) {
+	public void setText(final String string) {
+		final Text text = new Text(string);
+		this.setText(text);
+	}
+	
+	public void setText(final Text text) {
 		this.text = text;
 	}
 
@@ -213,7 +219,7 @@ public class StoryPage extends Model {
 	 * @param entity The entity in which the value is to be stored
 	 */
 	private void setTextInEntity(Entity entity) {
-		final String text = this.getText();
+		final Text text = this.getText();
 		entity.setProperty(TEXT_PROPERTY, text);
 	}
 
