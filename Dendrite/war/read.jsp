@@ -6,15 +6,33 @@
 %><!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Dendrite</title>
-  </head>
-  <body>
-    <h1><a href="/">Dendrite</a></h1><%
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><%
     
     final ReadView view = new ReadView();
     final String pageId = request.getParameter("p");
     view.setPageId(pageId);
+    
+    final boolean isPageInStore = view.isPageInStore();
+    if (isPageInStore == true) {
+    	final String title = view.getTitle();
+    	pageContext.setAttribute("title", title);
+    	
+    	%>
+    <title>Dendrite - ${title}</title><%
+    	
+    } else {
+    	
+    	%>
+    <title>Dendrite</title><%
+    
+    }
+    
+    %>
+    
+  </head>
+  <body>
+    <h1><a href="/">Dendrite</a></h1><%
+    
     final boolean isUserLoggedIn = ReadView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
         final String authorLink = ReadView.getAuthorLink();
@@ -37,14 +55,13 @@
     <a href="${loginLink}">Login or register</a><%
 	
     }
-    final boolean isPageInStore = view.isPageInStore();
     if (isPageInStore == true) {
     	
     	final String text = view.getPageText();
     	pageContext.setAttribute("text", text);
     
 	%>
-	<div>${text}</div><%
+    <div>${text}</div><%
 	
     } else {
 	

@@ -100,13 +100,15 @@ public class SubmitNewStoryController {
 
 	private void buildStoryOptions() {
 		final List<String> optionTexts = this.getOptions();
-		for (final String optionText : optionTexts) {
+		for (int i = 0; i < 5; i++) {
+			final String text = optionTexts.get(i);
+			if (text == null || text.length() == 0)
+				continue;
 			final StoryOption option = new StoryOption();
 			final PageId id = this.getId();
 			option.setSource(id);
-			final int index = optionTexts.indexOf(option);
-			option.setListIndex(index);
-			option.setText(optionText);
+			option.setListIndex(i);
+			option.setText(text);
 			final boolean isInStore = option.isInStore();
 			if (isInStore == false)
 				option.create();

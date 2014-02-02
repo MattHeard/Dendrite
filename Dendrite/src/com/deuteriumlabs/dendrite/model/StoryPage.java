@@ -1,6 +1,13 @@
 package com.deuteriumlabs.dendrite.model;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -18,6 +25,10 @@ public class StoryPage extends Model {
 	private static final String ID_VERSION_PROPERTY = "idVersion";
 	private static final String KIND_NAME = "StoryPage";
 	private static final String TEXT_PROPERTY = "text";
+	private static final int LEN_ALPHABET = 26;
+	private static final char[] LETTERS = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
+			'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+			'u', 'v', 'w', 'x', 'y', 'z' };
 	
 	/**
 	 * Builds a filter to restrict a query to a particular ID.
@@ -204,5 +215,42 @@ public class StoryPage extends Model {
 	private void setTextInEntity(Entity entity) {
 		final String text = this.getText();
 		entity.setProperty(TEXT_PROPERTY, text);
+	}
+
+	public static String getRandomVersion(PageId id) {
+		final int number = id.getNumber();
+		final Query query = new Query(KIND_NAME);
+		final Filter filter = getIdNumberFilter(number);
+		query.setFilter(filter);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		final int count = preparedQuery.countEntities(fetchOptions);
+		if (count > 1) {
+			Random generator = new Random();
+			final int randomNumber = generator.nextInt(count) + 1;
+			final String version = convertNumberToVersion(randomNumber);
+			return version;
+		} else
+			return "a";
+	}
+
+	private static String convertNumberToVersion(final int number) {
+		final int lowNumber = ((number - 1) % LEN_ALPHABET) + 1;
+		final char lowLetter = convertNumberToLetter(lowNumber);
+		final int highNumbers = (number - 1) / LEN_ALPHABET;
+		String versionString = Character.toString(lowLetter);
+		if (highNumbers > 0) {
+			final String highLetters = convertNumberToVersion(highNumbers);
+			versionString = highLetters + versionString;
+		}
+		return versionString;
+	}
+
+	private static char convertNumberToLetter(int number) {
+		Map<Integer, Character> map = new HashMap<Integer, Character>();
+		for (int i = 0; i < LETTERS.length; i++)
+			map.put(i + 1, LETTERS[i]);
+		return map.get(number);
 	}
 }
