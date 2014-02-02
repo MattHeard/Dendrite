@@ -53,7 +53,7 @@
     }
 	
 	%>
-    <div><a href="/write.jsp?from=0">Start a new story</a></div>
+    <div><a href="/new.jsp">Start a new story</a></div>
     <div><a href="/about.jsp">About</a></div>
     <div><a href="/terms.jsp">Terms of use</a></div>
     <div><a href="/privacy.jsp">Privacy</a></div>
