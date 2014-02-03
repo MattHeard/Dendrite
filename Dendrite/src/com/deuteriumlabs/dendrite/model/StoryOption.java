@@ -208,7 +208,7 @@ public class StoryOption extends Model {
 		this.setTarget(target);
 	}
 
-	private void setTarget(final int target) {
+	public void setTarget(final int target) {
 		this.target = target;
 	}
 

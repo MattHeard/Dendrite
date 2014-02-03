@@ -5,6 +5,14 @@ xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
     <servlet>
+        <servlet-name>SubmitNewPage</servlet-name>
+        <servlet-class>com.deuteriumlabs.dendrite.controller.SubmitNewPageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SubmitNewPage</servlet-name>
+        <url-pattern>/submitNewPage</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>SubmitNewStory</servlet-name>
         <servlet-class>com.deuteriumlabs.dendrite.controller.SubmitNewStoryServlet</servlet-class>
     </servlet>

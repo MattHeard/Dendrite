@@ -46,10 +46,17 @@
    		
     %>
     <div>${optionText}</div>
-    <form>
+    <form action="submitNewPage" method="post"><%
+    
+    pageContext.setAttribute("from", from);
+    pageContext.setAttribute("linkIndex", linkIndex);
+    
+    %>
+      <input type="hidden" name="from" value="${from}" />
+      <input type="hidden" name="linkIndex" value="${linkIndex}" />
       <label for="content">Story</label>
       <br />
-      <textarea id="content"></textarea>
+      <textarea id="content" name="content"></textarea>
       <br />
       <label for="option0">Options</label>
       <br /><%
@@ -58,7 +65,8 @@
         	pageContext.setAttribute("optionNumber", i);
         	
         	%>
-      <input id="option${optionNumber}" type="text"></input>
+      <input id="option${optionNumber}" name="option${optionNumber}"
+          type="text"></input>
       <br /><%
         	
         }

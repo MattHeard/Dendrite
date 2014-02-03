@@ -16,40 +16,42 @@ public class PageId {
 	private String version;
 	
 	public PageId(String string) {
-		String digits = "";
-		int i = 0;
-		for (; i < string.length(); i++) {
-			final char curr = string.charAt(i);
-			final boolean isDigit = Character.isDigit(curr);
-			if (isDigit == true)
-				digits += curr;
-			else
-				break;
-		}
-		int number;
-		try {
-			number = Integer.parseInt(digits);
-		} catch (NumberFormatException e) {
-			number = 0;
-		}
-		if (number < 1)
-			number = 0;
-		this.setNumber(number);
-		String letters = "";
-		if (number > 0) {
+		if (string != null) {
+			String digits = "";
+			int i = 0;
 			for (; i < string.length(); i++) {
 				final char curr = string.charAt(i);
-				final boolean isLetter = Character.isLetter(curr);
-				if (isLetter == true)
-					letters += curr;
+				final boolean isDigit = Character.isDigit(curr);
+				if (isDigit == true)
+					digits += curr;
 				else
 					break;
 			}
-			if (letters.isEmpty() == true)
+			int number;
+			try {
+				number = Integer.parseInt(digits);
+			} catch (NumberFormatException e) {
+				number = 0;
+			}
+			if (number < 1)
+				number = 0;
+			this.setNumber(number);
+			String letters = "";
+			if (number > 0) {
+				for (; i < string.length(); i++) {
+					final char curr = string.charAt(i);
+					final boolean isLetter = Character.isLetter(curr);
+					if (isLetter == true)
+						letters += curr;
+					else
+						break;
+				}
+				if (letters.isEmpty() == true)
+					letters = null;
+			} else
 				letters = null;
-		} else
-			letters = null;
-		this.setVersion(letters);
+			this.setVersion(letters);
+		}
 	}
 	
 	public PageId() { }
