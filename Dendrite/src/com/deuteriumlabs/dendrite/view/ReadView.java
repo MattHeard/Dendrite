@@ -120,4 +120,10 @@ public class ReadView extends View {
 			return "/read.jsp?p=" + target;
 		}
 	}
+	
+	public String getPageNumber() {
+		final PageId id = this.getPageId();
+		final int number = id.getNumber();
+		return Integer.toString(number);
+	}
 }

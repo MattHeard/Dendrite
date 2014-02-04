@@ -56,6 +56,11 @@
 	
     }
     if (isPageInStore == true) {
+    	final String pageNumber = view.getPageNumber();
+    	pageContext.setAttribute("pageNumber", pageNumber);
+    	
+    	%>
+    <div><a href="/edit.jsp?p=${pageNumber}">Edit</a></div><%
     	
     	final String text = view.getPageText();
     	pageContext.setAttribute("text", text);

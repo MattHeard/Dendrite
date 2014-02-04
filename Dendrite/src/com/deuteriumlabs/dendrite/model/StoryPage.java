@@ -40,7 +40,7 @@ public class StoryPage extends Model {
 		return map.get(number);
 	}
 
-	private static String convertNumberToVersion(final int number) {
+	public static String convertNumberToVersion(final int number) {
 		final int lowNumber = ((number - 1) % LEN_ALPHABET) + 1;
 		final char lowLetter = convertNumberToLetter(lowNumber);
 		final int highNumbers = (number - 1) / LEN_ALPHABET;
@@ -109,6 +109,7 @@ public class StoryPage extends Model {
 	private static String getIdVersionFromEntity(final Entity entity) {
 		return (String) entity.getProperty(ID_VERSION_PROPERTY);
 	}
+	
 	public static String getRandomVersion(PageId id) {
 		final int number = id.getNumber();
 		final Query query = new Query(KIND_NAME);
@@ -310,5 +311,15 @@ public class StoryPage extends Model {
 	private void setTextInEntity(Entity entity) {
 		final Text text = this.getText();
 		entity.setProperty(TEXT_PROPERTY, text);
+	}
+
+	public static int countVersions(final int number) {
+		final Query query = new Query(KIND_NAME);
+		final Filter filter = getIdNumberFilter(number);
+		query.setFilter(filter);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		return preparedQuery.countEntities(fetchOptions);
 	}
 }
