@@ -53,7 +53,8 @@
         pageContext.setAttribute("optionNumber", i);
         	
     %>
-      <input id="option${optionNumber}" name="option${optionNumber}" type="text"></input>
+      <input id="option${optionNumber}" name="option${optionNumber}"
+          type="text"></input>
       <br /><%
         	
     }
