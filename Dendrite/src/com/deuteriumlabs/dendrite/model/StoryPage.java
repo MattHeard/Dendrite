@@ -22,6 +22,7 @@ import com.google.appengine.api.datastore.Text;
  * interwoven.
  */
 public class StoryPage extends Model {
+	private static final String AUTHOR_NAME_PROPERTY = "authorName";
 	private static final String BEGINNING_NUMBER_PROPERTY = "beginningNumber";
 	private static final String BEGINNING_VERSION_PROPERTY = "beginningVersion";
 	private static final String ID_NUMBER_PROPERTY = "idNumber";
@@ -32,7 +33,7 @@ public class StoryPage extends Model {
 			'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
 			'u', 'v', 'w', 'x', 'y', 'z' };
 	private static final String TEXT_PROPERTY = "text";
-	
+
 	private static char convertNumberToLetter(int number) {
 		Map<Integer, Character> map = new HashMap<Integer, Character>();
 		for (int i = 0; i < LETTERS.length; i++)
@@ -52,9 +53,21 @@ public class StoryPage extends Model {
 		return versionString;
 	}
 
+	public static int countVersions(final int number) {
+		final Query query = new Query(KIND_NAME);
+		final Filter filter = getIdNumberFilter(number);
+		query.setFilter(filter);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		return preparedQuery.countEntities(fetchOptions);
+	}
+
 	/**
 	 * Builds a filter to restrict a query to a particular ID.
-	 * @param id The page ID to filter for
+	 * 
+	 * @param id
+	 *            The page ID to filter for
 	 * @return The filter to apply to the query
 	 */
 	private static Filter getIdFilter(final PageId id) {
@@ -69,7 +82,9 @@ public class StoryPage extends Model {
 	 * Builds a filter to restrict a query to a particular ID number. Without
 	 * also applying a filter to restrict to a particular ID version, this will
 	 * provide a collection of versions of one page in a story.
-	 * @param number The page number to filter for
+	 * 
+	 * @param number
+	 *            The page number to filter for
 	 * @return The filter to apply to the query
 	 */
 	private static Filter getIdNumberFilter(final int number) {
@@ -78,10 +93,12 @@ public class StoryPage extends Model {
 		final int value = number;
 		return new FilterPredicate(propertyName, operator, value);
 	}
-	
+
 	/**
 	 * Returns the number component of the story page ID from the given entity.
-	 * @param entity The entity containing the ID
+	 * 
+	 * @param entity
+	 *            The entity containing the ID
 	 * @return The number component of the story page ID
 	 */
 	private static int getIdNumberFromEntity(final Entity entity) {
@@ -92,7 +109,9 @@ public class StoryPage extends Model {
 	/**
 	 * Builds a filter to restrict a query to a particular ID version. This will
 	 * probably not be very useful without other query filters.
-	 * @param version The page version to filter for
+	 * 
+	 * @param version
+	 *            The page version to filter for
 	 * @return The filter to apply to the query
 	 */
 	private static Filter getIdVersionFilter(final String version) {
@@ -101,15 +120,18 @@ public class StoryPage extends Model {
 		final String value = version;
 		return new FilterPredicate(propertyName, operator, value);
 	}
+
 	/**
 	 * Returns the version component of the story page ID from the given entity.
-	 * @param entity The entity containing the ID
+	 * 
+	 * @param entity
+	 *            The entity containing the ID
 	 * @return The version component of the story page ID
 	 */
 	private static String getIdVersionFromEntity(final Entity entity) {
 		return (String) entity.getProperty(ID_VERSION_PROPERTY);
 	}
-	
+
 	public static String getRandomVersion(PageId id) {
 		final int number = id.getNumber();
 		final Query query = new Query(KIND_NAME);
@@ -127,13 +149,22 @@ public class StoryPage extends Model {
 		} else
 			return "a";
 	}
-	
+
+	private String authorName;
 	private PageId beginning;
 	private PageId id;
 	private Text text;
 
 	public StoryPage() {
 		this.setBeginning(null);
+	}
+
+	private String getAuthorName() {
+		return this.authorName;
+	}
+
+	private String getAuthorNameFromEntity(final Entity entity) {
+		return (String) entity.getProperty(AUTHOR_NAME_PROPERTY);
 	}
 
 	public PageId getBeginning() {
@@ -155,13 +186,16 @@ public class StoryPage extends Model {
 
 	/**
 	 * Returns the ID of this story page.
+	 * 
 	 * @return The ID of this story page
 	 */
 	public PageId getId() {
 		return id;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.deuteriumlabs.dendrite.model.Model#getKindName()
 	 */
 	@Override
@@ -169,7 +203,9 @@ public class StoryPage extends Model {
 		return KIND_NAME;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.deuteriumlabs.dendrite.model.Model#getMatchingQuery()
 	 */
 	@Override
@@ -182,6 +218,7 @@ public class StoryPage extends Model {
 
 	/**
 	 * Returns the text of this story page.
+	 * 
 	 * @return The text of this story page
 	 */
 	public Text getText() {
@@ -190,11 +227,18 @@ public class StoryPage extends Model {
 
 	/**
 	 * Returns the text of the story page from the given entity.
-	 * @param entity The entity containing the text
+	 * 
+	 * @param entity
+	 *            The entity containing the text
 	 * @return The text of the story page
 	 */
 	private Text getTextFromEntity(final Entity entity) {
 		return (Text) entity.getProperty(TEXT_PROPERTY);
+	}
+
+	private void readAuthorNameFromEntity(final Entity entity) {
+		final String authorName = getAuthorNameFromEntity(entity);
+		this.setAuthorName(authorName);
 	}
 
 	private void readBeginningFromEntity(final Entity entity) {
@@ -213,7 +257,9 @@ public class StoryPage extends Model {
 	/**
 	 * Reads the values from the entity corresponding to the ID of this story
 	 * page.
-	 * @param entity The entity storing the ID
+	 * 
+	 * @param entity
+	 *            The entity storing the ID
 	 */
 	private void readIdFromEntity(final Entity entity) {
 		final PageId id = new PageId();
@@ -224,24 +270,40 @@ public class StoryPage extends Model {
 		this.setId(id);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.deuteriumlabs.dendrite.model.Model#readPropertiesFromEntity(com.google.appengine.api.datastore.Entity)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.deuteriumlabs.dendrite.model.Model#readPropertiesFromEntity(com.google
+	 * .appengine.api.datastore.Entity)
 	 */
 	@Override
 	void readPropertiesFromEntity(final Entity entity) {
 		this.readIdFromEntity(entity);
 		this.readTextFromEntity(entity);
 		this.readBeginningFromEntity(entity);
+		this.readAuthorNameFromEntity(entity);
 	}
 
 	/**
 	 * Reads the value from the entity corresponding to the text of this story
 	 * page.
-	 * @param entity The entity storing the text
+	 * 
+	 * @param entity
+	 *            The entity storing the text
 	 */
 	private void readTextFromEntity(final Entity entity) {
 		final Text text = getTextFromEntity(entity);
 		this.setText(text);
+	}
+
+	private void setAuthorName(final String authorName) {
+		this.authorName = authorName;
+	}
+
+	private void setAuthorNameInEntity(final Entity entity) {
+		final String authorName = this.getAuthorName();
+		entity.setProperty(AUTHOR_NAME_PROPERTY, authorName);
 	}
 
 	public void setBeginning(PageId beginning) {
@@ -255,10 +317,12 @@ public class StoryPage extends Model {
 		final String version = beginning.getVersion();
 		entity.setProperty(BEGINNING_VERSION_PROPERTY, version);
 	}
-	
+
 	/**
 	 * Sets the ID of this story page.
-	 * @param id The new ID for this story page
+	 * 
+	 * @param id
+	 *            The new ID for this story page
 	 */
 	public void setId(final PageId id) {
 		this.id = id;
@@ -270,7 +334,9 @@ public class StoryPage extends Model {
 	/**
 	 * Sets the values in the entity corresponding to the ID for this story
 	 * page.
-	 * @param entity The entity in which the values are to be stored
+	 * 
+	 * @param entity
+	 *            The entity in which the values are to be stored
 	 */
 	private void setIdInEntity(final Entity entity) {
 		final PageId id = this.getId();
@@ -280,19 +346,26 @@ public class StoryPage extends Model {
 		entity.setProperty(ID_VERSION_PROPERTY, version);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.deuteriumlabs.dendrite.model.Model#setPropertiesInEntity(com.google.appengine.api.datastore.Entity)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.deuteriumlabs.dendrite.model.Model#setPropertiesInEntity(com.google
+	 * .appengine.api.datastore.Entity)
 	 */
 	@Override
 	void setPropertiesInEntity(final Entity entity) {
 		this.setIdInEntity(entity);
 		this.setTextInEntity(entity);
 		this.setBeginningInEntity(entity);
+		this.setAuthorNameInEntity(entity);
 	}
 
 	/**
 	 * Sets the text of this story page.
-	 * @param string The new text for this story page
+	 * 
+	 * @param string
+	 *            The new text for this story page
 	 */
 	public void setText(final String string) {
 		final Text text = new Text(string);
@@ -306,20 +379,12 @@ public class StoryPage extends Model {
 	/**
 	 * Sets the value in the entity corresponding to the text of this story
 	 * page.
-	 * @param entity The entity in which the value is to be stored
+	 * 
+	 * @param entity
+	 *            The entity in which the value is to be stored
 	 */
 	private void setTextInEntity(Entity entity) {
 		final Text text = this.getText();
 		entity.setProperty(TEXT_PROPERTY, text);
-	}
-
-	public static int countVersions(final int number) {
-		final Query query = new Query(KIND_NAME);
-		final Filter filter = getIdNumberFilter(number);
-		query.setFilter(filter);
-		final DatastoreService store = getStore();
-		final PreparedQuery preparedQuery = store.prepare(query);
-		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		return preparedQuery.countEntities(fetchOptions);
 	}
 }
