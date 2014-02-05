@@ -26,6 +26,22 @@ public class ReadView extends View {
 
 	public ReadView() {
 	}
+	
+	public String getAuthorName() {
+		final StoryPage page = this.getPage();
+		return page.getAuthorName();
+	}
+	
+	public boolean isAuthorAnonymous() {
+		final StoryPage page = this.getPage();
+		final String authorId = page.getAuthorId();
+		return (authorId == null);
+	}
+	
+	public String getAuthorId() {
+		final StoryPage page = this.getPage();
+		return page.getAuthorId();
+	}
 
 	/* (non-Javadoc)
 	 * @see com.deuteriumlabs.dendrite.view.View#getUrl()

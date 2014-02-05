@@ -80,6 +80,32 @@
         >${optionText}</a></div><%
 
     	}
+    	String authorName = view.getAuthorName();
+    	if (authorName == null || authorName == "")
+    		authorName = "???";
+    	pageContext.setAttribute("authorName", authorName);
+    	
+    	%>
+    <div>Written by <%
+    
+        final boolean isAuthorAnonymous = view.isAuthorAnonymous();
+    	if (isAuthorAnonymous == false) {
+    		final String authorId = view.getAuthorId();
+    		pageContext.setAttribute("authorId", authorId);
+    		
+    		%><a href="/author.jsp?id=${authorId}"><%
+    		
+    	}
+    
+    %>${authorName}<%
+    
+    	if (isAuthorAnonymous == false) {
+    		
+    		%></a><%
+    		
+    	}
+    
+    %></div><%
 	
     } else {
 	

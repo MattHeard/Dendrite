@@ -22,6 +22,7 @@ import com.google.appengine.api.datastore.Text;
  * interwoven.
  */
 public class StoryPage extends Model {
+	private static final String AUTHOR_ID_PROPERTY = "authorId";
 	private static final String AUTHOR_NAME_PROPERTY = "authorName";
 	private static final String BEGINNING_NUMBER_PROPERTY = "beginningNumber";
 	private static final String BEGINNING_VERSION_PROPERTY = "beginningVersion";
@@ -150,6 +151,7 @@ public class StoryPage extends Model {
 			return "a";
 	}
 
+	private String authorId;
 	private String authorName;
 	private PageId beginning;
 	private PageId id;
@@ -159,7 +161,15 @@ public class StoryPage extends Model {
 		this.setBeginning(null);
 	}
 
-	private String getAuthorName() {
+	public String getAuthorId() {
+		return this.authorId;
+	}
+
+	private String getAuthorIdFromEntity(final Entity entity) {
+		return (String) entity.getProperty(AUTHOR_ID_PROPERTY);
+	}
+
+	public String getAuthorName() {
 		return this.authorName;
 	}
 
@@ -236,6 +246,11 @@ public class StoryPage extends Model {
 		return (Text) entity.getProperty(TEXT_PROPERTY);
 	}
 
+	private void readAuthorIdFromEntity(final Entity entity) {
+		final String authorId = getAuthorIdFromEntity(entity);
+		this.setAuthorId(authorId);
+	}
+
 	private void readAuthorNameFromEntity(final Entity entity) {
 		final String authorName = getAuthorNameFromEntity(entity);
 		this.setAuthorName(authorName);
@@ -283,6 +298,7 @@ public class StoryPage extends Model {
 		this.readTextFromEntity(entity);
 		this.readBeginningFromEntity(entity);
 		this.readAuthorNameFromEntity(entity);
+		this.readAuthorIdFromEntity(entity);
 	}
 
 	/**
@@ -297,13 +313,24 @@ public class StoryPage extends Model {
 		this.setText(text);
 	}
 
+	private void setAuthorId(final String authorId) {
+		this.authorId = authorId;
+	}
+
+	private void setAuthorIdInEntity(final Entity entity) {
+		final String authorId = this.getAuthorId();
+		if (authorId != null)
+			entity.setProperty(AUTHOR_ID_PROPERTY, authorId);
+	}
+
 	private void setAuthorName(final String authorName) {
 		this.authorName = authorName;
 	}
 
 	private void setAuthorNameInEntity(final Entity entity) {
 		final String authorName = this.getAuthorName();
-		entity.setProperty(AUTHOR_NAME_PROPERTY, authorName);
+		if (authorName != null)
+			entity.setProperty(AUTHOR_NAME_PROPERTY, authorName);
 	}
 
 	public void setBeginning(PageId beginning) {
@@ -359,6 +386,7 @@ public class StoryPage extends Model {
 		this.setTextInEntity(entity);
 		this.setBeginningInEntity(entity);
 		this.setAuthorNameInEntity(entity);
+		this.setAuthorIdInEntity(entity);
 	}
 
 	/**
