@@ -216,4 +216,12 @@ public class StoryBeginning extends Model {
 		entity.setProperty(TITLE_PROPERTY, title);
 	}
 
+	public static int countAllBeginnings() {
+		final Query query = new Query(KIND_NAME);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		return preparedQuery.countEntities(fetchOptions);
+	}
+
 }

@@ -12,6 +12,14 @@
   <body>
     <h1><a href="/">Dendrite</a></h1><%
     	final ContentsView view = new ContentsView();
+    	final String pParameter = request.getParameter("p");
+    	int contentsPageNumber;
+    	try {
+    		contentsPageNumber = Integer.parseInt(pParameter);
+    	} catch (NumberFormatException e) {
+    		contentsPageNumber = 1;
+    	}
+    	view.setContentsPageNumber(contentsPageNumber);
         final boolean isUserLoggedIn = ContentsView.isUserLoggedIn();
         if (isUserLoggedIn == true) {
         	final String authorLink = ContentsView.getAuthorLink();
@@ -50,6 +58,25 @@
     	pageContext.setAttribute("pageNumber", pageNumber);
     	%>
     <div><a href="${link}">${title}</a> - ${pageNumber}</div><%
+    }
+    
+    final boolean isFirstPage = view.isFirstPage();
+    if (isFirstPage == false) {
+    	final String prev = view.getPrevPageNumber();
+    	pageContext.setAttribute("prev", prev);
+    	
+    	%>
+    <div><a href="/index.jsp?p=${prev}">Previous</a></div><%
+    	
+    }
+    final boolean isLastPage = view.isLastPage();
+    if (isLastPage == false) {
+    	final String next = view.getNextPageNumber();
+    	pageContext.setAttribute("next", next);
+    	
+    	%>
+    <div><a href="/index.jsp?p=${next}">Next</a></div><%
+    	
     }
 	
 	%>

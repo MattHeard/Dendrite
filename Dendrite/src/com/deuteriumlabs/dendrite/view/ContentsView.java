@@ -10,6 +10,40 @@ import com.deuteriumlabs.dendrite.model.StoryBeginning;
  * read.
  */
 public class ContentsView extends View {
+	
+	public boolean isFirstPage() {
+		final int number = this.getContentsPageNumber();
+		return (number == 1);
+	}
+	
+	public boolean isLastPage() {
+		final int curr = this.getContentsPageNumber();
+		final int last = this.getLastPageNumber();
+		return (curr == last);
+	}
+	
+	public String getPrevPageNumber() {
+		final int curr = this.getContentsPageNumber();
+		int prev = curr - 1;
+		if (prev < 1)
+			prev = 1;
+		return Integer.toString(prev);
+	}
+	
+	public String getNextPageNumber() {
+		final int curr = this.getContentsPageNumber();
+		int next = curr + 1;
+		return Integer.toString(next);
+	}
+
+	private int getLastPageNumber() {
+		final int numberOfStories = this.getNumberOfStories();
+		return (numberOfStories / NUM_STORIES_DISPLAYED) + 1;
+	}
+
+	private int getNumberOfStories() {
+		return StoryBeginning.countAllBeginnings();
+	}
 
 	private static final int NUM_STORIES_DISPLAYED = 10;
 	private List<StoryBeginning> beginnings;
@@ -124,7 +158,7 @@ public class ContentsView extends View {
 	 * beginnings is called.
 	 * @param contentsPageNumber The contents page number to change to
 	 */
-	private void setContentsPageNumber(final int contentsPageNumber) {
+	public void setContentsPageNumber(final int contentsPageNumber) {
 		final int previousPageNum = this.getContentsPageNumber();
 		if (contentsPageNumber > 1)
 			this.contentsPageNumber = contentsPageNumber;
