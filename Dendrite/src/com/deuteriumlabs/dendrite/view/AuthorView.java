@@ -15,7 +15,7 @@ import com.google.appengine.api.datastore.Text;
  */
 public class AuthorView extends View {
 
-	private static final int NUM_PAGES_DISPLAYED = 20;
+	private static final int NUM_PAGES_DISPLAYED = 10;
 	private static final int SUMMARY_LEN = 30;
 	private static final String ELLIPSIS = "...";
 	private int authorPageNumber;
@@ -136,7 +136,7 @@ public class AuthorView extends View {
 		this.setTitles(titles);
 	}
 
-	private void setAuthorPageNumber(final int authorPageNumber) {
+	public void setAuthorPageNumber(final int authorPageNumber) {
 		final int previousPageNumber = this.getAuthorPageNumber();
 		if (authorPageNumber > 1)
 			this.authorPageNumber = authorPageNumber;
@@ -177,5 +177,39 @@ public class AuthorView extends View {
 	private void setUser(final User user) {
 		this.user = user;
 	}
+	
+	public boolean isFirstPage() {
+		final int number = this.getAuthorPageNumber();
+		return (number == 1);
+	}
+	
+	public boolean isLastPage() {
+		final int curr = this.getAuthorPageNumber();
+		final int last = this.getLastPageNumber();
+		return (curr == last);
+	}
+	
+	public String getPrevPageNumber() {
+		final int curr = this.getAuthorPageNumber();
+		int prev = curr - 1;
+		if (prev < 1)
+			prev = 1;
+		return Integer.toString(prev);
+	}
+	
+	public String getNextPageNumber() {
+		final int curr = this.getAuthorPageNumber();
+		int next = curr + 1;
+		return Integer.toString(next);
+	}
 
+	private int getLastPageNumber() {
+		final int numberOfStories = this.getNumberOfPages();
+		return (numberOfStories / NUM_PAGES_DISPLAYED) + 1;
+	}
+
+	private int getNumberOfPages() {
+		final String authorId = this.getId();
+		return StoryPage.countAllPagesWrittenBy(authorId);
+	}
 }

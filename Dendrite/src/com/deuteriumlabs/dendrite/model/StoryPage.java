@@ -460,4 +460,14 @@ public class StoryPage extends Model {
 		final Text text = this.getText();
 		entity.setProperty(TEXT_PROPERTY, text);
 	}
+
+	public static int countAllPagesWrittenBy(final String authorId) {
+		final Query query = new Query(KIND_NAME);
+		final Filter filter = getAuthorIdFilter(authorId);
+		query.setFilter(filter);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		return preparedQuery.countEntities(fetchOptions);
+	}
 }

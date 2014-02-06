@@ -12,6 +12,14 @@
     final AuthorView view = new AuthorView();
     final String id = request.getParameter("id");
     view.setId(id);
+	final String pParameter = request.getParameter("p");
+	int authorPageNumber;
+	try {
+		authorPageNumber = Integer.parseInt(pParameter);
+	} catch (NumberFormatException e) {
+		authorPageNumber = 1;
+	}
+	view.setAuthorPageNumber(authorPageNumber);
     final String penName = view.getPenName();
     pageContext.setAttribute("penName", penName);
     
@@ -76,7 +84,28 @@
 	<div><a href="/read.jsp?p=${pageId}">${summary}</a> - ${pageId}</div><%
     }
     
-    %>
+    final boolean isFirstPage = view.isFirstPage();
+    if (isFirstPage == false) {
+    	pageContext.setAttribute("id", id);
+    	final String prev = view.getPrevPageNumber();
+    	pageContext.setAttribute("prev", prev);
+    	
+    	%>
+    <div><a href="/author.jsp?id=${id}&p=${prev}">Previous</a></div><%
+    	
+    }
+    final boolean isLastPage = view.isLastPage();
+    if (isLastPage == false) {
+    	pageContext.setAttribute("id", id);
+    	final String next = view.getNextPageNumber();
+    	pageContext.setAttribute("next", next);
+    	
+    	%>
+    <div><a href="/author.jsp?id=${id}&p=${next}">Next</a></div><%
+    	
+    }
+	
+	%>
     <div><a href="/about.jsp">About</a></div>
     <div><a href="/terms.jsp">Terms of use</a></div>
     <div><a href="/privacy.jsp">Privacy</a></div>
