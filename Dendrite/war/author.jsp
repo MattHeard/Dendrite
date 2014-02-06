@@ -73,7 +73,7 @@
     	String pageId = pageIds.get(i);
     	pageContext.setAttribute("pageId", pageId);
     	%>
-	<div>${summary} - ${pageId}</div><%
+	<div><a href="/read.jsp?p=${pageId}">${summary}</a> - ${pageId}</div><%
     }
     
     %>
