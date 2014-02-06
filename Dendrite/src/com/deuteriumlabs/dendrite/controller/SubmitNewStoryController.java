@@ -12,21 +12,15 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
 public class SubmitNewStoryController {
 
 	private static final int MAX_EXPONENT = 30;
-	private String title;
+	private String authorId;
+	private String authorName;
 	private String content;
-	private List<String> options;
 	private PageId id;
+	private List<String> options;
+	private String title;
 	
 	public SubmitNewStoryController() {
 		this.options = new ArrayList<String>();
-	}
-
-	public void setTitle(final String title) {
-		this.title = title;
-	}
-
-	public void setContent(final String content) {
-		this.content = content;
 	}
 
 	public void addOption(final String option) {
@@ -36,66 +30,23 @@ public class SubmitNewStoryController {
 			options.add(option);
 	}
 
-	private List<String> getOptions() {
-		return this.options;
-	}
-
 	public void buildNewStory() {
 		this.setNewPageId();
 		this.buildStoryBeginning();
 		this.buildStoryPage();
 		this.buildStoryOptions();
 	}
-
-	private void setNewPageId() {
-		final PageId id = this.findUnallocatedPageId();
-		this.setPageId(id);
-	}
-
-	private void setPageId(final PageId id) {
-		this.id = id;
-	}
-
-	private PageId findUnallocatedPageId() {
-		final PageId id = new PageId();
-		final int number = this.findUnallocatedPageNumber();
-		id.setNumber(number);
-		final String version = "a";
-		id.setVersion(version);
-		return id;
-	}
-
-	private int findUnallocatedPageNumber() {
-		int exponent = 0;
-		while (exponent <= MAX_EXPONENT) {
-			int randomNumber = generateRandomNumber(exponent);
-			final boolean isUnallocated = isUnallocated(randomNumber);
-			if (isUnallocated)
-				return randomNumber;
-			else if (exponent != MAX_EXPONENT)
-				exponent++;
-		}
-		return -1; // Theoretically unreachable.
-	}
-
-	private boolean isUnallocated(final int candidate) {
-		final PageId id = new PageId();
-		id.setNumber(candidate);
-		final String version = "a";
-		id.setVersion(version);
-		final StoryPage page = new StoryPage();
-		page.setId(id);
-		final boolean isInStore = page.isInStore();
-		return (isInStore == false);
-	}
-
-	private int generateRandomNumber(final int exponent) {
-		final int POWER_BASE = 2;
-		double upper = Math.pow(POWER_BASE, exponent);
-		Random generator = new Random();
-		double randomDouble = generator.nextDouble();
-		double newNumber = (upper * randomDouble) + 1;
-		return (int) newNumber;
+	
+	private void buildStoryBeginning() {
+		final StoryBeginning beginning = new StoryBeginning();
+		final PageId id = this.getId();
+		final int pageNumber = id.getNumber();
+		beginning.setPageNumber(pageNumber);
+		final String title = this.getTitle();
+		beginning.setTitle(title);
+		final boolean isInStore = beginning.isInStore();
+		if (isInStore == false)
+			beginning.create();
 	}
 
 	private void buildStoryOptions() {
@@ -121,33 +72,104 @@ public class SubmitNewStoryController {
 		page.setId(id);
 		final String text = this.getContent();
 		page.setText(text);
+		final String authorName = this.getAuthorName();
+		page.setAuthorName(authorName);
+		final String authorId = this.getAuthorId();
+		page.setAuthorId(authorId);
 		final boolean isInStore = page.isInStore();
 		if (isInStore == false)
 			page.create();
+	}
+
+	private PageId findUnallocatedPageId() {
+		final PageId id = new PageId();
+		final int number = this.findUnallocatedPageNumber();
+		id.setNumber(number);
+		final String version = "a";
+		id.setVersion(version);
+		return id;
+	}
+
+	private int findUnallocatedPageNumber() {
+		int exponent = 0;
+		while (exponent <= MAX_EXPONENT) {
+			int randomNumber = generateRandomNumber(exponent);
+			final boolean isUnallocated = isUnallocated(randomNumber);
+			if (isUnallocated)
+				return randomNumber;
+			else if (exponent != MAX_EXPONENT)
+				exponent++;
+		}
+		return -1; // Theoretically unreachable.
+	}
+
+	private int generateRandomNumber(final int exponent) {
+		final int POWER_BASE = 2;
+		double upper = Math.pow(POWER_BASE, exponent);
+		Random generator = new Random();
+		double randomDouble = generator.nextDouble();
+		double newNumber = (upper * randomDouble) + 1;
+		return (int) newNumber;
+	}
+
+	private String getAuthorId() {
+		return this.authorId;
+	}
+
+	private String getAuthorName() {
+		return this.authorName;
 	}
 
 	private String getContent() {
 		return this.content;
 	}
 
-	private void buildStoryBeginning() {
-		final StoryBeginning beginning = new StoryBeginning();
-		final PageId id = this.getId();
-		final int pageNumber = id.getNumber();
-		beginning.setPageNumber(pageNumber);
-		final String title = this.getTitle();
-		beginning.setTitle(title);
-		final boolean isInStore = beginning.isInStore();
-		if (isInStore == false)
-			beginning.create();
-	}
-
 	public PageId getId() {
 		return this.id;
 	}
 
+	private List<String> getOptions() {
+		return this.options;
+	}
+
 	private String getTitle() {
 		return this.title;
+	}
+
+	private boolean isUnallocated(final int candidate) {
+		final PageId id = new PageId();
+		id.setNumber(candidate);
+		final String version = "a";
+		id.setVersion(version);
+		final StoryPage page = new StoryPage();
+		page.setId(id);
+		final boolean isInStore = page.isInStore();
+		return (isInStore == false);
+	}
+
+	public void setAuthorId(final String authorId) {
+		this.authorId = authorId;
+	}
+
+	public void setAuthorName(final String authorName) {
+		this.authorName = authorName;
+	}
+
+	public void setContent(final String content) {
+		this.content = content;
+	}
+
+	private void setNewPageId() {
+		final PageId id = this.findUnallocatedPageId();
+		this.setPageId(id);
+	}
+
+	private void setPageId(final PageId id) {
+		this.id = id;
+	}
+
+	public void setTitle(final String title) {
+		this.title = title;
 	}
 
 }

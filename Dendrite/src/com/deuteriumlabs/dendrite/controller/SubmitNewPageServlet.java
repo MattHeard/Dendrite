@@ -34,6 +34,12 @@ public class SubmitNewPageServlet extends HttpServlet {
 				controller.addOption(option);
 		}
 		
+		final String authorId = req.getParameter("authorId");
+		controller.setAuthorId(authorId);
+		
+		final String authorName = req.getParameter("authorName");
+		controller.setAuthorName(authorName);
+		
 		controller.buildNewPage();
 		
 		controller.connectIncomingOption();

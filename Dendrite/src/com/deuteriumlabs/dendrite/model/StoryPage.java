@@ -1,6 +1,8 @@
 package com.deuteriumlabs.dendrite.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -62,6 +64,13 @@ public class StoryPage extends Model {
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
 		return preparedQuery.countEntities(fetchOptions);
+	}
+
+	private static Filter getAuthorIdFilter(String authorId) {
+		final String propertyName = AUTHOR_ID_PROPERTY;
+		final FilterOperator operator = FilterOperator.EQUAL;
+		final String value = authorId;
+		return new FilterPredicate(propertyName, operator, value);
 	}
 
 	/**
@@ -133,6 +142,35 @@ public class StoryPage extends Model {
 		return (String) entity.getProperty(ID_VERSION_PROPERTY);
 	}
 
+	private static List<StoryPage> getPagesFromEntities(
+			final List<Entity> entities) {
+		final List<StoryPage> pages = new ArrayList<StoryPage>();
+		for (final Entity entity : entities) {
+			StoryPage page = new StoryPage(entity);
+			pages.add(page);
+		}
+		return pages;
+	}
+
+	public static List<StoryPage> getPagesWrittenBy(String authorId, int start,
+			int end) {
+		final Query query = new Query(KIND_NAME);
+		query.addSort(BEGINNING_NUMBER_PROPERTY);
+		query.addSort(ID_NUMBER_PROPERTY);
+		query.addSort(ID_VERSION_PROPERTY);
+		final Filter filter = getAuthorIdFilter(authorId);
+		query.setFilter(filter);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final int limit = end - start;
+		final FetchOptions fetchOptions = FetchOptions.Builder.withLimit(limit);
+		final int offset = start;
+		fetchOptions.offset(offset);
+		List<Entity> entities = preparedQuery.asList(fetchOptions);
+		List<StoryPage> pages = getPagesFromEntities(entities);
+		return pages;
+	}
+
 	public static String getRandomVersion(PageId id) {
 		final int number = id.getNumber();
 		final Query query = new Query(KIND_NAME);
@@ -153,12 +191,19 @@ public class StoryPage extends Model {
 
 	private String authorId;
 	private String authorName;
+
 	private PageId beginning;
+
 	private PageId id;
+
 	private Text text;
 
 	public StoryPage() {
 		this.setBeginning(null);
+	}
+
+	public StoryPage(final Entity entity) {
+		this.readPropertiesFromEntity(entity);
 	}
 
 	public String getAuthorId() {
@@ -313,7 +358,7 @@ public class StoryPage extends Model {
 		this.setText(text);
 	}
 
-	private void setAuthorId(final String authorId) {
+	public void setAuthorId(final String authorId) {
 		this.authorId = authorId;
 	}
 
@@ -323,7 +368,7 @@ public class StoryPage extends Model {
 			entity.setProperty(AUTHOR_ID_PROPERTY, authorId);
 	}
 
-	private void setAuthorName(final String authorName) {
+	public void setAuthorName(final String authorName) {
 		this.authorName = authorName;
 	}
 

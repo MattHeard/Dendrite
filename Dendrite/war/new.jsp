@@ -58,8 +58,28 @@
       <br /><%
         	
     }
+    if (isUserLoggedIn == true) {
+    	final String authorId = view.getMyUserId();
+    	pageContext.setAttribute("authorId", authorId);
       
     %>
+      <input name="authorId" type="hidden" value="${authorId}" /><%
+      
+    }
+    
+      %>
+      <label for="authorName">Author</label>
+      <br />
+      <input id="authorName" name="authorName" type="text"<%
+      
+    if (isUserLoggedIn == true) {
+      
+      %> value="${userName}"<%
+      
+    }
+      
+      %>></input>
+      <br />
       <button type="submit">Submit</button>
     </form>
     <div><a href="/about.jsp">About</a></div>

@@ -48,8 +48,8 @@
     <div>${optionText}</div>
     <form action="submitNewPage" method="post"><%
     
-    pageContext.setAttribute("from", from);
-    pageContext.setAttribute("linkIndex", linkIndex);
+	    pageContext.setAttribute("from", from);
+	    pageContext.setAttribute("linkIndex", linkIndex);
     
     %>
       <input type="hidden" name="from" value="${from}" />
@@ -61,21 +61,41 @@
       <label for="option0">Options</label>
       <br /><%
       
-        for (int i = 0; i < 5; i++) {
-        	pageContext.setAttribute("optionNumber", i);
+		for (int i = 0; i < 5; i++) {
+			pageContext.setAttribute("optionNumber", i);
         	
         	%>
       <input id="option${optionNumber}" name="option${optionNumber}"
           type="text"></input>
       <br /><%
         	
-        }
+		}
+		if (isUserLoggedIn == true) {
+			final String authorId = view.getMyUserId();
+			pageContext.setAttribute("authorId", authorId);
+        
+        	%>
+        <input name="authorId" type="hidden" value="${authorId}" /><%
+        
+		}
       
-      %>
-      <button type="submit">Submit</button>
+        %>
+        <label for="authorName">Author</label>
+        <br />
+        <input id="authorName" name="authorName" type="text"<%
+        
+		if (isUserLoggedIn == true) {
+        
+			%> value="${userName}"<%
+        
+		}
+        
+		%>></input>
+        <br />
+        <button type="submit">Submit</button>
     </form><%
       
-   	} else {
+	} else {
    			
    	  %>
     Oh. What happened? This doesn't seem to be the right page.<%

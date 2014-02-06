@@ -68,4 +68,9 @@ public abstract class View {
 	 */
 	abstract String getUrl();
 
+	public String getMyUserId() {
+		final User myUser = User.getMyUser();
+		return myUser.getId();
+	}
+
 }

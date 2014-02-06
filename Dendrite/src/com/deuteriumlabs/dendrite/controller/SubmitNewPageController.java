@@ -15,6 +15,8 @@ public class SubmitNewPageController {
 	private int linkIndex;
 	private String content;
 	private List<String> options;
+	private String authorId;
+	private String authorName;
 
 	private PageId id;
 	
@@ -81,11 +83,23 @@ public class SubmitNewPageController {
 		page.setId(id);
 		final String text = this.getContent();
 		page.setText(text);
+		final String authorName = this.getAuthorName();
+		page.setAuthorName(authorName);
+		final String authorId = this.getAuthorId();
+		page.setAuthorId(authorId);
 		final PageId beginning = this.getBeginning();
 		page.setBeginning(beginning);
 		final boolean isInStore = page.isInStore();
 		if (isInStore == false)
 			page.create();
+	}
+
+	private String getAuthorId() {
+		return this.authorId;
+	}
+
+	private String getAuthorName() {
+		return this.authorName;
 	}
 
 	private PageId getBeginning() {
@@ -174,5 +188,13 @@ public class SubmitNewPageController {
 
 	private int getLinkIndex() {
 		return this.linkIndex;
+	}
+	
+	public void setAuthorId(final String authorId) {
+		this.authorId = authorId;
+	}
+
+	public void setAuthorName(final String authorName) {
+		this.authorName = authorName;
 	}
 }

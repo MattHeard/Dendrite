@@ -1,6 +1,7 @@
 package com.deuteriumlabs.dendrite.view;
 
 
+
 public class NewView extends View {
 
 	@Override

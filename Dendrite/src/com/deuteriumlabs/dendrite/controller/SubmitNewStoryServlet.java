@@ -31,6 +31,12 @@ public class SubmitNewStoryServlet extends HttpServlet {
 				controller.addOption(option);
 		}
 		
+		final String authorId = req.getParameter("authorId");
+		controller.setAuthorId(authorId);
+		
+		final String authorName = req.getParameter("authorName");
+		controller.setAuthorName(authorName);
+		
 		controller.buildNewStory();
 		
 		final PageId id = controller.getId();

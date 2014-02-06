@@ -45,7 +45,38 @@
     }
     
 	%>
-    <h2>${penName}</h2>
+    <h2>${penName}</h2><%
+    
+    final List<String> titles = view.getTitles();
+    final List<String> summaries = view.getSummaries();
+    final List<String> pageIds = view.getPageIds();
+    String prevTitle = null;
+    
+    for (int i = 0; i < titles.size(); i++) {
+    	String currTitle = titles.get(i);
+    	if (currTitle == null)
+    		currTitle = "";
+    	final boolean isDifferentTitle = (currTitle.equals(prevTitle) == false);
+    	if (isDifferentTitle == true) {
+    		final String title = currTitle;
+    		pageContext.setAttribute("title", title);
+    		
+    		%>
+	<h3>${title}</h3><%
+	
+			prevTitle = currTitle;
+    	}
+    	String summary = summaries.get(i);
+    	if (summary == null)
+    		summary = "";
+    	pageContext.setAttribute("summary", summary);
+    	String pageId = pageIds.get(i);
+    	pageContext.setAttribute("pageId", pageId);
+    	%>
+	<div>${summary} - ${pageId}</div><%
+    }
+    
+    %>
     <div><a href="/about.jsp">About</a></div>
     <div><a href="/terms.jsp">Terms of use</a></div>
     <div><a href="/privacy.jsp">Privacy</a></div>

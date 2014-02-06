@@ -51,8 +51,8 @@ public class StoryBeginning extends Model {
 	 */
 	private static List<StoryBeginning> getBeginningsFromEntities(
 			final List<Entity> entities) {
-		List<StoryBeginning> beginnings = new ArrayList<StoryBeginning>();
-		for (Entity entity : entities) {
+		final List<StoryBeginning> beginnings = new ArrayList<StoryBeginning>();
+		for (final Entity entity : entities) {
 			StoryBeginning beginning = new StoryBeginning(entity);
 			beginnings.add(beginning);
 		}
@@ -102,7 +102,7 @@ public class StoryBeginning extends Model {
 	 * Builds a story beginning from the properties extracted from the entity.
 	 * @param entity The entity containing the properties
 	 */
-	public StoryBeginning(Entity entity) {
+	public StoryBeginning(final Entity entity) {
 		this.readPropertiesFromEntity(entity);
 	}
 

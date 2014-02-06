@@ -10,30 +10,15 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
 
 public class EditPageController {
 
-	private int pageNumber;
+	private String authorId;
+	private String authorName;
 	private String content;
-	private ArrayList<String> options;
 	private PageId id;
+	private ArrayList<String> options;
+	private int pageNumber;
 	
 	public EditPageController() {
 		this.options = new ArrayList<String>();
-	}
-
-	public void setPageNumber(final String pageNumber) {
-		int pageNumberValue;
-		try {
-			pageNumberValue = Integer.parseInt(pageNumber);
-		} catch (NumberFormatException e) {
-			pageNumberValue = 0;
-		}
-		if (pageNumberValue > 0)
-			this.pageNumber = pageNumberValue;
-		else
-			this.pageNumber = 0;
-	}
-
-	public void setContent(final String content) {
-		this.content = content;
 	}
 
 	public void addOption(final String option) {
@@ -41,10 +26,6 @@ public class EditPageController {
 		final int size = options.size();
 		if (size < 5)
 			options.add(option);
-	}
-
-	private List<String> getOptions() {
-		return this.options;
 	}
 
 	public void buildNewPage() {
@@ -76,11 +57,23 @@ public class EditPageController {
 		page.setId(id);
 		final String text = this.getContent();
 		page.setText(text);
+		final String authorName = this.getAuthorName();
+		page.setAuthorName(authorName);
+		final String authorId = this.getAuthorId();
+		page.setAuthorId(authorId);
 		final PageId beginning = this.getBeginning();
 		page.setBeginning(beginning);
 		final boolean isInStore = page.isInStore();
 		if (isInStore == false)
 			page.create();
+	}
+
+	private String getAuthorId() {
+		return this.authorId;
+	}
+
+	private String getAuthorName() {
+		return this.authorName;
 	}
 
 	private PageId getBeginning() {
@@ -102,6 +95,36 @@ public class EditPageController {
 		return this.id;
 	}
 
+	private String getNextVersion() {
+		final int pageNumber = this.getPageNumber();
+		final int count = StoryPage.countVersions(pageNumber);
+		return StoryPage.convertNumberToVersion(count + 1);
+	}
+
+	private List<String> getOptions() {
+		return this.options;
+	}
+
+	private int getPageNumber() {
+		return this.pageNumber;
+	}
+
+	public void setAuthorId(final String authorId) {
+		this.authorId = authorId;
+	}
+
+	public void setAuthorName(final String authorName) {
+		this.authorName = authorName;
+	}
+
+	public void setContent(final String content) {
+		this.content = content;
+	}
+
+	private void setId(final PageId id) {
+		this.id = id;
+	}
+
 	private void setNextPageId() {
 		final PageId id = new PageId();
 		final int number = this.getPageNumber();
@@ -111,17 +134,16 @@ public class EditPageController {
 		this.setId(id);
 	}
 
-	private String getNextVersion() {
-		final int pageNumber = this.getPageNumber();
-		final int count = StoryPage.countVersions(pageNumber);
-		return StoryPage.convertNumberToVersion(count + 1);
-	}
-
-	private void setId(final PageId id) {
-		this.id = id;
-	}
-
-	private int getPageNumber() {
-		return this.pageNumber;
+	public void setPageNumber(final String pageNumber) {
+		int pageNumberValue;
+		try {
+			pageNumberValue = Integer.parseInt(pageNumber);
+		} catch (NumberFormatException e) {
+			pageNumberValue = 0;
+		}
+		if (pageNumberValue > 0)
+			this.pageNumber = pageNumberValue;
+		else
+			this.pageNumber = 0;
 	}
 }

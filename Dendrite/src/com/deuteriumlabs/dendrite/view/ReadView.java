@@ -63,8 +63,9 @@ public class ReadView extends View {
 		page.setId(id);
 		page.read();
 		this.setPage(page);
+		final PageId beginningId = page.getBeginning();
 		final StoryBeginning beginning = new StoryBeginning();
-		final int pageNumber = id.getNumber();
+		final int pageNumber = beginningId.getNumber();
 		beginning.setPageNumber(pageNumber);
 		beginning.read();
 		this.setBeginning(beginning);

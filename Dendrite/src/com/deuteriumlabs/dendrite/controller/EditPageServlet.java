@@ -16,8 +16,7 @@ public class EditPageServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		final EditPageController controller;
-		controller = new EditPageController();
+		final EditPageController controller = new EditPageController();
 		
 		final String pageNumber = req.getParameter("pageNumber");
 		controller.setPageNumber(pageNumber);
@@ -30,6 +29,12 @@ public class EditPageServlet extends HttpServlet {
 			if (option != null)
 				controller.addOption(option);
 		}
+		
+		final String authorId = req.getParameter("authorId");
+		controller.setAuthorId(authorId);
+		
+		final String authorName = req.getParameter("authorName");
+		controller.setAuthorName(authorName);
 		
 		controller.buildNewPage();
 		
