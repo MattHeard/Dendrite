@@ -23,6 +23,14 @@ public class ReadView extends View {
 	private StoryBeginning getBeginning() {
 		return this.beginning;
 	}
+	
+	public boolean isBeginning() {
+		final PageId currPageId = this.getPageId();
+		final int currPageNumber = currPageId.getNumber();
+		final StoryBeginning beginning = this.getBeginning();
+		final int beginningPageNumber = beginning.getPageNumber();
+		return (currPageNumber == beginningPageNumber);
+	}
 
 	public ReadView() {
 	}

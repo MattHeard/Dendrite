@@ -56,6 +56,13 @@
 	
     }
     if (isPageInStore == true) {
+    	final boolean isBeginning = view.isBeginning();
+    	if (isBeginning == true) {
+    		
+    		%>
+	<h2>${title}</h2><%
+    		
+    	}
     	final String pageNumber = view.getPageNumber();
     	pageContext.setAttribute("pageNumber", pageNumber);
     	
