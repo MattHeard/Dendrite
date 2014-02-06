@@ -86,7 +86,7 @@
     	pageContext.setAttribute("authorName", authorName);
     	
     	%>
-    <div>Written by <%
+    <div>This page was written by <%
     
         final boolean isAuthorAnonymous = view.isAuthorAnonymous();
     	if (isAuthorAnonymous == false) {
@@ -105,7 +105,7 @@
     		
     	}
     
-    %></div><%
+    %>.</div><%
 	
     } else {
 	
