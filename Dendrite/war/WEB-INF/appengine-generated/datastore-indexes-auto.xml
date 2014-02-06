@@ -1,8 +1,8 @@
-<!-- Indices written at Thu, 6 Feb 2014 16:11:08 NZDT -->
+<!-- Indices written at Thu, 6 Feb 2014 18:43:25 NZDT -->
 
 <datastore-indexes>
 
-    <!-- Used 1 time in query history -->
+    <!-- Used 11 times in query history -->
     <datastore-index kind="StoryPage" ancestor="false" source="auto">
         <property name="authorId" direction="asc"/>
         <property name="beginningNumber" direction="asc"/>
