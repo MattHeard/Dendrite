@@ -13,6 +13,9 @@
     <h1><a href="/">Dendrite</a></h1><%
     
     final NewView view = new NewView();
+    final String error = request.getParameter("error");
+    view.setError(error);
+
     final boolean isUserLoggedIn = NewView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
         final String authorLink = NewView.getAuthorLink();
@@ -40,7 +43,17 @@
     <form action="submitNewStory" method="post">
       <label for="title">Title</label>
       <br />
-      <input id="title" name="title" type="text"></input>
+      <input id="title" name="title" type="text"></input><%
+      
+	final boolean isThereABlankTitleError = view.isThereABlankTitleError();
+	if (isThereABlankTitleError == true) {
+		
+		%>
+      <i>Must not be blank</i><%
+		
+	}
+      
+      %>
       <br />
       <label for="content">Story</label>
       <br />

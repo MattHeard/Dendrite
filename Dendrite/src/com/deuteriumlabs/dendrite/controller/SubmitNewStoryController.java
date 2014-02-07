@@ -172,4 +172,16 @@ public class SubmitNewStoryController {
 		this.title = title;
 	}
 
+	public boolean isTitleValid() {
+		final String title = this.getTitle();
+		final boolean isValid;
+		if (title == null)
+			isValid = false;
+		else if (title.equals(""))
+			isValid = false;
+		else
+			isValid = true;
+		return isValid;
+	}
+
 }
