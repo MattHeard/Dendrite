@@ -60,7 +60,7 @@
     	if (isBeginning == true) {
     		
     		%>
-	<h2>${title}</h2><%
+    <h2>${title}</h2><%
     		
     	}
     	final String pageNumber = view.getPageNumber();
