@@ -186,7 +186,6 @@ public class SubmitNewStoryController {
 
 	public boolean isContentValid() {
 		final String content = this.getContent();
-		System.out.println("content: " + content);
 		final boolean isValid;
 		if (content == null)
 			isValid = false;
@@ -194,7 +193,6 @@ public class SubmitNewStoryController {
 			isValid = false;
 		else
 			isValid = true;
-		System.out.println("isContentValid: " + isValid);
 		return isValid;
 	}
 
