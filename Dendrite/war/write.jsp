@@ -17,6 +17,9 @@
 	view.setFrom(from);
 	final String linkIndex = request.getParameter("linkIndex");
 	view.setLinkIndex(linkIndex);
+    final String error = request.getParameter("error");
+    view.setError(error);
+    
     final boolean isUserLoggedIn = WriteView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
         final String authorLink = WriteView.getAuthorLink();
@@ -56,7 +59,17 @@
       <input type="hidden" name="linkIndex" value="${linkIndex}" />
       <label for="content">Story</label>
       <br />
-      <textarea id="content" name="content"></textarea>
+      <textarea id="content" name="content"></textarea><%
+      
+	final boolean isThereABlankContentError = view.isThereABlankContentError();
+	if (isThereABlankContentError == true) {
+		
+		%>
+      <i>Must not be blank</i><%
+		
+	}
+      
+      %>
       <br />
       <label for="option0">Options</label>
       <br /><%
@@ -75,14 +88,14 @@
 			pageContext.setAttribute("authorId", authorId);
         
         	%>
-        <input name="authorId" type="hidden" value="${authorId}" /><%
+      <input name="authorId" type="hidden" value="${authorId}" /><%
         
 		}
       
         %>
-        <label for="authorName">Author</label>
-        <br />
-        <input id="authorName" name="authorName" type="text"<%
+      <label for="authorName">Author</label>
+      <br />
+      <input id="authorName" name="authorName" type="text"<%
         
 		if (isUserLoggedIn == true) {
         
@@ -91,8 +104,8 @@
 		}
         
 		%>></input>
-        <br />
-        <button type="submit">Submit</button>
+      <br />
+      <button type="submit">Submit</button>
     </form><%
       
 	} else {

@@ -197,4 +197,16 @@ public class SubmitNewPageController {
 	public void setAuthorName(final String authorName) {
 		this.authorName = authorName;
 	}
+
+	public boolean isContentValid() {
+		final String content = this.getContent();
+		final boolean isValid;
+		if (content == null)
+			isValid = false;
+		else if (content.equals(""))
+			isValid = false;
+		else
+			isValid = true;
+		return isValid;
+	}
 }

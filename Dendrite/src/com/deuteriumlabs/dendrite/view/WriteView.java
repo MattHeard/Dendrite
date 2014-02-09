@@ -8,6 +8,21 @@ import com.deuteriumlabs.dendrite.model.StoryOption;
  */
 public class WriteView extends View {
 
+	private String error;
+	
+	public void setError(final String error) {
+		this.error = error;
+	}
+
+	private String getError() {
+		return this.error;
+	}
+	
+	public boolean isThereABlankContentError() {
+		final String error = this.getError();
+		return ("blankContent".equals(error));	// Yoda-style to avoid null
+	}
+
 	private String linkIndex;
 	private String from;
 
