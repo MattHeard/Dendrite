@@ -19,6 +19,11 @@ public class NewView extends View {
 		final String error = this.getError();
 		return ("blankTitle".equals(error));	// Yoda-style to avoid null
 	}
+	
+	public boolean isThereABlankContentError() {
+		final String error = this.getError();
+		return ("blankContent".equals(error));	// Yoda-style to avoid null
+	}
 
 	private String getError() {
 		return this.error;

@@ -55,9 +55,18 @@
       
       %>
       <br />
-      <label for="content">Story</label>
-      <br />
-      <textarea id="content" name="content"></textarea>
+      <label for="content">Story</label><br />
+      <textarea id="content" name="content"></textarea><%
+      
+	final boolean isThereABlankContentError = view.isThereABlankContentError();
+	if (isThereABlankContentError == true) {
+		
+		%>
+      <i>Must not be blank</i><%
+		
+	}
+      
+      %>
       <br />
       <label for="option0">Options</label>
       <br /><%
@@ -66,8 +75,8 @@
         pageContext.setAttribute("optionNumber", i);
         	
     %>
-      <input id="option${optionNumber}" name="option${optionNumber}"
-          type="text"></input>
+      <input id="option${optionNumber}" name="option${optionNumber}"<%
+      %> type="text"></input>
       <br /><%
         	
     }

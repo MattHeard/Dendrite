@@ -12,6 +12,17 @@ import com.deuteriumlabs.dendrite.model.PageId;
 public class SubmitNewStoryServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -8415391685212281716L;
+	
+	private static void redirect(final HttpServletResponse response,
+			final String url) {
+		try {
+			response.sendRedirect(url);
+		} catch (IOException e) {
+			// TODO Find out what circumstances lead here.
+			e.printStackTrace();
+		}
+	}
+
 	private HttpServletResponse response;
 
 	@Override
@@ -23,13 +34,16 @@ public class SubmitNewStoryServlet extends HttpServlet {
 		
 		final String title = req.getParameter("title");
 		controller.setTitle(title);
+		final String content = req.getParameter("content");
+		controller.setContent(content);
+		
 		final boolean isTitleValid = controller.isTitleValid();
+		final boolean isBodyValid = controller.isContentValid();
 		if (isTitleValid == false)
 			this.redirectFromInvalidTitle();
-		else {	
-			final String content = req.getParameter("content");
-			controller.setContent(content);
-			
+		else if (isBodyValid == false)
+				this.redirectFromInvalidBody();
+		else {
 			for (int i = 0; i < 5; i++) {
 				final String option = req.getParameter("option" + i);
 				if (option != null)
@@ -54,20 +68,19 @@ public class SubmitNewStoryServlet extends HttpServlet {
 		return this.response;
 	}
 
+	private void redirectFromInvalidBody() {
+		final HttpServletResponse response = this.getResponse();
+		final String url = "/new.jsp?error=blankContent";
+		redirect(response, url);
+	}
+
 	private void redirectFromInvalidTitle() {
 		final HttpServletResponse response = this.getResponse();
 		final String url = "/new.jsp?error=blankTitle";
-		try {
-			response.sendRedirect(url);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		redirect(response, url);
 	}
 
 	private void setResponse(final HttpServletResponse response) {
 		this.response = response;
 	}
-
-	
 }
