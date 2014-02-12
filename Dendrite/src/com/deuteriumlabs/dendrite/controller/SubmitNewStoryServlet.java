@@ -13,16 +13,6 @@ public class SubmitNewStoryServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -8415391685212281716L;
 	
-	private static void redirect(final HttpServletResponse response,
-			final String url) {
-		try {
-			response.sendRedirect(url);
-		} catch (IOException e) {
-			// TODO Find out what circumstances lead here.
-			e.printStackTrace();
-		}
-	}
-
 	private HttpServletResponse response;
 
 	@Override
@@ -39,11 +29,14 @@ public class SubmitNewStoryServlet extends HttpServlet {
 		final String authorName = req.getParameter("authorName");
 		controller.setAuthorName(authorName);
 		
-		final boolean isTitleValid = controller.isTitleValid();
+		final boolean isTitleBlank = controller.isTitleBlank();
+		final boolean isTitleTooLong = controller.isTitleTooLong();
 		final boolean isBodyValid = controller.isContentValid();
 		final boolean isAuthorNameValid = controller.isAuthorNameValid();
-		if (isTitleValid == false)
-			this.redirectFromInvalidTitle();
+		if (isTitleBlank == true)
+			this.redirectFromBlankTitle();
+		else if (isTitleTooLong == true)
+			this.redirectFromTooLongTitle();
 		else if (isBodyValid == false)
 			this.redirectFromInvalidBody();
 		else if (isAuthorNameValid == false)
@@ -70,22 +63,34 @@ public class SubmitNewStoryServlet extends HttpServlet {
 		return this.response;
 	}
 
-	private void redirectFromInvalidAuthorName() {
+	private void redirect(final String url) {
 		final HttpServletResponse response = this.getResponse();
+		try {
+			response.sendRedirect(url);
+		} catch (IOException e) {
+			// TODO Find out what circumstances lead here.
+			e.printStackTrace();
+		}
+	}
+
+	private void redirectFromBlankTitle() {
+		final String url = "/new.jsp?error=blankTitle";
+		this.redirect(url);
+	}
+
+	private void redirectFromInvalidAuthorName() {
 		final String url = "/new.jsp?error=blankAuthor";
-		redirect(response, url);
+		this.redirect(url);
 	}
 
 	private void redirectFromInvalidBody() {
-		final HttpServletResponse response = this.getResponse();
 		final String url = "/new.jsp?error=blankContent";
-		redirect(response, url);
+		this.redirect(url);
 	}
 
-	private void redirectFromInvalidTitle() {
-		final HttpServletResponse response = this.getResponse();
-		final String url = "/new.jsp?error=blankTitle";
-		redirect(response, url);
+	private void redirectFromTooLongTitle() {
+		final String url = "/new.jsp?error=titleTooLong";
+		this.redirect(url);
 	}
 
 	private void setResponse(final HttpServletResponse response) {

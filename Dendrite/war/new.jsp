@@ -46,10 +46,16 @@
       <input id="title" name="title" type="text"></input><%
       
 	final boolean isThereABlankTitleError = view.isThereABlankTitleError();
+    final boolean isThereATooLongTitleError = view.isThereATooLongTitleError();
 	if (isThereABlankTitleError == true) {
 		
 		%>
       <i>Must not be blank</i><%
+		
+	} else if (isThereATooLongTitleError == true) {
+		
+		%>
+      <i>Must not be longer than 100 characters</i><%
 		
 	}
       

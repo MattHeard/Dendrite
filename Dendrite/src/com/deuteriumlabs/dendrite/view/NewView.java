@@ -6,18 +6,18 @@ public class NewView extends View {
 
 	private String error;
 
+	private String getError() {
+		return this.error;
+	}
+	
 	@Override
 	String getUrl() {
 		return "/new.jsp";
 	}
 	
-	public void setError(final String error) {
-		this.error = error;
-	}
-	
-	public boolean isThereABlankTitleError() {
+	public boolean isThereABlankAuthorError() {
 		final String error = this.getError();
-		return ("blankTitle".equals(error));	// Yoda-style to avoid null
+		return ("blankAuthor".equals(error));	// Yoda-style to avoid null
 	}
 	
 	public boolean isThereABlankContentError() {
@@ -25,12 +25,17 @@ public class NewView extends View {
 		return ("blankContent".equals(error));	// Yoda-style to avoid null
 	}
 	
-	public boolean isThereABlankAuthorError() {
+	public boolean isThereABlankTitleError() {
 		final String error = this.getError();
-		return ("blankAuthor".equals(error));	// Yoda-style to avoid null
+		return ("blankTitle".equals(error));	// Yoda-style to avoid null
+	}
+	
+	public boolean isThereATooLongTitleError() {
+		final String error = this.getError();
+		return ("titleTooLong".equals(error));	// Yoda-style to avoid null
 	}
 
-	private String getError() {
-		return this.error;
+	public void setError(final String error) {
+		this.error = error;
 	}
 }

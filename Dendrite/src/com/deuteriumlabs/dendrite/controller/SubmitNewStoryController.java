@@ -160,16 +160,21 @@ public class SubmitNewStoryController {
 		return isValid;
 	}
 
-	public boolean isTitleValid() {
+	public boolean isTitleBlank() {
 		final String title = this.getTitle();
-		final boolean isValid;
-		if (title == null)
-			isValid = false;
-		else if (title.equals(""))
-			isValid = false;
+		if (title == null || title.equals(""))
+			return true;
 		else
-			isValid = true;
-		return isValid;
+			return false;
+	}
+
+	public boolean isTitleTooLong() {
+		final String title = this.getTitle();
+		if (title != null) {
+			final int length = title.length();
+			return (length > 100);
+		} else
+			return false;
 	}
 
 	private boolean isUnallocated(final int candidate) {
