@@ -36,13 +36,18 @@ public class SubmitNewStoryServlet extends HttpServlet {
 		controller.setTitle(title);
 		final String content = req.getParameter("content");
 		controller.setContent(content);
+		final String authorName = req.getParameter("authorName");
+		controller.setAuthorName(authorName);
 		
 		final boolean isTitleValid = controller.isTitleValid();
 		final boolean isBodyValid = controller.isContentValid();
+		final boolean isAuthorNameValid = controller.isAuthorNameValid();
 		if (isTitleValid == false)
 			this.redirectFromInvalidTitle();
 		else if (isBodyValid == false)
-				this.redirectFromInvalidBody();
+			this.redirectFromInvalidBody();
+		else if (isAuthorNameValid == false)
+			this.redirectFromInvalidAuthorName();
 		else {
 			for (int i = 0; i < 5; i++) {
 				final String option = req.getParameter("option" + i);
@@ -52,9 +57,6 @@ public class SubmitNewStoryServlet extends HttpServlet {
 			
 			final String authorId = req.getParameter("authorId");
 			controller.setAuthorId(authorId);
-			
-			final String authorName = req.getParameter("authorName");
-			controller.setAuthorName(authorName);
 			
 			controller.buildNewStory();
 			
@@ -77,6 +79,12 @@ public class SubmitNewStoryServlet extends HttpServlet {
 	private void redirectFromInvalidTitle() {
 		final HttpServletResponse response = this.getResponse();
 		final String url = "/new.jsp?error=blankTitle";
+		redirect(response, url);
+	}
+
+	private void redirectFromInvalidAuthorName() {
+		final HttpServletResponse response = this.getResponse();
+		final String url = "/new.jsp?error=blankAuthor";
 		redirect(response, url);
 	}
 
