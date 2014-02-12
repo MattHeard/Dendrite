@@ -209,4 +209,16 @@ public class SubmitNewPageController {
 			isValid = true;
 		return isValid;
 	}
+
+	public boolean isAuthorNameValid() {
+		final String authorName = this.getAuthorName();
+		final boolean isValid;
+		if (authorName == null)
+			isValid = false;
+		else if (authorName.equals(""))
+			isValid = false;
+		else
+			isValid = true;
+		return isValid;
+	}
 }

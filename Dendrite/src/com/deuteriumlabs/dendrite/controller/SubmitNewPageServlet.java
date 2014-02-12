@@ -33,8 +33,14 @@ public class SubmitNewPageServlet extends HttpServlet {
 		final String content = req.getParameter("content");
 		controller.setContent(content);
 		final boolean isBodyValid = controller.isContentValid();
+		
+		final String authorName = req.getParameter("authorName");
+		controller.setAuthorName(authorName);
+		final boolean isAuthorNameValid = controller.isAuthorNameValid();
 		if (isBodyValid == false)
 			this.redirectFromInvalidBody();
+		else if (isAuthorNameValid == false)
+			this.redirectFromInvalidAuthorName();
 		else {
 			for (int i = 0; i < 5; i++) {
 				final String option = req.getParameter("option" + i);
@@ -45,9 +51,6 @@ public class SubmitNewPageServlet extends HttpServlet {
 			final String authorId = req.getParameter("authorId");
 			controller.setAuthorId(authorId);
 			
-			final String authorName = req.getParameter("authorName");
-			controller.setAuthorName(authorName);
-			
 			controller.buildNewPage();
 			
 			controller.connectIncomingOption();
@@ -56,6 +59,21 @@ public class SubmitNewPageServlet extends HttpServlet {
 			
 			resp.sendRedirect("/read.jsp?p=" + id);
 		}
+	}
+
+	private void redirectFromInvalidAuthorName() {
+		final HttpServletResponse response = this.getResponse();
+		final String from = this.getFrom();
+		String url = this.getWriteUrl(from);
+		url += "&error=blankAuthor";
+		redirect(response, url);
+	}
+
+	private String getWriteUrl(final String from) {
+		String url = "/write.jsp?from=" + from;
+		final String linkIndex = this.getLinkIndex();
+		url += "&linkIndex=" + linkIndex;
+		return url;
 	}
 
 	private void setLinkIndex(final String linkIndex) {
@@ -69,9 +87,7 @@ public class SubmitNewPageServlet extends HttpServlet {
 	private void redirectFromInvalidBody() {
 		final HttpServletResponse response = this.getResponse();
 		final String from = this.getFrom();
-		String url = "/write.jsp?from=" + from;
-		final String linkIndex = this.getLinkIndex();
-		url += "&linkIndex=" + linkIndex;
+		String url = this.getWriteUrl(from);
 		url += "&error=blankContent";
 		redirect(response, url);
 	}

@@ -103,7 +103,17 @@
         
 		}
         
-		%>></input>
+		%>></input><%
+      
+	final boolean isThereABlankAuthorError = view.isThereABlankAuthorError();
+	if (isThereABlankAuthorError == true) {
+		
+		%>
+      <i>Must not be blank</i><%
+		
+	}
+      
+      %>
       <br />
       <button type="submit">Submit</button>
     </form><%

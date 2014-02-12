@@ -22,6 +22,11 @@ public class WriteView extends View {
 		final String error = this.getError();
 		return ("blankContent".equals(error));	// Yoda-style to avoid null
 	}
+	
+	public boolean isThereABlankAuthorError() {
+		final String error = this.getError();
+		return ("blankAuthor".equals(error));	// Yoda-style to avoid null
+	}
 
 	private String linkIndex;
 	private String from;
