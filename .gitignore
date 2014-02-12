@@ -1,4 +1,1 @@
-
-Dendrite/war/WEB-INF/appengine-generated/datastore-indexes-auto.xml
-
-Dendrite/war/WEB-INF/appengine-generated/local_db.bin
+*.bin
