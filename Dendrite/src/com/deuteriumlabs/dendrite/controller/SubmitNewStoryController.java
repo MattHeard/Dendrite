@@ -136,6 +136,42 @@ public class SubmitNewStoryController {
 		return this.title;
 	}
 
+	public boolean isAuthorNameValid() {
+		final String authorName = this.getAuthorName();
+		final boolean isValid;
+		if (authorName == null)
+			isValid = false;
+		else if (authorName.equals(""))
+			isValid = false;
+		else
+			isValid = true;
+		return isValid;
+	}
+
+	public boolean isContentValid() {
+		final String content = this.getContent();
+		final boolean isValid;
+		if (content == null)
+			isValid = false;
+		else if (content.equals(""))
+			isValid = false;
+		else
+			isValid = true;
+		return isValid;
+	}
+
+	public boolean isTitleValid() {
+		final String title = this.getTitle();
+		final boolean isValid;
+		if (title == null)
+			isValid = false;
+		else if (title.equals(""))
+			isValid = false;
+		else
+			isValid = true;
+		return isValid;
+	}
+
 	private boolean isUnallocated(final int candidate) {
 		final PageId id = new PageId();
 		id.setNumber(candidate);
@@ -170,42 +206,6 @@ public class SubmitNewStoryController {
 
 	public void setTitle(final String title) {
 		this.title = title;
-	}
-
-	public boolean isTitleValid() {
-		final String title = this.getTitle();
-		final boolean isValid;
-		if (title == null)
-			isValid = false;
-		else if (title.equals(""))
-			isValid = false;
-		else
-			isValid = true;
-		return isValid;
-	}
-
-	public boolean isContentValid() {
-		final String content = this.getContent();
-		final boolean isValid;
-		if (content == null)
-			isValid = false;
-		else if (content.equals(""))
-			isValid = false;
-		else
-			isValid = true;
-		return isValid;
-	}
-
-	public boolean isAuthorNameValid() {
-		final String authorName = this.getAuthorName();
-		final boolean isValid;
-		if (authorName == null)
-			isValid = false;
-		else if (authorName.equals(""))
-			isValid = false;
-		else
-			isValid = true;
-		return isValid;
 	}
 
 }

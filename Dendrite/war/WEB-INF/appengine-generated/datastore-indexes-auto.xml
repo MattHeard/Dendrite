@@ -1,13 +1,4 @@
-<!-- Indices written at Wed, 12 Feb 2014 19:16:51 NZDT -->
+<!-- Indices written at Wed, 12 Feb 2014 19:50:47 NZDT -->
 
-<datastore-indexes>
+<datastore-indexes/>
 
-    <!-- Used 12 times in query history -->
-    <datastore-index kind="StoryPage" ancestor="false" source="auto">
-        <property name="authorId" direction="asc"/>
-        <property name="beginningNumber" direction="asc"/>
-        <property name="idNumber" direction="asc"/>
-        <property name="idVersion" direction="asc"/>
-    </datastore-index>
-
-</datastore-indexes>

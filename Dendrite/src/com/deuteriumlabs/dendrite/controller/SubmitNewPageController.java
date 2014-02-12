@@ -11,36 +11,16 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
 public class SubmitNewPageController {
 	private static final int MAX_EXPONENT = 30;
 
-	private PageId from;
-	private int linkIndex;
-	private String content;
-	private List<String> options;
 	private String authorId;
 	private String authorName;
-
+	private String content;
+	private PageId from;
 	private PageId id;
+	private int linkIndex;
+	private List<String> options;
 	
 	public SubmitNewPageController() {
 		this.options = new ArrayList<String>();
-	}
-
-	public void setFrom(final String from) {
-		final PageId id = new PageId(from);
-		this.from = id;
-	}
-
-	public void setLinkIndex(String linkIndex) {
-		int indexValue;
-		try {
-			indexValue = Integer.parseInt(linkIndex);
-		} catch (NumberFormatException e) {
-			indexValue = -1;
-		}
-		this.linkIndex = indexValue;
-	}
-
-	public void setContent(final String content) {
-		this.content = content;
 	}
 
 	public void addOption(final String option) {
@@ -48,10 +28,6 @@ public class SubmitNewPageController {
 		final int size = options.size();
 		if (size < 5)
 			options.add(option);
-	}
-
-	private List<String> getOptions() {
-		return this.options;
 	}
 
 	public void buildNewPage() {
@@ -94,41 +70,17 @@ public class SubmitNewPageController {
 			page.create();
 	}
 
-	private String getAuthorId() {
-		return this.authorId;
-	}
-
-	private String getAuthorName() {
-		return this.authorName;
-	}
-
-	private PageId getBeginning() {
-		final StoryPage parent = new StoryPage();
+	public void connectIncomingOption() {
+		final StoryOption incoming = new StoryOption();
 		final PageId from = this.getFrom();
-		parent.setId(from);
-		parent.read();
-		return parent.getBeginning();
-	}
-
-	private PageId getFrom() {
-		return this.from;
-	}
-
-	private String getContent() {
-		return this.content;
-	}
-
-	public PageId getId() {
-		return this.id;
-	}
-
-	private void setNewPageId() {
-		final PageId id = this.findUnallocatedPageId();
-		this.setPageId(id);
-	}
-
-	private void setPageId(final PageId id) {
-		this.id = id;
+		incoming.setSource(from);
+		final int linkIndex = this.getLinkIndex();
+		incoming.setListIndex(linkIndex);
+		incoming.read();
+		final PageId targetId = this.getId();
+		final int targetPageNumber = targetId.getNumber();
+		incoming.setTarget(targetPageNumber);
+		incoming.update();
 	}
 
 	private PageId findUnallocatedPageId() {
@@ -153,17 +105,6 @@ public class SubmitNewPageController {
 		return -1; // Theoretically unreachable.
 	}
 
-	private boolean isUnallocated(final int candidate) {
-		final PageId id = new PageId();
-		id.setNumber(candidate);
-		final String version = "a";
-		id.setVersion(version);
-		final StoryPage page = new StoryPage();
-		page.setId(id);
-		final boolean isInStore = page.isInStore();
-		return (isInStore == false);
-	}
-
 	private int generateRandomNumber(final int exponent) {
 		final int POWER_BASE = 2;
 		double upper = Math.pow(POWER_BASE, exponent);
@@ -173,29 +114,52 @@ public class SubmitNewPageController {
 		return (int) newNumber;
 	}
 
-	public void connectIncomingOption() {
-		final StoryOption incoming = new StoryOption();
+	private String getAuthorId() {
+		return this.authorId;
+	}
+
+	private String getAuthorName() {
+		return this.authorName;
+	}
+
+	private PageId getBeginning() {
+		final StoryPage parent = new StoryPage();
 		final PageId from = this.getFrom();
-		incoming.setSource(from);
-		final int linkIndex = this.getLinkIndex();
-		incoming.setListIndex(linkIndex);
-		incoming.read();
-		final PageId targetId = this.getId();
-		final int targetPageNumber = targetId.getNumber();
-		incoming.setTarget(targetPageNumber);
-		incoming.update();
+		parent.setId(from);
+		parent.read();
+		return parent.getBeginning();
+	}
+
+	private String getContent() {
+		return this.content;
+	}
+
+	private PageId getFrom() {
+		return this.from;
+	}
+
+	public PageId getId() {
+		return this.id;
 	}
 
 	private int getLinkIndex() {
 		return this.linkIndex;
 	}
-	
-	public void setAuthorId(final String authorId) {
-		this.authorId = authorId;
+
+	private List<String> getOptions() {
+		return this.options;
 	}
 
-	public void setAuthorName(final String authorName) {
-		this.authorName = authorName;
+	public boolean isAuthorNameValid() {
+		final String authorName = this.getAuthorName();
+		final boolean isValid;
+		if (authorName == null)
+			isValid = false;
+		else if (authorName.equals(""))
+			isValid = false;
+		else
+			isValid = true;
+		return isValid;
 	}
 
 	public boolean isContentValid() {
@@ -210,15 +174,50 @@ public class SubmitNewPageController {
 		return isValid;
 	}
 
-	public boolean isAuthorNameValid() {
-		final String authorName = this.getAuthorName();
-		final boolean isValid;
-		if (authorName == null)
-			isValid = false;
-		else if (authorName.equals(""))
-			isValid = false;
-		else
-			isValid = true;
-		return isValid;
+	private boolean isUnallocated(final int candidate) {
+		final PageId id = new PageId();
+		id.setNumber(candidate);
+		final String version = "a";
+		id.setVersion(version);
+		final StoryPage page = new StoryPage();
+		page.setId(id);
+		final boolean isInStore = page.isInStore();
+		return (isInStore == false);
+	}
+
+	public void setAuthorId(final String authorId) {
+		this.authorId = authorId;
+	}
+
+	public void setAuthorName(final String authorName) {
+		this.authorName = authorName;
+	}
+
+	public void setContent(final String content) {
+		this.content = content;
+	}
+	
+	public void setFrom(final String from) {
+		final PageId id = new PageId(from);
+		this.from = id;
+	}
+
+	public void setLinkIndex(String linkIndex) {
+		int indexValue;
+		try {
+			indexValue = Integer.parseInt(linkIndex);
+		} catch (NumberFormatException e) {
+			indexValue = -1;
+		}
+		this.linkIndex = indexValue;
+	}
+
+	private void setNewPageId() {
+		final PageId id = this.findUnallocatedPageId();
+		this.setPageId(id);
+	}
+
+	private void setPageId(final PageId id) {
+		this.id = id;
 	}
 }

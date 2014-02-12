@@ -70,6 +70,12 @@ public class SubmitNewStoryServlet extends HttpServlet {
 		return this.response;
 	}
 
+	private void redirectFromInvalidAuthorName() {
+		final HttpServletResponse response = this.getResponse();
+		final String url = "/new.jsp?error=blankAuthor";
+		redirect(response, url);
+	}
+
 	private void redirectFromInvalidBody() {
 		final HttpServletResponse response = this.getResponse();
 		final String url = "/new.jsp?error=blankContent";
@@ -79,12 +85,6 @@ public class SubmitNewStoryServlet extends HttpServlet {
 	private void redirectFromInvalidTitle() {
 		final HttpServletResponse response = this.getResponse();
 		final String url = "/new.jsp?error=blankTitle";
-		redirect(response, url);
-	}
-
-	private void redirectFromInvalidAuthorName() {
-		final HttpServletResponse response = this.getResponse();
-		final String url = "/new.jsp?error=blankAuthor";
 		redirect(response, url);
 	}
 

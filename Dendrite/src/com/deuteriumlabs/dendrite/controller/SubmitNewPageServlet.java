@@ -14,6 +14,7 @@ public class SubmitNewPageServlet extends HttpServlet {
 	private static final long serialVersionUID = -1895973678482433819L;
 	private String from;
 	private String linkIndex;
+	private HttpServletResponse response;
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -61,53 +62,28 @@ public class SubmitNewPageServlet extends HttpServlet {
 		}
 	}
 
-	private void redirectFromInvalidAuthorName() {
-		final HttpServletResponse response = this.getResponse();
-		final String from = this.getFrom();
-		String url = this.getWriteUrl(from);
-		url += "&error=blankAuthor";
-		redirect(response, url);
-	}
-
-	private String getWriteUrl(final String from) {
-		String url = "/write.jsp?from=" + from;
-		final String linkIndex = this.getLinkIndex();
-		url += "&linkIndex=" + linkIndex;
-		return url;
-	}
-
-	private void setLinkIndex(final String linkIndex) {
-		this.linkIndex = linkIndex;
-	}
-
-	private void setFrom(final String from) {
-		this.from = from;
-	}
-
-	private void redirectFromInvalidBody() {
-		final HttpServletResponse response = this.getResponse();
-		final String from = this.getFrom();
-		String url = this.getWriteUrl(from);
-		url += "&error=blankContent";
-		redirect(response, url);
+	private String getFrom() {
+		return this.from;
 	}
 
 	private String getLinkIndex() {
 		return this.linkIndex;
 	}
 
-	private String getFrom() {
-		return this.from;
-	}
-
 	private HttpServletResponse getResponse() {
 		return this.response;
 	}
-	
-	private HttpServletResponse response;
-	
-	private static void redirect(final HttpServletResponse response,
-			final String url) {
+
+	private String getWriteUrl() {
+		final String from = this.getFrom();
+		String url = "/write.jsp?from=" + from;
+		final String linkIndex = this.getLinkIndex();
+		url += "&linkIndex=" + linkIndex;
+		return url;
+	}
+
+	private void redirect(String url) {
+		final HttpServletResponse response = this.getResponse();
 		try {
 			response.sendRedirect(url);
 		} catch (IOException e) {
@@ -116,6 +92,26 @@ public class SubmitNewPageServlet extends HttpServlet {
 		}
 	}
 
+	private void redirectFromInvalidAuthorName() {
+		String url = getWriteUrl();
+		url += "&error=blankAuthor";
+		this.redirect(url);
+	}
+
+	private void redirectFromInvalidBody() {
+		String url = getWriteUrl();
+		url += "&error=blankContent";
+		this.redirect(url);
+	}
+
+	private void setFrom(final String from) {
+		this.from = from;
+	}
+	
+	private void setLinkIndex(final String linkIndex) {
+		this.linkIndex = linkIndex;
+	}
+	
 	private void setResponse(final HttpServletResponse response) {
 		this.response = response;
 	}

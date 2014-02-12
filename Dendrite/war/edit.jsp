@@ -15,6 +15,9 @@
     final EditView view = new EditView();
 	final String pageNumber = request.getParameter("p");
 	view.setPageNumber(pageNumber);
+    final String error = request.getParameter("error");
+    view.setError(error);
+    
     final boolean isUserLoggedIn = EditView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
         final String authorLink = EditView.getAuthorLink();
@@ -46,7 +49,17 @@
       <input type="hidden" name="pageNumber" value="${pageNumber}" />
       <label for="content">Story</label>
       <br />
-      <textarea id="content" name="content"></textarea>
+      <textarea id="content" name="content"></textarea><%
+      
+	final boolean isThereABlankContentError = view.isThereABlankContentError();
+	if (isThereABlankContentError == true) {
+		
+		%>
+      <i>Must not be blank</i><%
+		
+	}
+      
+      %>
       <br />
       <label for="option0">Options</label>
       <br /><%
@@ -80,7 +93,17 @@
         
 		}
         
-        %>></input>
+        %>></input><%
+      
+	final boolean isThereABlankAuthorError = view.isThereABlankAuthorError();
+	if (isThereABlankAuthorError == true) {
+		
+		%>
+      <i>Must not be blank</i><%
+		
+	}
+      
+      %>
         <br />
         <button type="submit">Submit</button>
     </form><%

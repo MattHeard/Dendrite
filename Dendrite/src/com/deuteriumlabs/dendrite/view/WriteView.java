@@ -8,28 +8,40 @@ import com.deuteriumlabs.dendrite.model.StoryOption;
  */
 public class WriteView extends View {
 
-	private String error;
-	
-	public void setError(final String error) {
-		this.error = error;
+	private static int getListIndexValue(final String listIndex) {
+		try {
+			return Integer.parseInt(listIndex);
+		} catch (NumberFormatException e) {
+			return -1;
+		}
 	}
-
+	
+	private String error;
+	private String from;
+	private String linkIndex;
+	
 	private String getError() {
 		return this.error;
 	}
-	
-	public boolean isThereABlankContentError() {
-		final String error = this.getError();
-		return ("blankContent".equals(error));	// Yoda-style to avoid null
+
+	private String getFrom() {
+		return this.from;
 	}
-	
-	public boolean isThereABlankAuthorError() {
-		final String error = this.getError();
-		return ("blankAuthor".equals(error));	// Yoda-style to avoid null
+	private String getListIndex() {
+		return this.linkIndex;
 	}
 
-	private String linkIndex;
-	private String from;
+	public String getOptionText() {
+		final StoryOption option = new StoryOption();
+		final String from = this.getFrom();
+		final PageId source = new PageId(from);
+		option.setSource(source);
+		final String listIndex = this.getListIndex();
+		int listIndexValue = getListIndexValue(listIndex);
+		option.setListIndex(listIndexValue);
+		option.read();
+		return option.getText();
+	}
 
 	@Override
 	String getUrl() {
@@ -41,25 +53,19 @@ public class WriteView extends View {
 		return url;
 	}
 
-	private String getListIndex() {
-		return this.linkIndex;
-	}
-
-	private String getFrom() {
-		return this.from;
-	}
-	
-	public void setFrom(final String from) {
-		this.from = from;
-	}
-	
-	public void setLinkIndex(final String linkIndex) {
-		this.linkIndex = linkIndex;
-	}
-	
 	public boolean isNewStory() {
 		final String from = this.getFrom();
 		return ("0".equals(from));
+	}
+	
+	public boolean isThereABlankAuthorError() {
+		final String error = this.getError();
+		return ("blankAuthor".equals(error));	// Yoda-style to avoid null
+	}
+	
+	public boolean isThereABlankContentError() {
+		final String error = this.getError();
+		return ("blankContent".equals(error));	// Yoda-style to avoid null
 	}
 	
 	public boolean isValidOption() {
@@ -72,24 +78,16 @@ public class WriteView extends View {
 		option.setListIndex(listIndexValue);
 		return option.isInStore();
 	}
+	
+	public void setError(final String error) {
+		this.error = error;
+	}
 
-	private static int getListIndexValue(final String listIndex) {
-		try {
-			return Integer.parseInt(listIndex);
-		} catch (NumberFormatException e) {
-			return -1;
-		}
+	public void setFrom(final String from) {
+		this.from = from;
 	}
 	
-	public String getOptionText() {
-		final StoryOption option = new StoryOption();
-		final String from = this.getFrom();
-		final PageId source = new PageId(from);
-		option.setSource(source);
-		final String listIndex = this.getListIndex();
-		int listIndexValue = getListIndexValue(listIndex);
-		option.setListIndex(listIndexValue);
-		option.read();
-		return option.getText();
+	public void setLinkIndex(final String linkIndex) {
+		this.linkIndex = linkIndex;
 	}
 }

@@ -109,6 +109,30 @@ public class EditPageController {
 		return this.pageNumber;
 	}
 
+	public boolean isAuthorNameValid() {
+		final String authorName = this.getAuthorName();
+		final boolean isValid;
+		if (authorName == null)
+			isValid = false;
+		else if (authorName.equals(""))
+			isValid = false;
+		else
+			isValid = true;
+		return isValid;
+	}
+
+	public boolean isContentValid() {
+		final String content = this.getContent();
+		final boolean isValid;
+		if (content == null)
+			isValid = false;
+		else if (content.equals(""))
+			isValid = false;
+		else
+			isValid = true;
+		return isValid;
+	}
+
 	public void setAuthorId(final String authorId) {
 		this.authorId = authorId;
 	}
