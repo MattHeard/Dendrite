@@ -19,8 +19,8 @@ public class SubmitNewServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		this.setResponse(resp);
-		final SubmitNewStoryController controller;
-		controller = new SubmitNewStoryController();
+		final SubmitNewController controller;
+		controller = new SubmitNewController();
 		
 		final String title = req.getParameter("title");
 		controller.setTitle(title);

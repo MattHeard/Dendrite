@@ -9,7 +9,7 @@ import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryOption;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 
-public class SubmitNewStoryController {
+public class SubmitNewController {
 
 	private static final int MAX_EXPONENT = 30;
 	private String authorId;
@@ -19,7 +19,7 @@ public class SubmitNewStoryController {
 	private List<String> options;
 	private String title;
 	
-	public SubmitNewStoryController() {
+	public SubmitNewController() {
 		this.options = new ArrayList<String>();
 	}
 
