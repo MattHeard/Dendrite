@@ -49,7 +49,7 @@
    		
     %>
     <div>${optionText}</div>
-    <form action="submitNewPage" method="post"><%
+    <form action="submitWrite" method="post"><%
     
 	    pageContext.setAttribute("from", from);
 	    pageContext.setAttribute("linkIndex", linkIndex);
