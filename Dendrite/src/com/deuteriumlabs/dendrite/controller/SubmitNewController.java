@@ -6,6 +6,7 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
 
 public class SubmitNewController extends SubmitController {
 
+	private static final int MAX_TITLE_LEN = 100;
 	private String title;
 
 	public void buildNewStory() {
@@ -57,7 +58,7 @@ public class SubmitNewController extends SubmitController {
 		final String title = this.getTitle();
 		if (title != null) {
 			final int length = title.length();
-			return (length > 100);
+			return (length > MAX_TITLE_LEN);
 		} else
 			return false;
 	}
