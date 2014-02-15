@@ -27,7 +27,6 @@
     }
     
     %>
-    
   </head>
   <body>
     <h1><a href="/">Dendrite</a></h1><%
@@ -82,8 +81,8 @@
     		pageContext.setAttribute("optionText", optionText);
     		
     		%>
-    <div><a href="${optionLink}"
-        >${optionText}</a></div><%
+    <div><a href="${optionLink}"<%
+    %>>${optionText}</a></div><%
 
     	}
     	String authorName = view.getAuthorName();
@@ -113,11 +112,14 @@
     
         %>.</div><%
     
-        final String first = view.getFirstUrl();
-        pageContext.setAttribute("first", first);
+        if (isBeginning == false) {
+        	final String first = view.getFirstUrl();
+        	pageContext.setAttribute("first", first);
     
-        %>
+        	%>
     <div><a href="${first}">Return to the first page of this story.</a></div><%
+    
+        }
 	
     } else {
 	
