@@ -20,8 +20,8 @@ public class SubmitWriteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		this.setResponse(resp);
-		final SubmitNewPageController controller;
-		controller = new SubmitNewPageController();
+		final SubmitWriteController controller;
+		controller = new SubmitWriteController();
 		
 		final String from = req.getParameter("from");
 		this.setFrom(from);
