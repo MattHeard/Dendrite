@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.deuteriumlabs.dendrite.model.PageId;
 
-public class EditPageServlet extends HttpServlet {
+public class SubmitEditServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6369008865421800462L;
 	private String pageNumber;

@@ -45,7 +45,7 @@
     	pageContext.setAttribute("pageNumber", pageNumber);
     	
     	%>
-    <form action="editPage" method="post">
+    <form action="submitEdit" method="post">
       <input type="hidden" name="pageNumber" value="${pageNumber}" />
       <label for="content">Story</label>
       <br />

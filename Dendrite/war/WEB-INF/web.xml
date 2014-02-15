@@ -5,20 +5,12 @@ xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
     <servlet>
-        <servlet-name>EditPage</servlet-name>
-        <servlet-class>com.deuteriumlabs.dendrite.controller.EditPageServlet</servlet-class>
+        <servlet-name>SubmitEdit</servlet-name>
+        <servlet-class>com.deuteriumlabs.dendrite.controller.SubmitEditServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>EditPage</servlet-name>
-        <url-pattern>/editPage</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>SubmitWrite</servlet-name>
-        <servlet-class>com.deuteriumlabs.dendrite.controller.SubmitWriteServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SubmitWrite</servlet-name>
-        <url-pattern>/submitWrite</url-pattern>
+        <servlet-name>SubmitEdit</servlet-name>
+        <url-pattern>/submitEdit</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>SubmitNew</servlet-name>
@@ -27,6 +19,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
     <servlet-mapping>
         <servlet-name>SubmitNew</servlet-name>
         <url-pattern>/submitNewStory</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SubmitWrite</servlet-name>
+        <servlet-class>com.deuteriumlabs.dendrite.controller.SubmitWriteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SubmitWrite</servlet-name>
+        <url-pattern>/submitWrite</url-pattern>
     </servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
