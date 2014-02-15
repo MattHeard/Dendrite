@@ -8,7 +8,7 @@ import com.deuteriumlabs.dendrite.model.StoryOption;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 
 
-public class EditPageController {
+public class SubmitEditController {
 
 	private String authorId;
 	private String authorName;
@@ -17,7 +17,7 @@ public class EditPageController {
 	private ArrayList<String> options;
 	private int pageNumber;
 	
-	public EditPageController() {
+	public SubmitEditController() {
 		this.options = new ArrayList<String>();
 	}
 

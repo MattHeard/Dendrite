@@ -19,7 +19,7 @@ public class SubmitEditServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		this.setResponse(resp);
-		final EditPageController controller = new EditPageController();
+		final SubmitEditController controller = new SubmitEditController();
 		
 		final String pageNumber = req.getParameter("pageNumber");
 		this.setPageNumber(pageNumber);
