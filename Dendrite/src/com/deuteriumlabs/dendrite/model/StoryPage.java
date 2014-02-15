@@ -56,6 +56,16 @@ public class StoryPage extends Model {
 		return versionString;
 	}
 
+	public static int countAllPagesWrittenBy(final String authorId) {
+		final Query query = new Query(KIND_NAME);
+		final Filter filter = getAuthorIdFilter(authorId);
+		query.setFilter(filter);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		return preparedQuery.countEntities(fetchOptions);
+	}
+
 	public static int countVersions(final int number) {
 		final Query query = new Query(KIND_NAME);
 		final Filter filter = getIdNumberFilter(number);
@@ -188,11 +198,11 @@ public class StoryPage extends Model {
 		} else
 			return "a";
 	}
-
 	private String authorId;
 	private String authorName;
 	private PageId beginning;
 	private PageId id;
+
 	private Text text;
 
 	public StoryPage() {
@@ -456,15 +466,5 @@ public class StoryPage extends Model {
 	private void setTextInEntity(Entity entity) {
 		final Text text = this.getText();
 		entity.setProperty(TEXT_PROPERTY, text);
-	}
-
-	public static int countAllPagesWrittenBy(final String authorId) {
-		final Query query = new Query(KIND_NAME);
-		final Filter filter = getAuthorIdFilter(authorId);
-		query.setFilter(filter);
-		final DatastoreService store = getStore();
-		final PreparedQuery preparedQuery = store.prepare(query);
-		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		return preparedQuery.countEntities(fetchOptions);
 	}
 }

@@ -2,7 +2,6 @@
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.ReadView"
 %><%@ page import="java.util.List"
-
 %><!DOCTYPE html>
 <html>
   <head>
@@ -42,7 +41,7 @@
         final String logoutLink = view.getLogoutLink();
         pageContext.setAttribute("logoutLink", logoutLink);
         
-    %>
+        %>
     <div>Welcome back, <a href="${authorLink}">${userName}</a>.
       (<a href="${logoutLink}">Logout</a>)
     </div><%
@@ -72,7 +71,7 @@
     	final String text = view.getPageText();
     	pageContext.setAttribute("text", text);
     
-	%>
+	    %>
     <div>${text}</div><%
     
     	final int numberOfOptions = view.getNumberOfOptions();
@@ -104,19 +103,25 @@
     		
     	}
     
-    %>${authorName}<%
+        %>${authorName}<%
     
     	if (isAuthorAnonymous == false) {
     		
-    		%></a><%
+    	    %></a><%
     		
     	}
     
-    %>.</div><%
+        %>.</div><%
+    
+        final String first = view.getFirstUrl();
+        pageContext.setAttribute("first", first);
+    
+        %>
+    <div><a href="${first}">Return to the first page of this story.</a></div><%
 	
     } else {
 	
-	%>
+	    %>
     <div>This page doesn't appear to be written yet.</div><%
 	
     }
