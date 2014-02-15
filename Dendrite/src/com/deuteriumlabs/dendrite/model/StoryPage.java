@@ -191,11 +191,8 @@ public class StoryPage extends Model {
 
 	private String authorId;
 	private String authorName;
-
 	private PageId beginning;
-
 	private PageId id;
-
 	private Text text;
 
 	public StoryPage() {
