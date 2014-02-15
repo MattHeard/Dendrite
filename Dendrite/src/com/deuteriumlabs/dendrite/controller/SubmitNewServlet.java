@@ -3,18 +3,15 @@ package com.deuteriumlabs.dendrite.controller;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.deuteriumlabs.dendrite.model.PageId;
 
-public class SubmitNewServlet extends HttpServlet {
+public class SubmitNewServlet extends SubmitServlet {
 
 	private static final long serialVersionUID = -8415391685212281716L;
 	
-	private HttpServletResponse response;
-
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -59,20 +56,6 @@ public class SubmitNewServlet extends HttpServlet {
 		}
 	}
 
-	private HttpServletResponse getResponse() {
-		return this.response;
-	}
-
-	private void redirect(final String url) {
-		final HttpServletResponse response = this.getResponse();
-		try {
-			response.sendRedirect(url);
-		} catch (IOException e) {
-			// TODO Find out what circumstances lead here.
-			e.printStackTrace();
-		}
-	}
-
 	private void redirectFromBlankTitle() {
 		final String url = "/new.jsp?error=blankTitle";
 		this.redirect(url);
@@ -91,9 +74,5 @@ public class SubmitNewServlet extends HttpServlet {
 	private void redirectFromTooLongTitle() {
 		final String url = "/new.jsp?error=titleTooLong";
 		this.redirect(url);
-	}
-
-	private void setResponse(final HttpServletResponse response) {
-		this.response = response;
 	}
 }

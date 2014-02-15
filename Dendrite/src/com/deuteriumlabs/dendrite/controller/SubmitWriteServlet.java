@@ -3,18 +3,16 @@ package com.deuteriumlabs.dendrite.controller;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.deuteriumlabs.dendrite.model.PageId;
 
-public class SubmitWriteServlet extends HttpServlet {
+public class SubmitWriteServlet extends SubmitServlet {
 
 	private static final long serialVersionUID = -1895973678482433819L;
 	private String from;
 	private String linkIndex;
-	private HttpServletResponse response;
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -70,26 +68,12 @@ public class SubmitWriteServlet extends HttpServlet {
 		return this.linkIndex;
 	}
 
-	private HttpServletResponse getResponse() {
-		return this.response;
-	}
-
 	private String getWriteUrl() {
 		final String from = this.getFrom();
 		String url = "/write.jsp?from=" + from;
 		final String linkIndex = this.getLinkIndex();
 		url += "&linkIndex=" + linkIndex;
 		return url;
-	}
-
-	private void redirect(String url) {
-		final HttpServletResponse response = this.getResponse();
-		try {
-			response.sendRedirect(url);
-		} catch (IOException e) {
-			// TODO Find out what circumstances lead here.
-			e.printStackTrace();
-		}
 	}
 
 	private void redirectFromInvalidAuthorName() {
@@ -110,9 +94,5 @@ public class SubmitWriteServlet extends HttpServlet {
 	
 	private void setLinkIndex(final String linkIndex) {
 		this.linkIndex = linkIndex;
-	}
-	
-	private void setResponse(final HttpServletResponse response) {
-		this.response = response;
 	}
 }
