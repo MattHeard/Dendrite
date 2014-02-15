@@ -84,7 +84,12 @@ public class SubmitEditController {
 		id.setVersion("a");
 		alternative.setId(id);
 		alternative.read();
-		return alternative.getBeginning();
+		final PageId alternativeBeginning = alternative.getBeginning();
+		final int altBeginningNumber = alternativeBeginning.getNumber();
+		if (altBeginningNumber != number)
+			return alternativeBeginning;
+		else
+			return this.getId();
 	}
 
 	private String getContent() {
