@@ -114,7 +114,10 @@ public class ReadView extends View {
 	public String getPageText() {
 		final StoryPage page = this.getPage();
 		final Text text = page.getText();
-		return text.getValue();
+		if (text != null)
+			return text.getValue();
+		else
+			return null;
 	}
 	
 	public int getNumberOfOptions() {
