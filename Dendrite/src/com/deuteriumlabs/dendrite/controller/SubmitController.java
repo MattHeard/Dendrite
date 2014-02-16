@@ -84,17 +84,10 @@ public abstract class SubmitController {
 			isValid = true;
 		return isValid;
 	}
-
-	public boolean isContentValid() {
+	
+	public boolean isContentBlank() {
 		final String content = this.getContent();
-		final boolean isValid;
-		if (content == null)
-			isValid = false;
-		else if (content.equals(""))
-			isValid = false;
-		else
-			isValid = true;
-		return isValid;
+		return (content == null || content.equals(""));
 	}
 
 	public void setAuthorId(final String authorId) {

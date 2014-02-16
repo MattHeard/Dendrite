@@ -18,24 +18,21 @@ public class SubmitNewServlet extends SubmitServlet {
 		this.setResponse(resp);
 		final SubmitNewController controller;
 		controller = new SubmitNewController();
-		
 		final String title = req.getParameter("title");
 		controller.setTitle(title);
 		final String content = req.getParameter("content");
 		controller.setContent(content);
 		final String authorName = req.getParameter("authorName");
 		controller.setAuthorName(authorName);
-		
 		final boolean isTitleBlank = controller.isTitleBlank();
 		final boolean isTitleTooLong = controller.isTitleTooLong();
-		final boolean isBodyValid = controller.isContentValid();
 		final boolean isAuthorNameValid = controller.isAuthorNameValid();
 		if (isTitleBlank == true)
 			this.redirectFromBlankTitle();
 		else if (isTitleTooLong == true)
 			this.redirectFromTooLongTitle();
-		else if (isBodyValid == false)
-			this.redirectFromInvalidBody();
+		else if (controller.isContentBlank() == true)
+			this.redirectFromBlankContent();
 		else if (isAuthorNameValid == false)
 			this.redirectFromInvalidAuthorName();
 		else {
@@ -44,16 +41,17 @@ public class SubmitNewServlet extends SubmitServlet {
 				if (option != null)
 					controller.addOption(option);
 			}
-			
 			final String authorId = req.getParameter("authorId");
 			controller.setAuthorId(authorId);
-			
 			controller.buildNewStory();
-			
 			final PageId id = controller.getId();
-			
 			resp.sendRedirect("/read.jsp?p=" + id);
 		}
+	}
+
+	private void redirectFromBlankContent() {
+		final String url = "/new.jsp?error=blankContent";
+		this.redirect(url);
 	}
 
 	private void redirectFromBlankTitle() {
@@ -63,11 +61,6 @@ public class SubmitNewServlet extends SubmitServlet {
 
 	private void redirectFromInvalidAuthorName() {
 		final String url = "/new.jsp?error=blankAuthor";
-		this.redirect(url);
-	}
-
-	private void redirectFromInvalidBody() {
-		final String url = "/new.jsp?error=blankContent";
 		this.redirect(url);
 	}
 

@@ -25,10 +25,9 @@ public class SubmitEditServlet extends SubmitServlet {
 		controller.setContent(content);
 		final String authorName = req.getParameter("authorName");
 		controller.setAuthorName(authorName);
-		final boolean isContentValid = controller.isContentValid();
 		final boolean isAuthorNameValid = controller.isAuthorNameValid();
-		if (isContentValid == false)
-			this.redirectFromInvalidContent();
+		if (controller.isContentBlank() == true)
+			this.redirectFromBlankContent();
 		else if (isAuthorNameValid == false)
 			this.redirectFromInvalidAuthorName();
 		else {
@@ -60,7 +59,7 @@ public class SubmitEditServlet extends SubmitServlet {
 		this.redirect(url);
 	}
 
-	private void redirectFromInvalidContent() {
+	private void redirectFromBlankContent() {
 		String url = getEditUrl();
 		url += "&error=blankContent";
 		this.redirect(url);

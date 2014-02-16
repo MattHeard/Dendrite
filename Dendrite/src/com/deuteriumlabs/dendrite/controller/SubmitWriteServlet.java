@@ -31,13 +31,11 @@ public class SubmitWriteServlet extends SubmitServlet {
 		
 		final String content = req.getParameter("content");
 		controller.setContent(content);
-		final boolean isBodyValid = controller.isContentValid();
-		
 		final String authorName = req.getParameter("authorName");
 		controller.setAuthorName(authorName);
 		final boolean isAuthorNameValid = controller.isAuthorNameValid();
-		if (isBodyValid == false)
-			this.redirectFromInvalidBody();
+		if (controller.isContentBlank() == true)
+			this.redirectFromBlankContent();
 		else if (isAuthorNameValid == false)
 			this.redirectFromInvalidAuthorName();
 		else {
@@ -82,7 +80,7 @@ public class SubmitWriteServlet extends SubmitServlet {
 		this.redirect(url);
 	}
 
-	private void redirectFromInvalidBody() {
+	private void redirectFromBlankContent() {
 		String url = getWriteUrl();
 		url += "&error=blankContent";
 		this.redirect(url);
