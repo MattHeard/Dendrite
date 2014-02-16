@@ -33,10 +33,9 @@ public class SubmitWriteServlet extends SubmitServlet {
 		controller.setContent(content);
 		final String authorName = req.getParameter("authorName");
 		controller.setAuthorName(authorName);
-		final boolean isAuthorNameValid = controller.isAuthorNameValid();
 		if (controller.isContentBlank() == true)
 			this.redirectFromBlankContent();
-		else if (isAuthorNameValid == false)
+		else if (controller.isAuthorNameValid() == false)
 			this.redirectFromInvalidAuthorName();
 		else {
 			for (int i = 0; i < 5; i++) {
