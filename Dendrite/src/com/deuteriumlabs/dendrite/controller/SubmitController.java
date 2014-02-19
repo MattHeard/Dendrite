@@ -36,18 +36,21 @@ public abstract class SubmitController {
 
 	protected void buildStoryOptions() {
 		final List<String> optionTexts = this.getOptions();
+		int linkIndex = 0;
 		for (int i = 0; i < 5; i++) {
 			final String text = optionTexts.get(i);
-			if (text == null || text.length() == 0)
+			if (text == null || text.length() == 0) {
 				continue;
+			}
 			final StoryOption option = new StoryOption();
 			final PageId source = this.getId();
 			option.setSource(source);
-			option.setListIndex(i);
+			option.setListIndex(linkIndex);
 			option.setText(text);
 			final boolean isInStore = option.isInStore();
 			if (isInStore == false)
 				option.create();
+			linkIndex++;
 		}
 	}
 	
