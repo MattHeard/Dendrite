@@ -8,32 +8,37 @@ public abstract class FormView extends View {
 		return this.error;
 	}
 
-	public boolean isThereABlankAuthorError() {
-		final String error = this.getError();
-		return ("blankAuthorName".equals(error));
-	}
-
-	public boolean isThereABlankContentError() {
-		final String error = this.getError();
-		return ("blankContent".equals(error));
-	}
-
-	public boolean isThereABlankTitleError() {
-		final String error = this.getError();
-		return ("blankTitle".equals(error));
-	}
-
-	public boolean isThereATooLongContentError() {
-		final String error = this.getError();
-		return ("contentTooLong".equals(error));
-	}
-
-	public boolean isThereATooLongOptionError() {
+	public boolean isAnOptionTooLong() {
 		final String error = this.getError();
 		return ("optionTooLong".equals(error));
 	}
 
-	public boolean isThereATooLongTitleError() {
+	public boolean isAuthorNameBlank() {
+		final String error = this.getError();
+		return ("blankAuthorName".equals(error));
+	}
+
+	public boolean isAuthorNameTooLong() {
+		final String error = this.getError();
+		return ("authorNameTooLong".equals(error));
+	}
+
+	public boolean isContentBlank() {
+		final String error = this.getError();
+		return ("blankContent".equals(error));
+	}
+
+	public boolean isContentTooLong() {
+		final String error = this.getError();
+		return ("contentTooLong".equals(error));
+	}
+
+	public boolean isTitleBlank() {
+		final String error = this.getError();
+		return ("blankTitle".equals(error));
+	}
+
+	public boolean isTitleTooLong() {
 		final String error = this.getError();
 		return ("titleTooLong".equals(error));
 	}

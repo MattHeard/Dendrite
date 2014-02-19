@@ -45,49 +45,47 @@
       <br />
       <input id="title" name="title" type="text"></input><%
       
-	final boolean isThereABlankTitleError = view.isThereABlankTitleError();
-    final boolean isThereATooLongTitleError = view.isThereATooLongTitleError();
-	if (isThereABlankTitleError == true) {
-		
+	final boolean isTitleBlank = view.isTitleBlank();
+	final boolean isTitleTooLong = view.isTitleTooLong();
+	if (isTitleBlank == true) {
+
 		%>
       <i>Must not be blank</i><%
 		
-	} else if (isThereATooLongTitleError == true) {
+	} else if (isTitleTooLong == true) {
 		
 		%>
       <i>Must not be longer than 100 characters</i><%
 		
 	}
       
-      %>
+	%>
       <br />
       <label for="content">Story</label><br />
       <textarea id="content" name="content"></textarea><%
       
-	final boolean isThereABlankContentError = view.isThereABlankContentError();
-    final boolean isThereATooLongContentError;
-    isThereATooLongContentError = view.isThereATooLongContentError();
-	if (isThereABlankContentError == true) {
+	final boolean isContentBlank = view.isContentBlank();
+	final boolean isContentTooLong = view.isContentTooLong();
+	if (isContentBlank == true) {
 		
 		%>
       <i>Must not be blank</i><%
 		
-	} else if (isThereATooLongContentError == true) {
+	} else if (isContentTooLong == true) {
 		
 		%>
       <i>Must not be longer than 5000 characters</i><%
 		
 	}
       
-      %>
+	%>
       <br />
       <label for="option0">Options</label><%
-    
-    final boolean isThereATooLongOptionError;
-    isThereATooLongOptionError = view.isThereATooLongOptionError();
-	if (isThereATooLongOptionError == true) {
-  		
-  		%>
+      
+	final boolean isAnOptionTooLong = view.isAnOptionTooLong();
+	if (isAnOptionTooLong == true) {
+
+		%>
       <i>Must not be longer than 80 characters</i><%
   		
   	}
@@ -128,13 +126,19 @@
 		
 	}
       
-      %>></input><%
-      
-	final boolean isThereABlankAuthorError = view.isThereABlankAuthorError();
-	if (isThereABlankAuthorError == true) {
-		
+	%>></input><%
+	
+	final boolean isAuthorNameBlank = view.isAuthorNameBlank();
+	final boolean isAuthorNameTooLong = view.isAuthorNameTooLong();
+	if (isAuthorNameBlank == true) {
+
 		%>
       <i>Must not be blank</i><%
+		
+	} else if (isAuthorNameTooLong == true) {
+		
+		%>
+      <i>Must not be longer than 100 characters</i><%
 		
 	}
       
