@@ -90,7 +90,9 @@
   		%>
       <i>Must not be longer than 80 characters</i><%
   		
-  	} %>
+  	}
+  	
+  	%>
       <br /><%
 
     for (int i = 0; i < 5; i++) {

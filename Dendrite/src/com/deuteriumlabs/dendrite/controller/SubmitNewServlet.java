@@ -57,7 +57,7 @@ public class SubmitNewServlet extends SubmitServlet {
 
 	@Override
 	protected void redirectFromBlankAuthorName() {
-		final String url = "/new.jsp?error=blankAuthor";
+		final String url = "/new.jsp?error=blankAuthorName";
 		this.redirect(url);
 	}
 

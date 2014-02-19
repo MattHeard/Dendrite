@@ -62,16 +62,34 @@
       <textarea id="content" name="content"></textarea><%
       
 	final boolean isThereABlankContentError = view.isThereABlankContentError();
-	if (isThereABlankContentError == true) {
-		
-		%>
-      <i>Must not be blank</i><%
-		
-	}
+	final boolean isThereATooLongContentError;
+	isThereATooLongContentError = view.isThereATooLongContentError();
+  	if (isThereABlankContentError == true) {
+  		
+  		%>
+        <i>Must not be blank</i><%
+  		
+  	} else if (isThereATooLongContentError == true) {
+  		
+  		%>
+        <i>Must not be longer than 5000 characters</i><%
+  		
+  	}
       
       %>
       <br />
-      <label for="option0">Options</label>
+      <label for="option0">Options</label><%
+    
+    final boolean isThereATooLongOptionError;
+    isThereATooLongOptionError = view.isThereATooLongOptionError();
+	if (isThereATooLongOptionError == true) {
+  		
+  		%>
+      <i>Must not be longer than 80 characters</i><%
+  		
+  	}
+  	
+  	%>
       <br /><%
       
 		for (int i = 0; i < 5; i++) {

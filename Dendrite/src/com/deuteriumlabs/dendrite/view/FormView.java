@@ -10,7 +10,7 @@ public abstract class FormView extends View {
 
 	public boolean isThereABlankAuthorError() {
 		final String error = this.getError();
-		return ("blankAuthor".equals(error));
+		return ("blankAuthorName".equals(error));
 	}
 
 	public boolean isThereABlankContentError() {
