@@ -14,9 +14,7 @@ public abstract class SubmitServlet extends HttpServlet {
 		return this.response;
 	}
 
-	protected void setResponse(final HttpServletResponse response) {
-		this.response = response;
-	}
+	abstract String getUrl();
 
 	protected void redirect(String url) {
 		final HttpServletResponse response = this.getResponse();
@@ -26,5 +24,39 @@ public abstract class SubmitServlet extends HttpServlet {
 			// TODO Find out what circumstances lead here.
 			e.printStackTrace();
 		}
+	}
+	
+	protected void redirectFromBlankAuthorName() {
+		String url = getUrl();
+		url += "&error=blankAuthorName";
+		this.redirect(url);
+	}
+
+	protected void redirectFromBlankContent() {
+		String url = getUrl();
+		url += "&error=blankContent";
+		this.redirect(url);
+	}
+
+	protected void redirectFromTooLongAuthorName() {
+		String url = getUrl();
+		url += "&error=authorNameTooLong";
+		this.redirect(url);
+	}
+
+	protected void redirectFromTooLongContent() {
+		String url = getUrl();
+		url += "&error=contentTooLong";
+		this.redirect(url);
+	}
+	
+	protected void redirectFromTooLongOption() {
+		String url = getUrl();
+		url += "&error=optionTooLong";
+		this.redirect(url);
+	}
+	
+	protected void setResponse(final HttpServletResponse response) {
+		this.response = response;
 	}
 }

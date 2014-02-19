@@ -20,39 +20,37 @@ public class SubmitWriteServlet extends SubmitServlet {
 		this.setResponse(resp);
 		final SubmitWriteController controller;
 		controller = new SubmitWriteController();
-		
 		final String from = req.getParameter("from");
 		this.setFrom(from);
 		controller.setFrom(from);
-		
 		final String linkIndex = req.getParameter("linkIndex");
 		this.setLinkIndex(linkIndex);
 		controller.setLinkIndex(linkIndex);
-		
 		final String content = req.getParameter("content");
 		controller.setContent(content);
 		final String authorName = req.getParameter("authorName");
 		controller.setAuthorName(authorName);
+		for (int i = 0; i < 5; i++) {
+			final String option = req.getParameter("option" + i);
+			if (option != null)
+				controller.addOption(option);
+		}
+		final String authorId = req.getParameter("authorId");
+		controller.setAuthorId(authorId);
 		if (controller.isContentBlank() == true)
 			this.redirectFromBlankContent();
-		else if (controller.isAuthorNameValid() == false)
-			this.redirectFromInvalidAuthorName();
+		else if (controller.isContentTooLong() == true)
+			this.redirectFromTooLongContent();
+		else if (controller.isAnyOptionTooLong() == true)
+			this.redirectFromTooLongOption();
+		else if (controller.isAuthorNameBlank() == true)
+			this.redirectFromBlankAuthorName();
+		else if (controller.isAuthorNameTooLong() == true)
+			this.redirectFromTooLongAuthorName();
 		else {
-			for (int i = 0; i < 5; i++) {
-				final String option = req.getParameter("option" + i);
-				if (option != null)
-					controller.addOption(option);
-			}
-			
-			final String authorId = req.getParameter("authorId");
-			controller.setAuthorId(authorId);
-			
 			controller.buildNewPage();
-			
 			controller.connectIncomingOption();
-			
 			final PageId id = controller.getId();
-			
 			resp.sendRedirect("/read.jsp?p=" + id);
 		}
 	}
@@ -65,24 +63,13 @@ public class SubmitWriteServlet extends SubmitServlet {
 		return this.linkIndex;
 	}
 
-	private String getWriteUrl() {
+	@Override
+	String getUrl() {
 		final String from = this.getFrom();
 		String url = "/write.jsp?from=" + from;
 		final String linkIndex = this.getLinkIndex();
 		url += "&linkIndex=" + linkIndex;
 		return url;
-	}
-
-	private void redirectFromInvalidAuthorName() {
-		String url = getWriteUrl();
-		url += "&error=blankAuthor";
-		this.redirect(url);
-	}
-
-	private void redirectFromBlankContent() {
-		String url = getWriteUrl();
-		url += "&error=blankContent";
-		this.redirect(url);
 	}
 
 	private void setFrom(final String from) {

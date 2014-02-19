@@ -25,43 +25,38 @@ public class SubmitEditServlet extends SubmitServlet {
 		controller.setContent(content);
 		final String authorName = req.getParameter("authorName");
 		controller.setAuthorName(authorName);
+		for (int i = 0; i < 5; i++) {
+			final String option = req.getParameter("option" + i);
+			if (option != null)
+				controller.addOption(option);
+		}
+		final String authorId = req.getParameter("authorId");
+		controller.setAuthorId(authorId);
 		if (controller.isContentBlank() == true)
 			this.redirectFromBlankContent();
-		else if (controller.isAuthorNameValid() == false)
-			this.redirectFromInvalidAuthorName();
+		else if (controller.isContentTooLong() == true)
+			this.redirectFromTooLongContent();
+		else if (controller.isAnyOptionTooLong() == true)
+			this.redirectFromTooLongOption();
+		else if (controller.isAuthorNameBlank() == true)
+			this.redirectFromBlankAuthorName();
+		else if (controller.isAuthorNameTooLong() == true)
+			this.redirectFromTooLongAuthorName();
 		else {
-			for (int i = 0; i < 5; i++) {
-				final String option = req.getParameter("option" + i);
-				if (option != null)
-					controller.addOption(option);
-			}
-			final String authorId = req.getParameter("authorId");
-			controller.setAuthorId(authorId);
 			controller.buildNewPage();
 			final PageId id = controller.getId();
 			resp.sendRedirect("/read.jsp?p=" + id);
 		}
 	}
 
-	private String getEditUrl() {
-		final String p = this.getPageNumber();
-		return "/edit.jsp?p=" + p;
-	}
-
 	private String getPageNumber() {
 		return this.pageNumber;
 	}
 
-	private void redirectFromInvalidAuthorName() {
-		String url = getEditUrl();
-		url += "&error=blankAuthor";
-		this.redirect(url);
-	}
-
-	private void redirectFromBlankContent() {
-		String url = getEditUrl();
-		url += "&error=blankContent";
-		this.redirect(url);
+	@Override
+	String getUrl() {
+		final String p = this.getPageNumber();
+		return "/edit.jsp?p=" + p;
 	}
 
 	private void setPageNumber(final String pageNumber) {

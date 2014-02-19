@@ -53,64 +53,6 @@ public abstract class SubmitController {
 	
 	abstract void buildStoryPage();
 	
-	protected String getAuthorId() {
-		return this.authorId;
-	}
-
-	protected String getAuthorName() {
-		return this.authorName;
-	}
-
-	protected String getContent() {
-		return this.content;
-	}
-
-	public PageId getId() {
-		return this.id;
-	}
-
-	protected List<String> getOptions() {
-		return this.options;
-	}
-
-	public boolean isAuthorNameValid() {
-		final String authorName = this.getAuthorName();
-		final boolean isValid;
-		if (authorName == null)
-			isValid = false;
-		else if (authorName.equals(""))
-			isValid = false;
-		else
-			isValid = true;
-		return isValid;
-	}
-	
-	public boolean isContentBlank() {
-		final String content = this.getContent();
-		return (content == null || content.equals(""));
-	}
-
-	public void setAuthorId(final String authorId) {
-		this.authorId = authorId;
-	}
-
-	public void setAuthorName(final String authorName) {
-		this.authorName = authorName;
-	}
-
-	public void setContent(final String content) {
-		this.content = content;
-	}
-
-	protected void setPageId(final PageId id) {
-		this.id = id;
-	}
-
-	protected void setNewPageId() {
-		final PageId id = this.findUnallocatedPageId();
-		this.setPageId(id);
-	}
-
 	private PageId findUnallocatedPageId() {
 		final PageId id = new PageId();
 		final int number = this.findUnallocatedPageNumber();
@@ -142,6 +84,58 @@ public abstract class SubmitController {
 		return (int) newNumber;
 	}
 
+	protected String getAuthorId() {
+		return this.authorId;
+	}
+
+	protected String getAuthorName() {
+		return this.authorName;
+	}
+	
+	protected String getContent() {
+		return this.content;
+	}
+
+	public PageId getId() {
+		return this.id;
+	}
+	
+	protected List<String> getOptions() {
+		return this.options;
+	}
+	
+	public boolean isAnyOptionTooLong() {
+		final List<String> options = this.getOptions();
+		for (final String option : options) {
+			final int length = option.length();
+			if (length > 80)
+				return true;
+		}
+		return false;
+	}
+
+	public boolean isAuthorNameBlank() {
+		final String authorName = this.getAuthorName();
+		return (authorName == null || authorName.equals(""));
+	}
+	
+	public boolean isAuthorNameTooLong() {
+		final String authorName = this.getAuthorName();
+		final int length = authorName.length();
+		return (length > 100);
+	}
+
+	public boolean isContentBlank() {
+		final String content = this.getContent();
+		return (content == null || content.equals(""));
+	}
+
+	public boolean isContentTooLong() {
+		final String content = this.getContent();
+		final int length = content.length();
+		return (length > 5000);
+	}
+
 	boolean isUnallocated(final int candidate) {
 		final PageId id = new PageId();
 		id.setNumber(candidate);
@@ -151,5 +145,26 @@ public abstract class SubmitController {
 		page.setId(id);
 		final boolean isInStore = page.isInStore();
 		return (isInStore == false);
+	}
+
+	public void setAuthorId(final String authorId) {
+		this.authorId = authorId;
+	}
+
+	public void setAuthorName(final String authorName) {
+		this.authorName = authorName;
+	}
+
+	public void setContent(final String content) {
+		this.content = content;
+	}
+
+	protected void setNewPageId() {
+		final PageId id = this.findUnallocatedPageId();
+		this.setPageId(id);
+	}
+
+	protected void setPageId(final PageId id) {
+		this.id = id;
 	}
 }
