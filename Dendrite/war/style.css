@@ -4,6 +4,11 @@ body {
 	max-width:		800px;
 	line-height:	1.5em;
 	text-align:		justify;
+	margin:			0em;
+}
+
+a {
+	color:	#666;
 }
 
 #credit {
@@ -21,12 +26,22 @@ body {
 }
 
 #footerMenu {
-	clear:			both;
-	padding-top:	1em;
+	clear:				both;
+	padding:			0.5em;
+	background-color:	#f0f0f0;
+	min-height:			1.5em;
+	border:				1px #d0d0d0;
+	border-style:		solid none;
 }
 	
 h2, h3 {
 	clear:	both;
+}
+
+#header {
+	padding:			0.5em;
+	background-color:	#f0f0f0;
+	border-bottom:		1px solid #d0d0d0;
 }
 
 .item {
@@ -43,7 +58,8 @@ h2, h3 {
 }
 
 #main {
-	clear:	both;
+	clear:		both;
+	padding:	0.5em;
 }
 
 #newStory {
