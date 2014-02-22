@@ -1,9 +1,5 @@
 @CHARSET "UTF-8";
 
-.itemNumber {
-	float: right;
-}
-
 body {
 	max-width:		800px;
 	line-height:	1.5em;
@@ -25,18 +21,23 @@ body {
 }
 
 .item {
-	clear: both;
+	clear: 		both;
+	min-height:	1.5em;
 }
 
 .itemContent {
 	float: left;
 }
 
-@media all and (min-width: 420px) {
+.itemNumber {
+	float: right;
+}
 	
-	h2 {
-		clear: both;
-	}
+h2, h3 {
+	clear: both;
+}
+
+@media all and (min-width: 420px) {
 	
 	#login,#logout {
 		text-align:		right;

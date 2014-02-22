@@ -55,6 +55,7 @@
     }
     
 	%>
+    </div>
     <h2>${penName}</h2><%
     
     final String myUserId = AuthorView.getMyUserId();
@@ -81,7 +82,7 @@
     		pageContext.setAttribute("title", title);
     		
     		%>
-	<h3>${title}</h3><%
+    <h3>${title}</h3><%
 	
 			prevTitle = currTitle;
     	}
@@ -94,7 +95,7 @@
     	final String authorName = authorNames.get(i);
     	final boolean isSameAuthorName = (authorName.equals(penName));
     	%>
-	<div class="item">
+    <div class="item">
       <div class="itemContent"><a href="/read.jsp?p=${pageId}">${summary}</a><%
 	
 		if (isSameAuthorName == false) {
