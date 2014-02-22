@@ -21,6 +21,7 @@ public class User extends Model {
 	private static final String ID_PROPERTY = "id";
 	private static final String KIND_NAME = "User";
 	private static final String UNKNOWN_PEN_NAME = "???";
+	private static User cachedUser;
 	
 	/**
 	 * Returns the default pen name from the given entity.
@@ -67,15 +68,32 @@ public class User extends Model {
 		final User myUser = new User();
 		final String myUserId = getMyUserId();
 		if (myUserId != null) {
+			final User cachedUser = getCachedUser();
+			if (cachedUser != null) {
+				final String cachedUserId = cachedUser.getId();
+				if (cachedUserId == myUserId)
+					return cachedUser;
+			}
 			myUser.setId(myUserId);
 			final boolean isInStore = myUser.isInStore();
-			if (isInStore == true)
+			if (isInStore == true) {
 				myUser.read();
-			else
+				setCachedUser(myUser);
+			} else {
 				myUser.create();
+				setCachedUser(myUser);
+			}
 			return myUser;
 		} else
 			return null;
+	}
+	
+	private static User getCachedUser() {
+		return cachedUser;
+	}
+
+	private static void setCachedUser(final User user) {
+		cachedUser = user;
 	}
 
 	/**

@@ -135,10 +135,11 @@ public abstract class Model {
 	 */
 	public void update() {
 		final Entity entity = this.getMatchingEntity();
-		System.out.println(entity);
-		this.setPropertiesInEntity(entity);
-		final DatastoreService store = getStore();
-		store.put(entity);
+		if (entity != null) {
+			this.setPropertiesInEntity(entity);
+			final DatastoreService store = getStore();
+			store.put(entity);
+		}
 	}
 
 }
