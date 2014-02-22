@@ -93,7 +93,7 @@
     </div>
     <div id="footerMenu">
       <span class="footer"><a href="/about.jsp">About</a></span>
-      <span class="footer"><a href="/terms.jsp">Terms of use</a></span>
+      <span class="footer"><a href="/terms.jsp">Terms</a></span>
       <span class="footer"><a href="/privacy.jsp">Privacy</a></span>
       <span class="footer"><a href="/contact.jsp">Contact</a></span>
     </div>
