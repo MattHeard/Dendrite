@@ -64,10 +64,10 @@
       <p><i>Dendrite</i> is a creation of <i>Deuterium Labs</i>.</p>
     </div>
     <div id="footerMenu">
-      <div class="footer"><a href="/about.jsp">About</a></div>
-      <div class="footer"><a href="/terms.jsp">Terms of use</a></div>
-      <div class="footer"><a href="/privacy.jsp">Privacy</a></div>
-      <div class="footer"><a href="/contact.jsp">Contact</a></div>
+      <span class="footer"><a href="/about.jsp">About</a></span>
+      <span class="footer"><a href="/terms.jsp">Terms of use</a></span>
+      <span class="footer"><a href="/privacy.jsp">Privacy</a></span>
+      <span class="footer"><a href="/contact.jsp">Contact</a></span>
     </div>
   </body>
 </html>

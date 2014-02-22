@@ -32,7 +32,6 @@ a:hover {
 }
 
 .footer {
-	float:			left;
 	margin-right:	1em;
 }
 
@@ -43,6 +42,7 @@ a:hover {
 	min-height:			1.5em;
 	border:				1px #e0e0e0;
 	border-style:		solid none;
+	text-align:			left;
 }
 
 h1 {
