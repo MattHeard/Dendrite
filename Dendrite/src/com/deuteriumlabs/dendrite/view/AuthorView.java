@@ -15,34 +15,9 @@ import com.google.appengine.api.datastore.Text;
  */
 public class AuthorView extends View {
 
+	private static final String ELLIPSIS = "...";
 	private static final int NUM_PAGES_DISPLAYED = 10;
 	private static final int SUMMARY_LEN = 30;
-	private static final String ELLIPSIS = "...";
-	private int authorPageNumber;
-	private String id;
-	private List<String> pageIds;
-	private List<StoryPage> pages;
-	private List<String> summaries;
-	private List<String> titles;
-	private User user;
-	
-	public List<String> getSummaries() {
-		if (this.summaries == null)
-			this.readSummaries();
-		return this.summaries;
-	}
-
-	private void readSummaries() {
-		final List<StoryPage> pages = this.getPages();
-		final List<String> summaries = new ArrayList<String>();
-		for (final StoryPage page : pages) {
-			final Text text = page.getText();
-			final String summary = summariseText(text);
-			summaries.add(summary);
-		}
-		this.setSummaries(summaries);
-	}
-
 	private static String summariseText(final Text text) {
 		final String full = text.getValue();
 		final int fullSize = full.length();
@@ -53,9 +28,24 @@ public class AuthorView extends View {
 			return cropped + ELLIPSIS;
 		}
 	}
+	private List<String> authorNames;
+	private int authorPageNumber;
+	private String id;
+	private List<String> pageIds;
+	private List<StoryPage> pages;
+	private List<String> summaries;
+	private List<String> titles;
+	
+	private User user;
 
 	public AuthorView() {
 		this.setAuthorPageNumber(1);
+	}
+
+	public List<String> getAuthorNames() {
+		if (this.authorNames == null)
+			this.readAuthorNames();
+		return this.authorNames;
 	}
 
 	private int getAuthorPageNumber() {
@@ -65,22 +55,27 @@ public class AuthorView extends View {
 	private String getId() {
 		return this.id;
 	}
+
+	private int getLastPageNumber() {
+		final int numberOfStories = this.getNumberOfPages();
+		return (numberOfStories / NUM_PAGES_DISPLAYED) + 1;
+	}
 	
+	public String getNextPageNumber() {
+		final int curr = this.getAuthorPageNumber();
+		int next = curr + 1;
+		return Integer.toString(next);
+	}
+	
+	private int getNumberOfPages() {
+		final String authorId = this.getId();
+		return StoryPage.countAllPagesWrittenBy(authorId);
+	}
+
 	public List<String> getPageIds() {
 		if (this.pageIds == null)
 			this.readPageIds();
 		return this.pageIds;
-	}
-
-	private void readPageIds() {
-		final List<StoryPage> pages = this.getPages();
-		final List<String> pageIds = new ArrayList<String>();
-		for (final StoryPage page : pages) {
-			final PageId id = page.getId();
-			final String idString = id.toString();
-			pageIds.add(idString);
-		}
-		this.setPageIds(pageIds);
 	}
 
 	private List<StoryPage> getPages() {
@@ -93,6 +88,20 @@ public class AuthorView extends View {
 		final User user = this.getUser();
 		final String penName = user.getDefaultPenName();
 		return penName;
+	}
+
+	public String getPrevPageNumber() {
+		final int curr = this.getAuthorPageNumber();
+		int prev = curr - 1;
+		if (prev < 1)
+			prev = 1;
+		return Integer.toString(prev);
+	}
+
+	public List<String> getSummaries() {
+		if (this.summaries == null)
+			this.readSummaries();
+		return this.summaries;
 	}
 
 	public List<String> getTitles() {
@@ -111,6 +120,42 @@ public class AuthorView extends View {
 		return this.user;
 	}
 
+	public boolean isFirstPage() {
+		final int number = this.getAuthorPageNumber();
+		return (number == 1);
+	}
+
+	public boolean isLastPage() {
+		final int curr = this.getAuthorPageNumber();
+		final int last = this.getLastPageNumber();
+		return (curr == last);
+	}
+
+	private void readAuthorNames() {
+		final List<StoryPage> pages = this.getPages();
+		final List<String> authorNames = new ArrayList<String>();
+		for (final StoryPage page : pages) {
+			final String authorName = page.getAuthorName();
+			authorNames.add(authorName);
+		}
+		this.setAuthorNames(authorNames);
+	}
+
+	private void setAuthorNames(final List<String> authorNames) {
+		this.authorNames = authorNames;
+	}
+
+	private void readPageIds() {
+		final List<StoryPage> pages = this.getPages();
+		final List<String> pageIds = new ArrayList<String>();
+		for (final StoryPage page : pages) {
+			final PageId id = page.getId();
+			final String idString = id.toString();
+			pageIds.add(idString);
+		}
+		this.setPageIds(pageIds);
+	}
+
 	private void readPages() {
 		final int authorPageNumber = this.getAuthorPageNumber();
 		final int firstIndex = (authorPageNumber - 1) * NUM_PAGES_DISPLAYED;
@@ -119,6 +164,17 @@ public class AuthorView extends View {
 		final String authorId = this.getId();
 		pages = StoryPage.getPagesWrittenBy(authorId, firstIndex, lastIndex);
 		this.setPages(pages);
+	}
+
+	private void readSummaries() {
+		final List<StoryPage> pages = this.getPages();
+		final List<String> summaries = new ArrayList<String>();
+		for (final StoryPage page : pages) {
+			final Text text = page.getText();
+			final String summary = summariseText(text);
+			summaries.add(summary);
+		}
+		this.setSummaries(summaries);
 	}
 
 	private void readTitles() {
@@ -148,7 +204,7 @@ public class AuthorView extends View {
 			this.setPageIds(null);
 		}
 	}
-
+	
 	public void setId(final String id) {
 		this.id = id;
 		final User user = new User();
@@ -156,16 +212,16 @@ public class AuthorView extends View {
 		user.read();
 		this.setUser(user);
 	}
-
+	
 	private void setPageIds(final List<String> pageIds) {
 		this.pageIds = pageIds;
 	}
-
+	
 	private void setPages(final List<StoryPage> pages) {
 		this.pages = pages;
 
 	}
-
+	
 	private void setSummaries(final List<String> summaries) {
 		this.summaries = summaries;
 	}
@@ -176,40 +232,5 @@ public class AuthorView extends View {
 
 	private void setUser(final User user) {
 		this.user = user;
-	}
-	
-	public boolean isFirstPage() {
-		final int number = this.getAuthorPageNumber();
-		return (number == 1);
-	}
-	
-	public boolean isLastPage() {
-		final int curr = this.getAuthorPageNumber();
-		final int last = this.getLastPageNumber();
-		return (curr == last);
-	}
-	
-	public String getPrevPageNumber() {
-		final int curr = this.getAuthorPageNumber();
-		int prev = curr - 1;
-		if (prev < 1)
-			prev = 1;
-		return Integer.toString(prev);
-	}
-	
-	public String getNextPageNumber() {
-		final int curr = this.getAuthorPageNumber();
-		int next = curr + 1;
-		return Integer.toString(next);
-	}
-
-	private int getLastPageNumber() {
-		final int numberOfStories = this.getNumberOfPages();
-		return (numberOfStories / NUM_PAGES_DISPLAYED) + 1;
-	}
-
-	private int getNumberOfPages() {
-		final String authorId = this.getId();
-		return StoryPage.countAllPagesWrittenBy(authorId);
 	}
 }

@@ -66,6 +66,7 @@
     final List<String> titles = view.getTitles();
     final List<String> summaries = view.getSummaries();
     final List<String> pageIds = view.getPageIds();
+    final List<String> authorNames = view.getAuthorNames();
     String prevTitle = null;
     
     for (int i = 0; i < titles.size(); i++) {
@@ -88,8 +89,19 @@
     	pageContext.setAttribute("summary", summary);
     	String pageId = pageIds.get(i);
     	pageContext.setAttribute("pageId", pageId);
+    	final String authorName = authorNames.get(i);
+    	final boolean isSameAuthorName = (authorName.equals(penName));
     	%>
-	<div><a href="/read.jsp?p=${pageId}">${summary}</a> - ${pageId}</div><%
+	<div><a href="/read.jsp?p=${pageId}">${summary}</a> - ${pageId}<%
+	
+		if (isSameAuthorName == false) {
+			pageContext.setAttribute("authorName", authorName);
+			
+			%> (written as <i>${authorName}</i>)<%
+			
+		}
+	
+	%></div><%
     }
     
     final boolean isFirstPage = view.isFirstPage();
