@@ -8,10 +8,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Dendrite</title>
   </head>
   <body>
-    <h1><a href="/">Dendrite</a></h1><%
+    <div id="header">
+      <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
+    
     	final ContentsView view = new ContentsView();
     	final String pParameter = request.getParameter("p");
     	int contentsPageNumber;
@@ -30,20 +33,20 @@
         	final String logoutLink = view.getLogoutLink();
         	pageContext.setAttribute("logoutLink", logoutLink);
     %>
-    <div>Welcome back, <a href="${authorLink}">${userName}</a>.
-      (<a href="${logoutLink}">Logout</a>)
-    </div><%
+      <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
+      (<a href="${logoutLink}">Logout</a>)</div><%
     
     } else {
     	final String loginLink = view.getLoginLink();
     	pageContext.setAttribute("loginLink", loginLink);
     
         %>
-    <a href="${loginLink}">Login or register</a><%
+      <div id="login"><a href="${loginLink}">Login or register</a></div><%
 	
     }
     
 	%>
+	  </div>
     <h2>Table of Contents</h2><%
 	
     final List<String> links = view.getLinks();

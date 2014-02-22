@@ -1,0 +1,24 @@
+@CHARSET "UTF-8";
+
+@media all and (min-width: 420px) {
+
+	#header {
+		max-width:	800px;
+	}
+	
+	#logo {
+		float:	left;
+		width:	50%;
+	}
+	
+	#login, #logout {
+		float:		right;
+		text-align:	right;
+		width:		50%;
+		line-height:	5em;
+	}
+	
+	h2 {
+		clear:	both;
+	}
+}
