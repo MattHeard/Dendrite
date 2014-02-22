@@ -10,10 +10,10 @@ public class SubmitNewController extends SubmitController {
 	private String title;
 
 	public void buildNewStory() {
-		buildNewPage();
+		this.buildNewPage();
 		this.buildStoryBeginning();
 	}
-	
+
 	private void buildStoryBeginning() {
 		final StoryBeginning beginning = new StoryBeginning();
 		final PageId id = this.getId();

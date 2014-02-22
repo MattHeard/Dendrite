@@ -55,6 +55,14 @@
 	%>
     <h2>${penName}</h2><%
     
+    final String myUserId = AuthorView.getMyUserId();
+    if (id.equals(myUserId) == true) {
+    
+    	%>
+    <div><a href="/preferences.jsp">My preferences</a></div><%
+    
+    }
+    
     final List<String> titles = view.getTitles();
     final List<String> summaries = view.getSummaries();
     final List<String> pageIds = view.getPageIds();

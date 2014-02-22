@@ -28,6 +28,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
         <servlet-name>SubmitWrite</servlet-name>
         <url-pattern>/submitWrite</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UpdatePreferences</servlet-name>
+        <servlet-class>com.deuteriumlabs.dendrite.controller.UpdatePreferencesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdatePreferences</servlet-name>
+        <url-pattern>/updatePreferences</url-pattern>
+    </servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
