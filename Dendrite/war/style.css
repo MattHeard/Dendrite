@@ -5,7 +5,7 @@
 }
 
 body {
-	max-width: 800px;
+	max-width:		800px;
 	line-height:	1.5em;
 }
 
@@ -38,11 +38,12 @@ body {
 	}
 	
 	#login,#logout {
-		float: right;
-		line-height: 5em;
+		text-align:		right;
+		padding-top:	1.5em;
 	}
 	
 	#logo {
-		float: left;
+		float:			left;
+		padding-right:	1em;
 	}
 }
