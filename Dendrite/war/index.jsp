@@ -61,9 +61,9 @@
     	final String pageNumber = pageNumbers.get(i);
     	pageContext.setAttribute("pageNumber", pageNumber);
     	%>
-    <div class="story">
-      <div class="storyTitle"><a href="${link}">${title}</a></div>
-      <div class="beginningPageNumber">${pageNumber}</div>
+    <div class="item">
+      <div class="itemContent"><a href="${link}">${title}</a></div>
+      <div class="itemNumber">${pageNumber}</div>
     </div><%
     }
     
@@ -89,10 +89,10 @@
 	%>
     <div id="newStory"><a href="/new.jsp">Start a new story</a></div>
     <div id="footerMenu">
-	    <div class="footer"><a href="/about.jsp">About</a></div>
-	    <div class="footer"><a href="/terms.jsp">Terms of use</a></div>
-	    <div class="footer"><a href="/privacy.jsp">Privacy</a></div>
-	    <div class="footer"><a href="/contact.jsp">Contact</a></div>
+      <div class="footer"><a href="/about.jsp">About</a></div>
+      <div class="footer"><a href="/terms.jsp">Terms of use</a></div>
+      <div class="footer"><a href="/privacy.jsp">Privacy</a></div>
+      <div class="footer"><a href="/contact.jsp">Contact</a></div>
     </div>
   </body>
 </html>

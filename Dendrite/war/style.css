@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 
-.beginningPageNumber {
+.itemNumber {
 	float: right;
 }
 
@@ -15,6 +15,7 @@ body {
 }
 
 #footerMenu {
+	clear:			both;
 	padding-top:	1em;
 }
 
@@ -23,11 +24,11 @@ body {
 	padding-top:	1em;
 }
 
-.story {
+.item {
 	clear: both;
 }
 
-.storyTitle {
+.itemContent {
 	float: left;
 }
 
