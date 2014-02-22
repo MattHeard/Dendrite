@@ -24,7 +24,10 @@ public abstract class View {
 
 	public static String getMyUserId() {
 		final User myUser = User.getMyUser();
-		return myUser.getId();
+		if (myUser != null)
+			return myUser.getId();
+		else
+			return null;
 	}
 
 	/**
