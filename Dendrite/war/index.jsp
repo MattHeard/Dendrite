@@ -12,7 +12,7 @@
     <title>Dendrite</title>
   </head>
   <body>
-    <div id="header">
+    <div>
       <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
     
     	final ContentsView view = new ContentsView();
@@ -34,7 +34,7 @@
         	pageContext.setAttribute("logoutLink", logoutLink);
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
-      (<a href="${logoutLink}">Logout</a>)</div><%
+          (<a href="${logoutLink}">Logout</a>)</div><%
     
     } else {
     	final String loginLink = view.getLoginLink();
@@ -46,7 +46,7 @@
     }
     
 	%>
-	  </div>
+    </div>
     <h2>Table of Contents</h2><%
 	
     final List<String> links = view.getLinks();
@@ -61,7 +61,10 @@
     	final String pageNumber = pageNumbers.get(i);
     	pageContext.setAttribute("pageNumber", pageNumber);
     	%>
-    <div><a href="${link}">${title}</a> - ${pageNumber}</div><%
+    <div class="story">
+      <div class="storyTitle"><a href="${link}">${title}</a></div>
+      <div class="beginningPageNumber">${pageNumber}</div>
+    </div><%
     }
     
     final boolean isFirstPage = view.isFirstPage();
@@ -84,10 +87,12 @@
     }
 	
 	%>
-    <div><a href="/new.jsp">Start a new story</a></div>
-    <div><a href="/about.jsp">About</a></div>
-    <div><a href="/terms.jsp">Terms of use</a></div>
-    <div><a href="/privacy.jsp">Privacy</a></div>
-    <div><a href="/contact.jsp">Contact</a></div>
+    <div id="newStory"><a href="/new.jsp">Start a new story</a></div>
+    <div id="footerMenu">
+	    <div class="footer"><a href="/about.jsp">About</a></div>
+	    <div class="footer"><a href="/terms.jsp">Terms of use</a></div>
+	    <div class="footer"><a href="/privacy.jsp">Privacy</a></div>
+	    <div class="footer"><a href="/contact.jsp">Contact</a></div>
+    </div>
   </body>
 </html>

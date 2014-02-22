@@ -1,24 +1,48 @@
 @CHARSET "UTF-8";
 
-@media all and (min-width: 420px) {
+.beginningPageNumber {
+	float: right;
+}
 
-	#header {
-		max-width:	800px;
+body {
+	max-width: 800px;
+	line-height:	1.5em;
+}
+
+.footer {
+	float:			left;
+	margin-right:	1em;
+}
+
+#footerMenu {
+	padding-top:	1em;
+}
+
+#newStory {
+	clear:			both;
+	padding-top:	1em;
+}
+
+.story {
+	clear: both;
+}
+
+.storyTitle {
+	float: left;
+}
+
+@media all and (min-width: 420px) {
+	
+	h2 {
+		clear: both;
+	}
+	
+	#login,#logout {
+		float: right;
+		line-height: 5em;
 	}
 	
 	#logo {
-		float:	left;
-		width:	50%;
-	}
-	
-	#login, #logout {
-		float:		right;
-		text-align:	right;
-		width:		50%;
-		line-height:	5em;
-	}
-	
-	h2 {
-		clear:	both;
+		float: left;
 	}
 }
