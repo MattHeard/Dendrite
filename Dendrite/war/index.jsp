@@ -12,7 +12,7 @@
     <title>Dendrite</title>
   </head>
   <body>
-    <div>
+    <div id="header">
       <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
     
     	final ContentsView view = new ContentsView();
@@ -47,7 +47,8 @@
     
 	%>
     </div>
-    <h2>Table of Contents</h2><%
+    <div id="main">
+      <h2>Table of Contents</h2><%
 	
     final List<String> links = view.getLinks();
     final int length = links.size();
@@ -61,10 +62,10 @@
     	final String pageNumber = pageNumbers.get(i);
     	pageContext.setAttribute("pageNumber", pageNumber);
     	%>
-    <div class="item">
-      <div class="itemContent"><a href="${link}">${title}</a></div>
-      <div class="itemNumber">${pageNumber}</div>
-    </div><%
+      <div class="item">
+        <div class="itemContent"><a href="${link}">${title}</a></div>
+        <div class="itemNumber">${pageNumber}</div>
+      </div><%
     }
     
     final boolean isFirstPage = view.isFirstPage();
@@ -73,7 +74,7 @@
     	pageContext.setAttribute("prev", prev);
     	
     	%>
-    <div><a href="/index.jsp?p=${prev}">Previous</a></div><%
+      <div><a href="/index.jsp?p=${prev}">Previous</a></div><%
     	
     }
     final boolean isLastPage = view.isLastPage();
@@ -82,12 +83,13 @@
     	pageContext.setAttribute("next", next);
     	
     	%>
-    <div><a href="/index.jsp?p=${next}">Next</a></div><%
+      <div><a href="/index.jsp?p=${next}">Next</a></div><%
     	
     }
 	
 	%>
-    <div id="newStory"><a href="/new.jsp">Start a new story</a></div>
+      <div id="newStory"><a href="/new.jsp">Start a new story</a></div>
+    </div>
     <div id="footerMenu">
       <div class="footer"><a href="/about.jsp">About</a></div>
       <div class="footer"><a href="/terms.jsp">Terms of use</a></div>

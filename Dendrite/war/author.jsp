@@ -29,7 +29,7 @@
     <title>Dendrite - ${penName}</title>
   </head>
   <body>
-    <div>
+    <div id="header">
       <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
     
     final boolean isUserLoggedIn = AuthorView.isUserLoggedIn();
@@ -56,13 +56,14 @@
     
 	%>
     </div>
-    <h2>${penName}</h2><%
+    <div id="main">
+      <h2>${penName}</h2><%
     
     final String myUserId = AuthorView.getMyUserId();
     if (id.equals(myUserId) == true) {
     
     	%>
-    <div><a href="/preferences.jsp">My preferences</a></div><%
+      <div><a href="/preferences.jsp">My preferences</a></div><%
     
     }
     
@@ -82,7 +83,7 @@
     		pageContext.setAttribute("title", title);
     		
     		%>
-    <h3>${title}</h3><%
+      <h3>${title}</h3><%
 	
 			prevTitle = currTitle;
     	}
@@ -95,8 +96,8 @@
     	final String authorName = authorNames.get(i);
     	final boolean isSameAuthorName = (authorName.equals(penName));
     	%>
-    <div class="item">
-      <div class="itemContent"><a href="/read.jsp?p=${pageId}">${summary}</a><%
+      <div class="item">
+        <div class="itemContent"><a href="/read.jsp?p=${pageId}">${summary}</a><%
 	
 		if (isSameAuthorName == false) {
 			pageContext.setAttribute("authorName", authorName);
@@ -106,8 +107,8 @@
 		}
 	
 	%></div>
-      <div class="itemNumber">${pageId}</div>
-    </div><%
+        <div class="itemNumber">${pageId}</div>
+      </div><%
     }
     
     final boolean isFirstPage = view.isFirstPage();
@@ -117,7 +118,7 @@
     	pageContext.setAttribute("prev", prev);
     	
     	%>
-    <div><a href="/author.jsp?id=${id}&p=${prev}">Previous</a></div><%
+      <div><a href="/author.jsp?id=${id}&p=${prev}">Previous</a></div><%
     	
     }
     final boolean isLastPage = view.isLastPage();
@@ -127,11 +128,12 @@
     	pageContext.setAttribute("next", next);
     	
     	%>
-    <div><a href="/author.jsp?id=${id}&p=${next}">Next</a></div><%
+      <div><a href="/author.jsp?id=${id}&p=${next}">Next</a></div><%
     	
     }
 	
 	%>
+    </div>
     <div id="footerMenu">
       <div class="footer"><a href="/about.jsp">About</a></div>
       <div class="footer"><a href="/terms.jsp">Terms of use</a></div>

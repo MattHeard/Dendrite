@@ -31,7 +31,7 @@
     %>
   </head>
   <body>
-    <div>
+    <div id="header">
       <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
     
     final boolean isUserLoggedIn = ReadView.isUserLoggedIn();
