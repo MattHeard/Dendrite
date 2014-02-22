@@ -1,5 +1,9 @@
 @CHARSET "UTF-8";
 
+b {
+	font-weight:	500;
+}
+
 body {
 	max-width:		800px;
 	line-height:	1.5em;
@@ -12,6 +16,10 @@ body {
 a {
 	color:	#666;
 	text-decoration:	none;
+}
+
+a:hover {
+	text-decoration:	underline;
 }
 
 #credit {

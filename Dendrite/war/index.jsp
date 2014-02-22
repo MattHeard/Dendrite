@@ -32,6 +32,7 @@
         	pageContext.setAttribute("userName", userName);
         	final String logoutLink = view.getLogoutLink();
         	pageContext.setAttribute("logoutLink", logoutLink);
+        	
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
           (<a href="${logoutLink}">Logout</a>)</div><%
