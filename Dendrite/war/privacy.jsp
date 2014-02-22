@@ -8,10 +8,12 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Dendrite - Privacy Policy</title>
   </head>
   <body>
-    <h1><a href="/">Dendrite</a></h1><%
+    <div id="header">
+      <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
     
     final PrivacyView view = new PrivacyView();
     final boolean isUserLoggedIn = PrivacyView.isUserLoggedIn();
@@ -24,20 +26,21 @@
         pageContext.setAttribute("logoutLink", logoutLink);
         
     %>
-    <div>Welcome back, <a href="${authorLink}">${userName}</a>.
-      (<a href="${logoutLink}">Logout</a>)
-    </div><%
+      <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
+          (<a href="${logoutLink}">Logout</a>)</div><%
     
     } else {
     	final String loginLink = view.getLoginLink();
     	pageContext.setAttribute("loginLink", loginLink);
     
         %>
-    <a href="${loginLink}">Login or register</a><%
+      <div id="login"><a href="${loginLink}">Login or register</a></div><%
     
     }
     
     %>
+    </div>
+    <div id="main">
     <h2>Privacy Policy</h2>
     <h3>General</h3>
     <p>In this policy, the terms <b>we</b>, <b>us</b>, and <b>our</b> refer to
@@ -115,7 +118,7 @@
     <ul>
       <li><b>Contact:</b>
         <a href="/contact.jsp">www.dendrite.net/contact.jsp</a></li>
-      <li><b>E-mail:</b><a href="mailto:matt+dendrite+privacy@mattheard.net" 
+      <li><b>E-mail:</b> <a href="mailto:matt+dendrite+privacy@mattheard.net" 
           >matt+dendrite+privacy@mattheard.net</a></li>
     </ul>
     <h3>Changes to our policy</h3>
@@ -127,9 +130,12 @@
       indicate your acceptance of any changes.</p>
     <h3>Latest update</h3>
     <p>This Privacy Policy was last updated 20 October 2013.</p>
-    <div><a href="/about.jsp">About</a></div>
-    <div><a href="/terms.jsp">Terms of use</a></div>
-    <div><a href="/privacy.jsp">Privacy</a></div>
-    <div><a href="/contact.jsp">Contact</a></div>
+    </div>
+    <div id="footerMenu">
+      <span class="footer"><a href="/about.jsp">About</a></span>
+      <span class="footer"><a href="/terms.jsp">Terms of use</a></span>
+      <span class="footer"><a href="/privacy.jsp">Privacy</a></span>
+      <span class="footer"><a href="/contact.jsp">Contact</a></span>
+    </div>
   </body>
 </html>
