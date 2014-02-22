@@ -6,7 +6,8 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width"><%
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="style.css"><%
     
     final ReadView view = new ReadView();
     final String pageId = request.getParameter("p");
@@ -30,7 +31,8 @@
     %>
   </head>
   <body>
-    <h1><a href="/">Dendrite</a></h1><%
+    <div>
+      <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
     
     final boolean isUserLoggedIn = ReadView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
@@ -42,37 +44,41 @@
         pageContext.setAttribute("logoutLink", logoutLink);
         
         %>
-    <div>Welcome back, <a href="${authorLink}">${userName}</a>.
-      (<a href="${logoutLink}">Logout</a>)
-    </div><%
+      <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
+          (<a href="${logoutLink}">Logout</a>)</div><%
     
     } else {
     	final String loginLink = view.getLoginLink();
     	pageContext.setAttribute("loginLink", loginLink);
     
         %>
-    <a href="${loginLink}">Login or register</a><%
+      <div id="login"><a href="${loginLink}">Login or register</a></div><%
 	
     }
+    
+    %>
+    </div>
+    <div id="main"><%
+    
     if (isPageInStore == true) {
     	final boolean isBeginning = view.isBeginning();
     	if (isBeginning == true) {
     		
     		%>
-    <h2>${title}</h2><%
+      <div id="storyTitle"><h2>${title}</h2></div><%
     		
     	}
     	final String pageNumber = view.getPageNumber();
     	pageContext.setAttribute("pageNumber", pageNumber);
     	
     	%>
-    <div><a href="/edit.jsp?p=${pageNumber}">Edit</a></div><%
+      <div id="editLink"><a href="/edit.jsp?p=${pageNumber}">Edit</a></div><%
     	
     	final String text = view.getPageText();
     	pageContext.setAttribute("text", text);
     
 	    %>
-    <div>${text}</div><%
+      <div id="text">${text}</div><%
     
     	final int numberOfOptions = view.getNumberOfOptions();
     	for (int i = 0; i < numberOfOptions; i++) {
@@ -82,7 +88,7 @@
     		pageContext.setAttribute("optionText", optionText);
     		
     		%>
-    <div><a href="${optionLink}"<%
+      <div class="option"><a href="${optionLink}"<%
     %>>${optionText}</a></div><%
 
     	}
@@ -92,7 +98,7 @@
     	pageContext.setAttribute("authorName", authorName);
     	
     	%>
-    <div>This page was written by <%
+      <div id="credit">This page was written by <%
     
         final boolean isAuthorAnonymous = view.isAuthorAnonymous();
     	if (isAuthorAnonymous == false) {
@@ -118,21 +124,24 @@
         	pageContext.setAttribute("first", first);
     
         	%>
-    <div><a href="${first}">Return to the first page of this story.</a></div><%
+      <div><a href="${first}">Return to the first page of this story.</a></div><%
     
         }
 	
     } else {
 	
 	    %>
-    <div>This page doesn't appear to be written yet.</div><%
+      <div>This page doesn't appear to be written yet.</div><%
 	
     }
 	
 	%>
-    <div><a href="/about.jsp">About</a></div>
-    <div><a href="/terms.jsp">Terms of use</a></div>
-    <div><a href="/privacy.jsp">Privacy</a></div>
-    <div><a href="/contact.jsp">Contact</a></div>
+    </div>
+    <div id="footerMenu">
+      <div class="footer"><a href="/about.jsp">About</a></div>
+      <div class="footer"><a href="/terms.jsp">Terms of use</a></div>
+      <div class="footer"><a href="/privacy.jsp">Privacy</a></div>
+      <div class="footer"><a href="/contact.jsp">Contact</a></div>
+    </div>
   </body>
 </html>

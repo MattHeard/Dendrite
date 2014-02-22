@@ -3,6 +3,16 @@
 body {
 	max-width:		800px;
 	line-height:	1.5em;
+	text-align:		justify;
+}
+
+#credit {
+	padding-top:	1em;
+}
+
+#editLink {
+	float:			right;
+	padding-top:	1em;
 }
 
 .footer {
@@ -14,10 +24,9 @@ body {
 	clear:			both;
 	padding-top:	1em;
 }
-
-#newStory {
-	clear:			both;
-	padding-top:	1em;
+	
+h2, h3 {
+	clear:	both;
 }
 
 .item {
@@ -32,9 +41,26 @@ body {
 .itemNumber {
 	float: right;
 }
-	
-h2, h3 {
-	clear: both;
+
+#main {
+	clear:	both;
+}
+
+#newStory {
+	clear:			both;
+	padding-top:	1em;
+}
+
+.option {
+	padding-top:	1em;
+}
+
+#storyTitle {
+	float: left;
+}
+
+#text {
+	clear:	both;
 }
 
 @media all and (min-width: 420px) {
