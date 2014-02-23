@@ -8,6 +8,12 @@ What is it?
 A website where users write [interactive adventure stories](https://en.wikipedia.org/wiki/Addventure) with each other.
 
 
+Where can it be found?
+----------------------
+
+The public site is not yet live, but I do some online testing at [http://1-dot-write-mattheard-dev.appspot.com/](http://1-dot-write-mattheard-dev.appspot.com/), so you can have a play with it there. Keep in mind that that site is a test version which is subject to be modified or destroyed in any conceivable way for the sake of development.
+
+
 What is it made with?
 ---------------------
 
