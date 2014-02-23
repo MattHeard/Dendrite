@@ -14,7 +14,8 @@
   <body>
     <div id="nonFooter">
     <div id="header">
-      <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
+      <div id="logo"><a href="/"><img id="logoImage" src="logo.png"
+          /></a></div><%
     
     final PrivacyView view = new PrivacyView();
     final boolean isUserLoggedIn = PrivacyView.isUserLoggedIn();

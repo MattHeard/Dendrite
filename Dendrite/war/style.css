@@ -54,10 +54,6 @@ html, body {
 	border-style:		solid none;
 	text-align:			left;
 }
-
-h1 {
-	font-weight:	100;
-}
 	
 h2, h3 {
 	font-weight:	300;
@@ -69,6 +65,7 @@ h2, h3 {
 	background-color:	#f0f0f0;
 	border:				1px #e0e0e0;
 	border-style:		solid none;
+	min-height:			70px;
 }
 
 input, textarea {
@@ -93,6 +90,11 @@ input, textarea {
 	text-align:		right;
 	min-width:		5%;
 	padding-left:	5%;
+}
+
+#logoImage {
+	height:	70px;
+	width:	282.5px;
 }
 
 #main {
@@ -121,7 +123,7 @@ textarea {
 	height:	10em;
 }
 
-@media all and (min-width: 420px) {
+@media all and (min-width: 600px) {
 	
 	#login,#logout {
 		text-align:		right;
