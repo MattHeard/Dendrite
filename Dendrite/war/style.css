@@ -1,7 +1,12 @@
 @CHARSET "UTF-8";
 
-b {
-	font-weight:	500;
+a {
+	color:	#666;
+	text-decoration:	none;
+}
+
+a:hover {
+	text-decoration:	underline;
 }
 
 body {
@@ -11,15 +16,6 @@ body {
 	margin:			0em;
 	font-family:	sans-serif;
 	font-weight:	100;
-}
-
-a {
-	color:	#666;
-	text-decoration:	none;
-}
-
-a:hover {
-	text-decoration:	underline;
 }
 
 #credit {
@@ -61,6 +57,13 @@ h2, h3 {
 	border-style:		solid none;
 }
 
+input, textarea {
+	width:				100%;
+	-webkit-box-sizing:	border-box;
+	-moz-box-sizing:	border-box;
+	box-sizing:			border-box;
+}
+
 .item {
 	clear: 		both;
 	min-height:	1.5em;
@@ -94,6 +97,10 @@ h2, h3 {
 
 #text {
 	clear:	both;
+}
+
+textarea {
+	height:	5em;
 }
 
 @media all and (min-width: 420px) {
