@@ -71,10 +71,14 @@ input, textarea {
 
 .itemContent {
 	float: left;
+	max-width:	89%;
 }
 
 .itemNumber {
 	float: right;
+	text-align:	right;
+	min-width:	5%;
+	padding-left:	5%;
 }
 
 #main {
