@@ -8,10 +8,12 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Dendrite - Write</title>
   </head>
   <body>
-    <h1><a href="/">Dendrite</a></h1><%
+    <div id="header">
+      <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
     
     final WriteView view = new WriteView();
 	final String from = request.getParameter("from");
@@ -31,16 +33,15 @@
         pageContext.setAttribute("logoutLink", logoutLink);
         
     %>
-    <div>Welcome back, <a href="${authorLink}">${userName}</a>.
-      (<a href="${logoutLink}">Logout</a>)
-    </div><%
+      <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
+          (<a href="${logoutLink}">Logout</a>)</div><%
     
     } else {
     	final String loginLink = view.getLoginLink();
     	pageContext.setAttribute("loginLink", loginLink);
     
         %>
-    <a href="${loginLink}">Login or register</a><%
+      <div id="login"><a href="${loginLink}">Login or register</a></div><%
     
     }
     final boolean isValidOption = view.isValidOption();
@@ -49,55 +50,57 @@
    		pageContext.setAttribute("optionText", optionText);
    		
     %>
-    <div>${optionText}</div>
-    <form action="submitWrite" method="post"><%
+    </div>
+    <div id="main">
+      <h3>${optionText}</h3>
+      <form action="submitWrite" method="post"><%
     
 	    pageContext.setAttribute("from", from);
 	    pageContext.setAttribute("linkIndex", linkIndex);
     
     %>
-      <input type="hidden" name="from" value="${from}" />
-      <input type="hidden" name="linkIndex" value="${linkIndex}" />
-      <label for="content">Story</label>
-      <br />
-      <textarea id="content" name="content"></textarea><%
+        <input type="hidden" name="from" value="${from}" />
+        <input type="hidden" name="linkIndex" value="${linkIndex}" />
+        <label for="content">Story</label>
+        <br />
+        <textarea id="content" name="content"></textarea><%
     	      
 	final boolean isContentBlank = view.isContentBlank();
 	final boolean isContentTooLong = view.isContentTooLong();
 	if (isContentBlank == true) {
     				
 		%>
-      <i>Must not be blank</i><%
+        <i>Must not be blank</i><%
     				
 	} else if (isContentTooLong == true) {
     				
 		%>
-      <i>Must not be longer than 5000 characters</i><%
+        <i>Must not be longer than 5000 characters</i><%
     				
 	}
     		      
 	%>
-      <br />
-      <label for="option0">Options</label><%
+        <br />
+        <label for="option0">Options</label><%
     	      
 	final boolean isAnOptionTooLong = view.isAnOptionTooLong();
 	if (isAnOptionTooLong == true) {
 
 		%>
-      <i>Must not be longer than 80 characters</i><%
+        <i>Must not be longer than 80 characters</i><%
     		  		
 	}
     		  	
 	%>
-      <br /><%
+        <br /><%
       
 		for (int i = 0; i < 5; i++) {
 			pageContext.setAttribute("optionNumber", i);
         	
         	%>
-      <input id="option${optionNumber}" name="option${optionNumber}"
-          type="text"></input>
-      <br /><%
+        <input id="option${optionNumber}" name="option${optionNumber}"
+            type="text"></input>
+        <br /><%
         	
 		}
 		if (isUserLoggedIn == true) {
@@ -105,14 +108,14 @@
 			pageContext.setAttribute("authorId", authorId);
         
         	%>
-      <input name="authorId" type="hidden" value="${authorId}" /><%
+        <input name="authorId" type="hidden" value="${authorId}" /><%
         
 		}
       
         %>
-      <label for="authorName">Author</label>
-      <br />
-      <input id="authorName" name="authorName" type="text"<%
+        <label for="authorName">Author</label>
+        <br />
+        <input id="authorName" name="authorName" type="text"<%
         
 		if (isUserLoggedIn == true) {
         
@@ -131,19 +134,19 @@
 		if (isAuthorNameBlank == true) {
 
 			%>
-	      <i>Must not be blank</i><%
+	        <i>Must not be blank</i><%
 			
 		} else if (isAuthorNameTooLong == true) {
 			
 			%>
-	      <i>Must not be longer than 100 characters</i><%
+	        <i>Must not be longer than 100 characters</i><%
 			
 		}
 	      
 	      %>
-      <br />
-      <button type="submit">Submit</button>
-    </form><%
+        <br />
+        <button type="submit">Submit</button>
+      </form><%
       
 	} else {
    			
@@ -153,9 +156,12 @@
    	}
     
     %>
-    <div><a href="/about.jsp">About</a></div>
-    <div><a href="/terms.jsp">Terms of use</a></div>
-    <div><a href="/privacy.jsp">Privacy</a></div>
-    <div><a href="/contact.jsp">Contact</a></div>
+    </div>
+    <div id="footerMenu">
+      <span class="footer"><a href="/about.jsp">About</a></span>
+      <span class="footer"><a href="/terms.jsp">Terms</a></span>
+      <span class="footer"><a href="/privacy.jsp">Privacy</a></span>
+      <span class="footer"><a href="/contact.jsp">Contact</a></span>
+    </div>
   </body>
 </html>
