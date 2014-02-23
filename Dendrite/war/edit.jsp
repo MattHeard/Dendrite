@@ -8,10 +8,12 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Dendrite - Edit</title>
   </head>
   <body>
-    <h1><a href="/">Dendrite</a></h1><%
+    <div id="header">
+      <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
     
     final EditView view = new EditView();
 	final String pageNumber = request.getParameter("p");
@@ -29,16 +31,15 @@
         pageContext.setAttribute("logoutLink", logoutLink);
         
     %>
-    <div>Welcome back, <a href="${authorLink}">${userName}</a>.
-      (<a href="${logoutLink}">Logout</a>)
-    </div><%
+      <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
+          (<a href="${logoutLink}">Logout</a>)</div><%
     
     } else {
     	final String loginLink = view.getLoginLink();
     	pageContext.setAttribute("loginLink", loginLink);
     
         %>
-    <a href="${loginLink}">Login or register</a><%
+      <div id="login"><a href="${loginLink}">Login or register</a></div><%
     
     }
     final boolean isExistingPage = view.isExistingPage();
@@ -46,6 +47,9 @@
     	pageContext.setAttribute("pageNumber", pageNumber);
     	
     	%>
+    </div>
+    <div id="main">
+      <h2>Edit a page</h2>
     <form action="submitEdit" method="post">
       <input type="hidden" name="pageNumber" value="${pageNumber}" />
       <label for="content">Story</label>
@@ -143,9 +147,12 @@
     }
     
     %>
-    <div><a href="/about.jsp">About</a></div>
-    <div><a href="/terms.jsp">Terms of use</a></div>
-    <div><a href="/privacy.jsp">Privacy</a></div>
-    <div><a href="/contact.jsp">Contact</a></div>
+    </div>
+    <div id="footerMenu">
+      <span class="footer"><a href="/about.jsp">About</a></span>
+      <span class="footer"><a href="/terms.jsp">Terms</a></span>
+      <span class="footer"><a href="/privacy.jsp">Privacy</a></span>
+      <span class="footer"><a href="/contact.jsp">Contact</a></span>
+    </div>
   </body>
 </html>
