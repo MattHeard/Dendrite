@@ -29,6 +29,7 @@
     <title>Dendrite - ${penName}</title>
   </head>
   <body>
+    <div id="nonFooter">
     <div id="header">
       <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
     
@@ -133,6 +134,7 @@
     }
 	
 	%>
+    </div>
     </div>
     <div id="footerMenu">
       <span class="footer"><a href="/about.jsp">About</a></span>

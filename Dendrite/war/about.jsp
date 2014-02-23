@@ -12,6 +12,7 @@
     <title>Dendrite - About</title>
   </head>
   <body>
+    <div id="nonFooter">
     <div id="header">
       <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
     
@@ -62,6 +63,7 @@
           write the story and watch it unfold for any and all of these
           characters.</p>
       <p><i>Dendrite</i> is a creation of <i>Deuterium Labs</i>.</p>
+    </div>
     </div>
     <div id="footerMenu">
       <span class="footer"><a href="/about.jsp">About</a></span>

@@ -12,6 +12,7 @@
     <title>Dendrite - Contact us</title>
   </head>
   <body>
+    <div id="nonFooter">
     <div id="header">
       <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
     
@@ -55,6 +56,7 @@
         <button type="reset">Reset</button>
         <button type="submit">Send</button>
       </form>
+    </div>
     </div>
     <div id="footerMenu">
       <span class="footer"><a href="/about.jsp">About</a></span>

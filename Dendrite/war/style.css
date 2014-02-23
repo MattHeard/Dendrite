@@ -31,11 +31,25 @@ body {
 	margin-right:	1em;
 }
 
+html, body {
+	height:	100%;
+}
+
+#nonFooter {
+	min-height:	100%;
+}
+
+#main {
+	overflow:	auto;
+}
+
 #footerMenu {
+	position:			relative;
+	margin-top:			-2.6em;
+	height:				1.5em;
 	clear:				both;
 	padding:			0.5em;
 	background-color:	#f0f0f0;
-	min-height:			1.5em;
 	border:				1px #e0e0e0;
 	border-style:		solid none;
 	text-align:			left;
@@ -75,15 +89,15 @@ input, textarea {
 }
 
 .itemNumber {
-	float: right;
-	text-align:	right;
-	min-width:	5%;
+	float: 			right;
+	text-align:		right;
+	min-width:		5%;
 	padding-left:	5%;
 }
 
 #main {
 	clear:		both;
-	padding:	0.5em;
+	padding:	0.5em 0.5em 2.5em 0.5em;
 }
 
 #newStory {

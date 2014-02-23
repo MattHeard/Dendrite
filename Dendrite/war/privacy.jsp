@@ -12,6 +12,7 @@
     <title>Dendrite - Privacy Policy</title>
   </head>
   <body>
+    <div id="nonFooter">
     <div id="header">
       <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
     
@@ -130,6 +131,7 @@
       indicate your acceptance of any changes.</p>
     <h3>Latest update</h3>
     <p>This Privacy Policy was last updated 20 October 2013.</p>
+    </div>
     </div>
     <div id="footerMenu">
       <span class="footer"><a href="/about.jsp">About</a></span>

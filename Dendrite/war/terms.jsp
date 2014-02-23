@@ -12,6 +12,7 @@
     <title>Dendrite - Terms of Use</title>
   </head>
   <body>
+    <div id="nonFooter">
     <div id="header">
       <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
     
@@ -200,6 +201,7 @@
           such use of this Website.</p>
       <h3>Latest update</h3>
       <p>These Terms were last updated 20 October 2013.</p>
+    </div>
     </div>
     <div id="footerMenu">
       <span class="footer"><a href="/about.jsp">About</a></span>

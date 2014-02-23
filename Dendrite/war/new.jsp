@@ -12,6 +12,7 @@
     <title>Dendrite - New Story</title>
   </head>
   <body>
+    <div id="nonFooter">
     <div id="header">
       <div id="logo"><h1><a href="/">Dendrite</a></h1></div><%
     
@@ -151,6 +152,7 @@
       <br />
       <button type="submit">Submit</button>
     </form>
+    </div>
     </div>
     <div id="footerMenu">
       <span class="footer"><a href="/about.jsp">About</a></span>
