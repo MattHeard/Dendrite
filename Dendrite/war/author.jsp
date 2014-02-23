@@ -30,6 +30,7 @@
   </head>
   <body>
     <div id="nonFooter">
+    <div id="headerBar">
     <div id="header">
       <div id="logo"><a href="/"><img id="logoImage" src="logo.png"
           /></a></div><%
@@ -57,6 +58,7 @@
     }
     
 	%>
+    </div>
     </div>
     <div id="main">
       <h2>${penName}</h2><%
@@ -137,10 +139,12 @@
 	%>
     </div>
     </div>
+    <div id="footerBar">
     <div id="footerMenu">
       <span class="footer"><a href="/about.jsp">About</a></span>
       <span class="footer"><a href="/terms.jsp">Terms</a></span>
       <span class="footer"><a href="/privacy.jsp">Privacy</a></span>
       <span class="footer"><a href="/contact.jsp">Contact</a></span>
+    </div>
     </div>
 </html>

@@ -10,14 +10,11 @@ a:hover {
 }
 
 body {
-	max-width:		800px;
 	line-height:	1.5em;
 	text-align:		justify;
 	margin:			0em;
 	font-family:	sans-serif;
 	font-weight:	100;
-	margin-left:	auto;
-	margin-right:	auto;
 }
 
 #credit {
@@ -33,19 +30,7 @@ body {
 	margin-right:	1em;
 }
 
-html, body {
-	height:	100%;
-}
-
-#nonFooter {
-	min-height:	100%;
-}
-
-#main {
-	overflow:	auto;
-}
-
-#footerMenu {
+#footerBar {
 	position:			relative;
 	margin-top:			-2.6em;
 	height:				1.5em;
@@ -54,7 +39,13 @@ html, body {
 	background-color:	#f0f0f0;
 	border:				1px #e0e0e0;
 	border-style:		solid none;
+}
+
+#footerMenu {
+	max-width:			800px;
 	text-align:			left;
+	margin-left:		auto;
+	margin-right:		auto;
 }
 	
 h2, h3 {
@@ -63,11 +54,21 @@ h2, h3 {
 }
 
 #header {
+	max-width:			800px;
+	margin-left:		auto;
+	margin-right:		auto;
+}
+
+#headerBar {
 	padding:			0.5em;
 	background-color:	#f0f0f0;
 	border:				1px #e0e0e0;
 	border-style:		solid none;
 	min-height:			70px;
+}
+
+html, body {
+	height:	100%;
 }
 
 input, textarea {
@@ -100,13 +101,21 @@ input, textarea {
 }
 
 #main {
-	clear:		both;
-	padding:	0.5em 0.5em 2.5em 0.5em;
+	clear:			both;
+	padding:		0.5em 0.5em 2.5em 0.5em;
+	overflow:		auto;
+	max-width:		800px;
+	margin-left:	auto;
+	margin-right:	auto;
 }
 
 #newStory {
 	clear:			both;
 	padding-top:	1em;
+}
+
+#nonFooter {
+	min-height:		100%;
 }
 
 .option {
@@ -135,12 +144,5 @@ textarea {
 	#logo {
 		float:			left;
 		padding-right:	1em;
-	}
-}
-
-@media all and (min-width: 800px) {
-	
-	#header, #footerMenu {
-		border-style:		solid;
 	}
 }
