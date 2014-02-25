@@ -47,6 +47,30 @@ body {
 	margin-left:		auto;
 	margin-right:		auto;
 }
+
+#formatBar {
+	min-height:			50px;
+	background-color:	#777;
+	color:				#DDD;
+	border:				1px #666;
+	border-style:		solid none;
+}
+
+.formatIcon {
+	-webkit-filter:	invert(100%);
+	float:			left;
+	padding-top:	15px;
+	padding-bottom:	15px;
+	padding-left:	10px;
+	padding-right:	10px;
+	height:			20px;
+}
+
+#formatMenu {
+	width:			800px;
+	margin-left:	auto;
+	margin-right:	auto;
+}
 	
 h2, h3 {
 	font-weight:	300;
@@ -97,7 +121,6 @@ input, textarea {
 
 #logoImage {
 	height:	70px;
-	width:	282.5px;
 }
 
 #main {
@@ -144,5 +167,17 @@ textarea {
 	#logo {
 		float:			left;
 		padding-right:	1em;
+	}
+	
+	.formatIcon {
+		padding-left:	10px;
+		padding-right:	30px;
+	}
+}
+
+@media all and (min-width: 1000px) {
+	
+	#logo {
+		margin-left:	-95px;
 	}
 }
