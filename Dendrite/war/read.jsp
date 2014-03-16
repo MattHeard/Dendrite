@@ -7,7 +7,9 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" type="text/css" href="style.css"><%
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="script.js"></script><%
     
     final ReadView view = new ReadView();
     final String pageId = request.getParameter("p");
@@ -62,6 +64,83 @@
     %>
     </div>
     </div>
+    <div id="formatBar">
+    	<div id="formatMenu">
+    	    <img class="formatIcon" id="sizeButton" src="icons/size.png"
+    	    		title="SIZE" onClick="clickFormatButton('size');" />
+    	    <img class="formatIcon" id="typeButton" src="icons/type.png"
+    	    		title="TYPE" onClick="clickFormatButton('type');" />
+    	    <img class="formatIcon" id="colourButton" src="icons/colour.png"
+    	    		title="COLOUR" onClick="clickFormatButton('colour');" />
+    	    <img class="formatIcon" id="dayNightButton"
+    	    		src="icons/day_night.png" title="DAY/NIGHT"
+    	    		onClick="clickFormatButton('dayNight');" />
+    	    <img class="formatIcon" id="alignmentButton"
+    	    		src="icons/alignment.png" title="ALIGNMENT"
+    	    		onClick="clickFormatButton('alignment');" />
+    	    <img class="formatIcon" id="spacingButton" src="icons/spacing.png"
+    	    		title="SPACING" onClick="clickFormatButton('spacing');" />
+    	    <img class="formatIcon" id="themeButton" src="icons/theme.png"
+    	    		title="THEME" onClick="clickFormatButton('theme');" />
+    	</div>
+    	<div id="sizePickerBar" class="formatPickerBar">
+    		<select id="sizePicker" onchange="pickSize(this.value);">
+    			<option value="2">Huge</option>
+    			<option value="1.5">Large</option>
+    			<option value="1" selected="selected">Medium</option>
+    			<option value="0.8">Small</option>
+    		</select>
+    	</div>
+     	<div id="typePickerBar" class="formatPickerBar">
+          <select id="typePicker" onchange="pickType(this.value);">
+            <option value="serif">Serif</option>
+            <option value="sans-serif" selected="selected">Sans-serif</option>
+            <option value="monospace">Monospace</option>
+            <option value="cursive">Cursive</option>
+            <option value="fantasy">Fantasy</option>
+          </select>
+    	</div>
+    	<div id="colourPickerBar" class="formatPickerBar">
+    		<select id="colourPicker" onchange="pickColour(this.value);">
+	    		<option value="333">Off-Black</option>
+	    		<option value="000" selected="selected">Black</option>
+	    		<option value="999">Grey</option>
+    			<option value="009">Blue</option>
+    			<option value="090">Green</option>
+    			<option value="900">Red</option>
+    		</select>
+    	</div>
+    	<div id="dayNightPickerBar" class="formatPickerBar">
+    		<select id="dayNightPicker" onchange="pickDayNight(this.value);">
+	    		<option value="day">Day</option>
+	    		<option value="night">Night</option>
+    		</select>
+    	</div>
+    	<div id="alignmentPickerBar" class="formatPickerBar">
+    		<select id="alignmentPicker" onchange="pickAlignment(this.value);">
+	    		<option value="left">Left</option>
+	    		<option value="right">Right</option>
+	    		<option value="center">Center</option>
+	    		<option value="justify" selected="selected">Justify</option>
+    		</select>
+    	</div>
+    	<div id="spacingPickerBar" class="formatPickerBar">
+    		<select id="spacingPicker" onchange="pickSpacing(this.value);">
+    			<option value="3">Huge</option>
+    			<option value="2">Large</option>
+    			<option value="1.5" selected="selected">Medium</option>
+    			<option value="1">Small</option>
+    		</select>
+    	</div>
+    	<div id="themePickerBar" class="formatPickerBar">
+    		<select id="themePicker" onchange="pickTheme(this.value);">
+	    		<option value="greyscale">Greyscale</option>
+	    		<option value="sepia">Sepia</option>
+	    		<option value="lovely">Lovely</option>
+    		</select>
+    	</div>
+    </div>
+    <script type="text/javascript">showFormatBar();</script> 
     <div id="main"><%
     
     if (isPageInStore == true) {
@@ -69,20 +148,21 @@
     	if (isBeginning == true) {
     		
     		%>
-      <div id="storyTitle"><h2>${title}</h2></div><%
+      <div id="storyTitle" class="modifiableText"><h2>${title}</h2></div><%
     		
     	}
     	final String pageNumber = view.getPageNumber();
     	pageContext.setAttribute("pageNumber", pageNumber);
     	
     	%>
-      <div id="editLink"><a href="/edit.jsp?p=${pageNumber}">Edit</a></div><%
+      <div id="editLink" class="modifiableText"><a
+          href="/edit.jsp?p=${pageNumber}">Edit</a></div><%
     	
     	final String text = view.getPageText();
     	pageContext.setAttribute("text", text);
     
 	    %>
-      <div id="text">${text}</div><%
+      <p id="text" class="modifiableText">${text}</p><%
     
     	final int numberOfOptions = view.getNumberOfOptions();
     	for (int i = 0; i < numberOfOptions; i++) {
@@ -92,7 +172,7 @@
     		pageContext.setAttribute("optionText", optionText);
     		
     		%>
-      <div class="option"><a href="${optionLink}"<%
+      <div class="option modifiableText"><a href="${optionLink}"<%
     %>>${optionText}</a></div><%
 
     	}
@@ -102,7 +182,7 @@
     	pageContext.setAttribute("authorName", authorName);
     	
     	%>
-      <div id="credit">This page was written by <%
+      <div id="credit" class="modifiableText">This page was written by <%
     
         final boolean isAuthorAnonymous = view.isAuthorAnonymous();
     	if (isAuthorAnonymous == false) {
@@ -128,14 +208,16 @@
         	pageContext.setAttribute("first", first);
     
         	%>
-      <div><a href="${first}">Return to the first page of this story.</a></div><%
+      <div class="modifiableText"><a href="${first}">Return to the first page of
+          this story.</a></div><%
     
         }
 	
     } else {
 	
 	    %>
-      <div>This page doesn't appear to be written yet.</div><%
+      <div class="modifiableText">This page doesn't appear to be written
+          yet.</div><%
 	
     }
 	

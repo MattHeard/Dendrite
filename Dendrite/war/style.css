@@ -10,11 +10,13 @@ a:hover {
 }
 
 body {
-	line-height:	1.5em;
-	text-align:		justify;
-	margin:			0em;
-	font-family:	sans-serif;
-	font-weight:	100;
+	line-height:		1.5em;
+	text-align:			justify;
+	margin:				0em;
+	font-family:		sans-serif;
+	font-weight:		100;
+	color:				#111;
+	background-color:	#fefefe;
 }
 
 #credit {
@@ -38,7 +40,7 @@ body {
 	padding:			0.5em;
 	background-color:	#f0f0f0;
 	border:				1px #e0e0e0;
-	border-style:		solid none;
+	border-style:		solid none none none;
 }
 
 #footerMenu {
@@ -50,13 +52,34 @@ body {
 
 #formatBar {
 	min-height:			50px;
-	background-color:	#777;
+	background-color:	#999;
 	color:				#DDD;
-	border:				1px #666;
+	border:				1px #888;
 	border-style:		solid none;
+	display:			none;
+}
+
+.formatPickerBar {
+	max-width:			800px;
+	margin-left:		auto;
+	margin-right:		auto;
+	display:			none;
+	height:				30px;
+	clear:				both;
 }
 
 .formatIcon {
+	-webkit-filter:	invert(100%);
+	opacity:		0.6;
+	float:			left;
+	padding-top:	15px;
+	padding-bottom:	15px;
+	padding-left:	10px;
+	padding-right:	10px;
+	height:			20px;
+}
+
+.formatIconPressed {
 	-webkit-filter:	invert(100%);
 	float:			left;
 	padding-top:	15px;
@@ -67,9 +90,11 @@ body {
 }
 
 #formatMenu {
-	width:			800px;
+	max-width:		800px;
 	margin-left:	auto;
 	margin-right:	auto;
+	display:		none;
+	height:			30px;
 }
 	
 h2, h3 {
@@ -102,6 +127,13 @@ input, textarea {
 	box-sizing:			border-box;
 }
 
+input[type="color"], input[type="range"] {
+	width:			90%;
+	margin-left:	5%;
+	margin-right:	5%;
+	height:			30px;
+}
+
 .item {
 	clear: 		both;
 	min-height:	1.5em;
@@ -125,7 +157,7 @@ input, textarea {
 
 #main {
 	clear:			both;
-	padding:		0.5em 0.5em 2.5em 0.5em;
+	padding:		0.5em 0.5em 4em 0.5em;
 	overflow:		auto;
 	max-width:		800px;
 	margin-left:	auto;
@@ -143,6 +175,12 @@ input, textarea {
 
 .option {
 	padding-top:	1em;
+}
+
+select {
+	font-size:		1em;
+	margin-left:	1em;
+	height:			30px;
 }
 
 #storyTitle {
@@ -171,7 +209,27 @@ textarea {
 	
 	.formatIcon {
 		padding-left:	10px;
-		padding-right:	30px;
+		padding-right:	10px;
+		margin-right:	20px;
+	}
+	
+	.formatIconPressed {
+		padding-left:	10px;
+		padding-right:	10px;
+		margin-right:	20px;
+	}
+}
+
+@media all and (min-width: 800px) {
+	
+	input[type="range"], input[type="color"] {
+		width:			100%;
+		margin-left:	0%;
+		margin-right:	0%;
+	}
+	
+	select {
+		margin-left:	0%;
 	}
 }
 

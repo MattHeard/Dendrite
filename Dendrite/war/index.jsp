@@ -52,24 +52,6 @@
 	%>
     </div>
     </div>
-    <div id="formatBar">
-    	<div id="formatMenu">
-    	    <img class="formatIcon" src="icons/size.png" />
-    		<div id="formatElement">SIZE</div>
-    	    <img class="formatIcon" src="icons/type.png" />
-    		<div id="formatElement">TYPE</div>
-    	    <img class="formatIcon" src="icons/colour.png" />
-    		<div id="formatElement">COLOUR</div>
-    	    <img class="formatIcon" src="icons/day_night.png" />
-    		<div id="formatElement">DAY/NIGHT</div>
-    	    <img class="formatIcon" src="icons/alignment.png" />
-    		<div id="formatElement">ALIGNMENT</div>
-    	    <img class="formatIcon" src="icons/spacing.png" />
-    		<div id="formatElement">SPACING</div>
-    	    <img class="formatIcon" src="icons/theme.png" />
-    		<div id="formatElement">THEMES</div>
-    	</div>
-    </div>
     <div id="main">
       <h2>Table of Contents</h2><%
 	
