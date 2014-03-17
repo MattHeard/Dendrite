@@ -120,6 +120,10 @@ html, body {
 	height:	100%;
 }
 
+img {
+	-webkit-transform: translateZ(0);
+}
+
 input, textarea {
 	width:				100%;
 	-webkit-box-sizing:	border-box;
