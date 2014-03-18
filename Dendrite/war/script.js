@@ -15,7 +15,7 @@ function unsetFormatBar(name) {
 }
 
 function unsetOtherFormatButtonsAndPickerBars(name) {
-	var others = [ "size", "type", "colour", "dayNight", "alignment", "spacing",
+	var others = [ "size", "type", "colour", "alignment", "spacing",
 	               "theme" ];
 	var len = others.length;
 	for (var i = 0; i < len; i++) {
