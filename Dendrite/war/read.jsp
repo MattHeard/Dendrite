@@ -72,9 +72,6 @@
     	    		title="TYPE" onClick="clickFormatButton('type');" />
     	    <img class="formatIcon" id="colourButton" src="icons/colour.png"
     	    		title="COLOUR" onClick="clickFormatButton('colour');" />
-    	    <img class="formatIcon" id="dayNightButton"
-    	    		src="icons/day_night.png" title="DAY/NIGHT"
-    	    		onClick="clickFormatButton('dayNight');" />
     	    <img class="formatIcon" id="alignmentButton"
     	    		src="icons/alignment.png" title="ALIGNMENT"
     	    		onClick="clickFormatButton('alignment');" />
@@ -110,12 +107,6 @@
     			<option value="900">Red</option>
     		</select>
     	</div>
-    	<div id="dayNightPickerBar" class="formatPickerBar">
-    		<select id="dayNightPicker" onchange="pickDayNight(this.value);">
-	    		<option value="day">Day</option>
-	    		<option value="night">Night</option>
-    		</select>
-    	</div>
     	<div id="alignmentPickerBar" class="formatPickerBar">
     		<select id="alignmentPicker" onchange="pickAlignment(this.value);">
 	    		<option value="left">Left</option>
@@ -134,7 +125,8 @@
     	</div>
     	<div id="themePickerBar" class="formatPickerBar">
     		<select id="themePicker" onchange="pickTheme(this.value);">
-	    		<option value="greyscale">Greyscale</option>
+	    		<option value="light">Light</option>
+	    		<option value="dark">Dark</option>
 	    		<option value="sepia">Sepia</option>
 	    		<option value="lovely">Lovely</option>
     		</select>
