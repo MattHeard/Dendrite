@@ -120,10 +120,6 @@ html, body {
 	height:	100%;
 }
 
-img {
-	-webkit-transform: translateZ(0);
-}
-
 input, textarea {
 	width:				100%;
 	-webkit-box-sizing:	border-box;
@@ -241,5 +237,11 @@ textarea {
 	
 	#logo {
 		margin-left:	-95px;
+	}
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+	img {
+		-webkit-transform: translateZ(0);
 	}
 }
