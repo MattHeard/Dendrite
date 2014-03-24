@@ -197,7 +197,7 @@ select {
 	float: left;
 }
 
-#text {
+#text, .text {
 	clear:	both;
 }
 

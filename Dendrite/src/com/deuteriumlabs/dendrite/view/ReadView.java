@@ -1,5 +1,9 @@
 package com.deuteriumlabs.dendrite.view;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryOption;
@@ -159,5 +163,15 @@ public class ReadView extends View {
 	public void setPageId(final String idString) {
 		final PageId id = getSpecificPageId(idString);
 		this.setPageId(id);
+	}
+	
+	public List<String> getParagraphs() {
+		final String text = this.getPageText();
+		String[] array = text.split("\n");
+		return Arrays.asList(array);
+	}
+	
+	public enum Format {
+		BOLD, BOLD_ITALIC, ITALIC, NONE
 	}
 }

@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.ReadView"
+%><%@ page import="com.deuteriumlabs.dendrite.view.FormattedText"
+%><%@ page import="com.deuteriumlabs.dendrite.view.FormattedText.Format"
 %><%@ page import="java.util.List"
+%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><!DOCTYPE html>
 <html>
   <head>
@@ -150,11 +153,46 @@
       <div id="editLink" class="modifiableText"><a
           href="/edit.jsp?p=${pageNumber}">Edit</a></div><%
     	
-    	final String text = view.getPageText();
-    	pageContext.setAttribute("text", text);
+    	//final String text = view.getPageText();
+        
+        // Display formatted content
+        // First, break it into paragraphs.
+        final List<String> paragraphs = view.getParagraphs();
+        for (final String paragraph : paragraphs) {
+        	
+        	%><p class="text modifiableText">
+          <%
+          
+          	List<FormattedText> formattedTextChunks;
+          	formattedTextChunks = FormattedText.extractFormattedText(paragraph);
+          	for (final FormattedText chunk : formattedTextChunks) {
+          		pageContext.setAttribute("chunk", chunk.getText());
+          		Format format = chunk.getFormat();
+          		switch (format) {
+          		case BOLD:
+          			%><b>${fn:escapeXml(chunk)}</b><%
+          			break;
+          		case BOLD_ITALIC:
+          			%><b><i>${fn:escapeXml(chunk)}</i></b><%
+          			break;
+          		case ITALIC:
+          			%><i>${fn:escapeXml(chunk)}</i><%
+          			break;
+          		case NONE:
+          			%>${fn:escapeXml(chunk)}<%
+          			break;
+          		}
+          	}
+          
+            %>
+        </p><%
+        	
+        }
+        
+    	//pageContext.setAttribute("text", text);
     
 	    %>
-      <p id="text" class="modifiableText">${text}</p><%
+      <!-- <p id="text" class="modifiableText">${text}</p> --><%
     
     	final int numberOfOptions = view.getNumberOfOptions();
     	for (int i = 0; i < numberOfOptions; i++) {
@@ -165,7 +203,30 @@
     		
     		%>
       <div class="option modifiableText"><a href="${optionLink}"<%
-    %>>${optionText}</a></div><%
+    %>><%
+    
+  	List<FormattedText> formattedTextChunks;
+  	formattedTextChunks = FormattedText.extractFormattedText(optionText);
+  	for (final FormattedText chunk : formattedTextChunks) {
+  		pageContext.setAttribute("chunk", chunk.getText());
+  		Format format = chunk.getFormat();
+  		switch (format) {
+  		case BOLD:
+  			%><b>${fn:escapeXml(chunk)}</b><%
+  			break;
+  		case BOLD_ITALIC:
+  			%><b><i>${fn:escapeXml(chunk)}</i></b><%
+  			break;
+  		case ITALIC:
+  			%><i>${fn:escapeXml(chunk)}</i><%
+  			break;
+  		case NONE:
+  			%>${fn:escapeXml(chunk)}<%
+  			break;
+  		}
+  	}
+  
+    %></a></div><%
 
     	}
     	String authorName = view.getAuthorName();
