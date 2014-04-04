@@ -120,25 +120,11 @@ html, body {
 	height:	100%;
 }
 
-html *:not(svg) {
-	/* Fixes Chrome redraw issues. */
-    -webkit-transform: translate3d(0, 0, 0);
-    -moz-transform: translate3d(0, 0, 0);
-    -ms-transform: translate3d(0, 0, 0); /*only in IE10*/
-}
-
 input, textarea {
 	width:				100%;
 	-webkit-box-sizing:	border-box;
 	-moz-box-sizing:	border-box;
 	box-sizing:			border-box;
-}
-
-input[type="color"], input[type="range"] {
-	width:			90%;
-	margin-left:	5%;
-	margin-right:	5%;
-	height:			30px;
 }
 
 .item {
@@ -147,7 +133,7 @@ input[type="color"], input[type="range"] {
 }
 
 .itemContent {
-	float: left;
+	float: 		left;
 	max-width:	89%;
 }
 
@@ -160,9 +146,6 @@ input[type="color"], input[type="range"] {
 
 #logoImage {
 	height:	70px;
-    -webkit-transform: none;
-    -moz-transform: none;
-    -ms-transform: none;
 }
 
 #main {
@@ -232,12 +215,6 @@ textarea {
 
 @media all and (min-width: 800px) {
 	
-	input[type="range"], input[type="color"] {
-		width:			100%;
-		margin-left:	0%;
-		margin-right:	0%;
-	}
-	
 	select {
 		margin-left:	0%;
 	}
@@ -249,9 +226,4 @@ textarea {
 		margin-left:	-95px;
 	}
 }
-
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-	img {
-		-webkit-transform: translateZ(0);
-	}
-}
+	
