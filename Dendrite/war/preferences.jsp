@@ -47,11 +47,64 @@
     <div id="main">
       <h2>My Preferences</h2>
       <form action="updatePreferences" method="post">
-        <label for="newPenName">Pen name</label>
-        <br />
-        <input type="text" name="newPenName" id="newPenName"
-            value="${userName}"></input>
-        <br />
+      	<p>
+          <label for="newPenName">Pen name</label>
+          <br />
+          <input type="text" name="newPenName" id="newPenName"
+              value="${userName}"></input>
+        </p>
+        <h3>Display</h3>
+        <p>
+          <label for="fontSize">Font size</label>
+          <br />
+          <select name="fontSize" id="fontSize">
+            <option>Huge</option>
+            <option>Large</option>
+            <option>Medium</option>
+            <option>Small</option>
+          </select>
+        </p>
+        <p>
+          <label for="fontType">Font type</label>
+          <br />
+          <select name="fontType" id="fontType">
+            <option>Serif</option>
+            <option>Sans-serif</option>
+            <option>Monospace</option>
+            <option>Cursive</option>
+            <option>Fantasy</option>
+          </select>
+        </p>
+        <p>
+          <label for="alignment">Text alignment</label>
+          <br />
+          <select name="alignment" id="alignment">
+            <option>Left</option>
+            <option>Right</option>
+            <option>Center</option>
+            <option>Justify</option>
+          </select>
+        </p>
+        <p>
+          <label for="spacing">Line spacing</label>
+          <br />
+          <select name="spacing" id="spacing">
+            <option>Huge</option>
+            <option>Large</option>
+            <option>Medium</option>
+            <option>Small</option>
+          </select>
+        </p>
+        <p>
+          <label for="theme">Theme</label>
+          <br />
+          <select name="theme" id="theme">
+            <option>Light</option>
+            <option>Dark</option>
+            <option>Sepia</option>
+            <option>Lovely</option>
+          </select>
+        </p>
         <button type="submit">Update</button>
       </form>
     </div>
