@@ -64,4 +64,5 @@
       <span class="footer"><a href="/contact.jsp">Contact</a></span>
     </div>
     </div>
+  </body>
 </html>
