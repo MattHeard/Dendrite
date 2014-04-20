@@ -41,12 +41,24 @@ function clickFormatButton(name) {
 var lineHeight = "1.5em";
 
 function pickSize(value) {
-	var elements = document.getElementsByClassName("modifiableText");
-	for (var i = 0; i < elements.length; ++i) {
-	    var element = elements[i];  
-		element.style.fontSize = value + "em";
-		element.style.lineHeight = lineHeight;
-	}
+    if ($('.modifiableText').hasClass('sizeHuge')) {
+        $('.modifiableText').removeClass('sizeHuge');
+    } else if ($('.modifiableText').hasClass('sizeLarge')) {
+        $('.modifiableText').removeClass('sizeLarge');
+    } else if ($('.modifiableText').hasClass('sizeMedium')) {
+        $('.modifiableText').removeClass('sizeMedium');
+    } else if ($('.modifiableText').hasClass('sizeSmall')) {
+        $('.modifiableText').removeClass('sizeSmall');
+    }
+    $('.modifiableText').addClass('size' + value);
+    $('.modifiableText').css("lineHeight", lineHeight);
+
+//	var elements = document.getElementsByClassName("modifiableText");
+//	for (var i = 0; i < elements.length; ++i) {
+//	    var element = elements[i];  
+//		element.style.fontSize = value + "em";
+//		element.style.lineHeight = lineHeight;
+//	}
 }
 
 function pickType(value) {

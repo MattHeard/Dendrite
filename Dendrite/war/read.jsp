@@ -37,11 +37,11 @@
   </head>
   <body>
     <div id="nonFooter">
-    <div id="headerBar">
-    <div id="header">
-      <div id="logo"><a href="/"><img id="logoImage" src="logo.png"
-          /></a></div><%
-    
+      <div id="headerBar">
+        <div id="header">
+          <div id="logo"><a href="/"><img id="logoImage" src="logo.png" /></a></div><%
+
+    double userFontSize = 1.0;
     final boolean isUserLoggedIn = ReadView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
         final String authorLink = ReadView.getAuthorLink();
@@ -50,48 +50,63 @@
         pageContext.setAttribute("userName", userName);
         final String logoutLink = view.getLogoutLink();
         pageContext.setAttribute("logoutLink", logoutLink);
+        userFontSize = ReadView.getUserFontSize();
         
         %>
-      <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
-          (<a href="${logoutLink}">Logout</a>)</div><%
+          <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>. (<a href="${logoutLink}">Logout</a>)</div><%
     
     } else {
     	final String loginLink = view.getLoginLink();
     	pageContext.setAttribute("loginLink", loginLink);
     
         %>
-      <div id="login"><a href="${loginLink}">Login or register</a></div><%
+          <div id="login"><a href="${loginLink}">Login or register</a></div><%
 	
     }
     
     %>
-    </div>
-    </div>
-    <div id="formatBar">
-    	<div id="formatMenu">
-    	    <img class="formatIcon" id="sizeButton" src="icons/size.png"
-    	    		title="SIZE" onClick="clickFormatButton('size');" />
-    	    <img class="formatIcon" id="typeButton" src="icons/type.png"
-    	    		title="TYPE" onClick="clickFormatButton('type');" />
-    	    <img class="formatIcon" id="colourButton" src="icons/colour.png"
-    	    		title="COLOUR" onClick="clickFormatButton('colour');" />
-    	    <img class="formatIcon" id="alignmentButton"
-    	    		src="icons/alignment.png" title="ALIGNMENT"
-    	    		onClick="clickFormatButton('alignment');" />
-    	    <img class="formatIcon" id="spacingButton" src="icons/spacing.png"
-    	    		title="SPACING" onClick="clickFormatButton('spacing');" />
-    	    <img class="formatIcon" id="themeButton" src="icons/theme.png"
-    	    		title="THEME" onClick="clickFormatButton('theme');" />
-    	</div>
-    	<div id="sizePickerBar" class="formatPickerBar">
-    		<select id="sizePicker" onchange="pickSize(this.value);">
-    			<option value="2">Huge</option>
-    			<option value="1.5">Large</option>
-    			<option value="1" selected="selected">Medium</option>
-    			<option value="0.8">Small</option>
-    		</select>
-    	</div>
-     	<div id="typePickerBar" class="formatPickerBar">
+        </div>
+      </div>
+      <div id="formatBar">
+        <div id="formatMenu"><%
+
+	final String[] formatDimensions = { "size", "type", "colour", "alignment", "spacing", "theme" };
+    for (String dimension : formatDimensions) {
+    	pageContext.setAttribute("dimension", dimension);
+    	pageContext.setAttribute("dimensionUpper", dimension.toUpperCase());
+    	
+    	%>
+    	  <img class="formatIcon" id="${dimension}Button" src="icons/${dimension}.png" title="${dimensionUpper}" onClick="clickFormatButton('${dimension}');" /><%
+    	  
+    }
+
+        %>
+        </div>
+        <div id="sizePickerBar" class="formatPickerBar">
+          <select id="sizePicker" onchange="pickSize(this.value);"><%
+            
+    final double[] sizeNumbers = { 2, 1.5, 1, 0.8 };
+    final String[] sizeLabels = { "Huge", "Large", "Medium", "Small" };
+    for (int i = 0; i < sizeNumbers.length; i++) {
+    	pageContext.setAttribute("number", sizeNumbers[i]);
+    	pageContext.setAttribute("label", sizeLabels[i]);
+    	
+    	%>
+            <option value="${label}"<%
+            
+        if (sizeNumbers[i] == userFontSize) {
+        	
+        	%> selected="selected"<%
+        	
+        }
+            
+            %>>${label}</option><%
+    }
+            
+            %>
+          </select>
+        </div>
+        <div id="typePickerBar" class="formatPickerBar">
           <select id="typePicker" onchange="pickType(this.value);">
             <option value="serif">Serif</option>
             <option value="sans-serif" selected="selected">Sans-serif</option>
@@ -99,17 +114,17 @@
             <option value="cursive">Cursive</option>
             <option value="fantasy">Fantasy</option>
           </select>
-    	</div>
-    	<div id="colourPickerBar" class="formatPickerBar">
-    		<select id="colourPicker" onchange="pickColour(this.value);">
-	    		<option value="333">Off-Black</option>
-	    		<option value="000" selected="selected">Black</option>
-	    		<option value="999">Grey</option>
-    			<option value="009">Blue</option>
-    			<option value="090">Green</option>
-    			<option value="900">Red</option>
-    		</select>
-    	</div>
+        </div>
+        <div id="colourPickerBar" class="formatPickerBar">
+          <select id="colourPicker" onchange="pickColour(this.value);">
+            <option value="333">Off-Black</option>
+            <option value="000" selected="selected">Black</option>
+            <option value="999">Grey</option>
+            <option value="009">Blue</option>
+            <option value="090">Green</option>
+            <option value="900">Red</option>
+          </select>
+        </div>
     	<div id="alignmentPickerBar" class="formatPickerBar">
     		<select id="alignmentPicker" onchange="pickAlignment(this.value);">
 	    		<option value="left">Left</option>
@@ -143,14 +158,41 @@
     	if (isBeginning == true) {
     		
     		%>
-      <div id="storyTitle" class="modifiableText"><h2>${title}</h2></div><%
+      <div id="storyTitle" class="modifiableText<%
+      
+        if (userFontSize != 1.0) {
+        	String sizeClassName = "size";
+        	if (userFontSize == 2) {
+        		sizeClassName += "Huge";
+        	} else if (userFontSize == 1.5) {
+        		sizeClassName += "Large";
+        	} else if (userFontSize == 0.8) {
+        		sizeClassName += "Small";
+        	} else {
+        		sizeClassName += "Medium";
+        	}
+        	pageContext.setAttribute("sizeClassName", sizeClassName);
+        	
+        	%> ${sizeClassName}<%
+        	
+        }
+      
+      %>"><h2>${title}</h2></div><%
     		
     	}
     	final String pageNumber = view.getPageNumber();
     	pageContext.setAttribute("pageNumber", pageNumber);
     	
     	%>
-      <div id="editLink" class="modifiableText"><a
+      <div id="editLink" class="modifiableText<%
+      
+        if (userFontSize != 1.0) {
+        	
+        	%> ${sizeClassName}<%
+        	
+        }
+      
+      %>"><a
           href="/edit.jsp?p=${pageNumber}">Edit</a></div><%
     	
     	//final String text = view.getPageText();
@@ -160,7 +202,15 @@
         final List<String> paragraphs = view.getParagraphs();
         for (final String paragraph : paragraphs) {
         	
-        	%><p class="text modifiableText">
+        	%><p class="text modifiableText<%
+      
+        if (userFontSize != 1.0) {
+        	
+        	%> ${sizeClassName}<%
+        	
+        }
+      
+      %>">
           <%
           
           	List<FormattedText> formattedTextChunks;
@@ -188,11 +238,6 @@
         </p><%
         	
         }
-        
-    	//pageContext.setAttribute("text", text);
-    
-	    %>
-      <!-- <p id="text" class="modifiableText">${text}</p> --><%
     
     	final int numberOfOptions = view.getNumberOfOptions();
     	for (int i = 0; i < numberOfOptions; i++) {
@@ -202,7 +247,15 @@
     		pageContext.setAttribute("optionText", optionText);
     		
     		%>
-      <div class="option modifiableText"><a href="${optionLink}"<%
+      <div class="option modifiableText<%
+      
+        if (userFontSize != 1.0) {
+        	
+        	%> ${sizeClassName}<%
+        	
+        }
+      
+      %>"><a href="${optionLink}"<%
     %>><%
     
   	List<FormattedText> formattedTextChunks;
@@ -235,7 +288,15 @@
     	pageContext.setAttribute("authorName", authorName);
     	
     	%>
-      <div id="credit" class="modifiableText">This page was written by <%
+      <div id="credit" class="modifiableText<%
+      
+        if (userFontSize != 1.0) {
+        	
+        	%> ${sizeClassName}<%
+        	
+        }
+      
+      %>">This page was written by <%
     
         final boolean isAuthorAnonymous = view.isAuthorAnonymous();
     	if (isAuthorAnonymous == false) {
@@ -261,7 +322,15 @@
         	pageContext.setAttribute("first", first);
     
         	%>
-      <div class="modifiableText"><a href="${first}">Return to the first page of
+      <div class="modifiableText<%
+      
+        if (userFontSize != 1.0) {
+        	
+        	%> ${sizeClassName}<%
+        	
+        }
+      
+      %>"><a href="${first}">Return to the first page of
           this story.</a></div><%
     
         }
@@ -269,7 +338,15 @@
     } else {
 	
 	    %>
-      <div class="modifiableText">This page doesn't appear to be written
+      <div class="modifiableText<%
+      
+        if (userFontSize != 1.0) {
+        	
+        	%> ${sizeClassName}<%
+        	
+        }
+      
+      %>">This page doesn't appear to be written
           yet.</div><%
 	
     }

@@ -17,10 +17,12 @@ import com.google.appengine.api.users.UserServiceFactory;
  * author.
  */
 public class User extends Model {
+	private static final double NULL_FONT_SIZE = 0.0;
 	private static final String DEFAULT_PEN_NAME_PROPERTY = "defaultPenName";
 	private static final String ID_PROPERTY = "id";
 	private static final String KIND_NAME = "User";
 	private static final String UNKNOWN_PEN_NAME = "???";
+	private static final String FONT_SIZE_PROPERTY = "fontSize";
 	private static User cachedUser;
 	
 	/**
@@ -126,6 +128,7 @@ public class User extends Model {
 
 	private String defaultPenName;
 	private String id;
+	private double fontSize;
 	
 	/**
 	 * Default constructor, which sets an initial default pen name in case the
@@ -133,6 +136,7 @@ public class User extends Model {
 	 */
 	public User() {
 		this.setDefaultPenName(UNKNOWN_PEN_NAME);
+		this.setFontSize(NULL_FONT_SIZE);
 	}
 
 	/**
@@ -211,6 +215,20 @@ public class User extends Model {
 	void readPropertiesFromEntity(final Entity entity) {
 		this.readIdFromEntity(entity);
 		this.readDefaultPenNameFromEntity(entity);
+		this.readFontSizeFromEntity(entity);
+	}
+
+	private void readFontSizeFromEntity(final Entity entity) {
+		final double fontSize = getFontSizeFromEntity(entity);
+		this.setFontSize(fontSize);
+	}
+
+	private static double getFontSizeFromEntity(final Entity entity) {
+		Double fontSize = (Double) entity.getProperty(FONT_SIZE_PROPERTY);
+		if (fontSize != null)
+			return fontSize;
+		else
+			return NULL_FONT_SIZE;
 	}
 
 	/**
@@ -267,5 +285,24 @@ public class User extends Model {
 	void setPropertiesInEntity(final Entity entity) {
 		this.setIdInEntity(entity);
 		this.setDefaultPenNameInEntity(entity);
+		this.setFontSizeInEntity(entity);
+	}
+
+	private void setFontSizeInEntity(final Entity entity) {
+		final double fontSize = this.getFontSize();
+		entity.setProperty(FONT_SIZE_PROPERTY, fontSize);
+	}
+
+	public double getFontSize() {
+		return this.fontSize;
+	}
+
+	public void setFontSize(final double fontSize) {
+		this.fontSize = fontSize;
+	}
+
+	public boolean isFontSizeSet() {
+		final double fontSize = this.getFontSize();
+		return (fontSize != NULL_FONT_SIZE);
 	}
 }

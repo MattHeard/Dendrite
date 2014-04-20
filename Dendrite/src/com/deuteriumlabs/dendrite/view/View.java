@@ -50,6 +50,16 @@ public abstract class View {
 		return User.isMyUserLoggedIn();
 	}
 
+	public static boolean isUserFontSizeSet() {
+		final User myUser = User.getMyUser();
+		return myUser.isFontSizeSet();
+	}
+	
+	public static double getUserFontSize() {
+		final User myUser = User.getMyUser();
+		return myUser.getFontSize();
+	}
+
 	/**
 	 * Returns a link for logging in, with a redirect back to this page after
 	 * the login has completed.
