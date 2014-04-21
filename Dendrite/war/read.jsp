@@ -151,48 +151,40 @@
     	</div>
     </div>
     <script type="text/javascript">showFormatBar();</script> 
-    <div id="main"><%
+    <div id="main" class="modifiableText<%
+      
+        if (userFontSize != 1.0) {
+          String sizeClassName = "size";
+          if (userFontSize == 2) {
+            sizeClassName += "Huge";
+          } else if (userFontSize == 1.5) {
+            sizeClassName += "Large";
+          } else if (userFontSize == 0.8) {
+            sizeClassName += "Small";
+          } else {
+            sizeClassName += "Medium";
+          }
+          pageContext.setAttribute("sizeClassName", sizeClassName);
+          
+          %> ${sizeClassName}<%
+          
+        }
+      
+      %>"><%
     
     if (isPageInStore == true) {
     	final boolean isBeginning = view.isBeginning();
     	if (isBeginning == true) {
     		
     		%>
-      <div id="storyTitle" class="modifiableText<%
-      
-        if (userFontSize != 1.0) {
-        	String sizeClassName = "size";
-        	if (userFontSize == 2) {
-        		sizeClassName += "Huge";
-        	} else if (userFontSize == 1.5) {
-        		sizeClassName += "Large";
-        	} else if (userFontSize == 0.8) {
-        		sizeClassName += "Small";
-        	} else {
-        		sizeClassName += "Medium";
-        	}
-        	pageContext.setAttribute("sizeClassName", sizeClassName);
-        	
-        	%> ${sizeClassName}<%
-        	
-        }
-      
-      %>"><h2>${title}</h2></div><%
+      <div id="storyTitle"><h2>${title}</h2></div><%
     		
     	}
     	final String pageNumber = view.getPageNumber();
     	pageContext.setAttribute("pageNumber", pageNumber);
     	
     	%>
-      <div id="editLink" class="modifiableText<%
-      
-        if (userFontSize != 1.0) {
-        	
-        	%> ${sizeClassName}<%
-        	
-        }
-      
-      %>"><a
+      <div id="editLink"><a
           href="/edit.jsp?p=${pageNumber}">Edit</a></div><%
     	
     	//final String text = view.getPageText();
@@ -202,15 +194,7 @@
         final List<String> paragraphs = view.getParagraphs();
         for (final String paragraph : paragraphs) {
         	
-        	%><p class="text modifiableText<%
-      
-        if (userFontSize != 1.0) {
-        	
-        	%> ${sizeClassName}<%
-        	
-        }
-      
-      %>">
+        	%><p class="text">
           <%
           
           	List<FormattedText> formattedTextChunks;
@@ -247,15 +231,7 @@
     		pageContext.setAttribute("optionText", optionText);
     		
     		%>
-      <div class="option modifiableText<%
-      
-        if (userFontSize != 1.0) {
-        	
-        	%> ${sizeClassName}<%
-        	
-        }
-      
-      %>"><a href="${optionLink}"<%
+      <div class="option"><a href="${optionLink}"<%
     %>><%
     
   	List<FormattedText> formattedTextChunks;
@@ -288,15 +264,7 @@
     	pageContext.setAttribute("authorName", authorName);
     	
     	%>
-      <div id="credit" class="modifiableText<%
-      
-        if (userFontSize != 1.0) {
-        	
-        	%> ${sizeClassName}<%
-        	
-        }
-      
-      %>">This page was written by <%
+      <div id="credit">This page was written by <%
     
         final boolean isAuthorAnonymous = view.isAuthorAnonymous();
     	if (isAuthorAnonymous == false) {
@@ -322,15 +290,7 @@
         	pageContext.setAttribute("first", first);
     
         	%>
-      <div class="modifiableText<%
-      
-        if (userFontSize != 1.0) {
-        	
-        	%> ${sizeClassName}<%
-        	
-        }
-      
-      %>"><a href="${first}">Return to the first page of
+      <div><a href="${first}">Return to the first page of
           this story.</a></div><%
     
         }
@@ -338,15 +298,7 @@
     } else {
 	
 	    %>
-      <div class="modifiableText<%
-      
-        if (userFontSize != 1.0) {
-        	
-        	%> ${sizeClassName}<%
-        	
-        }
-      
-      %>">This page doesn't appear to be written
+      <div>This page doesn't appear to be written
           yet.</div><%
 	
     }
