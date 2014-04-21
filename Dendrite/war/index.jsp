@@ -27,6 +27,7 @@
     		contentsPageNumber = 1;
     	}
     	view.setContentsPageNumber(contentsPageNumber);
+      double userFontSize = 1.0;
         final boolean isUserLoggedIn = ContentsView.isUserLoggedIn();
         if (isUserLoggedIn == true) {
         	final String authorLink = ContentsView.getAuthorLink();
@@ -35,6 +36,7 @@
         	pageContext.setAttribute("userName", userName);
         	final String logoutLink = view.getLogoutLink();
         	pageContext.setAttribute("logoutLink", logoutLink);
+          userFontSize = ContentsView.getUserFontSize();
         	
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
@@ -52,7 +54,26 @@
 	%>
     </div>
     </div>
-    <div id="main">
+    <div id="main" class="modifiableText<%
+      
+        if (userFontSize != 1.0) {
+          String sizeClassName = "size";
+          if (userFontSize == 2) {
+            sizeClassName += "Huge";
+          } else if (userFontSize == 1.5) {
+            sizeClassName += "Large";
+          } else if (userFontSize == 0.8) {
+            sizeClassName += "Small";
+          } else {
+            sizeClassName += "Medium";
+          }
+          pageContext.setAttribute("sizeClassName", sizeClassName);
+          
+          %> ${sizeClassName}<%
+          
+        }
+      
+      %>">
       <h2>Table of Contents</h2><%
 	
     final List<String> links = view.getLinks();

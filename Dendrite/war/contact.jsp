@@ -20,6 +20,7 @@
     
     final ContactView view = new ContactView();
     final boolean isUserLoggedIn = ContactView.isUserLoggedIn();
+    double userFontSize = 1.0;
     if (isUserLoggedIn == true) {
         final String authorLink = ContactView.getAuthorLink();
         pageContext.setAttribute("authorLink", authorLink);
@@ -27,6 +28,7 @@
         pageContext.setAttribute("userName", userName);
         final String logoutLink = view.getLogoutLink();
         pageContext.setAttribute("logoutLink", logoutLink);
+        userFontSize = ContactView.getUserFontSize();
         
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
@@ -44,7 +46,26 @@
     %>
     </div>
     </div>
-    <div id="main">
+    <div id="main" class="modifiableText<%
+      
+        if (userFontSize != 1.0) {
+          String sizeClassName = "size";
+          if (userFontSize == 2) {
+            sizeClassName += "Huge";
+          } else if (userFontSize == 1.5) {
+            sizeClassName += "Large";
+          } else if (userFontSize == 0.8) {
+            sizeClassName += "Small";
+          } else {
+            sizeClassName += "Medium";
+          }
+          pageContext.setAttribute("sizeClassName", sizeClassName);
+          
+          %> ${sizeClassName}<%
+          
+        }
+      
+      %>">
       <h2>Contact us</h2>
       <form action="mailto:matt+dendrite@mattheard.net" method="get"
           enctype="text/plain">

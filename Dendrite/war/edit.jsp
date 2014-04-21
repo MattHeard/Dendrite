@@ -25,6 +25,7 @@
     view.setError(error);
     
     final boolean isUserLoggedIn = EditView.isUserLoggedIn();
+    double userFontSize = 1.0;
     if (isUserLoggedIn == true) {
         final String authorLink = EditView.getAuthorLink();
         pageContext.setAttribute("authorLink", authorLink);
@@ -32,6 +33,7 @@
         pageContext.setAttribute("userName", userName);
         final String logoutLink = view.getLogoutLink();
         pageContext.setAttribute("logoutLink", logoutLink);
+        userFontSize = EditView.getUserFontSize();
         
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
@@ -52,7 +54,26 @@
     	%>
     </div>
     </div>
-    <div id="main">
+    <div id="main" class="modifiableText<%
+      
+        if (userFontSize != 1.0) {
+          String sizeClassName = "size";
+          if (userFontSize == 2) {
+            sizeClassName += "Huge";
+          } else if (userFontSize == 1.5) {
+            sizeClassName += "Large";
+          } else if (userFontSize == 0.8) {
+            sizeClassName += "Small";
+          } else {
+            sizeClassName += "Medium";
+          }
+          pageContext.setAttribute("sizeClassName", sizeClassName);
+          
+          %> ${sizeClassName}<%
+          
+        }
+      
+      %>">
       <h2>Edit a page</h2>
       <form action="submitEdit" method="post">
         <input type="hidden" name="pageNumber" value="${pageNumber}" />

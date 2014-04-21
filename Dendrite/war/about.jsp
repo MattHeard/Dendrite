@@ -19,6 +19,7 @@
           /></a></div><%
     
     final AboutView view = new AboutView();
+    double userFontSize = 1.0;
     final boolean isUserLoggedIn = AboutView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
         final String authorLink = AboutView.getAuthorLink();
@@ -27,6 +28,7 @@
         pageContext.setAttribute("userName", userName);
         final String logoutLink = view.getLogoutLink();
         pageContext.setAttribute("logoutLink", logoutLink);
+        userFontSize = AboutView.getUserFontSize();
         
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
@@ -44,7 +46,26 @@
     %>
     </div>
     </div>
-    <div id="main">
+    <div id="main" class="modifiableText<%
+      
+        if (userFontSize != 1.0) {
+          String sizeClassName = "size";
+          if (userFontSize == 2) {
+            sizeClassName += "Huge";
+          } else if (userFontSize == 1.5) {
+            sizeClassName += "Large";
+          } else if (userFontSize == 0.8) {
+            sizeClassName += "Small";
+          } else {
+            sizeClassName += "Medium";
+          }
+          pageContext.setAttribute("sizeClassName", sizeClassName);
+          
+          %> ${sizeClassName}<%
+          
+        }
+      
+      %>">
       <h2>About Dendrite</h2>
       <p><i>Dendrite</i> is an online, choose-your-own-adventure book that you
           can both read, and write. This allows you, the reader and author, to

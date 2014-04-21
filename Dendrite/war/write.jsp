@@ -27,6 +27,7 @@
     view.setError(error);
     
     final boolean isUserLoggedIn = WriteView.isUserLoggedIn();
+    double userFontSize = 1.0;
     if (isUserLoggedIn == true) {
         final String authorLink = WriteView.getAuthorLink();
         pageContext.setAttribute("authorLink", authorLink);
@@ -34,6 +35,7 @@
         pageContext.setAttribute("userName", userName);
         final String logoutLink = view.getLogoutLink();
         pageContext.setAttribute("logoutLink", logoutLink);
+        userFontSize = WriteView.getUserFontSize();
         
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
@@ -55,7 +57,26 @@
     %>
     </div>
     </div>
-    <div id="main">
+    <div id="main" class="modifiableText<%
+      
+        if (userFontSize != 1.0) {
+          String sizeClassName = "size";
+          if (userFontSize == 2) {
+            sizeClassName += "Huge";
+          } else if (userFontSize == 1.5) {
+            sizeClassName += "Large";
+          } else if (userFontSize == 0.8) {
+            sizeClassName += "Small";
+          } else {
+            sizeClassName += "Medium";
+          }
+          pageContext.setAttribute("sizeClassName", sizeClassName);
+          
+          %> ${sizeClassName}<%
+          
+        }
+      
+      %>">
       <h3>${optionText}</h3>
       <form action="submitWrite" method="post"><%
     
