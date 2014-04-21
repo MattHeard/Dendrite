@@ -78,11 +78,25 @@
         <p>
           <label for="fontSize">Font size</label>
           <br />
-          <select name="fontSize" id="fontSize">
-            <option>Huge</option>
-            <option>Large</option>
-            <option>Medium</option>
-            <option>Small</option>
+          <select name="fontSize" id="fontSize"><%
+          
+          final String[] fontSizeOptions = { "Huge", "Large", "Medium", "Small" };
+          final double[] fontSizeValues = { 2.0, 1.5, 1.0, 0.8 };
+          
+          for (int i = 0; i < fontSizeValues.length; i++) {
+        	  pageContext.setAttribute("fontSizeOption", fontSizeOptions[i]);
+        	  
+        	  %>
+        	  <option<%
+        	  
+        	  if (fontSizeValues[i] == userFontSize) {
+        		  %> selected="selected"<%
+        	  }
+        	  %>>${fontSizeOption}</option><%
+        	  
+          }
+          
+          %>
           </select>
         </p>
         <p>
