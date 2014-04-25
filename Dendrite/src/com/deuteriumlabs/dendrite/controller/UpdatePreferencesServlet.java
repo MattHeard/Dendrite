@@ -37,7 +37,7 @@ public class UpdatePreferencesServlet extends DendriteServlet {
 		else {
 			final boolean isUpdated = controller.updatePreferences();
 			if (isUpdated == true)
-				this.redirectToMyAuthorPage();
+				this.redirectToMyPreferencesPage();
 			else
 				this.redirectFromUpdateFailure();
 		}
@@ -69,10 +69,8 @@ public class UpdatePreferencesServlet extends DendriteServlet {
 		this.redirect(url);
 	}
 
-	private void redirectToMyAuthorPage() {
-		final User myUser = User.getMyUser();
-		final String id = myUser.getId();
-		final String url = "/author.jsp?id=" + id;
+	private void redirectToMyPreferencesPage() {
+		final String url = "/preferences.jsp";
 		this.redirect(url);
 	}
 
