@@ -17,6 +17,32 @@ a:hover {
 	text-decoration:	underline;
 }
 
+a.fontColourBlack {
+  color: #555;
+}
+
+a.fontColourBlue {
+  color: #55d;
+}
+
+a.fontColourCharcoal {
+	color: #888;
+}
+
+a.fontColourDefault { }
+
+a.fontColourGrey {
+  color: #ddd;
+}
+
+a.fontColourGreen {
+  color: #5d5;
+}
+
+a.fontColourRed {
+  color: #d55;
+}
+
 body {
 	line-height:		1.5em;
 	text-align:			justify;

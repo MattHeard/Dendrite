@@ -102,6 +102,8 @@
           pageContext.setAttribute("fontColourClassName", fontColourClassName);
           
           %> ${fontColourClassName}<%
+        } else {
+          pageContext.setAttribute("fontColourClassName", "");
         }
       
       %>">
@@ -181,8 +183,10 @@
         we hold about you by contacting us as follows:</p>
     <ul>
       <li><b>Contact:</b>
-        <a href="/contact.jsp">dendrite.co.nz/contact.jsp</a></li>
-      <li><b>E-mail:</b> <a href="mailto:matt+dendrite+privacy@mattheard.net" 
+        <a class="${fontColourClassName}"
+            href="/contact.jsp">dendrite.co.nz/contact.jsp</a></li>
+      <li><b>E-mail:</b> <a class="${fontColourClassName}"
+          href="mailto:matt+dendrite+privacy@mattheard.net" 
           >matt+dendrite+privacy@mattheard.net</a></li>
     </ul>
     <h3>Changes to our policy</h3>

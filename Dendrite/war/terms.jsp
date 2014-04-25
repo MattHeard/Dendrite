@@ -102,6 +102,8 @@
           pageContext.setAttribute("fontColourClassName", fontColourClassName);
           
           %> ${fontColourClassName}<%
+        } else {
+          pageContext.setAttribute("fontColourClassName", "");
         }
       
       %>">
@@ -180,7 +182,8 @@
       <p>We have no responsibility or liability for any Content on this Website.
           Any person objecting to or having any issue or claim in relation to
           any Content should immediately contact us at
-          <a href="/contact.jsp">www.dendrite.net/contact.jsp</a></p>
+          <a class="${fontColourClassName}"
+                  href="/contact.jsp">www.dendrite.net/contact.jsp</a></p>
       <p>You agree to use this Website and its Content purely "as is".</p>
       <h3>Links to and from this Website</h3>
       <p>From time to time this Website may include links to other websites.
@@ -194,7 +197,8 @@
           your use of this Website. Personal information may also be collected
           through the use of cookies to record your visit. All information
           collected will be held by us in accordance with our
-          <a href="/privacy.jsp">Privacy Policy</a>.</p>
+          <a class="${fontColourClassName}" href="/privacy.jsp">Privacy
+          Policy</a>.</p>
       <h3>Intellectual property of the Website</h3>
       <p>We are the owners, or are licensed users, of all intellectual property
           rights used on or in connection with this Website, including (but not

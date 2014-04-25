@@ -100,6 +100,8 @@
           pageContext.setAttribute("fontColourClassName", fontColourClassName);
           
           %> ${fontColourClassName}<%
+        } else {
+          pageContext.setAttribute("fontColourClassName", "");
         }
       
       %>">

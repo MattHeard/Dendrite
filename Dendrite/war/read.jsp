@@ -206,6 +206,8 @@
           pageContext.setAttribute("fontColourClassName", fontColourClassName);
           
           %> ${fontColourClassName}<%
+        } else {
+          pageContext.setAttribute("fontColourClassName", "");
         }
       
       %>"><%
@@ -222,7 +224,7 @@
     	pageContext.setAttribute("pageNumber", pageNumber);
     	
     	%>
-      <div id="editLink"><a
+      <div id="editLink"><a class="${fontColourClassName}"
           href="/edit.jsp?p=${pageNumber}">Edit</a></div><%
     	
     	//final String text = view.getPageText();
@@ -269,7 +271,8 @@
     		pageContext.setAttribute("optionText", optionText);
     		
     		%>
-      <div class="option"><a href="${optionLink}"<%
+      <div class="option"><a class="${fontColourClassName}"
+              href="${optionLink}"<%
     %>><%
     
   	List<FormattedText> formattedTextChunks;
@@ -309,7 +312,7 @@
     		final String authorId = view.getAuthorId();
     		pageContext.setAttribute("authorId", authorId);
     		
-    		%><a href="/author.jsp?id=${authorId}"><%
+    		%><a class="${fontColourClassName}" href="/author.jsp?id=${authorId}"><%
     		
     	}
     
@@ -328,8 +331,8 @@
         	pageContext.setAttribute("first", first);
     
         	%>
-      <div><a href="${first}">Return to the first page of
-          this story.</a></div><%
+      <div><a class="${fontColourClassName}" href="${first}">Return to the first
+          page of this story.</a></div><%
     
         }
 	

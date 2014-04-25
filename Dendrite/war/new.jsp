@@ -105,6 +105,8 @@
           pageContext.setAttribute("fontColourClassName", fontColourClassName);
           
           %> ${fontColourClassName}<%
+        } else {
+          pageContext.setAttribute("fontColourClassName", "");
         }
       
       %>">
@@ -172,7 +174,7 @@
         	
     }
     if (isUserLoggedIn == true) {
-    	final String authorId = view.getMyUserId();
+    	final String authorId = NewView.getMyUserId();
     	pageContext.setAttribute("authorId", authorId);
       
     %>

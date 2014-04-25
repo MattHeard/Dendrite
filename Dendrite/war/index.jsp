@@ -110,6 +110,8 @@
           pageContext.setAttribute("fontColourClassName", fontColourClassName);
           
           %> ${fontColourClassName}<%
+        } else {
+        	pageContext.setAttribute("fontColourClassName", "");
         }
       
       %>">
@@ -128,7 +130,7 @@
     	pageContext.setAttribute("pageNumber", pageNumber);
     	%>
       <div class="item">
-        <div class="itemContent"><a href="${link}">${title}</a></div>
+        <div class="itemContent"><a class="${fontColourClassName}" href="${link}">${title}</a></div>
         <div class="itemNumber">${pageNumber}</div>
       </div><%
     }
@@ -142,7 +144,7 @@
     	pageContext.setAttribute("prev", prev);
     	
     	%>
-        <div><a href="/index.jsp?p=${prev}">Previous</a></div><%
+        <div><a class="${fontColourClassName}" href="/index.jsp?p=${prev}">Previous</a></div><%
     	
     }
     final boolean isLastPage = view.isLastPage();
@@ -151,13 +153,13 @@
     	pageContext.setAttribute("next", next);
     	
     	%>
-        <div><a href="/index.jsp?p=${next}">Next</a></div><%
+        <div><a class="${fontColourClassName}" href="/index.jsp?p=${next}">Next</a></div><%
     	
     }
 	
 	%>
       </p>
-      <p id="newStory"><a href="/new.jsp">Start a new story</a></p>
+      <p id="newStory"><a class="${fontColourClassName}" href="/new.jsp">Start a new story</a></p>
     </div>
     </div>
     <div id="footerBar">

@@ -117,6 +117,8 @@
           pageContext.setAttribute("fontColourClassName", fontColourClassName);
           
           %> ${fontColourClassName}<%
+        } else {
+          pageContext.setAttribute("fontColourClassName", "");
         }
       
       %>">
@@ -126,7 +128,8 @@
     if (id.equals(myUserId) == true) {
     
     	%>
-      <div><a href="/preferences.jsp">My preferences</a></div><%
+      <div><a class="${fontColourClassName}" href="/preferences.jsp">My
+        preferences</a></div><%
     
     }
     
@@ -160,7 +163,8 @@
     	final boolean isSameAuthorName = (authorName.equals(penName));
     	%>
       <div class="item">
-        <div class="itemContent"><a href="/read.jsp?p=${pageId}">${summary}</a><%
+        <div class="itemContent"><a class="${fontColourClassName}"
+            href="/read.jsp?p=${pageId}">${summary}</a><%
 	
 		if (isSameAuthorName == false) {
 			pageContext.setAttribute("authorName", authorName);
@@ -181,7 +185,8 @@
     	pageContext.setAttribute("prev", prev);
     	
     	%>
-      <div><a href="/author.jsp?id=${id}&p=${prev}">Previous</a></div><%
+      <div><a class="${fontColourClassName}"
+          href="/author.jsp?id=${id}&p=${prev}">Previous</a></div><%
     	
     }
     final boolean isLastPage = view.isLastPage();
@@ -191,7 +196,8 @@
     	pageContext.setAttribute("next", next);
     	
     	%>
-      <div><a href="/author.jsp?id=${id}&p=${next}">Next</a></div><%
+      <div><a class="${fontColourClassName}"
+          href="/author.jsp?id=${id}&p=${next}">Next</a></div><%
     	
     }
 	
