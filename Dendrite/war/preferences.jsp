@@ -120,12 +120,25 @@
         <p>
           <label for="fontType">Font type</label>
           <br />
-          <select name="fontType" id="fontType">
-            <option>Serif</option>
-            <option>Sans-serif</option>
-            <option>Monospace</option>
-            <option>Cursive</option>
-            <option>Fantasy</option>
+          <select name="fontType" id="fontType"><%
+          
+          final String[] fontTypeOptions = {
+        		      "Serif", "Sans-serif", "Monospace", "Cursive", "Fantasy" };
+          
+          for (int i = 0; i < fontTypeOptions.length; i++) {
+        	  pageContext.setAttribute("fontTypeOption", fontTypeOptions[i]);
+        	  
+        	  %>
+            <option<%
+            
+            if (fontTypeOptions[i].equals(userFontType)) {
+            	%> selected="selected"<%
+            }
+            
+            %>>${fontTypeOption}</option><%
+          }
+          
+          %>
           </select>
         </p>
         <p>
