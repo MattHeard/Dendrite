@@ -44,9 +44,10 @@ public class UpdatePreferencesServlet extends DendriteServlet {
 		this.logParameters(resp, controller);
 	}
 
+	@SuppressWarnings("unused")
 	private void logParameters(final HttpServletResponse resp, 
 			final UpdatePreferencesController controller) {
-		if (this.isDebug == true) {
+		if (isDebug == true) {
 			List<String> parameterValues = controller.getParameterValues();
 			for (String value : parameterValues) {
 				try {
@@ -77,7 +78,7 @@ public class UpdatePreferencesServlet extends DendriteServlet {
 	@SuppressWarnings("unused")
 	@Override
 	protected void redirect(String url) {
-		if (this.isDebug == false)
+		if (isDebug == false)
 			super.redirect(url);
 	}
 	
