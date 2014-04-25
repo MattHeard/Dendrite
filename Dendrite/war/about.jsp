@@ -20,6 +20,7 @@
     
     final AboutView view = new AboutView();
     double userFontSize = 1.0;
+    String userFontType = "Sans-serif";
     final boolean isUserLoggedIn = AboutView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
         final String authorLink = AboutView.getAuthorLink();
@@ -29,6 +30,7 @@
         final String logoutLink = view.getLogoutLink();
         pageContext.setAttribute("logoutLink", logoutLink);
         userFontSize = AboutView.getUserFontSize();
+        userFontType = AboutView.getUserFontType();
         
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
@@ -64,6 +66,23 @@
           %> ${sizeClassName}<%
           
         }
+    
+		    if ("Sans-serif".equals(userFontType) == false) {
+		      String fontTypeClassName = "fontType";
+		      if ("Serif".equals(userFontType)) {
+		        fontTypeClassName += "Serif";
+		      } else if ("Monospace".equals(userFontType)) {
+		        fontTypeClassName += "Monospace";
+		      } else if ("Cursive".equals(userFontType)) {
+		        fontTypeClassName += "Cursive";
+		      } else if ("Fantasy".equals(userFontType)) {
+		        fontTypeClassName += "Fantasy";
+		      }
+		      pageContext.setAttribute("fontTypeClassName", fontTypeClassName);
+		      
+		      %> ${fontTypeClassName}<%
+		      
+		    }
       
       %>">
       <h2>About Dendrite</h2>

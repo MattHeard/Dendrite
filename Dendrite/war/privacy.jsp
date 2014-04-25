@@ -21,6 +21,7 @@
     final PrivacyView view = new PrivacyView();
     final boolean isUserLoggedIn = PrivacyView.isUserLoggedIn();
     double userFontSize = 1.0;
+    String userFontType = "Sans-serif";
     if (isUserLoggedIn == true) {
         final String authorLink = PrivacyView.getAuthorLink();
         pageContext.setAttribute("authorLink", authorLink);
@@ -29,6 +30,7 @@
         final String logoutLink = view.getLogoutLink();
         pageContext.setAttribute("logoutLink", logoutLink);
         userFontSize = PrivacyView.getUserFontSize();
+        userFontType = PrivacyView.getUserFontType();
         
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
@@ -64,6 +66,23 @@
           %> ${sizeClassName}<%
           
         }
+    
+		    if ("Sans-serif".equals(userFontType) == false) {
+		      String fontTypeClassName = "fontType";
+		      if ("Serif".equals(userFontType)) {
+		        fontTypeClassName += "Serif";
+		      } else if ("Monospace".equals(userFontType)) {
+		        fontTypeClassName += "Monospace";
+		      } else if ("Cursive".equals(userFontType)) {
+		        fontTypeClassName += "Cursive";
+		      } else if ("Fantasy".equals(userFontType)) {
+		        fontTypeClassName += "Fantasy";
+		      }
+		      pageContext.setAttribute("fontTypeClassName", fontTypeClassName);
+		      
+		      %> ${fontTypeClassName}<%
+		      
+		    }
       
       %>">
     <h2>Privacy Policy</h2>
