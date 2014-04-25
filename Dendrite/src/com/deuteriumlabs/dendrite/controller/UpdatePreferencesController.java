@@ -1,8 +1,5 @@
 package com.deuteriumlabs.dendrite.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.deuteriumlabs.dendrite.model.User;
 
 public class UpdatePreferencesController {
