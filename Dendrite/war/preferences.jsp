@@ -143,13 +143,21 @@
           </select>
         </p>
         <p>
-          <label for="alignment">Text alignment</label>
+          <label for="colour">Font colour</label>
           <br />
-          <select name="alignment" id="alignment">
-            <option>Left</option>
-            <option>Right</option>
-            <option>Center</option>
-            <option>Justify</option>
+          <select name="colour" id="colour"><%
+          
+          final String[] fontColourOptions = { "Default", "Charcoal", "Black",
+        		  "Grey", "Blue", "Green", "Red" };
+          
+          for (int i = 0; i < fontColourOptions.length; i++) {
+        	  pageContext.setAttribute("fontColourOption", fontColourOptions[i]);
+        	  
+        	  %>
+            <option>${fontColourOption}</option><%
+          }
+          
+          %>
           </select>
         </p>
         <p>
@@ -160,6 +168,16 @@
             <option>Large</option>
             <option>Medium</option>
             <option>Small</option>
+          </select>
+        </p>
+        <p>
+          <label for="alignment">Text alignment</label>
+          <br />
+          <select name="alignment" id="alignment">
+            <option>Left</option>
+            <option>Right</option>
+            <option>Center</option>
+            <option>Justify</option>
           </select>
         </p>
         <p>
