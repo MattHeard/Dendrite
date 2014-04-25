@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.PreferencesView"
+%><%@ page import="java.util.Arrays"
 %><%@ page import="java.util.List"
 
 %><!DOCTYPE html>
@@ -21,6 +22,7 @@
     final PreferencesView view = new PreferencesView();
     double userFontSize = 1.0;
     String userFontType = "Sans-serif";
+    String userFontColour = "Default";
     final boolean isUserLoggedIn = PreferencesView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
         final String authorLink = PreferencesView.getAuthorLink();
@@ -31,6 +33,7 @@
         pageContext.setAttribute("logoutLink", logoutLink);
         userFontSize = PreferencesView.getUserFontSize();
         userFontType = PreferencesView.getUserFontType();
+        userFontColour = PreferencesView.getUserFontColour();
         
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
@@ -83,6 +86,21 @@
         	%> ${fontTypeClassName}<%
         	
         }
+        
+        if ("Default".equals(userFontColour) == false) {
+        	String fontColourClassName = "fontColour";
+        	final String[] fontColourOptions = { "Default", "Charcoal", "Black",
+                    "Grey", "Blue", "Green", "Red" };
+        	final List<String> list = Arrays.asList(fontColourOptions);
+        	if (list.contains(userFontColour)) {
+        		fontColourClassName += userFontColour;
+        	} else {
+        		fontColourClassName += "Default";
+        	}
+          pageContext.setAttribute("fontColourClassName", fontColourClassName);
+          
+          %> ${fontColourClassName}<%
+        }
       
       %>">
       <h2>My Preferences</h2>
@@ -123,8 +141,8 @@
           <br />
           <select name="fontType" id="fontType"><%
           
-          final String[] fontTypeOptions = {
-        		      "Serif", "Sans-serif", "Monospace", "Cursive", "Fantasy" };
+          final String[] fontTypeOptions = { "Serif", "Sans-serif", "Monospace",
+        		      "Cursive", "Fantasy" };
           
           for (int i = 0; i < fontTypeOptions.length; i++) {
         	  pageContext.setAttribute("fontTypeOption", fontTypeOptions[i]);
@@ -143,18 +161,29 @@
           </select>
         </p>
         <p>
-          <label for="colour">Font colour</label>
-          <br />
-          <select name="colour" id="colour"><%
+          <label for="fontColour">Font colour</label>
+          <br /><%
+          
+          pageContext.setAttribute("userFontColour", userFontColour);
+          
+          %>
+          <!-- ${userFontColour} -->
+          <select name="fontColour" id="fontColour"><%
           
           final String[] fontColourOptions = { "Default", "Charcoal", "Black",
-        		  "Grey", "Blue", "Green", "Red" };
+        		      "Grey", "Blue", "Green", "Red" };
           
           for (int i = 0; i < fontColourOptions.length; i++) {
         	  pageContext.setAttribute("fontColourOption", fontColourOptions[i]);
         	  
         	  %>
-            <option>${fontColourOption}</option><%
+            <option<%
+            
+            if (fontColourOptions[i].equals(userFontColour)) {
+            	%> selected="selected"<%
+            }
+            
+            %>>${fontColourOption}</option><%
           }
           
           %>

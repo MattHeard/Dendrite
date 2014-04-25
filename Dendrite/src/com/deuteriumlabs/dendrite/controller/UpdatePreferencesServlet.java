@@ -22,6 +22,8 @@ public class UpdatePreferencesServlet extends DendriteServlet {
 		controller.setFontSize(fontSize);
 		final String fontType = req.getParameter("fontType");
 		controller.setFontType(fontType);
+		final String fontColour = req.getParameter("fontColour");
+		controller.setFontColour(fontColour);
 		final String alignment = req.getParameter("alignment");
 		controller.setAlignment(alignment);
 		final String spacing = req.getParameter("spacing");

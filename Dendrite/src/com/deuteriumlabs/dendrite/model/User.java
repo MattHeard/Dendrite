@@ -17,6 +17,7 @@ import com.google.appengine.api.users.UserServiceFactory;
  * author.
  */
 public class User extends Model {
+	private static final String DEFAULT_FONT_COLOUR = "default";
 	private static final double DEFAULT_FONT_SIZE = 1.0;
 	private static final String DEFAULT_PEN_NAME_PROPERTY = "defaultPenName";
 	private static final String ID_PROPERTY = "id";
@@ -25,6 +26,7 @@ public class User extends Model {
 	private static final String FONT_SIZE_PROPERTY = "fontSize";
 	private static final String DEFAULT_FONT_TYPE = "Sans-serif";
 	private static final String FONT_TYPE_PROPERTY = "fontType";
+	private static final String FONT_COLOUR_PROPERTY = "fontColour";
 	private static User cachedUser;
 	
 	/**
@@ -132,6 +134,7 @@ public class User extends Model {
 	private String id;
 	private double fontSize;
 	private String fontType;
+	private String fontColour;
 	
 	/**
 	 * Default constructor, which sets an initial default pen name in case the
@@ -141,6 +144,7 @@ public class User extends Model {
 		this.setDefaultPenName(UNKNOWN_PEN_NAME);
 		this.setFontSize(DEFAULT_FONT_SIZE);
 		this.setFontType(DEFAULT_FONT_TYPE);
+		this.setFontColour(DEFAULT_FONT_COLOUR);
 	}
 
 	/**
@@ -221,6 +225,12 @@ public class User extends Model {
 		this.readDefaultPenNameFromEntity(entity);
 		this.readFontSizeFromEntity(entity);
 		this.readFontTypeFromEntity(entity);
+		this.readFontColourFromEntity(entity);
+	}
+
+	private void readFontColourFromEntity(final Entity entity) {
+		final String fontColour = getFontColourFromEntity(entity);
+		this.setFontColour(fontColour);
 	}
 
 	private void readFontSizeFromEntity(final Entity entity) {
@@ -231,6 +241,14 @@ public class User extends Model {
 	private void readFontTypeFromEntity(final Entity entity) {
 		final String fontType = getFontTypeFromEntity(entity);
 		this.setFontType(fontType);
+	}
+
+	private static String getFontColourFromEntity(final Entity entity) {
+		String fontColour = (String) entity.getProperty(FONT_COLOUR_PROPERTY);
+		if (fontColour != null)
+			return fontColour;
+		else
+			return DEFAULT_FONT_COLOUR;
 	}
 
 	private static double getFontSizeFromEntity(final Entity entity) {
@@ -305,6 +323,12 @@ public class User extends Model {
 		this.setDefaultPenNameInEntity(entity);
 		this.setFontSizeInEntity(entity);
 		this.setFontTypeInEntity(entity);
+		this.setFontColourInEntity(entity);
+	}
+
+	private void setFontColourInEntity(final Entity entity) {
+		final String fontColour = this.getFontColour();
+		entity.setProperty(FONT_COLOUR_PROPERTY, fontColour);
 	}
 
 	private void setFontSizeInEntity(final Entity entity) {
@@ -315,6 +339,10 @@ public class User extends Model {
 	private void setFontTypeInEntity(final Entity entity) {
 		final String fontType = this.getFontType();
 		entity.setProperty(FONT_TYPE_PROPERTY, fontType);
+	}
+
+	public String getFontColour() {
+		return this.fontColour;
 	}
 
 	public String getFontType() {
@@ -336,5 +364,9 @@ public class User extends Model {
 
 	public void setFontType(final String fontType) {
 		this.fontType = fontType;
+	}
+
+	public void setFontColour(final String fontColour) {
+		this.fontColour = fontColour;
 	}
 }

@@ -36,6 +36,32 @@ body {
 	padding-top:	1em;
 }
 
+.fontColourBlack {
+	color: #000;
+}
+
+.fontColourBlue {
+	color: #009;
+}
+
+.fontColourCharcoal {
+	color: #333;
+}
+
+.fontColourDefault { }
+
+.fontColourGrey {
+	color: #999;
+}
+
+.fontColourGreen {
+  color: #090;
+}
+
+.fontColourRed {
+  color: #900;
+}
+
 .fontTypeCursive {
   font-family: Cursive;
 }

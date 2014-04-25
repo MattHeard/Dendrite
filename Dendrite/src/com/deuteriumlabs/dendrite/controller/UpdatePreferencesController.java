@@ -10,6 +10,7 @@ public class UpdatePreferencesController {
 	private String newPenName;
 	private String spacing;
 	private String theme;
+	private String fontColour;
 
 	private String getAlignment() {
 		return this.alignment;
@@ -73,10 +74,16 @@ public class UpdatePreferencesController {
 			myUser.setFontSize(fontSize);
 			final String fontType = this.getFontType();
 			myUser.setFontType(fontType);
+			final String fontColour = this.getFontColour();
+			myUser.setFontColour(fontColour);
 			myUser.update();
 			return true;
 		} else
 			return false;
+	}
+
+	private String getFontColour() {
+		return this.fontColour;
 	}
 
 	private double getFontSizeNumber() {
@@ -90,6 +97,10 @@ public class UpdatePreferencesController {
 		} else {
 			return 1;
 		}
+	}
+
+	public void setFontColour(final String fontColour) {
+		this.fontColour = fontColour;
 	}
 
 }
