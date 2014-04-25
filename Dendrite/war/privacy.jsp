@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.PrivacyView"
+%><%@ page import="java.util.Arrays"
 %><%@ page import="java.util.List"
 
 %><!DOCTYPE html>
@@ -20,8 +21,11 @@
     
     final PrivacyView view = new PrivacyView();
     final boolean isUserLoggedIn = PrivacyView.isUserLoggedIn();
+    
     double userFontSize = 1.0;
     String userFontType = "Sans-serif";
+    String userFontColour = "Default";
+    
     if (isUserLoggedIn == true) {
         final String authorLink = PrivacyView.getAuthorLink();
         pageContext.setAttribute("authorLink", authorLink);
@@ -31,6 +35,7 @@
         pageContext.setAttribute("logoutLink", logoutLink);
         userFontSize = PrivacyView.getUserFontSize();
         userFontType = PrivacyView.getUserFontType();
+        userFontColour = PrivacyView.getUserFontColour();
         
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
@@ -83,6 +88,21 @@
 		      %> ${fontTypeClassName}<%
 		      
 		    }
+	        
+        if ("Default".equals(userFontColour) == false) {
+          String fontColourClassName = "fontColour";
+          final String[] fontColourOptions = { "Default", "Charcoal", "Black",
+                    "Grey", "Blue", "Green", "Red" };
+          final List<String> list = Arrays.asList(fontColourOptions);
+          if (list.contains(userFontColour)) {
+            fontColourClassName += userFontColour;
+          } else {
+            fontColourClassName += "Default";
+          }
+          pageContext.setAttribute("fontColourClassName", fontColourClassName);
+          
+          %> ${fontColourClassName}<%
+        }
       
       %>">
     <h2>Privacy Policy</h2>
@@ -161,7 +181,7 @@
         we hold about you by contacting us as follows:</p>
     <ul>
       <li><b>Contact:</b>
-        <a href="/contact.jsp">www.dendrite.net/contact.jsp</a></li>
+        <a href="/contact.jsp">dendrite.co.nz/contact.jsp</a></li>
       <li><b>E-mail:</b> <a href="mailto:matt+dendrite+privacy@mattheard.net" 
           >matt+dendrite+privacy@mattheard.net</a></li>
     </ul>

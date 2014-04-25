@@ -3,6 +3,7 @@
 %><%@ page import="com.deuteriumlabs.dendrite.view.ReadView"
 %><%@ page import="com.deuteriumlabs.dendrite.view.FormattedText"
 %><%@ page import="com.deuteriumlabs.dendrite.view.FormattedText.Format"
+%><%@ page import="java.util.Arrays"
 %><%@ page import="java.util.List"
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><!DOCTYPE html>
@@ -43,6 +44,8 @@
 
     double userFontSize = 1.0;
     String userFontType = "Sans-serif";
+    String userFontColour = "Default";
+    
     final boolean isUserLoggedIn = ReadView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
         final String authorLink = ReadView.getAuthorLink();
@@ -53,6 +56,7 @@
         pageContext.setAttribute("logoutLink", logoutLink);
         userFontSize = ReadView.getUserFontSize();
         userFontType = ReadView.getUserFontType();
+        userFontColour = ReadView.getUserFontColour();
         
         %>
           <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>. (<a href="${logoutLink}">Logout</a>)</div><%
@@ -188,6 +192,21 @@
 				  %> ${fontTypeClassName}<%
 				  
 				}
+		        
+        if ("Default".equals(userFontColour) == false) {
+          String fontColourClassName = "fontColour";
+          final String[] fontColourOptions = { "Default", "Charcoal", "Black",
+                    "Grey", "Blue", "Green", "Red" };
+          final List<String> list = Arrays.asList(fontColourOptions);
+          if (list.contains(userFontColour)) {
+            fontColourClassName += userFontColour;
+          } else {
+            fontColourClassName += "Default";
+          }
+          pageContext.setAttribute("fontColourClassName", fontColourClassName);
+          
+          %> ${fontColourClassName}<%
+        }
       
       %>"><%
     

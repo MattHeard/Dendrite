@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.AboutView"
+%><%@ page import="java.util.Arrays"
 %><%@ page import="java.util.List"
 
 %><!DOCTYPE html>
@@ -21,6 +22,7 @@
     final AboutView view = new AboutView();
     double userFontSize = 1.0;
     String userFontType = "Sans-serif";
+    String userFontColour = "Default";
     final boolean isUserLoggedIn = AboutView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
         final String authorLink = AboutView.getAuthorLink();
@@ -31,6 +33,7 @@
         pageContext.setAttribute("logoutLink", logoutLink);
         userFontSize = AboutView.getUserFontSize();
         userFontType = AboutView.getUserFontType();
+        userFontColour = AboutView.getUserFontColour();
         
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
@@ -83,6 +86,21 @@
 		      %> ${fontTypeClassName}<%
 		      
 		    }
+	        
+        if ("Default".equals(userFontColour) == false) {
+          String fontColourClassName = "fontColour";
+          final String[] fontColourOptions = { "Default", "Charcoal", "Black",
+                    "Grey", "Blue", "Green", "Red" };
+          final List<String> list = Arrays.asList(fontColourOptions);
+          if (list.contains(userFontColour)) {
+            fontColourClassName += userFontColour;
+          } else {
+            fontColourClassName += "Default";
+          }
+          pageContext.setAttribute("fontColourClassName", fontColourClassName);
+          
+          %> ${fontColourClassName}<%
+        }
       
       %>">
       <h2>About Dendrite</h2>

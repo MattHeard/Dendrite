@@ -20,9 +20,11 @@
           /></a></div><%
     
     final PreferencesView view = new PreferencesView();
+          
     double userFontSize = 1.0;
     String userFontType = "Sans-serif";
     String userFontColour = "Default";
+    
     final boolean isUserLoggedIn = PreferencesView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
         final String authorLink = PreferencesView.getAuthorLink();
