@@ -119,7 +119,7 @@
         </div>
         <div id="colourPickerBar" class="formatPickerBar">
           <select id="colourPicker" onchange="pickColour(this.value);">
-            <option value="333">Off-Black</option>
+            <option value="333">Charcoal</option>
             <option value="000" selected="selected">Black</option>
             <option value="999">Grey</option>
             <option value="009">Blue</option>
@@ -317,8 +317,7 @@
     } else {
 	
 	    %>
-      <div>This page doesn't appear to be written
-          yet.</div><%
+      <div>This page doesn't appear to be written yet.</div><%
 	
     }
 	
