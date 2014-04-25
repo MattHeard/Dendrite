@@ -1,5 +1,13 @@
 @CHARSET "UTF-8";
 
+::selection {
+	background:  #bbb;
+}
+
+::-moz-selection {
+  background:  #bbb;
+}
+
 a {
 	color:	#666;
 	text-decoration:	none;
