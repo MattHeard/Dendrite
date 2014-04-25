@@ -27,23 +27,6 @@ public class UpdatePreferencesController {
 		return this.newPenName;
 	}
 
-	public List<String> getParameterValues() {
-		final List<String> values = new ArrayList<String>();
-		final String newPenName = this.getNewPenName();
-		values.add("newPenName: " + newPenName);
-		final String fontSize = this.getFontSize();
-		values.add("fontSize: " + fontSize);
-		final String fontType = this.getFontType();
-		values.add("fontType: " + fontType);
-		final String alignment = this.getAlignment();
-		values.add("alignment: " + alignment);
-		final String spacing = this.getSpacing();
-		values.add("spacing: " + spacing);
-		final String theme = this.getTheme();
-		values.add("theme: " + theme);
-		return values;
-	}
-
 	private String getSpacing() {
 		return this.spacing;
 	}

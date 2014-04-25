@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 public class UpdatePreferencesServlet extends DendriteServlet {
 
 	private static final long serialVersionUID = 8943369549424406002L;
-	private static final boolean isDebug = false;
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -38,23 +37,6 @@ public class UpdatePreferencesServlet extends DendriteServlet {
 			else
 				this.redirectFromUpdateFailure();
 		}
-		this.logParameters(resp, controller);
-	}
-
-	@SuppressWarnings("all")
-	private void logParameters(final HttpServletResponse resp,
-			final UpdatePreferencesController controller) {
-		if (isDebug == true) {
-			List<String> parameterValues = controller.getParameterValues();
-			for (String value : parameterValues) {
-				try {
-					resp.getWriter().println(value);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
 	}
 
 	private void redirectFromBlankNewPenName() {
@@ -75,8 +57,7 @@ public class UpdatePreferencesServlet extends DendriteServlet {
 	@SuppressWarnings("all")
 	@Override
 	protected void redirect(String url) {
-		if (isDebug == false)
-			super.redirect(url);
+		super.redirect(url);
 	}
 
 }
