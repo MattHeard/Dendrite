@@ -52,13 +52,6 @@ function pickSize(value) {
     }
     $('.modifiableText').addClass('size' + value);
     $('.modifiableText').css("lineHeight", lineHeight);
-
-//	var elements = document.getElementsByClassName("modifiableText");
-//	for (var i = 0; i < elements.length; ++i) {
-//	    var element = elements[i];  
-//		element.style.fontSize = value + "em";
-//		element.style.lineHeight = lineHeight;
-//	}
 }
 
 function pickType(value) {
