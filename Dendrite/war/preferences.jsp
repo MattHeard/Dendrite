@@ -162,12 +162,7 @@
         </p>
         <p>
           <label for="fontColour">Font colour</label>
-          <br /><%
-          
-          pageContext.setAttribute("userFontColour", userFontColour);
-          
-          %>
-          <!-- ${userFontColour} -->
+          <br />
           <select name="fontColour" id="fontColour"><%
           
           final String[] fontColourOptions = { "Default", "Charcoal", "Black",
