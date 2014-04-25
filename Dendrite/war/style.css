@@ -87,14 +87,14 @@ body {
 }
 
 #footerBar {
-	position:			relative;
-	margin-top:			-2.6em;
-	height:				1.5em;
-	clear:				both;
-	padding:			0.5em;
+	position:			    relative;
+	margin-top:			  -2.6em;
+	height:				    1.5em;
+	clear:				    both;
+	padding:			    0.5em;
 	background-color:	#f0f0f0;
-	border:				1px #e0e0e0;
-	border-style:		solid none none none;
+	border:				    1px #e0e0e0;
+	border-style:		  solid none none none;
 }
 
 #footerMenu {
@@ -105,12 +105,12 @@ body {
 }
 
 #formatBar {
-	min-height:			50px;
-	background-color:	#999;
-	color:				#DDD;
-	border:				1px #888;
-	border-style:		solid none;
-	display:			none;
+	min-height:			   50px;
+	background-color:	 #999;
+	color:				     #DDD;
+	border:				     1px #888;
+	border-style:		   solid none;
+	display:			     none;
 }
 
 .formatPickerBar {
