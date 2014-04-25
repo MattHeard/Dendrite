@@ -113,13 +113,16 @@
       </div><%
     }
     
+    %>
+      <p><%
+    
     final boolean isFirstPage = view.isFirstPage();
     if (isFirstPage == false) {
     	final String prev = view.getPrevPageNumber();
     	pageContext.setAttribute("prev", prev);
     	
     	%>
-      <div><a href="/index.jsp?p=${prev}">Previous</a></div><%
+        <div><a href="/index.jsp?p=${prev}">Previous</a></div><%
     	
     }
     final boolean isLastPage = view.isLastPage();
@@ -128,12 +131,13 @@
     	pageContext.setAttribute("next", next);
     	
     	%>
-      <div><a href="/index.jsp?p=${next}">Next</a></div><%
+        <div><a href="/index.jsp?p=${next}">Next</a></div><%
     	
     }
 	
 	%>
-      <div id="newStory"><a href="/new.jsp">Start a new story</a></div>
+      </p>
+      <p id="newStory"><a href="/new.jsp">Start a new story</a></p>
     </div>
     </div>
     <div id="footerBar">
