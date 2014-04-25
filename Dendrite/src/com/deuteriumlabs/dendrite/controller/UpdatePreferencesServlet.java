@@ -7,8 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.deuteriumlabs.dendrite.model.User;
-
 public class UpdatePreferencesServlet extends DendriteServlet {
 
 	private static final long serialVersionUID = 8943369549424406002L;
