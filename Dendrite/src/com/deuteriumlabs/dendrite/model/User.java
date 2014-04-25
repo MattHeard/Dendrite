@@ -17,7 +17,7 @@ import com.google.appengine.api.users.UserServiceFactory;
  * author.
  */
 public class User extends Model {
-	private static final double NULL_FONT_SIZE = 0.0;
+	private static final double DEFAULT_FONT_SIZE = 1.0;
 	private static final String DEFAULT_PEN_NAME_PROPERTY = "defaultPenName";
 	private static final String ID_PROPERTY = "id";
 	private static final String KIND_NAME = "User";
@@ -136,7 +136,7 @@ public class User extends Model {
 	 */
 	public User() {
 		this.setDefaultPenName(UNKNOWN_PEN_NAME);
-		this.setFontSize(NULL_FONT_SIZE);
+		this.setFontSize(DEFAULT_FONT_SIZE);
 	}
 
 	/**
@@ -228,7 +228,7 @@ public class User extends Model {
 		if (fontSize != null)
 			return fontSize;
 		else
-			return NULL_FONT_SIZE;
+			return DEFAULT_FONT_SIZE;
 	}
 
 	/**
@@ -303,6 +303,6 @@ public class User extends Model {
 
 	public boolean isFontSizeSet() {
 		final double fontSize = this.getFontSize();
-		return (fontSize != NULL_FONT_SIZE);
+		return (fontSize != DEFAULT_FONT_SIZE);
 	}
 }
