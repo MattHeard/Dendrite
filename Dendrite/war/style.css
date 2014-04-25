@@ -28,6 +28,26 @@ body {
 	padding-top:	1em;
 }
 
+.fontTypeCursive {
+  font-family: Cursive;
+}
+
+.fontTypeFantasy {
+  font-family: Fantasy;
+}
+
+.fontTypeMonospace {
+  font-family: Monospace;
+}
+
+.fontTypeSansSerif {
+  font-family: Sans-serif;
+}
+
+.fontTypeSerif {
+	font-family: Serif;
+}
+
 .footer {
 	margin-right:	1em;
 }

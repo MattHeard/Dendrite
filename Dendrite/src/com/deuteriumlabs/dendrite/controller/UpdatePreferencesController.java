@@ -91,6 +91,8 @@ public class UpdatePreferencesController {
 			myUser.setDefaultPenName(penName);
 			final double fontSize = this.getFontSizeNumber();
 			myUser.setFontSize(fontSize);
+			final String fontType = this.getFontType();
+			myUser.setFontType(fontType);
 			myUser.update();
 			return true;
 		} else

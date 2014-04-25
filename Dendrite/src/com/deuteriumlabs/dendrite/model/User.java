@@ -23,6 +23,8 @@ public class User extends Model {
 	private static final String KIND_NAME = "User";
 	private static final String UNKNOWN_PEN_NAME = "???";
 	private static final String FONT_SIZE_PROPERTY = "fontSize";
+	private static final String DEFAULT_FONT_TYPE = "Sans-serif";
+	private static final String FONT_TYPE_PROPERTY = "fontType";
 	private static User cachedUser;
 	
 	/**
@@ -129,6 +131,7 @@ public class User extends Model {
 	private String defaultPenName;
 	private String id;
 	private double fontSize;
+	private String fontType;
 	
 	/**
 	 * Default constructor, which sets an initial default pen name in case the
@@ -137,6 +140,7 @@ public class User extends Model {
 	public User() {
 		this.setDefaultPenName(UNKNOWN_PEN_NAME);
 		this.setFontSize(DEFAULT_FONT_SIZE);
+		this.setFontType(DEFAULT_FONT_TYPE);
 	}
 
 	/**
@@ -216,11 +220,17 @@ public class User extends Model {
 		this.readIdFromEntity(entity);
 		this.readDefaultPenNameFromEntity(entity);
 		this.readFontSizeFromEntity(entity);
+		this.readFontTypeFromEntity(entity);
 	}
 
 	private void readFontSizeFromEntity(final Entity entity) {
 		final double fontSize = getFontSizeFromEntity(entity);
 		this.setFontSize(fontSize);
+	}
+
+	private void readFontTypeFromEntity(final Entity entity) {
+		final String fontType = getFontTypeFromEntity(entity);
+		this.setFontType(fontType);
 	}
 
 	private static double getFontSizeFromEntity(final Entity entity) {
@@ -229,6 +239,14 @@ public class User extends Model {
 			return fontSize;
 		else
 			return DEFAULT_FONT_SIZE;
+	}
+
+	private static String getFontTypeFromEntity(final Entity entity) {
+		String fontType = (String) entity.getProperty(FONT_TYPE_PROPERTY);
+		if (fontType != null)
+			return fontType;
+		else
+			return DEFAULT_FONT_TYPE;
 	}
 
 	/**
@@ -286,11 +304,21 @@ public class User extends Model {
 		this.setIdInEntity(entity);
 		this.setDefaultPenNameInEntity(entity);
 		this.setFontSizeInEntity(entity);
+		this.setFontTypeInEntity(entity);
 	}
 
 	private void setFontSizeInEntity(final Entity entity) {
 		final double fontSize = this.getFontSize();
 		entity.setProperty(FONT_SIZE_PROPERTY, fontSize);
+	}
+
+	private void setFontTypeInEntity(final Entity entity) {
+		final String fontType = this.getFontType();
+		entity.setProperty(FONT_TYPE_PROPERTY, fontType);
+	}
+
+	public String getFontType() {
+		return this.fontType;
 	}
 
 	public double getFontSize() {
@@ -304,5 +332,9 @@ public class User extends Model {
 	public boolean isFontSizeSet() {
 		final double fontSize = this.getFontSize();
 		return (fontSize != DEFAULT_FONT_SIZE);
+	}
+
+	public void setFontType(final String fontType) {
+		this.fontType = fontType;
 	}
 }

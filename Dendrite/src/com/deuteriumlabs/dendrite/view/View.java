@@ -59,6 +59,11 @@ public abstract class View {
 		final User myUser = User.getMyUser();
 		return myUser.getFontSize();
 	}
+	
+	public static String getUserFontType() {
+		final User myUser = User.getMyUser();
+		return myUser.getFontType();
+	}
 
 	/**
 	 * Returns a link for logging in, with a redirect back to this page after
