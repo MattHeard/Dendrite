@@ -24,10 +24,10 @@ public class UpdatePreferencesServlet extends DendriteServlet {
 		controller.setFontType(fontType);
 		final String fontColour = req.getParameter("fontColour");
 		controller.setFontColour(fontColour);
-		final String alignment = req.getParameter("alignment");
-		controller.setAlignment(alignment);
 		final String spacing = req.getParameter("spacing");
 		controller.setSpacing(spacing);
+		final String alignment = req.getParameter("alignment");
+		controller.setAlignment(alignment);
 		final String theme = req.getParameter("theme");
 		controller.setTheme(theme);
 		if (controller.isNewPenNameBlank() == true)

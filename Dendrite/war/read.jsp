@@ -46,6 +46,7 @@
     String userFontType = "Sans-serif";
     String userFontColour = "Default";
     double userSpacing = 1.5;
+    String userAlignment = "Justify";
     
     final boolean isUserLoggedIn = ReadView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
@@ -59,6 +60,7 @@
         userFontType = ReadView.getUserFontType();
         userFontColour = ReadView.getUserFontColour();
         userSpacing = ReadView.getUserSpacing();
+        userAlignment = ReadView.getUserAlignment();
         
         %>
           <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>. (<a href="${logoutLink}">Logout</a>)</div><%
@@ -227,6 +229,21 @@
           
           %> ${spacingClassName}<%
             
+        }
+        
+        if ("Justify".equals(userAlignment) == false) {
+          String alignmentClassName = "alignment";
+          final String[] alignmentOptions = { "Left", "Right", "Center",
+              "Justify" };
+          final List<String> list = Arrays.asList(alignmentOptions);
+          if (list.contains(userAlignment)) {
+            alignmentClassName += userAlignment;
+          } else {
+            alignmentClassName += "Default";
+          }
+          pageContext.setAttribute("alignmentClassName", alignmentClassName);
+          
+          %> ${alignmentClassName}<%
         }
       
       %>"><%

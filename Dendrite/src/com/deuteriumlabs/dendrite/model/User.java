@@ -17,7 +17,9 @@ import com.google.appengine.api.users.UserServiceFactory;
  * author.
  */
 public class User extends Model {
+	private static final String ALIGNMENT_PROPERTY = "alignment";
 	private static User cachedUser;
+	private static final String DEFAULT_ALIGNMENT = "Justify";
 	private static final String DEFAULT_FONT_COLOUR = "default";
 	private static final double DEFAULT_FONT_SIZE = 1.0;
 	private static final String DEFAULT_FONT_TYPE = "Sans-serif";
@@ -138,6 +140,7 @@ public class User extends Model {
 		else
 			return null;
 	}
+	
 	private static double getSpacingFromEntity(final Entity entity) {
 		Double spacing = (Double) entity.getProperty(SPACING_PROPERTY);
 		if (spacing != null)
@@ -145,6 +148,7 @@ public class User extends Model {
 		else
 			return DEFAULT_SPACING;
 	}
+	
 	/**
 	 * Returns whether the visitor is logged in or not.
 	 * 
@@ -157,18 +161,17 @@ public class User extends Model {
 		appEngineUser = userService.getCurrentUser();
 		return (appEngineUser != null);
 	}
+	
 	private static void setCachedUser(final User user) {
 		cachedUser = user;
 	}
+	
+	private String alignment;
 	private String defaultPenName;
 	private String fontColour;
-
 	private double fontSize;
-
 	private String fontType;
-
 	private String id;
-
 	private double spacing;
 
 	/**
@@ -181,6 +184,19 @@ public class User extends Model {
 		this.setFontType(DEFAULT_FONT_TYPE);
 		this.setFontColour(DEFAULT_FONT_COLOUR);
 		this.setSpacing(DEFAULT_SPACING);
+		this.setAlignment(DEFAULT_ALIGNMENT);
+	}
+
+	public String getAlignment() {
+		return this.alignment;
+	}
+
+	private String getAlignmentFromEntity(final Entity entity) {
+		String alignment = (String) entity.getProperty(ALIGNMENT_PROPERTY);
+		if (alignment != null)
+			return alignment;
+		else
+			return DEFAULT_ALIGNMENT;
 	}
 
 	/**
@@ -245,6 +261,11 @@ public class User extends Model {
 		return (fontSize != DEFAULT_FONT_SIZE);
 	}
 
+	private void readAlignmentFromEntity(final Entity entity) {
+		final String alignment = getAlignmentFromEntity(entity);
+		this.setAlignment(alignment);
+	}
+
 	/**
 	 * Reads the value from the entity corresponding to the default pen name of
 	 * this user.
@@ -299,11 +320,21 @@ public class User extends Model {
 		this.readFontTypeFromEntity(entity);
 		this.readFontColourFromEntity(entity);
 		this.readSpacingFromEntity(entity);
+		this.readAlignmentFromEntity(entity);
 	}
 
 	private void readSpacingFromEntity(final Entity entity) {
 		final double spacing = getSpacingFromEntity(entity);
 		this.setSpacing(spacing);
+	}
+
+	public void setAlignment(final String alignment) {
+		this.alignment = alignment;
+	}
+
+	private void setAlignmentInEntity(final Entity entity) {
+		final String alignment = this.getAlignment();
+		entity.setProperty(ALIGNMENT_PROPERTY, alignment);
 	}
 
 	/**
@@ -391,6 +422,7 @@ public class User extends Model {
 		this.setFontTypeInEntity(entity);
 		this.setFontColourInEntity(entity);
 		this.setSpacingInEntity(entity);
+		this.setAlignmentInEntity(entity);
 	}
 
 	public void setSpacing(final double spacing) {

@@ -31,6 +31,7 @@
     String userFontType = "Sans-serif";
     String userFontColour = "Default";
     double userSpacing = 1.5;
+    String userAlignment = "Justify";
     
     if (isUserLoggedIn == true) {
         final String authorLink = EditView.getAuthorLink();
@@ -43,6 +44,7 @@
         userFontType = EditView.getUserFontType();
         userFontColour = EditView.getUserFontColour();
         userSpacing = EditView.getUserSpacing();
+        userAlignment = EditView.getUserAlignment();
         
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
@@ -131,7 +133,23 @@
             
             %> ${spacingClassName}<%
               
+        }
+        
+        if ("Justify".equals(userAlignment) == false) {
+          String alignmentClassName = "alignment";
+          final String[] alignmentOptions = { "Left", "Right", "Center",
+              "Justify" };
+          final List<String> list = Arrays.asList(alignmentOptions);
+          if (list.contains(userAlignment)) {
+            alignmentClassName += userAlignment;
+          } else {
+            alignmentClassName += "Default";
           }
+          pageContext.setAttribute("alignmentClassName", alignmentClassName);
+          
+          %> ${alignmentClassName}<%
+          
+        }
       
       %>">
       <h2>Edit a page</h2>

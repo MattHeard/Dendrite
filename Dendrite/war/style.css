@@ -43,6 +43,22 @@ a.fontColourRed {
   color: #d55;
 }
 
+.alignmentCenter {
+  text-align:  center;
+}
+
+.alignmentJustify {
+  text-align:  justify;
+}
+
+.alignmentLeft {
+	text-align:  left;
+}
+
+.alignmentRight {
+  text-align:  right;
+}
+
 body {
 	line-height:		1.5em;
 	text-align:			justify;

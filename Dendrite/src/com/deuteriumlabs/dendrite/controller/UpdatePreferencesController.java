@@ -112,6 +112,8 @@ public class UpdatePreferencesController {
 			myUser.setFontColour(fontColour);
 			final double spacing = this.getSpacingNumber();
 			myUser.setSpacing(spacing);
+			final String alignment = this.getAlignment();
+			myUser.setAlignment(alignment);
 			myUser.update();
 			return true;
 		} else

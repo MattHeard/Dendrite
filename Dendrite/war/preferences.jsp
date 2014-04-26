@@ -24,6 +24,7 @@
           String userFontType = "Sans-serif";
           String userFontColour = "Default";
           double userSpacing = 1.5;
+          String userAlignment = "Justify";
           
           final boolean isUserLoggedIn = PreferencesView.isUserLoggedIn();
           if (isUserLoggedIn == true) {
@@ -37,6 +38,7 @@
               userFontType = PreferencesView.getUserFontType();
               userFontColour = PreferencesView.getUserFontColour();
               userSpacing = PreferencesView.getUserSpacing();
+              userAlignment = PreferencesView.getUserAlignment();
       %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
           (<a href="${logoutLink}">Logout</a>)</div><%
@@ -54,10 +56,10 @@
     </div>
     </div><%
     
-    pageContext.setAttribute("userSpacing", userSpacing);
+    pageContext.setAttribute("userAlignment", userAlignment);
     
     %>
-    <!-- ${userSpacing} -->
+    <!-- ${userAlignment} -->
     <div id="main" class="modifiableText<%
       
         if (userFontSize != 1.0) {
@@ -126,6 +128,22 @@
           
           %> ${spacingClassName}<%
             
+        }
+        
+        if ("Justify".equals(userAlignment) == false) {
+          String alignmentClassName = "alignment";
+          final String[] alignmentOptions = { "Left", "Right", "Center",
+        		  "Justify" };
+          final List<String> list = Arrays.asList(alignmentOptions);
+          if (list.contains(userAlignment)) {
+        	  alignmentClassName += userAlignment;
+          } else {
+        	  alignmentClassName += "Default";
+          }
+          pageContext.setAttribute("alignmentClassName", alignmentClassName);
+          
+          %> ${alignmentClassName}<%
+          
         }
       
       %>">
@@ -238,11 +256,25 @@
         <p>
           <label for="alignment">Text alignment</label>
           <br />
-          <select name="alignment" id="alignment">
-            <option>Left</option>
-            <option>Right</option>
-            <option>Center</option>
-            <option>Justify</option>
+          <select name="alignment" id="alignment"><%
+          
+          final String[] alignmentOptions = { "Left", "Right", "Center",
+        		  "Justify" };
+          
+          for (int i = 0; i < alignmentOptions.length; i++) {
+            pageContext.setAttribute("alignmentOption", alignmentOptions[i]);
+            
+            %>
+            <option<%
+            
+            if (alignmentOptions[i].equals(userAlignment)) {
+              %> selected="selected"<%
+            }
+            
+            %>>${alignmentOption}</option><%
+          }
+          
+          %>
           </select>
         </p>
         <p>

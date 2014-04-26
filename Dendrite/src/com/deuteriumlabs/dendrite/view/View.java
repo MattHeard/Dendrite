@@ -74,6 +74,11 @@ public abstract class View {
 		final User myUser = User.getMyUser();
 		return myUser.getSpacing();
 	}
+	
+	public static String getUserAlignment() {
+		final User myUser = User.getMyUser();
+		return myUser.getAlignment();
+	}
 
 	/**
 	 * Returns a link for logging in, with a redirect back to this page after

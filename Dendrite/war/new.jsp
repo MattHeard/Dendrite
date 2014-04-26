@@ -29,6 +29,7 @@
     String userFontType = "Sans-serif";
     String userFontColour = "Default";
     double userSpacing = 1.5;
+    String userAlignment = "Justify";
     
     if (isUserLoggedIn == true) {
         final String authorLink = NewView.getAuthorLink();
@@ -41,6 +42,7 @@
         userFontType = NewView.getUserFontType();
         userFontColour = NewView.getUserFontColour();
         userSpacing = NewView.getUserSpacing();
+        userAlignment = NewView.getUserAlignment();
         
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
@@ -107,6 +109,7 @@
           pageContext.setAttribute("fontColourClassName", fontColourClassName);
           
           %> ${fontColourClassName}<%
+          
         } else {
           pageContext.setAttribute("fontColourClassName", "");
         }
@@ -126,6 +129,22 @@
           
           %> ${spacingClassName}<%
             
+        }
+        
+        if ("Justify".equals(userAlignment) == false) {
+          String alignmentClassName = "alignment";
+          final String[] alignmentOptions = { "Left", "Right", "Center",
+              "Justify" };
+          final List<String> list = Arrays.asList(alignmentOptions);
+          if (list.contains(userAlignment)) {
+            alignmentClassName += userAlignment;
+          } else {
+            alignmentClassName += "Default";
+          }
+          pageContext.setAttribute("alignmentClassName", alignmentClassName);
+          
+          %> ${alignmentClassName}<%
+          
         }
       
       %>">
