@@ -17,20 +17,24 @@ import com.google.appengine.api.users.UserServiceFactory;
  * author.
  */
 public class User extends Model {
+	private static User cachedUser;
 	private static final String DEFAULT_FONT_COLOUR = "default";
 	private static final double DEFAULT_FONT_SIZE = 1.0;
+	private static final String DEFAULT_FONT_TYPE = "Sans-serif";
 	private static final String DEFAULT_PEN_NAME_PROPERTY = "defaultPenName";
+	private static final double DEFAULT_SPACING = 1.5;
+	private static final String FONT_COLOUR_PROPERTY = "fontColour";
+	private static final String FONT_SIZE_PROPERTY = "fontSize";
+	private static final String FONT_TYPE_PROPERTY = "fontType";
 	private static final String ID_PROPERTY = "id";
 	private static final String KIND_NAME = "User";
-	private static final String UNKNOWN_PEN_NAME = "???";
-	private static final String FONT_SIZE_PROPERTY = "fontSize";
-	private static final String DEFAULT_FONT_TYPE = "Sans-serif";
-	private static final String FONT_TYPE_PROPERTY = "fontType";
-	private static final String FONT_COLOUR_PROPERTY = "fontColour";
-	private static final double DEFAULT_SPACING = 1.5;
 	private static final String SPACING_PROPERTY = "spacing";
-	private static User cachedUser;
-	
+	private static final String UNKNOWN_PEN_NAME = "???";
+
+	private static User getCachedUser() {
+		return cachedUser;
+	}
+
 	/**
 	 * Returns the default pen name from the given entity.
 	 * 
@@ -40,6 +44,30 @@ public class User extends Model {
 	 */
 	private static String getDefaultPenNameFromEntity(final Entity entity) {
 		return (String) entity.getProperty(DEFAULT_PEN_NAME_PROPERTY);
+	}
+
+	private static String getFontColourFromEntity(final Entity entity) {
+		String fontColour = (String) entity.getProperty(FONT_COLOUR_PROPERTY);
+		if (fontColour != null)
+			return fontColour;
+		else
+			return DEFAULT_FONT_COLOUR;
+	}
+
+	private static double getFontSizeFromEntity(final Entity entity) {
+		Double fontSize = (Double) entity.getProperty(FONT_SIZE_PROPERTY);
+		if (fontSize != null)
+			return fontSize;
+		else
+			return DEFAULT_FONT_SIZE;
+	}
+
+	private static String getFontTypeFromEntity(final Entity entity) {
+		String fontType = (String) entity.getProperty(FONT_TYPE_PROPERTY);
+		if (fontType != null)
+			return fontType;
+		else
+			return DEFAULT_FONT_TYPE;
 	}
 
 	/**
@@ -95,14 +123,6 @@ public class User extends Model {
 		} else
 			return null;
 	}
-	
-	private static User getCachedUser() {
-		return cachedUser;
-	}
-
-	private static void setCachedUser(final User user) {
-		cachedUser = user;
-	}
 
 	/**
 	 * Returns the Google App Engine user ID representing the logged-in visitor.
@@ -118,7 +138,13 @@ public class User extends Model {
 		else
 			return null;
 	}
-
+	private static double getSpacingFromEntity(final Entity entity) {
+		Double spacing = (Double) entity.getProperty(SPACING_PROPERTY);
+		if (spacing != null)
+			return spacing;
+		else
+			return DEFAULT_SPACING;
+	}
 	/**
 	 * Returns whether the visitor is logged in or not.
 	 * 
@@ -131,14 +157,20 @@ public class User extends Model {
 		appEngineUser = userService.getCurrentUser();
 		return (appEngineUser != null);
 	}
-
+	private static void setCachedUser(final User user) {
+		cachedUser = user;
+	}
 	private String defaultPenName;
-	private String id;
-	private double fontSize;
-	private String fontType;
 	private String fontColour;
+
+	private double fontSize;
+
+	private String fontType;
+
+	private String id;
+
 	private double spacing;
-	
+
 	/**
 	 * Default constructor, which sets an initial default pen name in case the
 	 * user has not set a default pen name.
@@ -158,6 +190,18 @@ public class User extends Model {
 	 */
 	public String getDefaultPenName() {
 		return this.defaultPenName;
+	}
+
+	public String getFontColour() {
+		return this.fontColour;
+	}
+
+	public double getFontSize() {
+		return this.fontSize;
+	}
+
+	public String getFontType() {
+		return this.fontType;
 	}
 
 	/**
@@ -192,6 +236,15 @@ public class User extends Model {
 		return query.setFilter(idFilter);
 	}
 
+	public double getSpacing() {
+		return this.spacing;
+	}
+
+	public boolean isFontSizeSet() {
+		final double fontSize = this.getFontSize();
+		return (fontSize != DEFAULT_FONT_SIZE);
+	}
+
 	/**
 	 * Reads the value from the entity corresponding to the default pen name of
 	 * this user.
@@ -202,6 +255,21 @@ public class User extends Model {
 	private void readDefaultPenNameFromEntity(final Entity entity) {
 		final String defaultPenName = getDefaultPenNameFromEntity(entity);
 		this.setDefaultPenName(defaultPenName);
+	}
+
+	private void readFontColourFromEntity(final Entity entity) {
+		final String fontColour = getFontColourFromEntity(entity);
+		this.setFontColour(fontColour);
+	}
+
+	private void readFontSizeFromEntity(final Entity entity) {
+		final double fontSize = getFontSizeFromEntity(entity);
+		this.setFontSize(fontSize);
+	}
+
+	private void readFontTypeFromEntity(final Entity entity) {
+		final String fontType = getFontTypeFromEntity(entity);
+		this.setFontType(fontType);
 	}
 
 	/**
@@ -233,56 +301,9 @@ public class User extends Model {
 		this.readSpacingFromEntity(entity);
 	}
 
-	private void readFontColourFromEntity(final Entity entity) {
-		final String fontColour = getFontColourFromEntity(entity);
-		this.setFontColour(fontColour);
-	}
-
 	private void readSpacingFromEntity(final Entity entity) {
 		final double spacing = getSpacingFromEntity(entity);
 		this.setSpacing(spacing);
-	}
-
-	private void readFontSizeFromEntity(final Entity entity) {
-		final double fontSize = getFontSizeFromEntity(entity);
-		this.setFontSize(fontSize);
-	}
-
-	private void readFontTypeFromEntity(final Entity entity) {
-		final String fontType = getFontTypeFromEntity(entity);
-		this.setFontType(fontType);
-	}
-
-	private static String getFontColourFromEntity(final Entity entity) {
-		String fontColour = (String) entity.getProperty(FONT_COLOUR_PROPERTY);
-		if (fontColour != null)
-			return fontColour;
-		else
-			return DEFAULT_FONT_COLOUR;
-	}
-
-	private static double getSpacingFromEntity(final Entity entity) {
-		Double spacing = (Double) entity.getProperty(SPACING_PROPERTY);
-		if (spacing != null)
-			return spacing;
-		else
-			return DEFAULT_SPACING;
-	}
-
-	private static double getFontSizeFromEntity(final Entity entity) {
-		Double fontSize = (Double) entity.getProperty(FONT_SIZE_PROPERTY);
-		if (fontSize != null)
-			return fontSize;
-		else
-			return DEFAULT_FONT_SIZE;
-	}
-
-	private static String getFontTypeFromEntity(final Entity entity) {
-		String fontType = (String) entity.getProperty(FONT_TYPE_PROPERTY);
-		if (fontType != null)
-			return fontType;
-		else
-			return DEFAULT_FONT_TYPE;
 	}
 
 	/**
@@ -305,6 +326,33 @@ public class User extends Model {
 	private void setDefaultPenNameInEntity(final Entity entity) {
 		final String defaultPenName = this.getDefaultPenName();
 		entity.setProperty(DEFAULT_PEN_NAME_PROPERTY, defaultPenName);
+	}
+
+	public void setFontColour(final String fontColour) {
+		this.fontColour = fontColour;
+	}
+
+	private void setFontColourInEntity(final Entity entity) {
+		final String fontColour = this.getFontColour();
+		entity.setProperty(FONT_COLOUR_PROPERTY, fontColour);
+	}
+
+	public void setFontSize(final double fontSize) {
+		this.fontSize = fontSize;
+	}
+
+	private void setFontSizeInEntity(final Entity entity) {
+		final double fontSize = this.getFontSize();
+		entity.setProperty(FONT_SIZE_PROPERTY, fontSize);
+	}
+
+	public void setFontType(final String fontType) {
+		this.fontType = fontType;
+	}
+
+	private void setFontTypeInEntity(final Entity entity) {
+		final String fontType = this.getFontType();
+		entity.setProperty(FONT_TYPE_PROPERTY, fontType);
 	}
 
 	/**
@@ -345,60 +393,12 @@ public class User extends Model {
 		this.setSpacingInEntity(entity);
 	}
 
-	private void setFontColourInEntity(final Entity entity) {
-		final String fontColour = this.getFontColour();
-		entity.setProperty(FONT_COLOUR_PROPERTY, fontColour);
+	public void setSpacing(final double spacing) {
+		this.spacing = spacing;
 	}
 
 	private void setSpacingInEntity(final Entity entity) {
 		final double spacing = this.getSpacing();
 		entity.setProperty(SPACING_PROPERTY, spacing);
-	}
-
-	private void setFontSizeInEntity(final Entity entity) {
-		final double fontSize = this.getFontSize();
-		entity.setProperty(FONT_SIZE_PROPERTY, fontSize);
-	}
-
-	private void setFontTypeInEntity(final Entity entity) {
-		final String fontType = this.getFontType();
-		entity.setProperty(FONT_TYPE_PROPERTY, fontType);
-	}
-
-	public String getFontColour() {
-		return this.fontColour;
-	}
-
-	public String getFontType() {
-		return this.fontType;
-	}
-
-	public double getFontSize() {
-		return this.fontSize;
-	}
-
-	public void setFontSize(final double fontSize) {
-		this.fontSize = fontSize;
-	}
-
-	public boolean isFontSizeSet() {
-		final double fontSize = this.getFontSize();
-		return (fontSize != DEFAULT_FONT_SIZE);
-	}
-
-	public void setFontType(final String fontType) {
-		this.fontType = fontType;
-	}
-
-	public void setFontColour(final String fontColour) {
-		this.fontColour = fontColour;
-	}
-
-	public void setSpacing(final double spacing) {
-		this.spacing = spacing;
-	}
-
-	public double getSpacing() {
-		return this.spacing;
 	}
 }
