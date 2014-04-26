@@ -32,6 +32,7 @@
       double userFontSize = 1.0;
       String userFontType = "Sans-serif";
       String userFontColour = "Default";
+      double userSpacing = 1.5;
       
         final boolean isUserLoggedIn = ContentsView.isUserLoggedIn();
         if (isUserLoggedIn == true) {
@@ -44,6 +45,7 @@
           userFontSize = ContentsView.getUserFontSize();
           userFontType = ContentsView.getUserFontType();
           userFontColour = ContentsView.getUserFontColour();
+          userSpacing = ContentsView.getUserSpacing();
         	
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
@@ -112,6 +114,23 @@
           %> ${fontColourClassName}<%
         } else {
         	pageContext.setAttribute("fontColourClassName", "");
+        }
+        
+        if (userSpacing != 1.5) {
+          String spacingClassName = "spacing";
+          if (userSpacing == 3.0) {
+            spacingClassName += "Huge";
+          } else if (userSpacing == 2.0) {
+            spacingClassName += "Large";
+          } else if (userSpacing == 1.0) {
+            spacingClassName += "Small";
+          } else {
+            spacingClassName += "Medium";
+          }
+          pageContext.setAttribute("spacingClassName", spacingClassName);
+          
+          %> ${spacingClassName}<%
+            
         }
       
       %>">

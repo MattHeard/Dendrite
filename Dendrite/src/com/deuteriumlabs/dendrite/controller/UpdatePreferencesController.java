@@ -28,10 +28,6 @@ public class UpdatePreferencesController {
 		return this.newPenName;
 	}
 
-	private String getSpacing() {
-		return this.spacing;
-	}
-
 	private String getTheme() {
 		return this.theme;
 	}
@@ -76,10 +72,29 @@ public class UpdatePreferencesController {
 			myUser.setFontType(fontType);
 			final String fontColour = this.getFontColour();
 			myUser.setFontColour(fontColour);
+			final double spacing = this.getSpacingNumber();
+			myUser.setSpacing(spacing);
 			myUser.update();
 			return true;
 		} else
 			return false;
+	}
+
+	private String getSpacing() {
+		return this.spacing;
+	}
+	
+	private double getSpacingNumber() {
+		final String spacingName = this.getSpacing();
+		if (spacingName.equals("Huge")) {
+			return 3;
+		} else if (spacingName.equals("Large")) {
+			return 2;
+		} else if (spacingName.equals("Small")) {
+			return 1;
+		} else {
+			return 1.5;	// Medium
+		}
 	}
 
 	private String getFontColour() {
@@ -95,7 +110,7 @@ public class UpdatePreferencesController {
 		} else if (fontSizeName.equals("Small")) {
 			return 0.8;
 		} else {
-			return 1;
+			return 1;	// Medium
 		}
 	}
 

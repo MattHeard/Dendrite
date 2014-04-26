@@ -20,9 +20,12 @@
           /></a></div><%
     
     final AboutView view = new AboutView();
+          
     double userFontSize = 1.0;
     String userFontType = "Sans-serif";
     String userFontColour = "Default";
+    double userSpacing = 1.5;
+    
     final boolean isUserLoggedIn = AboutView.isUserLoggedIn();
     if (isUserLoggedIn == true) {
         final String authorLink = AboutView.getAuthorLink();
@@ -34,6 +37,7 @@
         userFontSize = AboutView.getUserFontSize();
         userFontType = AboutView.getUserFontType();
         userFontColour = AboutView.getUserFontColour();
+        userSpacing = AboutView.getUserSpacing();
         
     %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
@@ -103,16 +107,34 @@
         } else {
           pageContext.setAttribute("fontColourClassName", "");
         }
+        
+        if (userSpacing != 1.5) {
+          String spacingClassName = "spacing";
+          if (userSpacing == 3.0) {
+            spacingClassName += "Huge";
+          } else if (userSpacing == 2.0) {
+            spacingClassName += "Large";
+          } else if (userSpacing == 1.0) {
+            spacingClassName += "Small";
+          } else {
+            spacingClassName += "Medium";
+          }
+          pageContext.setAttribute("spacingClassName", spacingClassName);
+          
+          %> ${spacingClassName}<%
+            
+        }
       
       %>">
       <h2>About Dendrite</h2>
       <p><i>Dendrite</i> is an online, choose-your-own-adventure book that you
           can both read, and write. This allows you, the reader and author, to
           participate in the story however you see fit. The stories branch
-          through various pathways, with endless potential to read, write, re-
-          write, edit, and change the story to make it truly your own. Find your
-          way through other authors' stories, and pick up where they left off,
-          creating your own thrilling plot lines to pique your interest.</p>
+          through various pathways, with endless potential to read, write,
+          re-write, edit, and change the story to make it truly your own. Find
+          your way through other authors' stories, and pick up where they left
+          off, creating your own thrilling plot lines to pique your
+          interest.</p>
       <p>Dendrites, from the Greek <i>δένδρον</i> (meaning <i>tree</i>), are
           spindly tentacles which connect the nucleus of one brain cell to
           another, very similar to the way that links on <i>Dendrite</i> connect

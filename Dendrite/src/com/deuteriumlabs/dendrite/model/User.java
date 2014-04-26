@@ -27,6 +27,8 @@ public class User extends Model {
 	private static final String DEFAULT_FONT_TYPE = "Sans-serif";
 	private static final String FONT_TYPE_PROPERTY = "fontType";
 	private static final String FONT_COLOUR_PROPERTY = "fontColour";
+	private static final double DEFAULT_SPACING = 1.5;
+	private static final String SPACING_PROPERTY = "spacing";
 	private static User cachedUser;
 	
 	/**
@@ -135,6 +137,7 @@ public class User extends Model {
 	private double fontSize;
 	private String fontType;
 	private String fontColour;
+	private double spacing;
 	
 	/**
 	 * Default constructor, which sets an initial default pen name in case the
@@ -145,6 +148,7 @@ public class User extends Model {
 		this.setFontSize(DEFAULT_FONT_SIZE);
 		this.setFontType(DEFAULT_FONT_TYPE);
 		this.setFontColour(DEFAULT_FONT_COLOUR);
+		this.setSpacing(DEFAULT_SPACING);
 	}
 
 	/**
@@ -226,11 +230,17 @@ public class User extends Model {
 		this.readFontSizeFromEntity(entity);
 		this.readFontTypeFromEntity(entity);
 		this.readFontColourFromEntity(entity);
+		this.readSpacingFromEntity(entity);
 	}
 
 	private void readFontColourFromEntity(final Entity entity) {
 		final String fontColour = getFontColourFromEntity(entity);
 		this.setFontColour(fontColour);
+	}
+
+	private void readSpacingFromEntity(final Entity entity) {
+		final double spacing = getSpacingFromEntity(entity);
+		this.setSpacing(spacing);
 	}
 
 	private void readFontSizeFromEntity(final Entity entity) {
@@ -249,6 +259,14 @@ public class User extends Model {
 			return fontColour;
 		else
 			return DEFAULT_FONT_COLOUR;
+	}
+
+	private static double getSpacingFromEntity(final Entity entity) {
+		Double spacing = (Double) entity.getProperty(SPACING_PROPERTY);
+		if (spacing != null)
+			return spacing;
+		else
+			return DEFAULT_SPACING;
 	}
 
 	private static double getFontSizeFromEntity(final Entity entity) {
@@ -324,11 +342,17 @@ public class User extends Model {
 		this.setFontSizeInEntity(entity);
 		this.setFontTypeInEntity(entity);
 		this.setFontColourInEntity(entity);
+		this.setSpacingInEntity(entity);
 	}
 
 	private void setFontColourInEntity(final Entity entity) {
 		final String fontColour = this.getFontColour();
 		entity.setProperty(FONT_COLOUR_PROPERTY, fontColour);
+	}
+
+	private void setSpacingInEntity(final Entity entity) {
+		final double spacing = this.getSpacing();
+		entity.setProperty(SPACING_PROPERTY, spacing);
 	}
 
 	private void setFontSizeInEntity(final Entity entity) {
@@ -368,5 +392,13 @@ public class User extends Model {
 
 	public void setFontColour(final String fontColour) {
 		this.fontColour = fontColour;
+	}
+
+	public void setSpacing(final double spacing) {
+		this.spacing = spacing;
+	}
+
+	public double getSpacing() {
+		return this.spacing;
 	}
 }

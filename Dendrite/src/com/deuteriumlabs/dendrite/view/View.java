@@ -69,6 +69,11 @@ public abstract class View {
 		final User myUser = User.getMyUser();
 		return myUser.getFontColour();
 	}
+	
+	public static double getUserSpacing() {
+		final User myUser = User.getMyUser();
+		return myUser.getSpacing();
+	}
 
 	/**
 	 * Returns a link for logging in, with a redirect back to this page after

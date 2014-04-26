@@ -276,6 +276,22 @@ select {
 	line-height:	1.5em;
 }
 
+.spacingHuge {
+	line-height: 3em;
+}
+
+.spacingLarge {
+  line-height: 2em;
+}
+
+.spacingMedium {
+  line-height: 1.5em;
+}
+
+.spacingSmall {
+  line-height: 1em;
+}
+
 #storyTitle {
 	float: left;
 }

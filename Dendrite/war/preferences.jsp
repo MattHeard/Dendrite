@@ -18,26 +18,26 @@
     <div id="header">
       <div id="logo"><a href="/"><img id="logoImage" src="logo.png"
           /></a></div><%
-    
-    final PreferencesView view = new PreferencesView();
+      	final PreferencesView view = new PreferencesView();
+                
+          double userFontSize = 1.0;
+          String userFontType = "Sans-serif";
+          String userFontColour = "Default";
+          double userSpacing = 1.5;
           
-    double userFontSize = 1.0;
-    String userFontType = "Sans-serif";
-    String userFontColour = "Default";
-    
-    final boolean isUserLoggedIn = PreferencesView.isUserLoggedIn();
-    if (isUserLoggedIn == true) {
-        final String authorLink = PreferencesView.getAuthorLink();
-        pageContext.setAttribute("authorLink", authorLink);
-        final String userName = PreferencesView.getMyUserName();
-        pageContext.setAttribute("userName", userName);
-        final String logoutLink = view.getLogoutLink();
-        pageContext.setAttribute("logoutLink", logoutLink);
-        userFontSize = PreferencesView.getUserFontSize();
-        userFontType = PreferencesView.getUserFontType();
-        userFontColour = PreferencesView.getUserFontColour();
-        
-    %>
+          final boolean isUserLoggedIn = PreferencesView.isUserLoggedIn();
+          if (isUserLoggedIn == true) {
+              final String authorLink = PreferencesView.getAuthorLink();
+              pageContext.setAttribute("authorLink", authorLink);
+              final String userName = PreferencesView.getMyUserName();
+              pageContext.setAttribute("userName", userName);
+              final String logoutLink = view.getLogoutLink();
+              pageContext.setAttribute("logoutLink", logoutLink);
+              userFontSize = PreferencesView.getUserFontSize();
+              userFontType = PreferencesView.getUserFontType();
+              userFontColour = PreferencesView.getUserFontColour();
+              userSpacing = PreferencesView.getUserSpacing();
+      %>
       <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
           (<a href="${logoutLink}">Logout</a>)</div><%
     
@@ -52,7 +52,12 @@
     
     %>
     </div>
-    </div>
+    </div><%
+    
+    pageContext.setAttribute("userSpacing", userSpacing);
+    
+    %>
+    <!-- ${userSpacing} -->
     <div id="main" class="modifiableText<%
       
         if (userFontSize != 1.0) {
@@ -104,6 +109,23 @@
           %> ${fontColourClassName}<%
         } else {
           pageContext.setAttribute("fontColourClassName", "");
+        }
+        
+        if (userSpacing != 1.5) {
+          String spacingClassName = "spacing";
+          if (userSpacing == 3.0) {
+          	spacingClassName += "Huge";
+          } else if (userSpacing == 2.0) {
+          	spacingClassName += "Large";
+          } else if (userSpacing == 1.0) {
+          	spacingClassName += "Small";
+          } else {
+          	spacingClassName += "Medium";
+          }
+          pageContext.setAttribute("spacingClassName", spacingClassName);
+          
+          %> ${spacingClassName}<%
+            
         }
       
       %>">
@@ -191,11 +213,26 @@
         <p>
           <label for="spacing">Line spacing</label>
           <br />
-          <select name="spacing" id="spacing">
-            <option>Huge</option>
-            <option>Large</option>
-            <option>Medium</option>
-            <option>Small</option>
+          <select name="spacing" id="spacing"><%
+          
+        	final String[] spacingOptions = { "Huge", "Large", "Medium",
+        		  "Small" };
+          final double[] spacingValues = { 3.0, 2.0, 1.5, 1.0 };
+          
+          for (int i = 0; i < spacingOptions.length; i++) {
+            pageContext.setAttribute("spacingOption", spacingOptions[i]);
+            
+            %>
+            <option<%
+            
+            if (spacingValues[i] == userSpacing) {
+              %> selected="selected"<%
+            }
+            %>>${spacingOption}</option><%
+            
+          }
+          
+          %>
           </select>
         </p>
         <p>
