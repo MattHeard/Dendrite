@@ -149,17 +149,17 @@
       %>">
       <h2>My Preferences</h2>
       <form action="updatePreferences" method="post">
+        <h3>Details</h3>
       	<p>
-          <label for="newPenName">Pen name</label>
-          <br />
-          <input type="text" name="newPenName" id="newPenName"
+          <label for="newPenName" class="prefLabel">Pen name</label>
+          <input type="text" name="newPenName" id="newPenName" class="prefInput"
               value="${userName}"></input>
         </p>
+        <hr />
         <h3>Display</h3>
         <p>
-          <label for="fontSize">Font size</label>
-          <br />
-          <select name="fontSize" id="fontSize"><%
+          <label for="fontSize" class="prefLabel">Font size</label>
+          <select name="fontSize" id="fontSize" class="prefInput"><%
           
           final String[] fontSizeOptions = { "Huge", "Large", "Medium", "Small" };
           final double[] fontSizeValues = { 2.0, 1.5, 1.0, 0.8 };
@@ -181,9 +181,8 @@
           </select>
         </p>
         <p>
-          <label for="fontType">Font type</label>
-          <br />
-          <select name="fontType" id="fontType"><%
+          <label for="fontType" class="prefLabel">Font type</label>
+          <select name="fontType" id="fontType" class="prefInput"><%
           
           final String[] fontTypeOptions = { "Serif", "Sans-serif", "Monospace",
         		      "Cursive", "Fantasy" };
@@ -205,9 +204,8 @@
           </select>
         </p>
         <p>
-          <label for="fontColour">Font colour</label>
-          <br />
-          <select name="fontColour" id="fontColour"><%
+          <label for="fontColour" class="prefLabel">Font colour</label>
+          <select name="fontColour" id="fontColour" class="prefInput"><%
           
           final String[] fontColourOptions = { "Default", "Charcoal", "Black",
         		      "Grey", "Blue", "Green", "Red" };
@@ -229,9 +227,8 @@
           </select>
         </p>
         <p>
-          <label for="spacing">Line spacing</label>
-          <br />
-          <select name="spacing" id="spacing"><%
+          <label for="spacing" class="prefLabel">Line spacing</label>
+          <select name="spacing" id="spacing" class="prefInput"><%
           
         	final String[] spacingOptions = { "Huge", "Large", "Medium",
         		  "Small" };
@@ -254,9 +251,8 @@
           </select>
         </p>
         <p>
-          <label for="alignment">Text alignment</label>
-          <br />
-          <select name="alignment" id="alignment"><%
+          <label for="alignment" class="prefLabel">Text alignment</label>
+          <select name="alignment" id="alignment" class="prefInput"><%
           
           final String[] alignmentOptions = { "Left", "Right", "Center",
         		  "Justify" };
@@ -278,9 +274,8 @@
           </select>
         </p>
         <p>
-          <label for="theme">Theme</label>
-          <br />
-          <select name="theme" id="theme">
+          <label for="theme" class="prefLabel">Theme</label>
+          <select name="theme" id="theme" class="prefInput">
             <option>Light</option>
             <option>Dark</option>
             <option>Sepia</option>

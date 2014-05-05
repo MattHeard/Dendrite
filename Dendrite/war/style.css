@@ -212,6 +212,12 @@ h2, h3 {
 	min-height:			70px;
 }
 
+hr {
+	background-color:  #ddd;
+	height:            1px;
+	border:            none;
+}
+
 html, body {
 	height:	100%;
 }
@@ -264,6 +270,15 @@ input, textarea {
 
 .option {
 	padding-top:	1em;
+}
+
+.prefInput {
+  max-width: 70%;
+}
+
+.prefLabel {
+  min-width: 30%;
+  float:left;
 }
 
 select {
