@@ -17,6 +17,22 @@ a:hover {
 	text-decoration:	underline;
 }
 
+a.themeLight {
+	color: #666;
+}
+
+a.themeDark {
+	color: #999;
+}
+
+a.themeSepia {
+	color: #6e5c41;
+}
+
+a.themeLovely {
+	color: #c20045;
+}
+
 a.fontColourBlack {
   color: #555;
 }
@@ -67,6 +83,21 @@ body {
 	font-weight:		100;
 	color:				#111;
 	background-color:	#fefefe;
+}
+
+body.themeDark {
+	color:             #eee;
+	background-color:  #010101;
+}
+
+body.themeSepia {
+	color:             #120f09;
+	background-color:  #fcfcf0;
+}
+
+body.themeLovely {
+	color:             #910034;
+	background-color:  #fff1f6;
 }
 
 #credit {
@@ -155,6 +186,26 @@ body {
 	display:			     none;
 }
 
+#formatBar.themeLight {
+	background-color:  #999;
+	border-color:      #888;
+}
+
+#formatBar.themeDark {
+  background-color:  #666;
+  border-color:      #555;
+}
+
+#formatBar.themeSepia {
+  background-color:  #806e4f;
+  border-color:      #6e5c41;
+}
+
+#formatBar.themeLovely {
+  background-color:  #f7669a;
+  border-color:      #f64d89;
+}
+
 .formatPickerBar {
 	max-width:			800px;
 	margin-left:		auto;
@@ -210,6 +261,26 @@ h2, h3 {
 	border:				1px #e0e0e0;
 	border-style:		solid none;
 	min-height:			70px;
+}
+
+#headerBar.themeLight, #footerBar.themeLight {
+	background-color:  #f0f0f0;
+	border-color:      #e0e0e0;
+}
+
+#headerBar.themeDark, #footerBar.themeDark {
+	background-color:  #0f0f0f;
+	border-color:      #1f1f1f;
+}
+
+#headerBar.themeSepia, #footerBar.themeSepia {
+	background-color:  #f2edd8;
+	border-color:      #e2ddc8;
+}
+
+#headerBar.themeLovely, #footerBar.themeLovely {
+	background-color:  #ffd6e4;
+	border-color:      #ffc8d8;
 }
 
 hr {

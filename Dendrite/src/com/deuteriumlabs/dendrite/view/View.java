@@ -79,6 +79,11 @@ public abstract class View {
 		final User myUser = User.getMyUser();
 		return myUser.getAlignment();
 	}
+	
+	public static String getUserTheme() {
+		final User myUser = User.getMyUser();
+		return myUser.getTheme();
+	}
 
 	/**
 	 * Returns a link for logging in, with a redirect back to this page after

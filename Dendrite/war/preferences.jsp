@@ -12,54 +12,76 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Dendrite - My Preferences</title>
   </head>
-  <body>
+  <body<%
+  
+final PreferencesView view = new PreferencesView();
+
+// Set up default display settings
+double userFontSize = 1.0;
+String userFontType = "Sans-serif";
+String userFontColour = "Default";
+double userSpacing = 1.5;
+String userAlignment = "Justify";
+String userTheme = "Light";
+
+final boolean isUserLoggedIn = PreferencesView.isUserLoggedIn();
+
+if (isUserLoggedIn == true) {
+		final String authorLink = PreferencesView.getAuthorLink();
+		pageContext.setAttribute("authorLink", authorLink);
+		final String userName = PreferencesView.getMyUserName();
+		pageContext.setAttribute("userName", userName);
+		final String logoutLink = view.getLogoutLink();
+		pageContext.setAttribute("logoutLink", logoutLink);
+		userFontSize = PreferencesView.getUserFontSize();
+		userFontType = PreferencesView.getUserFontType();
+		userFontColour = PreferencesView.getUserFontColour();
+		userSpacing = PreferencesView.getUserSpacing();
+		userAlignment = PreferencesView.getUserAlignment();
+		userTheme = PreferencesView.getUserTheme();
+}
+
+if (userTheme.equals("Light") == false && userTheme != null) {
+	  String className = "theme";
+	  final String[] options = { "Light", "Dark", "Sepia", "Lovely" };
+	  final List<String> list = Arrays.asList(options);
+	  if (list.contains(userTheme)) {
+        className += userTheme;
+    } else {
+        className += "Light";
+    }
+    pageContext.setAttribute("themeClassName", className);
+
+    %> class="${themeClassName}"<%
+
+} else {
+	  pageContext.setAttribute("themeClassName", "");
+}
+  
+  %>>
     <div id="nonFooter">
-    <div id="headerBar">
+    <div id="headerBar" class="${themeClassName}">
     <div id="header">
-      <div id="logo"><a href="/"><img id="logoImage" src="logo.png"
+      <div id="logo"><a href="/" class="${themeClassName}"><img id="logoImage" src="logo.png"
           /></a></div><%
-      	final PreferencesView view = new PreferencesView();
-                
-          double userFontSize = 1.0;
-          String userFontType = "Sans-serif";
-          String userFontColour = "Default";
-          double userSpacing = 1.5;
-          String userAlignment = "Justify";
-          
-          final boolean isUserLoggedIn = PreferencesView.isUserLoggedIn();
-          if (isUserLoggedIn == true) {
-              final String authorLink = PreferencesView.getAuthorLink();
-              pageContext.setAttribute("authorLink", authorLink);
-              final String userName = PreferencesView.getMyUserName();
-              pageContext.setAttribute("userName", userName);
-              final String logoutLink = view.getLogoutLink();
-              pageContext.setAttribute("logoutLink", logoutLink);
-              userFontSize = PreferencesView.getUserFontSize();
-              userFontType = PreferencesView.getUserFontType();
-              userFontColour = PreferencesView.getUserFontColour();
-              userSpacing = PreferencesView.getUserSpacing();
-              userAlignment = PreferencesView.getUserAlignment();
+
+if (isUserLoggedIn == true) {
       %>
-      <div id="logout">Welcome back, <a href="${authorLink}">${userName}</a>.
-          (<a href="${logoutLink}">Logout</a>)</div><%
+      <div id="logout">Welcome back, <a href="${authorLink}" class="${themeClassName}">${userName}</a>.
+          (<a href="${logoutLink}" class="${themeClassName}">Logout</a>)</div><%
     
     } else {
     	final String loginLink = view.getLoginLink();
     	pageContext.setAttribute("loginLink", loginLink);
     
         %>
-      <div id="login"><a href="${loginLink}">Login or register</a></div><%
+      <div id="login"><a href="${loginLink}" class="${themeClassName}">Login or register</a></div><%
     
     }
     
     %>
     </div>
-    </div><%
-    
-    pageContext.setAttribute("userAlignment", userAlignment);
-    
-    %>
-    <!-- ${userAlignment} -->
+    </div>
     <div id="main" class="modifiableText<%
       
         if (userFontSize != 1.0) {
@@ -275,23 +297,35 @@
         </p>
         <p>
           <label for="theme" class="prefLabel">Theme</label>
-          <select name="theme" id="theme" class="prefInput">
-            <option>Light</option>
-            <option>Dark</option>
-            <option>Sepia</option>
-            <option>Lovely</option>
+          <select name="theme" id="theme" class="prefInput"><%
+          
+          final String[] themeOptions = { "Light", "Dark", "Sepia", "Lovely" };
+          for (int i = 0; i < themeOptions.length; i++) {
+        	  pageContext.setAttribute("themeOption", themeOptions[i]);
+        	  
+        	  %>
+            <option<%
+            
+            if (themeOptions[i].equals(userTheme)) {
+            	%> selected="selected"<%
+            }
+            
+            %>>${themeOption}</option><%
+          }
+          
+          %>
           </select>
         </p>
         <button type="submit">Update</button>
       </form>
     </div>
     </div>
-    <div id="footerBar">
+    <div id="footerBar" class="${themeClassName}">
     <div id="footerMenu">
-      <span class="footer"><a href="/about.jsp">About</a></span>
-      <span class="footer"><a href="/terms.jsp">Terms</a></span>
-      <span class="footer"><a href="/privacy.jsp">Privacy</a></span>
-      <span class="footer"><a href="/contact.jsp">Contact</a></span>
+      <span class="footer"><a href="/about.jsp" class="${themeClassName}">About</a></span>
+      <span class="footer"><a href="/terms.jsp" class="${themeClassName}">Terms</a></span>
+      <span class="footer"><a href="/privacy.jsp" class="${themeClassName}">Privacy</a></span>
+      <span class="footer"><a href="/contact.jsp" class="${themeClassName}">Contact</a></span>
     </div>
     </div>
   </body>

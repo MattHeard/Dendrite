@@ -25,13 +25,23 @@ public class User extends Model {
 	private static final String DEFAULT_FONT_TYPE = "Sans-serif";
 	private static final String DEFAULT_PEN_NAME_PROPERTY = "defaultPenName";
 	private static final double DEFAULT_SPACING = 1.5;
+	private static final String DEFAULT_THEME = "Light";
 	private static final String FONT_COLOUR_PROPERTY = "fontColour";
 	private static final String FONT_SIZE_PROPERTY = "fontSize";
 	private static final String FONT_TYPE_PROPERTY = "fontType";
 	private static final String ID_PROPERTY = "id";
 	private static final String KIND_NAME = "User";
 	private static final String SPACING_PROPERTY = "spacing";
+	private static final String THEME_PROPERTY = "theme";
 	private static final String UNKNOWN_PEN_NAME = "???";
+
+	private static String getAlignmentFromEntity(final Entity entity) {
+		String alignment = (String) entity.getProperty(ALIGNMENT_PROPERTY);
+		if (alignment != null)
+			return alignment;
+		else
+			return DEFAULT_ALIGNMENT;
+	}
 
 	private static User getCachedUser() {
 		return cachedUser;
@@ -125,7 +135,7 @@ public class User extends Model {
 		} else
 			return null;
 	}
-
+	
 	/**
 	 * Returns the Google App Engine user ID representing the logged-in visitor.
 	 * 
@@ -149,6 +159,14 @@ public class User extends Model {
 			return DEFAULT_SPACING;
 	}
 	
+	private static String getThemeFromEntity(final Entity entity) {
+		String theme = (String) entity.getProperty(THEME_PROPERTY);
+		if (theme != null)
+			return theme;
+		else
+			return DEFAULT_THEME;
+	}
+	
 	/**
 	 * Returns whether the visitor is logged in or not.
 	 * 
@@ -161,18 +179,19 @@ public class User extends Model {
 		appEngineUser = userService.getCurrentUser();
 		return (appEngineUser != null);
 	}
-	
 	private static void setCachedUser(final User user) {
 		cachedUser = user;
 	}
-	
 	private String alignment;
 	private String defaultPenName;
 	private String fontColour;
 	private double fontSize;
 	private String fontType;
 	private String id;
+
 	private double spacing;
+
+	private String theme;
 
 	/**
 	 * Default constructor, which sets an initial default pen name in case the
@@ -185,18 +204,11 @@ public class User extends Model {
 		this.setFontColour(DEFAULT_FONT_COLOUR);
 		this.setSpacing(DEFAULT_SPACING);
 		this.setAlignment(DEFAULT_ALIGNMENT);
+		this.setTheme(DEFAULT_THEME);
 	}
 
 	public String getAlignment() {
 		return this.alignment;
-	}
-
-	private String getAlignmentFromEntity(final Entity entity) {
-		String alignment = (String) entity.getProperty(ALIGNMENT_PROPERTY);
-		if (alignment != null)
-			return alignment;
-		else
-			return DEFAULT_ALIGNMENT;
 	}
 
 	/**
@@ -254,6 +266,10 @@ public class User extends Model {
 
 	public double getSpacing() {
 		return this.spacing;
+	}
+
+	public String getTheme() {
+		return this.theme;
 	}
 
 	public boolean isFontSizeSet() {
@@ -321,11 +337,17 @@ public class User extends Model {
 		this.readFontColourFromEntity(entity);
 		this.readSpacingFromEntity(entity);
 		this.readAlignmentFromEntity(entity);
+		this.readThemeFromEntity(entity);
 	}
 
 	private void readSpacingFromEntity(final Entity entity) {
 		final double spacing = getSpacingFromEntity(entity);
 		this.setSpacing(spacing);
+	}
+
+	private void readThemeFromEntity(final Entity entity) {
+		final String theme = getThemeFromEntity(entity);
+		this.setTheme(theme);
 	}
 
 	public void setAlignment(final String alignment) {
@@ -423,6 +445,7 @@ public class User extends Model {
 		this.setFontColourInEntity(entity);
 		this.setSpacingInEntity(entity);
 		this.setAlignmentInEntity(entity);
+		this.setThemeInEntity(entity);
 	}
 
 	public void setSpacing(final double spacing) {
@@ -432,5 +455,14 @@ public class User extends Model {
 	private void setSpacingInEntity(final Entity entity) {
 		final double spacing = this.getSpacing();
 		entity.setProperty(SPACING_PROPERTY, spacing);
+	}
+
+	public void setTheme(final String theme) {
+		this.theme = theme;
+	}
+
+	private void setThemeInEntity(final Entity entity) {
+		final String theme = this.getTheme();
+		entity.setProperty(THEME_PROPERTY, theme);
 	}
 }

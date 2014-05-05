@@ -114,6 +114,8 @@ public class UpdatePreferencesController {
 			myUser.setSpacing(spacing);
 			final String alignment = this.getAlignment();
 			myUser.setAlignment(alignment);
+			final String theme = this.getTheme();
+			myUser.setTheme(theme);
 			myUser.update();
 			return true;
 		} else
