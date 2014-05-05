@@ -1,0 +1,258 @@
+<%@ page import="com.deuteriumlabs.dendrite.view.View"
+%><%@ page import="java.util.Arrays"
+%><%@ page import="java.util.List"
+
+%><!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    <title>${webPageTitle}</title>
+  </head>
+  <body<%
+  
+// Set up default display settings.
+double userFontSize = 1.0;
+String userFontType = "Sans-serif";
+String userFontColour = "Default";
+double userSpacing = 1.5;
+String userAlignment = "Justify";
+String userTheme = "Light";
+
+final boolean isUserLoggedIn = View.isUserLoggedIn();
+
+if (isUserLoggedIn == true) {
+
+    // Replace default display settings with user preferences.
+    final String authorLink = View.getAuthorLink();
+    pageContext.setAttribute("authorLink", authorLink);
+    final String userName = View.getMyUserName();
+    pageContext.setAttribute("userName", userName);
+    final String logoutLink = view.getLogoutLink();
+    pageContext.setAttribute("logoutLink", logoutLink);
+    userFontSize = View.getUserFontSize();
+    userFontType = View.getUserFontType();
+    userFontColour = View.getUserFontColour();
+    userSpacing = View.getUserSpacing();
+    userAlignment = View.getUserAlignment();
+    userTheme = View.getUserTheme();
+}
+
+if (userTheme.equals("Light") == false && userTheme != null) {
+    String className = "theme";
+    final String[] options = { "Light", "Dark", "Sepia", "Lovely" };
+    final List<String> list = Arrays.asList(options);
+    if (list.contains(userTheme)) {
+        className += userTheme;
+    } else {
+        className += "Light";
+    }
+    pageContext.setAttribute("themeClassName", className);
+
+    %> class="${themeClassName}"<%
+
+} else {
+    pageContext.setAttribute("themeClassName", "");
+}
+  
+%>>
+    <div id="nonFooter">
+      <div id="headerBar" class="${themeClassName}">
+        <div id="header">
+          <div id="logo"><a href="/" class="${themeClassName}"><img id="logoImage" src="logo.png" /></a></div><%
+
+if (isUserLoggedIn == true) {
+    
+    %>
+          <div id="logout">Welcome back, <a href="${authorLink}" class="${themeClassName}">${userName}</a>.
+            (<a href="${logoutLink}" class="${themeClassName}">Logout</a>)
+          </div><%
+    
+} else {
+    final String loginLink = view.getLoginLink();
+    pageContext.setAttribute("loginLink", loginLink);
+    
+    %>
+          <div id="login"><a href="${loginLink}" class="${themeClassName}">Login or register</a></div><%
+    
+}
+    
+%>
+        </div>
+      </div>
+      <div id="formatBar" class="${themeClassName}">
+        <div id="formatMenu"><%
+
+final String[] formatDimensions = { "size", "type", "colour", "alignment", "spacing", "theme" };
+for (String dimension : formatDimensions) {
+    pageContext.setAttribute("dimension", dimension);
+    pageContext.setAttribute("dimensionUpper", dimension.toUpperCase());
+        
+    %>
+          <img class="formatIcon" id="${dimension}Button" src="icons/${dimension}.png" title="${dimensionUpper}" onClick="clickFormatButton('${dimension}');" /><%
+          
+}
+
+%>
+        </div>
+        <div id="sizePickerBar" class="formatPickerBar">
+          <select id="sizePicker" onchange="pickSize(this.value);"><%
+            
+final double[] sizeNumbers = { 2, 1.5, 1, 0.8 };
+final String[] sizeLabels = { "Huge", "Large", "Medium", "Small" };
+for (int i = 0; i < sizeNumbers.length; i++) {
+    pageContext.setAttribute("number", sizeNumbers[i]);
+    pageContext.setAttribute("label", sizeLabels[i]);
+        
+    %>
+            <option value="${label}"<%
+            
+    if (sizeNumbers[i] == userFontSize) {
+            
+        %> selected="selected"<%
+            
+    }
+            
+    %>>${label}</option><%
+
+}
+            
+%>
+          </select>
+        </div>
+        <div id="typePickerBar" class="formatPickerBar">
+          <select id="typePicker" onchange="pickType(this.value);">
+            <option value="serif">Serif</option>
+            <option value="sans-serif" selected="selected">Sans-serif</option>
+            <option value="monospace">Monospace</option>
+            <option value="cursive">Cursive</option>
+            <option value="fantasy">Fantasy</option>
+          </select>
+        </div>
+        <div id="colourPickerBar" class="formatPickerBar">
+          <select id="colourPicker" onchange="pickColour(this.value);">
+            <option value="333">Charcoal</option>
+            <option value="000" selected="selected">Black</option>
+            <option value="999">Grey</option>
+            <option value="009">Blue</option>
+            <option value="090">Green</option>
+            <option value="900">Red</option>
+          </select>
+        </div>
+        <div id="alignmentPickerBar" class="formatPickerBar">
+          <select id="alignmentPicker" onchange="pickAlignment(this.value);">
+            <option value="left">Left</option>
+            <option value="right">Right</option>
+            <option value="center">Center</option>
+            <option value="justify" selected="selected">Justify</option>
+          </select>
+        </div>
+        <div id="spacingPickerBar" class="formatPickerBar">
+          <select id="spacingPicker" onchange="pickSpacing(this.value);">
+            <option value="3">Huge</option>
+            <option value="2">Large</option>
+            <option value="1.5" selected="selected">Medium</option>
+            <option value="1">Small</option>
+          </select>
+        </div>
+        <div id="themePickerBar" class="formatPickerBar">
+          <select id="themePicker" onchange="pickTheme(this.value);">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+            <option value="sepia">Sepia</option>
+            <option value="lovely">Lovely</option>
+          </select>
+        </div>
+      </div>
+      <script type="text/javascript">showFormatBar();</script> 
+      <div id="main" class="modifiableText<%
+      
+if (userFontSize != 1.0) {
+    String sizeClassName = "size";
+    if (userFontSize == 2) {
+        sizeClassName += "Huge";
+    } else if (userFontSize == 1.5) {
+        sizeClassName += "Large";
+    } else if (userFontSize == 0.8) {
+        sizeClassName += "Small";
+    } else {
+        sizeClassName += "Medium";
+    }
+    pageContext.setAttribute("sizeClassName", sizeClassName);
+          
+    %> ${sizeClassName}<%
+          
+}
+    
+if ("Sans-serif".equals(userFontType) == false) {
+    String fontTypeClassName = "fontType";
+    if ("Serif".equals(userFontType)) {
+        fontTypeClassName += "Serif";
+    } else if ("Monospace".equals(userFontType)) {
+        fontTypeClassName += "Monospace";
+    } else if ("Cursive".equals(userFontType)) {
+        fontTypeClassName += "Cursive";
+    } else if ("Fantasy".equals(userFontType)) {
+        fontTypeClassName += "Fantasy";
+    }
+    pageContext.setAttribute("fontTypeClassName", fontTypeClassName);
+            
+    %> ${fontTypeClassName}<%
+            
+}
+        
+if ("Default".equals(userFontColour) == false) {
+    String fontColourClassName = "fontColour";
+    final String[] fontColourOptions = { "Default", "Charcoal", "Black",
+            "Grey", "Blue", "Green", "Red" };
+    final List<String> list = Arrays.asList(fontColourOptions);
+    if (list.contains(userFontColour)) {
+        fontColourClassName += userFontColour;
+    } else {
+        fontColourClassName += "Default";
+    }
+    pageContext.setAttribute("fontColourClassName", fontColourClassName);
+          
+    %> ${fontColourClassName}<%
+    
+    } else {
+        pageContext.setAttribute("fontColourClassName", "");
+    }
+        
+    if (userSpacing != 1.5) {
+        String spacingClassName = "spacing";
+        if (userSpacing == 3.0) {
+            spacingClassName += "Huge";
+        } else if (userSpacing == 2.0) {
+            spacingClassName += "Large";
+        } else if (userSpacing == 1.0) {
+            spacingClassName += "Small";
+        } else {
+            spacingClassName += "Medium";
+        }
+        pageContext.setAttribute("spacingClassName", spacingClassName);
+          
+        %> ${spacingClassName}<%
+            
+    }
+        
+    if ("Justify".equals(userAlignment) == false) {
+        String alignmentClassName = "alignment";
+        final String[] alignmentOptions = { "Left", "Right", "Center",
+                "Justify" };
+        final List<String> list = Arrays.asList(alignmentOptions);
+        if (list.contains(userAlignment)) {
+            alignmentClassName += userAlignment;
+        } else {
+            alignmentClassName += "Default";
+        }
+        pageContext.setAttribute("alignmentClassName", alignmentClassName);
+          
+        %> ${alignmentClassName}<%
+          
+    }
+      
+    %>">
