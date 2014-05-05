@@ -293,6 +293,10 @@ html, body {
 	height:	100%;
 }
 
+img.themeSepia {
+	-webkit-filter: sepia(50%);
+}
+
 input, textarea {
 	width:				100%;
 	-webkit-box-sizing:	border-box;

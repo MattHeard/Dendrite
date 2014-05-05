@@ -62,7 +62,7 @@ if (userTheme.equals("Light") == false && userTheme != null) {
     <div id="nonFooter">
       <div id="headerBar" class="${themeClassName}">
         <div id="header">
-          <div id="logo"><a href="/" class="${themeClassName}"><img id="logoImage" src="logo.png" /></a></div><%
+          <div id="logo"><a href="/" class="${themeClassName}"><img class="${themeClassName}" id="logoImage" src="logo.png" /></a></div><%
 
 if (isUserLoggedIn == true) {
     
