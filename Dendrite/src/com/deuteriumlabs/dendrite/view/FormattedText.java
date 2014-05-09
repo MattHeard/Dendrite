@@ -104,36 +104,38 @@ public class FormattedText {
 	
 	private static List<String> splitIntoFormatList(String input) {
 		List<String> list = new ArrayList<String>();
-		final char NULL_CHAR = '0';
-		char prev = NULL_CHAR;
-		String word = "";
-		for (int i = 0; i < input.length(); i++) {
-			char curr = input.charAt(i);
-			word += curr;
-			if (curr == '*') {
-				if (prev == '*') {
-					list.add(word);
-					word = "";
+		if (input != null) {
+			final char NULL_CHAR = '0';
+			char prev = NULL_CHAR;
+			String word = "";
+			for (int i = 0; i < input.length(); i++) {
+				char curr = input.charAt(i);
+				word += curr;
+				if (curr == '*') {
+					if (prev == '*') {
+						list.add(word);
+						word = "";
+					} else {
+						word = word.substring(0, word.length() - 1);
+						if (word.equals("") == false) {
+							list.add(word);
+						}
+						word = "*";
+					}
 				} else {
-					word = word.substring(0, word.length() - 1);
-					if (word.equals("") == false) {
-						list.add(word);
+					if (prev == '*') {
+						word = word.substring(0, word.length() - 1);
+						if (word.equals("") == false) {
+							list.add(word);
+						}
+						word = "" + curr;
 					}
-					word = "*";
 				}
-			} else {
-				if (prev == '*') {
-					word = word.substring(0, word.length() - 1);
-					if (word.equals("") == false) {
-						list.add(word);
-					}
-					word = "" + curr;
-				}
+				prev = curr;
 			}
-			prev = curr;
-		}
-		if (word.equals("") == false) {
-			list.add(word);
+			if (word.equals("") == false) {
+				list.add(word);
+			}
 		}
 		return list;
 	}
