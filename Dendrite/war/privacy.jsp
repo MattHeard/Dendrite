@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.PrivacyView"
+%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><%
 
 pageContext.setAttribute("webPageTitle", "Dendrite - My Preferences");
@@ -85,9 +86,9 @@ final PrivacyView view = new PrivacyView();
         we hold about you by contacting us as follows:</p>
     <ul>
       <li><b>Contact:</b>
-        <a class="${fontColourClassName} ${themeClassName}"
-            href="/contact.jsp">dendrite.co.nz/contact.jsp</a></li>
-      <li><b>E-mail:</b> <a class="${fontColourClassName} ${themeClassName}"
+        <a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+            href="/contact.jsp">dendrite.mattheard.net/contact.jsp</a></li>
+      <li><b>E-mail:</b> <a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
           href="mailto:matt+dendrite+privacy@mattheard.net" 
           >matt+dendrite+privacy@mattheard.net</a></li>
     </ul>

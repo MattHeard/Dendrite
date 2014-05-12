@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.AuthorView"
+%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><%
 
 final AuthorView view = new AuthorView();
@@ -22,13 +23,13 @@ pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
 %><%@include file="top.jspf"
 
 %>
-    <h2>${penName}</h2><%
+    <h2>${fn:escapeXml(penName)}</h2><%
     
     final String myUserId = AuthorView.getMyUserId();
     if (id.equals(myUserId) == true) {
     
     	%>
-      <div><a class="${fontColourClassName} ${themeClassName}" href="/preferences.jsp">My
+      <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/preferences.jsp">My
         preferences</a></div><%
     
     }
@@ -49,7 +50,7 @@ pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
     		pageContext.setAttribute("title", title);
     		
     		%>
-      <h3>${title}</h3><%
+      <h3>${fn:escapeXml(title)}</h3><%
 	
 			prevTitle = currTitle;
     	}
@@ -63,18 +64,18 @@ pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
     	final boolean isSameAuthorName = (authorName.equals(penName));
     	%>
       <div class="item">
-        <div class="itemContent"><a class="${fontColourClassName} ${themeClassName}"
-            href="/read.jsp?p=${pageId}">${summary}</a><%
+        <div class="itemContent"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+            href="/read.jsp?p=${fn:escapeXml(pageId)}">${fn:escapeXml(summary)}</a><%
 	
 		if (isSameAuthorName == false) {
 			pageContext.setAttribute("authorName", authorName);
 			
-			%> (credited as <i>${authorName}</i>)<%
+			%> (credited as <i>${fn:escapeXml(authorName)}</i>)<%
 			
 		}
 	
 	%></div>
-        <div class="itemNumber">${pageId}</div>
+        <div class="itemNumber">${fn:escapeXml(pageId)}</div>
       </div><%
     }
     
@@ -85,8 +86,8 @@ pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
     	pageContext.setAttribute("prev", prev);
     	
     	%>
-      <div><a class="${fontColourClassName} ${themeClassName}"
-          href="/author.jsp?id=${id}&p=${prev}">Previous</a></div><%
+      <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+          href="/author.jsp?id=${fn:escapeXml(id)}&p=${fn:escapeXml(prev)}">Previous</a></div><%
     	
     }
     final boolean isLastPage = view.isLastPage();
@@ -96,8 +97,8 @@ pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
     	pageContext.setAttribute("next", next);
     	
     	%>
-      <div><a class="${fontColourClassName} ${themeClassName}"
-          href="/author.jsp?id=${id}&p=${next}">Next</a></div><%
+      <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+          href="/author.jsp?id=${fn:escapeXml(id)}&p=${fn:escapeXml(next)}">Next</a></div><%
     	
     }
 	

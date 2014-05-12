@@ -27,15 +27,15 @@ if (isPageInStore == true) {
     	if (isBeginning == true) {
     		
     		%>
-      <div id="storyTitle"><h2>${title}</h2></div><%
+      <div id="storyTitle"><h2>${fn:escapeXml(title)}</h2></div><%
     		
     	}
     	final String pageNumber = view.getPageNumber();
     	pageContext.setAttribute("pageNumber", pageNumber);
     	
     	%>
-      <div id="editLink"><a class="${fontColourClassName} ${themeClassName}"
-          href="/edit.jsp?p=${pageNumber}">Edit</a></div><%
+      <div id="editLink"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+          href="/edit.jsp?p=${fn:escapeXml(pageNumber)}">Edit</a></div><%
     	
     	//final String text = view.getPageText();
         
@@ -81,8 +81,8 @@ if (isPageInStore == true) {
     		pageContext.setAttribute("optionText", optionText);
     		
     		%>
-      <div class="option"><a class="${fontColourClassName} ${themeClassName}"
-              href="${optionLink}"<%
+      <div class="option"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+              href="${fn:escapeXml(optionLink)}"<%
     %>><%
     
   	List<FormattedText> formattedTextChunks;

@@ -1,6 +1,7 @@
 <%@ page import="com.deuteriumlabs.dendrite.view.View"
 %><%@ page import="java.util.Arrays"
 %><%@ page import="java.util.List"
+%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 
 %><!DOCTYPE html>
 <html>
@@ -8,7 +9,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>${webPageTitle}</title>
+    <title>${fn:escapeXml(webPageTitle)}</title>
   </head>
   <body<%
   
@@ -50,7 +51,7 @@ if (userTheme.equals("Light") == false && userTheme != null) {
     }
     pageContext.setAttribute("themeClassName", className);
 
-    %> class="${themeClassName}"<%
+    %> class="${fn:escapeXml(themeClassName)}"<%
 
 } else {
     pageContext.setAttribute("themeClassName", "");
@@ -58,15 +59,15 @@ if (userTheme.equals("Light") == false && userTheme != null) {
   
 %>>
     <div id="nonFooter">
-      <div id="headerBar" class="${themeClassName}">
+      <div id="headerBar" class="${fn:escapeXml(themeClassName)}">
         <div id="header">
-          <div id="logo"><a href="/" class="${themeClassName}"><img class="${themeClassName}" id="logoImage" src="logo.png" /></a></div><%
+          <div id="logo"><a href="/" class="${fn:escapeXml(themeClassName)}"><img class="${fn:escapeXml(themeClassName)}" id="logoImage" src="logo.png" /></a></div><%
 
 if (isUserLoggedIn == true) {
     
     %>
-          <div id="logout">Welcome back, <a href="${authorLink}" class="${themeClassName}">${userName}</a>.
-            (<a href="${logoutLink}" class="${themeClassName}">Logout</a>)
+          <div id="logout">Welcome back, <a href="${fn:escapeXml(authorLink)}" class="${fn:escapeXml(themeClassName)}">${fn:escapeXml(userName)}</a>.
+            (<a href="${fn:escapeXml(logoutLink)}" class="${fn:escapeXml(themeClassName)}">Logout</a>)
           </div><%
     
 } else {
@@ -74,7 +75,7 @@ if (isUserLoggedIn == true) {
     pageContext.setAttribute("loginLink", loginLink);
     
     %>
-          <div id="login"><a href="${loginLink}" class="${themeClassName}">Login or register</a></div><%
+          <div id="login"><a href="${fn:escapeXml(loginLink)}" class="${fn:escapeXml(themeClassName)}">Login or register</a></div><%
     
 }
     
@@ -96,7 +97,7 @@ if (userFontSize != 1.0) {
     }
     pageContext.setAttribute("sizeClassName", sizeClassName);
           
-    %> ${sizeClassName}<%
+    %> ${fn:escapeXml(sizeClassName)}<%
           
 }
     
@@ -113,7 +114,7 @@ if ("Sans-serif".equals(userFontType) == false) {
     }
     pageContext.setAttribute("fontTypeClassName", fontTypeClassName);
             
-    %> ${fontTypeClassName}<%
+    %> ${fn:escapeXml(fontTypeClassName)}<%
             
 }
         
@@ -129,7 +130,7 @@ if ("Default".equals(userFontColour) == false) {
     }
     pageContext.setAttribute("fontColourClassName", fontColourClassName);
           
-    %> ${fontColourClassName}<%
+    %> ${fn:escapeXml(fontColourClassName)}<%
     
     } else {
         pageContext.setAttribute("fontColourClassName", "");
@@ -148,7 +149,7 @@ if ("Default".equals(userFontColour) == false) {
         }
         pageContext.setAttribute("spacingClassName", spacingClassName);
           
-        %> ${spacingClassName}<%
+        %> ${fn:escapeXml(spacingClassName)}<%
             
     }
         
@@ -164,7 +165,7 @@ if ("Default".equals(userFontColour) == false) {
         }
         pageContext.setAttribute("alignmentClassName", alignmentClassName);
           
-        %> ${alignmentClassName}<%
+        %> ${fn:escapeXml(alignmentClassName)}<%
           
     }
       

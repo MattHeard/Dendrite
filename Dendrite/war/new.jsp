@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.NewView"
+%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><%
 
 pageContext.setAttribute("webPageTitle", "Dendrite - New Story");
@@ -70,7 +71,7 @@ view.setError(error);
         pageContext.setAttribute("optionNumber", i);
         	
     %>
-      <input id="option${optionNumber}" name="option${optionNumber}"<%
+      <input id="option${fn:escapeXml(optionNumber)}" name="option${fn:escapeXml(optionNumber)}"<%
       %> type="text"></input>
       <br /><%
         	
@@ -80,7 +81,7 @@ view.setError(error);
     	pageContext.setAttribute("authorId", authorId);
       
     %>
-      <input name="authorId" type="hidden" value="${authorId}" /><%
+      <input name="authorId" type="hidden" value="${fn:escapeXml(authorId)}" /><%
       
     }
     
@@ -91,7 +92,7 @@ view.setError(error);
       
     if (isUserLoggedIn == true) {
       
-      %> value="${userName}"<%
+      %> value="${fn:escapeXml(userName)}"<%
       
     } else {
 		

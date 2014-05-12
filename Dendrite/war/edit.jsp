@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.EditView"
+%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><%
 
 pageContext.setAttribute("webPageTitle", "Dendrite - Edit");
@@ -24,7 +25,7 @@ if (isExistingPage == true) {
     %>
       <h2>Edit a page</h2>
       <form action="submitEdit" method="post">
-        <input type="hidden" name="pageNumber" value="${pageNumber}" />
+        <input type="hidden" name="pageNumber" value="${fn:escapeXml(pageNumber)}" />
         <label for="content">Story</label>
         <br />
         <textarea id="content" name="content"></textarea><%
@@ -62,7 +63,7 @@ if (isExistingPage == true) {
         pageContext.setAttribute("optionNumber", i);
         	
         %>
-        <input id="option${optionNumber}" name="option${optionNumber}"
+        <input id="option${fn:escapeXml(optionNumber)}" name="option${fn:escapeXml(optionNumber)}"
             type="text"></input>
         <br /><%
         	
@@ -72,7 +73,7 @@ if (isExistingPage == true) {
         pageContext.setAttribute("authorId", authorId);
         
         %>
-          <input name="authorId" type="hidden" value="${authorId}" /><%
+          <input name="authorId" type="hidden" value="${fn:escapeXml(authorId)}" /><%
         
     }
       
@@ -83,7 +84,7 @@ if (isExistingPage == true) {
         
     if (isUserLoggedIn == true) {
         
-        %> value="${userName}"<%
+        %> value="${fn:escapeXml(userName)}"<%
         
     } else {
 			

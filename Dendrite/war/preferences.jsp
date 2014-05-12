@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.PreferencesView"
+%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><%
 
 pageContext.setAttribute("webPageTitle", "Dendrite - My Preferences");
@@ -15,7 +16,7 @@ final View view = new PreferencesView();
       	  <p>
             <label for="newPenName" class="prefLabel">Pen name</label>
             <input type="text" name="newPenName" id="newPenName" class="prefInput"
-                value="${userName}"></input>
+                value="${fn:escapeXml(userName)}"></input>
           </p>
           <hr />
           <h3>Display</h3>
@@ -38,7 +39,7 @@ final View view = new PreferencesView();
 
         }
 
-        %>>${fontSizeOption}</option><%
+        %>>${fn:escapeXml(fontSizeOption)}</option><%
         	  
     }
           
@@ -64,7 +65,7 @@ final View view = new PreferencesView();
 
         }
             
-        %>>${fontTypeOption}</option><%
+        %>>${fn:escapeXml(fontTypeOption)}</option><%
 
     }
           
@@ -90,7 +91,7 @@ final View view = new PreferencesView();
 
         }
             
-        %>>${fontColourOption}</option><%
+        %>>${fn:escapeXml(fontColourOption)}</option><%
 
     }
           
@@ -116,7 +117,7 @@ final View view = new PreferencesView();
 
         }
 
-        %>>${spacingOption}</option><%
+        %>>${fn:escapeXml(spacingOption)}</option><%
             
     }
           
@@ -141,7 +142,7 @@ final View view = new PreferencesView();
 
         }
             
-        %>>${alignmentOption}</option><%
+        %>>${fn:escapeXml(alignmentOption)}</option><%
 
     }
           
@@ -165,7 +166,7 @@ final View view = new PreferencesView();
 
         }
             
-        %>>${themeOption}</option><%
+        %>>${fn:escapeXml(themeOption)}</option><%
 
     }
           

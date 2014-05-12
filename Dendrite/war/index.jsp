@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.ContentsView"
+%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><%
 
 pageContext.setAttribute("webPageTitle", "Dendrite");
@@ -33,8 +34,8 @@ view.setContentsPageNumber(contentsPageNumber);
     	pageContext.setAttribute("pageNumber", pageNumber);
     	%>
       <div class="item">
-        <div class="itemContent"><a class="${fontColourClassName} ${themeClassName}" href="${link}">${title}</a></div>
-        <div class="itemNumber">${pageNumber}</div>
+        <div class="itemContent"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="${fn:escapeXml(link)}">${fn:escapeXml(title)}</a></div>
+        <div class="itemNumber">${fn:escapeXml(pageNumber)}</div>
       </div><%
     }
     
@@ -47,7 +48,7 @@ view.setContentsPageNumber(contentsPageNumber);
     	pageContext.setAttribute("prev", prev);
     	
     	%>
-        <div><a class="${fontColourClassName} ${themeClassName}" href="/index.jsp?p=${prev}">Previous</a></div><%
+        <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/index.jsp?p=${fn:escapeXml(prev)}">Previous</a></div><%
     	
     }
     final boolean isLastPage = view.isLastPage();
@@ -56,11 +57,11 @@ view.setContentsPageNumber(contentsPageNumber);
     	pageContext.setAttribute("next", next);
     	
     	%>
-        <div><a class="${fontColourClassName} ${themeClassName}" href="/index.jsp?p=${next}">Next</a></div><%
+        <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/index.jsp?p=${fn:escapeXml(next)}">Next</a></div><%
     	
     }
 	
 	%>
       </p>
-      <p id="newStory"><a class="${fontColourClassName} ${themeClassName}" href="/new.jsp">Start a new story</a></p>
+      <p id="newStory"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/new.jsp">Start a new story</a></p>
 <%@include file="bottom.jspf" %>

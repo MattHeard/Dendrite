@@ -1,6 +1,7 @@
-      </div>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"
+%>      </div>
     </div>
-    <div id="footerBar" class="${themeClassName}">
+    <div id="footerBar" class="${fn:escapeXml(themeClassName)}">
       <div id="footerMenu">
         <span class="footer"><a href="/about.jsp" class="${themeClassName}">About</a></span>
         <span class="footer"><a href="/terms.jsp" class="${themeClassName}">Terms</a></span>
