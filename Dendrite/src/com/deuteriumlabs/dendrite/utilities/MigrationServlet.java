@@ -37,6 +37,7 @@ public class MigrationServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		this.response = resp;
+		resp.setContentType("text/plain");
 		
 		final DatastoreService datastore;
 		datastore = DatastoreServiceFactory.getDatastoreService();
@@ -49,54 +50,28 @@ public class MigrationServlet extends HttpServlet {
 		
 		int count = 1;
 		
-		final List<Long> pageNumbers = new ArrayList<Long>();
 		for (Entity entity : entities) {
 			print("Entity " + count);
 			
-			final Long idNumberProperty = (Long) entity.getProperty("idNumber");
-			Long pageNumProperty = (Long) entity.getProperty("pageNum");
-			
-			print("idNumberProperty: " + idNumberProperty);
-			print("pageNumProperty: " + pageNumProperty);
-			
-			if (idNumberProperty == null) {
-				print("idNumberProperty == null (old object)");
-				
-				boolean isValidPageNum = true;
-				if (pageNumProperty == null) {
-					print("pageNumProperty == null (missing pageNum)");
-					
-					final String name = entity.getKey().getName();
-					try {
-						pageNumProperty = Long.parseLong(name);
-						print("pageNum extracted from name: " + pageNumProperty);
-					} catch (NumberFormatException e) {
-						isValidPageNum = false;
-						print("pageNum invalid, skip this one");
-					}
-				}
-				if (isValidPageNum == true &&
-						pageNumbers.contains(pageNumProperty) == false) {
-					final PageId id = new PageId();
-					final int idNumber = pageNumProperty.intValue();
-					
-					print("copy text for page " + idNumber);
-					
-					id.setNumber(idNumber);
+			final String authorUserId = (String) entity.getProperty("authorUserId");
+			if (authorUserId != null) {
+				final Long idNumber = (Long) entity.getProperty("idNumber");
+				if (idNumber != null) {
 					final String idVersion = "a";
+					final PageId id = new PageId();
+					id.setNumber(idNumber.intValue());
 					id.setVersion(idVersion);
-					final StoryPage storyPage = new StoryPage();
-					storyPage.setId(id);
-					storyPage.read();
-					final Text text = (Text) entity.getProperty("content");
 					
-					print("Text to copy: " + text.toString());
+					print("id: " + id);
 					
-					storyPage.setText(text);
-					storyPage.update();
-					pageNumbers.add(pageNumProperty);
+					final StoryPage page = new StoryPage();
+					page.setId(id);
+					page.read();
+					page.setAuthorId(authorUserId);
 					
-					print("page numbers completed: " + pageNumbers);
+					print("authorId: " + authorUserId);
+					
+					page.update();
 				}
 			}
 			
