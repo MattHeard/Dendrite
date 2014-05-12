@@ -4,7 +4,7 @@
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><%
 
-pageContext.setAttribute("webPageTitle", "Dendrite - Edit");
+pageContext.setAttribute("webPageTitle", "Dendrite - Rewrite");
 final EditView view = new EditView();
 
 final String pageNumber = request.getParameter("p");
@@ -23,7 +23,7 @@ if (isExistingPage == true) {
     pageContext.setAttribute("pageNumber", pageNumber);
       
     %>
-      <h2>Edit a page</h2>
+      <h2>Rewrite this page</h2>
       <p>The <i>rewrite</i> option allows you to completely rewrite the text of this page. You will be credited as the only author.</p>
       <form action="submitEdit" method="post">
         <input type="hidden" name="pageNumber" value="${fn:escapeXml(pageNumber)}" />
