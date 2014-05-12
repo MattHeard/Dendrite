@@ -166,7 +166,10 @@ public class ReadView extends View {
 	
 	public List<String> getParagraphs() {
 		final String text = this.getPageText();
-		String[] array = text.split("\n");
+		String[] array = { };
+		if (text != null) {
+			array = text.split("\n");
+		}
 		return Arrays.asList(array);
 	}
 	
