@@ -17,7 +17,7 @@ public class EditView extends FormView {
 	@Override
 	String getUrl() {
 		String pageNumber = this.getPageNumber();
-		return "/edit.jsp?p=" + pageNumber;
+		return "/rewrite.jsp?p=" + pageNumber;
 	}
 
 	public boolean isExistingPage() {

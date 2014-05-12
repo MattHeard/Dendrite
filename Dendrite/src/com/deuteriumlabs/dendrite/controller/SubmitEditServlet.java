@@ -56,7 +56,7 @@ public class SubmitEditServlet extends SubmitServlet {
 	@Override
 	String getUrl() {
 		final String p = this.getPageNumber();
-		return "/edit.jsp?p=" + p;
+		return "/rewrite.jsp?p=" + p;
 	}
 
 	private void setPageNumber(final String pageNumber) {
