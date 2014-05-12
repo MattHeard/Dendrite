@@ -24,6 +24,7 @@ if (isExistingPage == true) {
       
     %>
       <h2>Edit a page</h2>
+      <p>The <i>rewrite</i> option allows you to completely rewrite the text of this page. You will be credited as the only author.</p>
       <form action="submitEdit" method="post">
         <input type="hidden" name="pageNumber" value="${fn:escapeXml(pageNumber)}" />
         <label for="content">Story</label>
