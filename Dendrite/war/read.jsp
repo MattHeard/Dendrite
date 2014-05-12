@@ -35,7 +35,7 @@ if (isPageInStore == true) {
     	
     	%>
       <div id="editLink"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
-          href="/edit.jsp?p=${fn:escapeXml(pageNumber)}">Edit</a></div><%
+          href="/edit.jsp?p=${fn:escapeXml(pageNumber)}">Rewrite</a></div><%
     	
     	//final String text = view.getPageText();
         
