@@ -115,7 +115,7 @@ if (isPageInStore == true) {
     	pageContext.setAttribute("authorName", authorName);
     	
     	%>
-      <div id="credit">This page was written by <%
+      <p id="credit">This page was written by <%
     
         final boolean isAuthorAnonymous = view.isAuthorAnonymous();
     	if (isAuthorAnonymous == false) {
@@ -134,15 +134,15 @@ if (isPageInStore == true) {
     		
     	}
     
-        %>.</div><%
+        %>.</p><%
     
         if (isBeginning == false) {
         	final String first = view.getFirstUrl();
         	pageContext.setAttribute("first", first);
     
         	%>
-      <div><a class="${fontColourClassName} ${themeClassName}" href="${first}">Return to the first
-          page of this story.</a></div><%
+      <p><a class="${fontColourClassName} ${themeClassName}" href="${first}">Return to the first
+          page of this story.</a></p><%
     
         }
 	
