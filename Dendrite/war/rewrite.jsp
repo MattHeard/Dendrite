@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
-%><%@ page import="com.deuteriumlabs.dendrite.view.EditView"
+%><%@ page import="com.deuteriumlabs.dendrite.view.RewriteView"
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><%
 
 pageContext.setAttribute("webPageTitle", "Dendrite - Rewrite");
-final EditView view = new EditView();
+final RewriteView view = new RewriteView();
 
 final String pageNumber = request.getParameter("p");
 view.setPageNumber(pageNumber);
@@ -25,7 +25,7 @@ if (isExistingPage == true) {
     %>
       <h2>Rewrite this page</h2>
       <p>The <i>rewrite</i> option allows you to completely rewrite the text of this page. You will be credited as the only author.</p>
-      <form action="submitEdit" method="post">
+      <form action="submitRewrite" method="post">
         <input type="hidden" name="pageNumber" value="${fn:escapeXml(pageNumber)}" />
         <label for="content">Story</label>
         <br />
@@ -70,7 +70,7 @@ if (isExistingPage == true) {
         	
     }
     if (isUserLoggedIn == true) {
-        final String authorId = EditView.getMyUserId();
+        final String authorId = RewriteView.getMyUserId();
         pageContext.setAttribute("authorId", authorId);
         
         %>

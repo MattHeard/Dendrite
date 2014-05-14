@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.deuteriumlabs.dendrite.model.PageId;
 
-public class SubmitEditServlet extends SubmitServlet {
+public class SubmitRewriteServlet extends SubmitServlet {
 
 	private static final long serialVersionUID = 6369008865421800462L;
 	private String pageNumber;
@@ -17,7 +17,7 @@ public class SubmitEditServlet extends SubmitServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		this.setResponse(resp);
-		final SubmitEditController controller = new SubmitEditController();
+		final SubmitRewriteController controller = new SubmitRewriteController();
 		final String pageNumber = req.getParameter("pageNumber");
 		this.setPageNumber(pageNumber);
 		controller.setPageNumber(pageNumber);

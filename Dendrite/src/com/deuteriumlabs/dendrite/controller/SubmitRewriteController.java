@@ -4,7 +4,7 @@ import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 
 
-public class SubmitEditController extends SubmitController {
+public class SubmitRewriteController extends SubmitController {
 
 	protected int pageNumber;
 

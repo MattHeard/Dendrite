@@ -6,7 +6,7 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
 /**
  * Represents a story page.
  */
-public class EditView extends FormView {
+public class RewriteView extends FormView {
 
 	private String pageNumber;
 

@@ -104,11 +104,6 @@ body.themeLovely {
 	padding-top:	1em;
 }
 
-#editLink {
-	float:			right;
-	padding-top:	1em;
-}
-
 .fontColourBlack {
 	color: #000;
 }
@@ -354,6 +349,11 @@ input, textarea {
 .prefLabel {
   min-width: 30%;
   float:left;
+}
+
+#rewriteLink {
+    float:          right;
+    padding-top:    1em;
 }
 
 select {

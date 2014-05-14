@@ -5,12 +5,12 @@ xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
     <servlet>
-        <servlet-name>SubmitEdit</servlet-name>
-        <servlet-class>com.deuteriumlabs.dendrite.controller.SubmitEditServlet</servlet-class>
+        <servlet-name>SubmitRewrite</servlet-name>
+        <servlet-class>com.deuteriumlabs.dendrite.controller.SubmitRewriteServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>SubmitEdit</servlet-name>
-        <url-pattern>/submitEdit</url-pattern>
+        <servlet-name>SubmitRewrite</servlet-name>
+        <url-pattern>/submitRewrite</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>SubmitNew</servlet-name>

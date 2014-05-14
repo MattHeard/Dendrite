@@ -34,7 +34,7 @@ if (isPageInStore == true) {
     	pageContext.setAttribute("pageNumber", pageNumber);
     	
     	%>
-      <div id="editLink"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+      <div id="rewriteLink"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
           href="/rewrite.jsp?p=${fn:escapeXml(pageNumber)}">Rewrite</a></div><%
     	
     	//final String text = view.getPageText();
