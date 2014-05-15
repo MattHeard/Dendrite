@@ -20,7 +20,7 @@ public class User extends Model {
 	private static final String ALIGNMENT_PROPERTY = "alignment";
 	private static User cachedUser;
 	private static final String DEFAULT_ALIGNMENT = "Justify";
-	private static final String DEFAULT_FONT_COLOUR = "default";
+	private static final String DEFAULT_FONT_COLOUR = "Default";
 	private static final double DEFAULT_FONT_SIZE = 1.0;
 	private static final String DEFAULT_FONT_TYPE = "Sans-serif";
 	private static final String DEFAULT_PEN_NAME_PROPERTY = "defaultPenName";
