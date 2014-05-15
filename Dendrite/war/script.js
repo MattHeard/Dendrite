@@ -161,3 +161,13 @@ function showFormatBar() {
 	showFormatBarElement();
 	showFormatMenuElement();
 }
+
+function init() {
+  $("form :not(textarea)").bind("keyup keypress", function(e) {
+    var code = e.keyCode || e.which; 
+    if (code  == 13) {               
+      e.preventDefault();
+      return false;
+    }
+  });
+}
