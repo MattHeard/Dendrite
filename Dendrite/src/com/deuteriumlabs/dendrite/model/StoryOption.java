@@ -35,6 +35,7 @@ public class StoryOption extends Model {
 	private static final String SOURCE_VERSION_PROPERTY = "sourceVersion";
 	private static final String TEXT_PROPERTY = "text";
 	private static final String TARGET_PROPERTY = "target";
+	private static final int INVALID_TARGET_PAGE_NUMBER = 0;
 	
 	public StoryOption() {
 		this.setTarget(0);
@@ -217,7 +218,7 @@ public class StoryOption extends Model {
 		if (number != null)
 			return number.intValue();
 		else
-			return 0;
+			return INVALID_TARGET_PAGE_NUMBER;
 	}
 
 	/**
