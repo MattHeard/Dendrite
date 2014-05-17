@@ -20,6 +20,13 @@ view.setError(error);
       
 final boolean isValidOption = view.isValidOption();
 if (isValidOption == true) {
+	final boolean isConnected = view.isOptionConnected();
+	
+	if (isConnected == true) {
+		int target = view.getTarget();
+		response.sendRedirect("/rewrite.jsp?p=" + target);
+	}
+	
     final String optionText = view.getOptionText();
     pageContext.setAttribute("optionText", optionText);
       

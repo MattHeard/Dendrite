@@ -18,6 +18,7 @@ public class WriteView extends FormView {
 	
 	private String from;
 	private String linkIndex;
+	private StoryOption option;
 
 	private String getFrom() {
 		return this.from;
@@ -71,5 +72,30 @@ public class WriteView extends FormView {
 	
 	public void setLinkIndex(final String linkIndex) {
 		this.linkIndex = linkIndex;
+	}
+	
+	public boolean isOptionConnected() {
+		final StoryOption option = this.getOption();
+		return option.isConnected();
+	}
+	
+	public int getTarget() {
+		final StoryOption option = this.getOption();
+		return option.getTarget();
+	}
+
+	private StoryOption getOption() {
+		StoryOption option = this.option;
+		if (option == null) {
+			option = new StoryOption();
+			final String from = this.getFrom();
+			final PageId source = new PageId(from);
+			option.setSource(source);
+			final String listIndex = this.getListIndex();
+			int listIndexValue = getListIndexValue(listIndex);
+			option.setListIndex(listIndexValue);
+			option.read();
+		}
+		return option;
 	}
 }

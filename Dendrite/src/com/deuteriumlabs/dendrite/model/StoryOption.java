@@ -332,5 +332,10 @@ public class StoryOption extends Model {
 	public int getTarget() {
 		return this.target;
 	}
+	
+	public boolean isConnected() {
+		final int target = this.getTarget();
+		return (target > 0);
+	}
 
 }
