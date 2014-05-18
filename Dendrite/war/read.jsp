@@ -139,7 +139,7 @@ if (isPageInStore == true) {
         if (view.isAvatarAvailable() == true) {
         
             %>
-      <img id="avatar" src="avatars/11.png" /><%
+      <img id="avatar" src="avatars/30.png" /><%
         		
         }
         

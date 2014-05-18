@@ -465,4 +465,8 @@ public class User extends Model {
 		final String theme = this.getTheme();
 		entity.setProperty(THEME_PROPERTY, theme);
 	}
+
+	public boolean isAvatarAvailable() {
+		return false;
+	}
 }

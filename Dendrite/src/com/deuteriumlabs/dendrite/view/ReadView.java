@@ -7,6 +7,7 @@ import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryOption;
 import com.deuteriumlabs.dendrite.model.StoryPage;
+import com.deuteriumlabs.dendrite.model.User;
 import com.google.appengine.api.datastore.Text;
 
 /**
@@ -178,6 +179,11 @@ public class ReadView extends View {
 	}
 	
 	public boolean isAvatarAvailable() {
-		return false;
+		final StoryPage page = this.getPage();
+		final String userId = page.getAuthorId();
+		final User user = new User();
+		user.setId(userId);
+		user.read();
+		return user.isAvatarAvailable();
 	}
 }

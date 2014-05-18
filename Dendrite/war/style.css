@@ -79,6 +79,7 @@ a.fontColourRed {
 	margin:    1em;
 	height:    3em;
 	width:     3em;
+	float:     right;
 }
 
 body {
@@ -112,7 +113,7 @@ body.themeLovely {
 
 #credit {
 	padding-top:   1em;
-	float:         left;
+	float:         right;
 }
 
 .fontColourBlack {
