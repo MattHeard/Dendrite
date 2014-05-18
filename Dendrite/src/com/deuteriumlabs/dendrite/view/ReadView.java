@@ -176,4 +176,8 @@ public class ReadView extends View {
 	public enum Format {
 		BOLD, BOLD_ITALIC, ITALIC, NONE
 	}
+	
+	public boolean isAvatarAvailable() {
+		return false;
+	}
 }

@@ -134,7 +134,17 @@ if (isPageInStore == true) {
     		
     	}
     
-        %>.</p><%
+        %>. </p><%
+        
+        if (view.isAvatarAvailable() == true) {
+        
+            %>
+      <img id="avatar" src="avatars/11.png" /><%
+        		
+        }
+        
+        %>
+      <div class="clear"></div><%
     
         if (isBeginning == false) {
         	final String first = view.getFirstUrl();

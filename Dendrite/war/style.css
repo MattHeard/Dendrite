@@ -75,6 +75,12 @@ a.fontColourRed {
   text-align:  right;
 }
 
+#avatar {
+	margin:    1em;
+	height:    3em;
+	width:     3em;
+}
+
 body {
 	line-height:		1.5em;
 	text-align:			justify;
@@ -100,8 +106,13 @@ body.themeLovely {
 	background-color:  #fff1f6;
 }
 
+.clear {
+	clear: both;
+}
+
 #credit {
-	padding-top:	1em;
+	padding-top:   1em;
+	float:         left;
 }
 
 .fontColourBlack {
