@@ -23,22 +23,33 @@ pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
 %><%@include file="top.jspf"
 
 %>
-    <div id="author_side_bar">
-      <img id="author_avatar" src="avatars/10.png" />
+    <div id="author_side_bar"><%
+
+final int avatarId;
+if (view.isAuthorAvatarAvailable() == true) {
+	avatarId = view.getAuthorAvatarId();
+} else {
+	avatarId = 1;
+}
+pageContext.setAttribute("avatarId", avatarId);
+
+%>
+      <img id="author_avatar" src="avatars/${avatarId}.png" />
       <h1>${fn:escapeXml(penName)}</h1><%
     
     final String myUserId = AuthorView.getMyUserId();
     if (id.equals(myUserId) == true) {
     
         %>
-      <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/preferences.jsp">Preferences</a></div><%
+      <p><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/preferences.jsp">Preferences</a></p><%
     
     }
     
     %>
-      
+      <p>Author since April 2013.</p>
     </div>
-    <div id="author_body"><%
+    <div id="author_body">
+      <h2>Statistics</h2><%
     
     final List<String> titles = view.getTitles();
     final List<String> summaries = view.getSummaries();

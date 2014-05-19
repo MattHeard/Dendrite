@@ -78,20 +78,23 @@ a.fontColourRed {
 #author_avatar {
 	max-width:     50vw;
 	max-height:    50vw;
-    width:  200px;
-    height: 200px;
+    width:          200px;
+    height:         200px;
+    border:         3px solid #333;
+    border-radius:  100px;
 }
 
 #author_body {
+	padding-top:   1em;
 	min-width: 300px;
 	width:     100%;
-	max-width: 580px;
+	max-width: 554px;
 	float: right;
 }
 
 #author_side_bar {
-	float: left;
-	padding-right: 20px;
+	float:         left;
+	padding-right: 40px;
 	padding-top:   20px;
 }
 

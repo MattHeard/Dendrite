@@ -18,6 +18,7 @@ public class AuthorView extends View {
 	private static final String ELLIPSIS = "...";
 	private static final int NUM_PAGES_DISPLAYED = 10;
 	private static final int SUMMARY_LEN = 30;
+	
 	private static String summariseText(final Text text) {
 		final String full = text.getValue();
 		final int fullSize = full.length();
@@ -28,6 +29,7 @@ public class AuthorView extends View {
 			return cropped + ELLIPSIS;
 		}
 	}
+	
 	private List<String> authorNames;
 	private int authorPageNumber;
 	private String id;
@@ -232,5 +234,15 @@ public class AuthorView extends View {
 
 	private void setUser(final User user) {
 		this.user = user;
+	}
+	
+	public boolean isAuthorAvatarAvailable() {
+		final User author = this.getUser();
+		return author.isAvatarAvailable();
+	}
+	
+	public int getAuthorAvatarId() {
+		final User author = this.getUser();
+		return author.getAvatarId();
 	}
 }

@@ -34,7 +34,7 @@ public class User extends Model {
 	private static final String SPACING_PROPERTY = "spacing";
 	private static final String THEME_PROPERTY = "theme";
 	private static final String UNKNOWN_PEN_NAME = "???";
-	private static final int DEFAULT_AVATAR_ID = 0;
+	private static final int DEFAULT_AVATAR_ID = 1;
 	private static final String AVATAR_ID_PROPERTY = "avatarId";
 
 	private static String getAlignmentFromEntity(final Entity entity) {
@@ -493,7 +493,7 @@ public class User extends Model {
 		return (avatarId > 0);
 	}
 
-	private int getAvatarId() {
+	public int getAvatarId() {
 		return this.avatarId;
 	}
 
