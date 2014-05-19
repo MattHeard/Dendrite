@@ -30,6 +30,10 @@ public class UpdatePreferencesServlet extends DendriteServlet {
 		controller.setAlignment(alignment);
 		final String theme = req.getParameter("theme");
 		controller.setTheme(theme);
+		
+		int avatarId = this.getAvatarId(req);
+		controller.setAvatarId(avatarId);
+		
 		if (controller.isNewPenNameBlank() == true)
 			this.redirectFromBlankNewPenName();
 		else {
@@ -39,6 +43,17 @@ public class UpdatePreferencesServlet extends DendriteServlet {
 			else
 				this.redirectFromUpdateFailure();
 		}
+	}
+
+	private int getAvatarId(final HttpServletRequest req) {
+		final String avatarNumberParameter = req.getParameter("avatar");
+		int avatarNumber;
+		try {
+			avatarNumber = Integer.parseInt(avatarNumberParameter);
+		} catch (NumberFormatException e) {
+			avatarNumber = 1;
+		}
+		return avatarNumber;
 	}
 
 	private void redirectFromBlankNewPenName() {

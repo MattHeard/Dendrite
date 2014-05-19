@@ -23,16 +23,22 @@ pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
 %><%@include file="top.jspf"
 
 %>
-    <h2>${fn:escapeXml(penName)}</h2><%
+    <div id="author_side_bar">
+      <img id="author_avatar" src="avatars/10.png" />
+      <h1>${fn:escapeXml(penName)}</h1><%
     
     final String myUserId = AuthorView.getMyUserId();
     if (id.equals(myUserId) == true) {
     
-    	%>
-      <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/preferences.jsp">My
-        preferences</a></div><%
+        %>
+      <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/preferences.jsp">Preferences</a></div><%
     
     }
+    
+    %>
+      
+    </div>
+    <div id="author_body"><%
     
     final List<String> titles = view.getTitles();
     final List<String> summaries = view.getSummaries();
@@ -50,7 +56,7 @@ pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
     		pageContext.setAttribute("title", title);
     		
     		%>
-      <h3>${fn:escapeXml(title)}</h3><%
+      <h3 class="do_not_clear">${fn:escapeXml(title)}</h3><%
 	
 			prevTitle = currTitle;
     	}
@@ -76,7 +82,8 @@ pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
 	
 	%></div>
         <div class="itemNumber">${fn:escapeXml(pageId)}</div>
-      </div><%
+      </div>
+      <div class="clear"></div><%
     }
     
     final boolean isFirstPage = view.isFirstPage();
@@ -103,4 +110,5 @@ pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
     }
 	
 	%>
+    </div>
 <%@include file="bottom.jspf" %>

@@ -34,6 +34,8 @@ public class User extends Model {
 	private static final String SPACING_PROPERTY = "spacing";
 	private static final String THEME_PROPERTY = "theme";
 	private static final String UNKNOWN_PEN_NAME = "???";
+	private static final int DEFAULT_AVATAR_ID = 0;
+	private static final String AVATAR_ID_PROPERTY = "avatarId";
 
 	private static String getAlignmentFromEntity(final Entity entity) {
 		String alignment = (String) entity.getProperty(ALIGNMENT_PROPERTY);
@@ -188,10 +190,9 @@ public class User extends Model {
 	private double fontSize;
 	private String fontType;
 	private String id;
-
 	private double spacing;
-
 	private String theme;
+	private int avatarId;
 
 	/**
 	 * Default constructor, which sets an initial default pen name in case the
@@ -205,6 +206,7 @@ public class User extends Model {
 		this.setSpacing(DEFAULT_SPACING);
 		this.setAlignment(DEFAULT_ALIGNMENT);
 		this.setTheme(DEFAULT_THEME);
+		this.setAvatarId(DEFAULT_AVATAR_ID);
 	}
 
 	public String getAlignment() {
@@ -338,6 +340,20 @@ public class User extends Model {
 		this.readSpacingFromEntity(entity);
 		this.readAlignmentFromEntity(entity);
 		this.readThemeFromEntity(entity);
+		this.readAvatarIdFromEntity(entity);
+	}
+
+	private void readAvatarIdFromEntity(final Entity entity) {
+		final int avatarId = getAvatarIdFromEntity(entity);
+		this.setAvatarId(avatarId);
+	}
+
+	private int getAvatarIdFromEntity(final Entity entity) {
+		Long avatarId = (Long) entity.getProperty(AVATAR_ID_PROPERTY);
+		if (avatarId != null)
+			return avatarId.intValue();
+		else
+			return DEFAULT_AVATAR_ID;
 	}
 
 	private void readSpacingFromEntity(final Entity entity) {
@@ -446,6 +462,12 @@ public class User extends Model {
 		this.setSpacingInEntity(entity);
 		this.setAlignmentInEntity(entity);
 		this.setThemeInEntity(entity);
+		this.setAvatarIdInEntity(entity);
+	}
+
+	private void setAvatarIdInEntity(final Entity entity) {
+		final int avatarId = this.getAvatarId();
+		entity.setProperty(AVATAR_ID_PROPERTY, avatarId);
 	}
 
 	public void setSpacing(final double spacing) {
@@ -467,6 +489,19 @@ public class User extends Model {
 	}
 
 	public boolean isAvatarAvailable() {
-		return false;
+		final int avatarId = this.getAvatarId();
+		return (avatarId > 0);
+	}
+
+	private int getAvatarId() {
+		return this.avatarId;
+	}
+
+	public void setAvatarId(final int avatarId) {
+		if (avatarId > 0) {
+			this.avatarId = avatarId;
+		} else {
+			this.avatarId = 1;
+		}
 	}
 }

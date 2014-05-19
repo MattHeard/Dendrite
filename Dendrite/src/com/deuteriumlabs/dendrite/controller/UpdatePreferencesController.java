@@ -11,6 +11,7 @@ public class UpdatePreferencesController {
 	private String newPenName;
 	private String spacing;
 	private String theme;
+	private int avatarId;
 
 	private String getAlignment() {
 		return this.alignment;
@@ -116,10 +117,22 @@ public class UpdatePreferencesController {
 			myUser.setAlignment(alignment);
 			final String theme = this.getTheme();
 			myUser.setTheme(theme);
+			
+			final int avatarId = this.getAvatarId();
+			myUser.setAvatarId(avatarId);
+			
 			myUser.update();
 			return true;
 		} else
 			return false;
+	}
+
+	private int getAvatarId() {
+		return this.avatarId;
+	}
+
+	public void setAvatarId(final int avatarId) {
+		this.avatarId = avatarId;
 	}
 
 }

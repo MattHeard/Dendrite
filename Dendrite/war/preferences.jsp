@@ -173,6 +173,31 @@ final View view = new PreferencesView();
     %>
             </select>
           </p>
+          <hr />
+          <h3>Avatar</h3>
+          <div id="avatar_selection"><%
+          
+    // See http://stackoverflow.com/questions/3896156/how-do-i-style-radio-buttons-with-images-laughing-smiley-for-good-sad-smiley
+    
+    final int NUM_AVATAR_OPTIONS = 42;
+    for (int i = 1; i < NUM_AVATAR_OPTIONS + 1; i++) {
+    	pageContext.setAttribute("avatarNum", i);
+    	
+    	%>
+            <input type="radio"
+                name="avatar"
+                id="avatar_radio_${avatarNum}"
+                value="${avatarNum}"
+                class="avatar_input_hidden" />
+            <label for="avatar_radio_${avatarNum}">
+              <img src="avatars/${avatarNum}.png"
+                  class="avatar_radio_button" />
+            </label><%
+    	
+    }
+    
+    %>
+          </div>
           <button type="submit">Update</button>
         </form>
 <%@include file="bottom.jspf" %>

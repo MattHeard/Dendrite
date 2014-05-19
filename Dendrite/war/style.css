@@ -75,11 +75,60 @@ a.fontColourRed {
   text-align:  right;
 }
 
+#author_avatar {
+	max-width:     50vw;
+	max-height:    50vw;
+    width:  200px;
+    height: 200px;
+}
+
+#author_body {
+	min-width: 300px;
+	width:     100%;
+	max-width: 580px;
+	float: right;
+}
+
+#author_side_bar {
+	float: left;
+	padding-right: 20px;
+	padding-top:   20px;
+}
+
 #avatar {
 	margin:    1em;
 	height:    3em;
 	width:     3em;
 	float:     right;
+}
+
+.avatar_input_hidden {
+	position: absolute;
+    left: -9999px;
+}
+
+.avatar_radio_button {
+	height:    3em;
+	width:     3em;
+}
+
+input[type=radio]:checked + label>img {
+	border:        3px solid #333;
+	border-radius: 2em;
+}
+
+input[type=radio] + label>img {
+	border:        3px solid transparent;
+    border-radius: 2em;
+}
+
+#avatar_selection label {
+    display: inline-block;
+    cursor: pointer;
+}
+
+#avatar_selection label img {
+    padding: 0px;
 }
 
 body {
@@ -114,6 +163,10 @@ body.themeLovely {
 #credit {
 	padding-top:   1em;
 	float:         right;
+}
+
+.do_not_clear {
+	clear: none;
 }
 
 .fontColourBlack {
@@ -304,7 +357,7 @@ img.themeSepia {
 	-webkit-filter: sepia(50%);
 }
 
-input, textarea {
+input, textarea, :not(input[type=radio]) {
 	width:				100%;
 	-webkit-box-sizing:	border-box;
 	-moz-box-sizing:	border-box;
@@ -312,7 +365,6 @@ input, textarea {
 }
 
 .item {
-	clear: 		both;
 	min-height:	1.5em;
 }
 
