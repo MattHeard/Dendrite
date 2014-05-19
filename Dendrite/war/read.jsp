@@ -35,7 +35,8 @@ if (isPageInStore == true) {
     	
     	%>
       <div id="rewriteLink"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
-          href="/rewrite.jsp?p=${fn:escapeXml(pageNumber)}">Rewrite</a></div><%
+          href="/rewrite.jsp?p=${fn:escapeXml(pageNumber)}">Rewrite</a></div>
+      <div class="clear"></div><%
     	
     	//final String text = view.getPageText();
         
@@ -81,7 +82,7 @@ if (isPageInStore == true) {
     		pageContext.setAttribute("optionText", optionText);
     		
     		%>
-      <div class="option"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+      <div class="option"><a class="optionLink ${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
               href="${fn:escapeXml(optionLink)}"<%
     %>><%
     
@@ -115,6 +116,7 @@ if (isPageInStore == true) {
     	pageContext.setAttribute("authorName", authorName);
     	
     	%>
+      <div class="clear"></div>
       <p id="credit">This page was written by <%
     
         final boolean isAuthorAnonymous = view.isAuthorAnonymous();
