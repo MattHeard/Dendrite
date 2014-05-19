@@ -81,6 +81,7 @@ a.fontColourRed {
     width:          200px;
     height:         200px;
     border:         3px solid #333;
+    background-color:   #333;
     border-radius:  100px;
 }
 
@@ -99,10 +100,13 @@ a.fontColourRed {
 }
 
 #avatar {
-	margin:    1em;
-	height:    3em;
-	width:     3em;
-	float:     right;
+	margin:            1em;
+	height:            3em;
+	width:             3em;
+	float:             right;
+    border:             2px solid #333;
+    background-color:   #333;
+    border-radius:      2em;
 }
 
 .avatar_input_hidden {
@@ -116,12 +120,13 @@ a.fontColourRed {
 }
 
 input[type=radio]:checked + label>img {
-	border:        3px solid #333;
-	border-radius: 2em;
+	background-color: #333;
+    border:           3px solid #333;
+	border-radius:    2em;
 }
 
 input[type=radio] + label>img {
-	border:        3px solid transparent;
+	border:        3px solid #bbb;
     border-radius: 2em;
 }
 

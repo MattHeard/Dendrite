@@ -18,6 +18,7 @@ public class ReadView extends View {
 	private StoryBeginning beginning;
 	private StoryPage page;
 	private PageId pageId;
+	private User author;
 	
 	public ReadView() {
 	}
@@ -179,11 +180,23 @@ public class ReadView extends View {
 	}
 	
 	public boolean isAvatarAvailable() {
-		final StoryPage page = this.getPage();
-		final String userId = page.getAuthorId();
-		final User user = new User();
-		user.setId(userId);
-		user.read();
+		final User user = getAuthor();
 		return user.isAvatarAvailable();
+	}
+	
+	public int getAuthorAvatarId() {
+		final User user = getAuthor();
+		return user.getAvatarId();
+	}
+
+	private User getAuthor() {
+		if (this.author == null) {
+			final StoryPage page = this.getPage();
+			final String userId = page.getAuthorId();
+			this.author = new User();
+			this.author.setId(userId);
+			this.author.read();
+		}
+		return this.author;
 	}
 }

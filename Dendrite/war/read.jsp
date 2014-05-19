@@ -136,11 +136,15 @@ if (isPageInStore == true) {
     
         %>. </p><%
         
-        if (view.isAvatarAvailable() == true) {
+        if (isAuthorAnonymous == false) {
+            if (view.isAvatarAvailable() == true) {
+            	final int avatarId = view.getAuthorAvatarId();
+            	pageContext.setAttribute("avatarId", avatarId);
         
-            %>
-      <img id="avatar" src="avatars/30.png" /><%
+                %>
+      <img id="avatar" src="avatars/${avatarId}.png" /><%
         		
+            }
         }
         
         %>
