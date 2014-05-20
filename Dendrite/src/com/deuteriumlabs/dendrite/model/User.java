@@ -490,7 +490,7 @@ public class User extends Model {
 
 	public boolean isAvatarAvailable() {
 		final int avatarId = this.getAvatarId();
-		return (avatarId > 0);
+		return (avatarId > -1);
 	}
 
 	public int getAvatarId() {
@@ -498,10 +498,10 @@ public class User extends Model {
 	}
 
 	public void setAvatarId(final int avatarId) {
-		if (avatarId > 0) {
+		if (avatarId > -1) {
 			this.avatarId = avatarId;
 		} else {
-			this.avatarId = 1;
+			this.avatarId = 0;
 		}
 	}
 }

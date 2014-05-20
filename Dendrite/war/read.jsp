@@ -137,18 +137,16 @@ if (isPageInStore == true) {
     
         %>. </p><%
         
-        if (isAuthorAnonymous == false) {
-            if (view.isAvatarAvailable() == true) {
-            	final int avatarId = view.getAuthorAvatarId();
-            	pageContext.setAttribute("avatarId", avatarId);
-        
-                %>
-      <img id="avatar" src="avatars/${avatarId}.png" /><%
-        		
-            }
+        final int avatarId;
+        if (isAuthorAnonymous == false && view.isAvatarAvailable() == true) {
+           	avatarId = view.getAuthorAvatarId();
+        } else {
+        	avatarId = 0;
         }
+        pageContext.setAttribute("avatarId", avatarId);
         
         %>
+      <img id="avatar" src="avatars/${avatarId}.png" />
       <div class="clear"></div><%
     
         if (isBeginning == false) {

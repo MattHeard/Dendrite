@@ -46,10 +46,9 @@ pageContext.setAttribute("avatarId", avatarId);
     }
     
     %>
-      <p>Author since April 2013.</p>
     </div>
     <div id="author_body">
-      <h2>Statistics</h2><%
+      <h2>Pages Written</h2><%
     
     final List<String> titles = view.getTitles();
     final List<String> summaries = view.getSummaries();
