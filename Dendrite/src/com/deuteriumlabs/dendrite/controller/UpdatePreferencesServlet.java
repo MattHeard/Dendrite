@@ -47,13 +47,17 @@ public class UpdatePreferencesServlet extends DendriteServlet {
 
 	private int getAvatarId(final HttpServletRequest req) {
 		final String avatarNumberParameter = req.getParameter("avatar");
-		int avatarNumber;
-		try {
-			avatarNumber = Integer.parseInt(avatarNumberParameter);
-		} catch (NumberFormatException e) {
-			avatarNumber = 1;
+		if (avatarNumberParameter != null) {
+			int avatarNumber;
+			try {
+				avatarNumber = Integer.parseInt(avatarNumberParameter);
+			} catch (NumberFormatException e) {
+				avatarNumber = 0;
+			}
+			return avatarNumber;
+		} else {
+			return 0;
 		}
-		return avatarNumber;
 	}
 
 	private void redirectFromBlankNewPenName() {
