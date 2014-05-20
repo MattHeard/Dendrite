@@ -121,14 +121,18 @@ a.fontColourRed {
 
 input[type=radio]:checked + label>img {
 	background-color: #333;
-    border:           3px solid #333;
+    border:           4px solid #333;
 	border-radius:    2em;
 }
 
 input[type=radio] + label>img {
     background-color:  #bbb;
-	border:            3px solid #bbb;
+	border:            4px solid #bbb;
     border-radius:     2em;
+}
+
+#avatar_selection {
+	text-align:    left;
 }
 
 #avatar_selection label {
@@ -181,7 +185,7 @@ button, .option {
     padding:           0.5em 1em;
     background-color:  #999;
     color:             #eee;
-    border:            1px solid #777;
+    border:            1px solid transparent;
     border-radius:     0.5em;
     text-align:        center;
     float:             left;

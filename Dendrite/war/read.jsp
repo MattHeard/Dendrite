@@ -82,9 +82,8 @@ if (isPageInStore == true) {
     		pageContext.setAttribute("optionText", optionText);
     		
     		%>
-      <div class="option"><a class="optionLink ${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
-              href="${fn:escapeXml(optionLink)}"<%
-    %>><%
+      <a class="optionLink ${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+              href="${fn:escapeXml(optionLink)}"><div class="option"><%
     
   	List<FormattedText> formattedTextChunks;
   	formattedTextChunks = FormattedText.extractFormattedText(optionText);
@@ -107,7 +106,7 @@ if (isPageInStore == true) {
   		}
   	}
   
-    %></a></div><%
+    %></div></a><%
 
     	}
     	String authorName = view.getAuthorName();
