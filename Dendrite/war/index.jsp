@@ -36,6 +36,7 @@ view.setContentsPageNumber(contentsPageNumber);
       <div class="item">
         <div class="itemContent"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="${fn:escapeXml(link)}">${fn:escapeXml(title)}</a></div>
         <div class="itemNumber">${fn:escapeXml(pageNumber)}</div>
+        <div class="clear"></div>
       </div><%
     }
     
