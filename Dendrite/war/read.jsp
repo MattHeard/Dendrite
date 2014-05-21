@@ -45,8 +45,7 @@ if (isPageInStore == true) {
         final List<String> paragraphs = view.getParagraphs();
         for (final String paragraph : paragraphs) {
         	
-        	%><p class="text">
-          <%
+        	%><p class="text"><%
           
           	List<FormattedText> formattedTextChunks;
           	formattedTextChunks = FormattedText.extractFormattedText(paragraph);
@@ -69,8 +68,7 @@ if (isPageInStore == true) {
           		}
           	}
           
-            %>
-        </p><%
+            %></p><%
         	
         }
     

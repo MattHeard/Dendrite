@@ -239,4 +239,13 @@ public class FormattedText {
 	private void toggleItalic() {
 		this.format = toggleItalicFormat(this.format);
 	}
+
+	@Override
+	public String toString() {
+		final String text = this.getText();
+		final Format format = this.getFormat();
+		return text + " (" + format + ")";
+	}
+	
+	
 }

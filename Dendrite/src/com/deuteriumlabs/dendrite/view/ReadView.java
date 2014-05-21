@@ -1,5 +1,6 @@
 package com.deuteriumlabs.dendrite.view;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -168,11 +169,17 @@ public class ReadView extends View {
 	
 	public List<String> getParagraphs() {
 		final String text = this.getPageText();
-		String[] array = { };
+		List<String> list = new ArrayList<String>();
 		if (text != null) {
-			array = text.split("\n");
+			String[] array = text.split("\n");
+			for (String paragraph : array) {
+				paragraph = paragraph.replaceAll("[\n\r]", "");
+				if (paragraph.length() > 0) {
+					list.add(paragraph);
+				}
+			}
 		}
-		return Arrays.asList(array);
+		return list;
 	}
 	
 	public enum Format {
