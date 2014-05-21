@@ -179,7 +179,7 @@ final View view = new PreferencesView();
           
     // See http://stackoverflow.com/questions/3896156/how-do-i-style-radio-buttons-with-images-laughing-smiley-for-good-sad-smiley
     
-    final int NUM_AVATAR_OPTIONS = 1;
+    final int NUM_AVATAR_OPTIONS = 19;
     for (int i = 0; i < NUM_AVATAR_OPTIONS; i++) {
     	pageContext.setAttribute("avatarNum", i);
     	
