@@ -524,6 +524,7 @@ select {
 
 textarea {
 	height:	10em;
+	resize: vertical;
 }
 
 @media all and (min-width: 600px) {
