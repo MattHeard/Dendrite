@@ -1,7 +1,6 @@
 package com.deuteriumlabs.dendrite.view;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.deuteriumlabs.dendrite.model.PageId;
