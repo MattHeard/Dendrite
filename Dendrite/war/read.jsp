@@ -25,6 +25,8 @@ if (isPageInStore == true) {
     if (isPageInStore == true) {
     	final boolean isBeginning = view.isBeginning();
     	if (isBeginning == true) {
+    		final String title = view.getTitle();
+    		pageContext.setAttribute("title", title);
     		
     		%>
       <div id="storyTitle"><h2>${fn:escapeXml(title)}</h2></div><%
