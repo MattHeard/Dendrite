@@ -349,6 +349,11 @@ h2, h3 {
 	clear:			both;
 }
 
+h4 {
+	display:       inline;
+	padding-right: 1em;
+}
+
 #header {
 	max-width:			800px;
 	margin-left:		auto;
@@ -467,6 +472,14 @@ input, textarea {
   float:left;
 }
 
+.radio_list input {
+	width: inherit;
+}
+
+ul.radio_list {
+	padding:   0px;
+}
+
 #rewriteLink {
     float:          right;
     padding-top:    1em;
@@ -569,6 +582,11 @@ textarea {
 	
 	select {
 		margin-left:	0%;
+	}
+
+	.radio_list li {
+	    display:   inline;
+	    padding-right: 1em;
 	}
 }
 

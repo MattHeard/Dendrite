@@ -20,84 +20,107 @@ final View view = new PreferencesView();
           </p>
           <hr />
           <h3>Display</h3>
-          <p>
-            <label for="fontSize" class="prefLabel">Font size</label>
-            <select name="fontSize" id="fontSize" class="prefInput"><%
+          <ul class="radio_list">
+            <h4>Font size</h4><%
           
     final String[] fontSizeOptions = { "Huge", "Large", "Medium", "Small" };
     final double[] fontSizeValues = { 2.0, 1.5, 1.0, 0.8 };
-          
+
     for (int i = 0; i < fontSizeValues.length; i++) {
         pageContext.setAttribute("fontSizeOption", fontSizeOptions[i]);
-        	  
+          
         %>
-              <option<%
-        	  
+            <li>
+              <input
+                  type="radio"
+                  name="fontSize"
+                  value="${fn:escapeXml(fontSizeOption)}"
+                  id="fontSize${fn:escapeXml(fontSizeOption)}"<%
+                  
         if (fontSizeValues[i] == userFontSize) {
-
-            %> selected="selected"<%
-
+        	
+            %>
+        	      checked="checked"<%
+        	
         }
-
-        %>>${fn:escapeXml(fontSizeOption)}</option><%
-        	  
+                  
+        %> />
+              <label
+                  for="fontSize${fn:escapeXml(fontSizeOption)}"
+                  >${fn:escapeXml(fontSizeOption)}</label>
+            </li><%
+            
     }
-          
+            
     %>
-            </select>
-          </p>
-          <p>
-            <label for="fontType" class="prefLabel">Font type</label>
-            <select name="fontType" id="fontType" class="prefInput"><%
-          
+          </ul>
+          <ul class="radio_list">
+            <h4>Font type</h4><%
+    
     final String[] fontTypeOptions = { "Serif", "Sans-serif", "Monospace",
             "Cursive", "Fantasy" };
-          
+    
     for (int i = 0; i < fontTypeOptions.length; i++) {
         pageContext.setAttribute("fontTypeOption", fontTypeOptions[i]);
-        	  
-        %>
-              <option<%
-            
+        
+    	%>
+            <li>
+              <input
+                  type="radio"
+                  name="fontType"
+                  value="${fn:escapeXml(fontTypeOption)}"
+                  id="fontType${fn:escapeXml(fontTypeOption)}"<%
+                  
         if (fontTypeOptions[i].equals(userFontType)) {
-
-            %> selected="selected"<%
-
+        	
+            %>
+                  checked="checked"<%
+                	  
         }
-            
-        %>>${fn:escapeXml(fontTypeOption)}</option><%
-
+                  
+        %> />
+              <label
+                  for="fontType${fn:escapeXml(fontTypeOption)}"
+                  >${fn:escapeXml(fontTypeOption)}</label>
+            </li><%
+    	
     }
           
     %>
-            </select>
-          </p>
-          <p>
-            <label for="fontColour" class="prefLabel">Font colour</label>
-            <select name="fontColour" id="fontColour" class="prefInput"><%
-          
+          </ul>
+          <ul class="radio_list">
+            <h4>Font colour</h4><%
+            
     final String[] fontColourOptions = { "Default", "Charcoal", "Black", "Grey",
             "Blue", "Green", "Red" };
-          
+                  
     for (int i = 0; i < fontColourOptions.length; i++) {
         pageContext.setAttribute("fontColourOption", fontColourOptions[i]);
-        	  
+        
         %>
-              <option<%
-            
+           <li>
+             <input
+                 type="radio"
+                 name="fontColour"
+                 value="${fn:escapeXml(fontColourOption)}"
+                 id="fontType${fn:escapeXml(fontColourOption)}"<%
+                 
         if (fontColourOptions[i].equals(userFontColour)) {
-
-            %> selected="selected"<%
-
-        }
+        
+            %>
+                 checked="checked"<%
             
-        %>>${fn:escapeXml(fontColourOption)}</option><%
-
+        }
+                 
+        %> />
+             <label
+                 for="fontType${fn:escapeXml(fontColourOption)}"
+                 >${fn:escapeXml(fontColourOption)}</label>
+           </li><%
     }
-          
+    
     %>
-            </select>
-          </p>
+          </ul>
           <p>
             <label for="spacing" class="prefLabel">Line spacing</label>
             <select name="spacing" id="spacing" class="prefInput"><%
