@@ -121,81 +121,104 @@ final View view = new PreferencesView();
     
     %>
           </ul>
-          <p>
-            <label for="spacing" class="prefLabel">Line spacing</label>
-            <select name="spacing" id="spacing" class="prefInput"><%
-          
+          <ul class="radio_list">
+            <h4>Line spacing</h4><%
+            
     final String[] spacingOptions = { "Huge", "Large", "Medium", "Small" };
     final double[] spacingValues = { 3.0, 2.0, 1.5, 1.0 };
-          
+    
     for (int i = 0; i < spacingOptions.length; i++) {
-        pageContext.setAttribute("spacingOption", spacingOptions[i]);
-            
-        %>
-              <option<%
-            
+    	pageContext.setAttribute("spacingOption", spacingOptions[i]);
+    	
+    	%>
+            <li>
+              <input
+                  type="radio"
+                  name="spacing"
+                  value="${fn:escapeXml(spacingOption)}"
+                  id="spacing${fn:escapeXml(spacingOption)}"<%
+                  
         if (spacingValues[i] == userSpacing) {
-
-            %> selected="selected"<%
-
+        	
+        	%>
+                  checked="checked"<%
+        			 
         }
-
-        %>>${fn:escapeXml(spacingOption)}</option><%
-            
+                  
+        %> />
+              <label
+                  for="spacing${fn:escapeXml(spacingOption)}"
+                  >${fn:escapeXml(spacingOption)}</label>
+            </li><%
     }
-          
+            
     %>
-            </select>
-          </p>
-          <p>
-            <label for="alignment" class="prefLabel">Text alignment</label>
-            <select name="alignment" id="alignment" class="prefInput"><%
-          
+          </ul>
+          <ul class="radio_list">
+            <h4>Text alignment</h4><%
+    
     final String[] alignmentOptions = { "Left", "Right", "Center", "Justify" };
-          
+            
     for (int i = 0; i < alignmentOptions.length; i++) {
-        pageContext.setAttribute("alignmentOption", alignmentOptions[i]);
-            
-        %>
-              <option<%
-            
+    	pageContext.setAttribute("alignmentOption", alignmentOptions[i]);
+    	
+    	%>
+    	    <li>
+    	      <input
+    	          type="radio"
+    	          name="alignment"
+    	          value="${fn:escapeXml(alignmentOption)}"
+    	          id="alignment${fn:escapeXml(alignmentOption)}"<%
+    	
         if (alignmentOptions[i].equals(userAlignment)) {
-
-            %> selected="selected"<%
-
+        	
+        	%>
+        	      checked="checked"<%
+       
         }
-            
-        %>>${fn:escapeXml(alignmentOption)}</option><%
-
+    	          
+    	%> />
+    	      <label
+    	          for="alignment${fn:escapeXml(alignmentOption)}"
+    	          >${fn:escapeXml(alignmentOption)}</label>
+    	    </li><%
+    	
     }
-          
+            
     %>
-            </select>
-          </p>
-          <p>
-            <label for="theme" class="prefLabel">Theme</label>
-            <select name="theme" id="theme" class="prefInput"><%
-          
+          </ul>
+          <ul class="radio_list">
+            <h4>Theme</h4><%
+            
     final String[] themeOptions = { "Light", "Dark", "Sepia", "Lovely" };
+            
     for (int i = 0; i < themeOptions.length; i++) {
-        pageContext.setAttribute("themeOption", themeOptions[i]);
-        	  
-        %>
-              <option<%
-            
-        if (themeOptions[i].equals(userTheme)) {
-
-            %> selected="selected"<%
-
-        }
-            
-        %>>${fn:escapeXml(themeOption)}</option><%
-
+    	pageContext.setAttribute("themeOption", themeOptions[i]);
+    	
+    	%>
+    	    <li>
+    	      <input
+    	          type="radio"
+    	          name="theme"
+    	          value="${fn:escapeXml(themeOption)}"
+    	          id="theme${fn:escapeXml(themeOption)}"<%
+    	          
+    	if (themeOptions[i].equals(userTheme)) {
+    	
+    		%>
+                  checked="checked"<%
+                  
+    	}
+    	
+    	%> />
+    	      <label
+    	          for="theme${fn:escapeXml(themeOption)}"
+    	          >${fn:escapeXml(themeOption)}</label>
+    	    </li><%
     }
-          
+            
     %>
-            </select>
-          </p>
+          </ul>
           <hr />
           <h3>Avatar</h3>
           <div id="avatar_selection"><%
