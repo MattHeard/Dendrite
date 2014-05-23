@@ -75,43 +75,56 @@ if (isPageInStore == true) {
         }
     
     	final int numberOfOptions = view.getNumberOfOptions();
-    	for (int i = 0; i < numberOfOptions; i++) {
-    		final String optionLink = view.getOptionLink(i);
+    	int numSkipped = 0;
+    	for (int i = 0; i < numberOfOptions + numSkipped; i++) {
+    		final String optionLink = view.getOptionLink(i + numSkipped);
     		pageContext.setAttribute("optionLink", optionLink);
     		final String optionText = view.getOptionText(i);
-    		pageContext.setAttribute("optionText", optionText);
+    		if (optionText != null && optionText.length() > 0) {
     		
     		%>
       <a class="optionLink ${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
               href="${fn:escapeXml(optionLink)}"><div class="option"><%
     
-  	List<FormattedText> formattedTextChunks;
-  	formattedTextChunks = FormattedText.extractFormattedText(optionText);
-  	for (final FormattedText chunk : formattedTextChunks) {
-  		pageContext.setAttribute("chunk", chunk.getText());
-  		Format format = chunk.getFormat();
-  		switch (format) {
-  		case BOLD:
-  			%><b>${fn:escapeXml(chunk)}</b><%
-  			break;
-  		case BOLD_ITALIC:
-  			%><b><i>${fn:escapeXml(chunk)}</i></b><%
-  			break;
-  		case ITALIC:
-  			%><i>${fn:escapeXml(chunk)}</i><%
-  			break;
-  		case NONE:
-  			%>${fn:escapeXml(chunk)}<%
-  			break;
-  		}
-  	}
+                List<FormattedText> formattedTextChunks;
+  	            formattedTextChunks = FormattedText.extractFormattedText(optionText);
+  	            for (final FormattedText chunk : formattedTextChunks) {
+  		            pageContext.setAttribute("chunk", chunk.getText());
+  		            Format format = chunk.getFormat();
+  		            switch (format) {
+  		            case BOLD:
+  		            	
+  			            %><b>${fn:escapeXml(chunk)}</b><%
+  			            
+  			            break;
+  		            case BOLD_ITALIC:
+  			
+  			            %><b><i>${fn:escapeXml(chunk)}</i></b><%
+  			
+  			            break;
+  		            case ITALIC:
+  			
+  			            %><i>${fn:escapeXml(chunk)}</i><%
+  			
+  			            break;
+  		            case NONE:
+  			
+  			            %>${fn:escapeXml(chunk)}<%
+  			
+  			            break;
+  		            }
+  	            }
   
     %></div></a><%
-
+    
+            } else {
+            	numSkipped++;
+            }
     	}
     	String authorName = view.getAuthorName();
-    	if (authorName == null || authorName == "")
+    	if (authorName == null || authorName == "") {
     		authorName = "???";
+    	}
     	pageContext.setAttribute("authorName", authorName);
     	
     	%>
