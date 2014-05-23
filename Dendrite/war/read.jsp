@@ -77,7 +77,7 @@ if (isPageInStore == true) {
     	final int numberOfOptions = view.getNumberOfOptions();
     	int numSkipped = 0;
     	for (int i = 0; i < numberOfOptions + numSkipped; i++) {
-    		final String optionLink = view.getOptionLink(i + numSkipped);
+    		final String optionLink = view.getOptionLink(i);
     		pageContext.setAttribute("optionLink", optionLink);
     		final String optionText = view.getOptionText(i);
     		if (optionText != null && optionText.length() > 0) {
