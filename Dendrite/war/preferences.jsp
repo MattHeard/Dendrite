@@ -81,6 +81,7 @@ final View view = new PreferencesView();
         %> />
               <label
                   for="fontType${fn:escapeXml(fontTypeOption)}"
+                  class="fontType${fn:escapeXml(fontTypeOption)}"
                   >${fn:escapeXml(fontTypeOption)}</label>
             </li><%
     	
@@ -103,7 +104,7 @@ final View view = new PreferencesView();
                  type="radio"
                  name="fontColour"
                  value="${fn:escapeXml(fontColourOption)}"
-                 id="fontType${fn:escapeXml(fontColourOption)}"<%
+                 id="fontColour${fn:escapeXml(fontColourOption)}"<%
                  
         if (fontColourOptions[i].equals(userFontColour)) {
         
@@ -114,7 +115,8 @@ final View view = new PreferencesView();
                  
         %> />
              <label
-                 for="fontType${fn:escapeXml(fontColourOption)}"
+                 for="fontColour${fn:escapeXml(fontColourOption)}"
+                 class="fontColour${fn:escapeXml(fontColourOption)}"
                  >${fn:escapeXml(fontColourOption)}</label>
            </li><%
     }
