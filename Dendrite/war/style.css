@@ -390,8 +390,12 @@ h4 {
 
 hr {
 	background-color:  #ddd;
-	height:            1px;
+	height:            2px;
 	border:            none;
+}
+
+hr.minor_separator {
+	height:            1px;
 }
 
 html, body {
@@ -478,6 +482,7 @@ input, textarea {
 
 ul.radio_list {
 	padding:   0px;
+	margin-bottom: 1em;
 }
 
 #rewriteLink {
