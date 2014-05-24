@@ -54,6 +54,7 @@ final View view = new PreferencesView();
             
     %>
           </ul>
+          <hr class="minor_separator" />
           <ul class="radio_list">
             <h4>Font type</h4><%
     
@@ -89,6 +90,7 @@ final View view = new PreferencesView();
           
     %>
           </ul>
+          <hr class="minor_separator" />
           <ul class="radio_list">
             <h4>Font colour</h4><%
             
@@ -123,6 +125,7 @@ final View view = new PreferencesView();
     
     %>
           </ul>
+          <hr class="minor_separator" />
           <ul class="radio_list">
             <h4>Line spacing</h4><%
             
@@ -156,6 +159,7 @@ final View view = new PreferencesView();
             
     %>
           </ul>
+          <hr class="minor_separator" />
           <ul class="radio_list">
             <h4>Text alignment</h4><%
     
@@ -189,6 +193,7 @@ final View view = new PreferencesView();
             
     %>
           </ul>
+          <hr class="minor_separator" />
           <ul class="radio_list">
             <h4>Theme</h4><%
             
