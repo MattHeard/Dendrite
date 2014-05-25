@@ -148,7 +148,7 @@ body {
 	line-height:		1.5em;
 	text-align:			justify;
 	margin:				0em;
-	font-family:		sans-serif;
+	font-family:		Helvetica, Arial, sans-serif;
 	font-weight:		100;
 	color:				#111;
 	background-color:	#fefefe;
@@ -236,23 +236,23 @@ button, .option {
 }
 
 .fontTypeCursive {
-  font-family: Cursive;
+  font-family: "Brush Script MT", cursive;
 }
 
 .fontTypeFantasy {
-  font-family: Fantasy;
+  font-family: "Papyrus", fantasy;
 }
 
 .fontTypeMonospace {
-  font-family: Monospace;
+  font-family: "Lucida Console", Monaco, monospace;
 }
 
 .fontTypeSansSerif {
-  font-family: Sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 .fontTypeSerif {
-	font-family: Serif;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 }
 
 .footer {
@@ -319,11 +319,10 @@ button, .option {
 	-webkit-filter:	invert(100%);
 	opacity:		0.6;
 	float:			left;
-	padding-top:	15px;
-	padding-bottom:	15px;
-	padding-left:	10px;
-	padding-right:	10px;
+	margin:            5px 10px;
+	padding:        10px 10px;
 	height:			20px;
+	border:         1px solid #111;
 }
 
 .formatIconPressed {
