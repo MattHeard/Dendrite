@@ -102,16 +102,15 @@ for (String dimension : formatDimensions) {
         <div id="sizePickerBar" class="formatPickerBar">
           <select id="sizePicker" onchange="pickSize(this.value);"><%
             
-final double[] sizeNumbers = { 2, 1.5, 1, 0.8 };
 final String[] sizeLabels = { "Huge", "Large", "Medium", "Small" };
-for (int i = 0; i < sizeNumbers.length; i++) {
-    pageContext.setAttribute("number", sizeNumbers[i]);
+final double[] sizeValues = { 2.0, 1.5, 1.0, 0.8 };
+for (int i = 0; i < sizeLabels.length; i++) {
     pageContext.setAttribute("label", sizeLabels[i]);
         
     %>
             <option value="${fn:escapeXml(label)}"<%
             
-    if (sizeNumbers[i] == userFontSize) {
+    if (sizeValues[i] == userFontSize) {
             
         %> selected="selected"<%
             
@@ -125,12 +124,26 @@ for (int i = 0; i < sizeNumbers.length; i++) {
           </select>
         </div>
         <div id="typePickerBar" class="formatPickerBar">
-          <select id="typePicker" onchange="pickType(this.value);">
-            <option value="serif">Serif</option>
-            <option value="sans-serif" selected="selected">Sans-serif</option>
-            <option value="monospace">Monospace</option>
-            <option value="cursive">Cursive</option>
-            <option value="fantasy">Fantasy</option>
+          <select id="typePicker" onchange="pickType(this.value);"><%
+          
+final String[] types = { "Serif", "Sans-serif", "Monospace", "Cursive",
+		"Fantasy" };
+for (int i = 0; i < types.length; i++) {
+	pageContext.setAttribute("type", types[i]);
+	
+	%>
+            <option value="${fn:escapeXml(type)}"<%
+            
+    if (types[i].equals(userFontType)) {
+    	
+        %> selected="selected"<%
+    	
+    }
+            
+    %>>${fn:escapeXml(type)}</option><%
+}
+          
+          %>
           </select>
         </div>
         <div id="colourPickerBar" class="formatPickerBar">

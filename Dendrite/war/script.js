@@ -55,11 +55,24 @@ function pickSize(value) {
 }
 
 function pickType(value) {
-	var elements = document.getElementsByClassName("modifiableText");
-	for (var i = 0; i < elements.length; ++i) {
-	    var element = elements[i];  
-		element.style.fontFamily = value;
+	if (value === "Sans-serif") {
+		value = "SansSerif";
 	}
+	
+	if ($('.modifiableText').hasClass('fontTypeSerif')) {
+		$('.modifiableText').removeClass('fontTypeSerif');
+    } else if ($('.modifiableText').hasClass('fontTypeSansSerif')) {
+        $('.modifiableText').removeClass('fontTypeSansSerif');
+    } else if ($('.modifiableText').hasClass('fontTypeMonospace')) {
+        $('.modifiableText').removeClass('fontTypeMonospace');
+    } else if ($('.modifiableText').hasClass('fontTypeFantasy')) {
+        $('.modifiableText').removeClass('fontTypeFantasy');
+    } else if ($('.modifiableText').hasClass('fontTypeCursive')) {
+        $('.modifiableText').removeClass('fontTypeCursive');
+    }
+	
+    $('.modifiableText').addClass('fontType' + value);
+    $('.modifiableText').css("lineHeight", lineHeight);
 }
 
 function pickColour(value) {

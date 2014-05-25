@@ -319,20 +319,21 @@ button, .option {
 	-webkit-filter:	invert(100%);
 	opacity:		0.6;
 	float:			left;
-	margin:            5px 10px;
-	padding:        10px 10px;
+	margin:         5px 10px;
+	padding:        10px;
 	height:			20px;
 	border:         1px solid #111;
+	border-radius:  10px 10px 0px 10px;
 }
 
 .formatIconPressed {
 	-webkit-filter:	invert(100%);
 	float:			left;
-	padding-top:	15px;
-	padding-bottom:	15px;
-	padding-left:	10px;
-	padding-right:	10px;
+	margin:         5px 10px;
+	padding:        10px;
 	height:			20px;
+    border:         1px solid #111;
+    border-radius:  10px 10px 0px 0px;
 }
 
 #formatMenu {
