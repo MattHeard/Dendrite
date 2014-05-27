@@ -22,7 +22,7 @@ a.themeLight {
 }
 
 a.themeDark {
-	color: #999;
+	color: #949191;
 }
 
 a.themeSepia {
@@ -83,6 +83,11 @@ a.fontColourRed {
     border:         3px solid #333;
     background-color:   #333;
     border-radius:  100px;
+}
+
+.themeDark #author_avatar {
+	border-color:     #949191;
+    background-color: #949191;
 }
 
 #author_body {
@@ -161,8 +166,8 @@ body {
 }
 
 body.themeDark {
-	color:             #eee;
-	background-color:  #010101;
+	color:            #c2bebe;
+	background-color: #000000;
 }
 
 body.themeSepia {
@@ -292,8 +297,8 @@ button, .option {
 }
 
 #formatBar.themeDark {
-  background-color:  #666;
-  border-color:      #555;
+  background-color: #494949;
+  border-color:     #5c5c5c;
 }
 
 #formatBar.themeSepia {
@@ -316,24 +321,31 @@ button, .option {
 }
 
 .formatIcon {
-	-webkit-filter:	invert(100%);
-	opacity:		0.6;
-	float:			left;
-	margin:         5px 10px;
-	padding:        10px;
-	height:			20px;
-	border:         1px solid #111;
-	border-radius:  10px 10px 0px 10px;
+	float:			   left;
+	margin:            5px 10px;
+	padding:           10px;
+	height:			   20px;
+	border:            1px solid #fff;
+	border-radius:     10px;
+	background-color:  #eee;
+}
+
+.themeDark .formatIcon,
+.themeDark .option,
+.themeDark button {
+	background-color: #949191;
+	border-color:     #747674;
+	color:            #000000;
 }
 
 .formatIconPressed {
-	-webkit-filter:	invert(100%);
-	float:			left;
-	margin:         5px 10px;
-	padding:        10px;
-	height:			20px;
-    border:         1px solid #111;
-    border-radius:  10px 10px 0px 0px;
+	float:			  left;
+	margin:           5px 10px;
+	padding:          10px;
+	height:			  20px;
+    border:           1px solid #fff;
+    border-radius:    10px;
+    background-color: #eee;
 }
 
 #formatMenu {
@@ -374,8 +386,8 @@ h4 {
 }
 
 #headerBar.themeDark, #footerBar.themeDark {
-	background-color:  #0f0f0f;
-	border-color:      #1f1f1f;
+	background-color:  #131313;
+	border-color:      #181818;
 }
 
 #headerBar.themeSepia, #footerBar.themeSepia {
@@ -386,6 +398,10 @@ h4 {
 #headerBar.themeLovely, #footerBar.themeLovely {
 	background-color:  #ffd6e4;
 	border-color:      #ffc8d8;
+}
+
+.themeDark hr {
+	background-color: #5c5c5c;
 }
 
 hr {
@@ -423,6 +439,12 @@ input, textarea {
     color:             #333;
     border:            1px solid #ddd;
     border-radius:     0.5em;
+}
+
+.themeDark input, textarea {
+	background-color: #494949;
+    border-color:     #5c5c5c;
+    color:            #c2bebe;
 }
 
 .item {
