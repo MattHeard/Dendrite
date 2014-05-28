@@ -562,6 +562,10 @@ select {
 	clear:	both;
 }
 
+#text_body {
+	padding-bottom: 1em;
+}
+
 textarea {
 	height:	10em;
 	resize: vertical;

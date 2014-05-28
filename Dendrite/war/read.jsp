@@ -38,7 +38,8 @@ if (isPageInStore == true) {
     	%>
       <div id="rewriteLink"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
           href="/rewrite.jsp?p=${fn:escapeXml(pageNumber)}">Rewrite</a></div>
-      <div class="clear"></div><%
+      <div class="clear"></div>
+      <div id="text_body"><%
     	
     	//final String text = view.getPageText();
         
@@ -73,6 +74,9 @@ if (isPageInStore == true) {
             %></p><%
         	
         }
+        
+      %>
+      </div><%
     
     	final int numberOfOptions = view.getNumberOfOptions();
     	int numSkipped = 0;
