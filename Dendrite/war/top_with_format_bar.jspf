@@ -40,9 +40,10 @@ if (isUserLoggedIn == true) {
     userSpacing = View.getUserSpacing();
     userAlignment = View.getUserAlignment();
     userTheme = View.getUserTheme();
+    pageContext.setAttribute("userTheme", userTheme);
 }
 
-if (userTheme.equals("Light") == false && userTheme != null) {
+if (userTheme != null && userTheme.equals("Light") == false) {
     String className = "theme";
     final String[] options = { "Light", "Dark", "Sepia", "Lovely" };
     final List<String> list = Arrays.asList(options);
@@ -63,7 +64,15 @@ if (userTheme.equals("Light") == false && userTheme != null) {
     <div id="nonFooter">
       <div id="headerBar" class="${fn:escapeXml(themeClassName)}">
         <div id="header">
-          <div id="logo"><a href="/" class="${fn:escapeXml(themeClassName)}"><img class="${fn:escapeXml(themeClassName)}" id="logoImage" src="logo/${fn:escapeXml(themeClassName)}/logo.png" /></a></div><%
+          <div id="logo"><a href="/" class="${fn:escapeXml(themeClassName)}"><img class="${fn:escapeXml(themeClassName)}" id="logoImage" src="logo/<%
+          
+if (userTheme != null && userTheme.equals("Light") == false) {
+          
+    %>${fn:escapeXml(themeClassName)}/<%
+          
+}
+          
+%>logo.png" /></a></div><%
 
 if (isUserLoggedIn == true) {
     
