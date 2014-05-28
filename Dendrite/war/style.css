@@ -441,7 +441,7 @@ input, textarea {
     border-radius:     0.5em;
 }
 
-.themeDark input, textarea {
+.themeDark input, .themeDark textarea {
 	background-color: #494949;
     border-color:     #5c5c5c;
     color:            #c2bebe;
