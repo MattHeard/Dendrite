@@ -32,7 +32,8 @@ if (isValidOption == true) {
       
     %>
       <h3>${fn:escapeXml(optionText)}</h3>
-      <form action="submitWrite" method="post"><%
+      <form action="submitWrite" method="post">
+      <div id="form_body"><%
     
 	    pageContext.setAttribute("from", from);
 	    pageContext.setAttribute("linkIndex", linkIndex);
@@ -124,6 +125,7 @@ if (isValidOption == true) {
 	      
     %>
         <br />
+        </div>
         <button type="submit">Submit</button>
       </form><%
       

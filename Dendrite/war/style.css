@@ -562,7 +562,7 @@ select {
 	clear:	both;
 }
 
-#text_body {
+#text_body, #form_body {
 	padding-bottom: 1em;
 }
 

@@ -15,6 +15,7 @@ view.setError(error);
 %>
     <h2>Start a new story</h2>
     <form action="submitNewStory" method="post">
+      <div id="form_body">
       <label for="title">Title</label>
       <br />
       <input id="title" name="title" type="text"></input><%
@@ -118,6 +119,7 @@ view.setError(error);
       
       %>
       <br />
+      </div>
       <button type="submit">Submit</button>
     </form>
 <%@include file="bottom.jspf" %>
