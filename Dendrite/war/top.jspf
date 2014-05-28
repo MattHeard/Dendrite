@@ -63,7 +63,7 @@ if (userTheme.equals("Light") == false && userTheme != null) {
     <div id="nonFooter">
       <div id="headerBar" class="${fn:escapeXml(themeClassName)}">
         <div id="header">
-          <div id="logo"><a href="/" class="${fn:escapeXml(themeClassName)}"><img class="${fn:escapeXml(themeClassName)}" id="logoImage" src="logo.png" /></a></div><%
+          <div id="logo"><a href="/" class="${fn:escapeXml(themeClassName)}"><img class="${fn:escapeXml(themeClassName)}" id="logoImage" src="logo/${fn:escapeXml(themeClassName)}/logo.png" /></a></div><%
 
 if (isUserLoggedIn == true) {
     
