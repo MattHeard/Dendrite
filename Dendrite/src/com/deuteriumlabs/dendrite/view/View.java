@@ -40,6 +40,41 @@ public abstract class View {
 		return myUser.getDefaultPenName();
 	}
 
+	public static String getUserAlignment() {
+		final User myUser = User.getMyUser();
+		return myUser.getAlignment();
+	}
+
+	public static String getUserFontColour() {
+		final User myUser = User.getMyUser();
+		return myUser.getFontColour();
+	}
+
+	public static double getUserFontSize() {
+		final User myUser = User.getMyUser();
+		return myUser.getFontSize();
+	}
+
+	public static String getUserFontType() {
+		final User myUser = User.getMyUser();
+		return myUser.getFontType();
+	}
+
+	public static double getUserSpacing() {
+		final User myUser = User.getMyUser();
+		return myUser.getSpacing();
+	}
+
+	public static String getUserTheme() {
+		final User myUser = User.getMyUser();
+		return myUser.getTheme();
+	}
+
+	public static boolean isUserFontSizeSet() {
+		final User myUser = User.getMyUser();
+		return myUser.isFontSizeSet();
+	}
+
 	/**
 	 * Returns whether the visitor is logged in or not.
 	 * 
@@ -48,41 +83,6 @@ public abstract class View {
 	 */
 	public static boolean isUserLoggedIn() {
 		return User.isMyUserLoggedIn();
-	}
-
-	public static boolean isUserFontSizeSet() {
-		final User myUser = User.getMyUser();
-		return myUser.isFontSizeSet();
-	}
-	
-	public static double getUserFontSize() {
-		final User myUser = User.getMyUser();
-		return myUser.getFontSize();
-	}
-	
-	public static String getUserFontType() {
-		final User myUser = User.getMyUser();
-		return myUser.getFontType();
-	}
-	
-	public static String getUserFontColour() {
-		final User myUser = User.getMyUser();
-		return myUser.getFontColour();
-	}
-	
-	public static double getUserSpacing() {
-		final User myUser = User.getMyUser();
-		return myUser.getSpacing();
-	}
-	
-	public static String getUserAlignment() {
-		final User myUser = User.getMyUser();
-		return myUser.getAlignment();
-	}
-	
-	public static String getUserTheme() {
-		final User myUser = User.getMyUser();
-		return myUser.getTheme();
 	}
 
 	/**
@@ -116,5 +116,14 @@ public abstract class View {
 	 * @return The URL to this page
 	 */
 	abstract String getUrl();
+
+	/**
+	 * Returns the title of the web page displaying this View.
+	 * 
+	 * @return The title of the web page displaying this View.
+	 */
+	public String getWebPageTitle() {
+		return "Dendrite";
+	}
 
 }

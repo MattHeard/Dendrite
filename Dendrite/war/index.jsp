@@ -16,12 +16,14 @@
  * `pageContext` attributes are escaped to prevent malicious injections. Some
  * attributes may not need to be escaped but I cannot currently guarantee that.
  */
-%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
+%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %><%
 
-%><%
-
-pageContext.setAttribute("webPageTitle", "Dendrite");
 final ContentsView view = new ContentsView();
+
+// The value of `webPageTitle` is passed to `top.jspf` and inserted into the
+// title of the HTML page.
+final String webPageTitle = view.getWebPageTitle();
+pageContext.setAttribute("webPageTitle", webPageTitle);
 
 final String pParameter = request.getParameter("p");
 int contentsPageNumber;
