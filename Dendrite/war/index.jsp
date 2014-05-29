@@ -33,8 +33,13 @@ view.setContentsPageNumberFromRequest(request);
 // header bar which is common to all Dendrite web pages.
 %><%@include file="top.jspf"
 
+%><%
+
+final String bodyMainTitle = view.getBodyMainTitle();
+pageContext.setAttribute("bodyMainTitle", bodyMainTitle);
+
 %>
-      <h2>Table of Contents</h2><%
+      <h2>${fn:escapeXml(bodyMainTitle)}</h2><%
 	
     final List<String> links = view.getLinks();
     final int length = links.size();

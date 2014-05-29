@@ -13,6 +13,7 @@ import com.deuteriumlabs.dendrite.model.StoryBeginning;
  */
 public class ContentsView extends View {
 	
+	private static final String BODY_MAIN_TITLE = "Table of Contents";
 	private static final String CONTENTS_PAGE_NUMBER_PARAMETER_NAME = "p";
 	private static final int DEFAULT_CONTENTS_PAGE_NUMBER = 1;
 
@@ -189,5 +190,11 @@ public class ContentsView extends View {
 		} catch (NumberFormatException e) {
 		    return DEFAULT_CONTENTS_PAGE_NUMBER;
 		}
+	}
+	
+	// TODO: Create an abstract method in the parent `View` and implement in all
+	// 		 subclasses.
+	public String getBodyMainTitle() {
+		return BODY_MAIN_TITLE;
 	}
 }
