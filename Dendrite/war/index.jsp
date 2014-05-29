@@ -27,14 +27,7 @@ final ContentsView view = new ContentsView();
 final String webPageTitle = view.getWebPageTitle();
 pageContext.setAttribute("webPageTitle", webPageTitle);
 
-final String pParameter = request.getParameter("p");
-int contentsPageNumber;
-try {
-    contentsPageNumber = Integer.parseInt(pParameter);
-} catch (NumberFormatException e) {
-    contentsPageNumber = 1;
-}
-view.setContentsPageNumber(contentsPageNumber);
+view.setContentsPageNumberFromRequest(request);
 
 %><%@include file="top.jspf"
 

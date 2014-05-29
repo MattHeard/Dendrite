@@ -3,6 +3,8 @@ package com.deuteriumlabs.dendrite.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
 
 /**
@@ -11,6 +13,9 @@ import com.deuteriumlabs.dendrite.model.StoryBeginning;
  */
 public class ContentsView extends View {
 	
+	private static final String CONTENTS_PAGE_NUMBER_PARAMETER_NAME = "p";
+	private static final int DEFAULT_CONTENTS_PAGE_NUMBER = 1;
+
 	public boolean isFirstPage() {
 		final int number = this.getContentsPageNumber();
 		return (number == 1);
@@ -169,5 +174,20 @@ public class ContentsView extends View {
 			this.contentsPageNumber = 1;
 		if (contentsPageNumber != previousPageNum)
 			this.setBeginnings(null);
+	}
+	
+	public void setContentsPageNumberFromRequest(final HttpServletRequest req) {
+		final String parameterName = CONTENTS_PAGE_NUMBER_PARAMETER_NAME;
+		final String parameter = req.getParameter(parameterName);
+		final int number = getContentsPageNumberFromParameter(parameter);
+		this.setContentsPageNumber(number);
+	}
+
+	private int getContentsPageNumberFromParameter(final String parameter) {
+		try {
+		    return Integer.parseInt(parameter);
+		} catch (NumberFormatException e) {
+		    return DEFAULT_CONTENTS_PAGE_NUMBER;
+		}
 	}
 }
