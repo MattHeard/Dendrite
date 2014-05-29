@@ -20,9 +20,8 @@
 
 final ContentsView view = new ContentsView();
 view.setPageContext(pageContext);
+view.setRequest(request);
 view.initialise();
-
-view.setContentsPageNumberFromRequest(request);
 
 // `top.jspf` contains the JSP code starting the HTML page and displaying the
 // header bar which is common to all Dendrite web pages.

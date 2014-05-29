@@ -1,5 +1,6 @@
 package com.deuteriumlabs.dendrite.view;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 
 import com.deuteriumlabs.dendrite.model.User;
@@ -88,15 +89,8 @@ public abstract class View {
 	}
 
 	private PageContext pageContext;
-
-	public void setPageContext(final PageContext pageContext) {
-		this.pageContext = pageContext;
-	}
+	private HttpServletRequest request;
 	
-	protected PageContext getPageContext() {
-		return this.pageContext;
-	}
-
 	/**
 	 * Returns a link for logging in, with a redirect back to this page after
 	 * the login has completed.
@@ -121,6 +115,14 @@ public abstract class View {
 		return userService.createLogoutURL(returnUrl);
 	}
 
+	protected PageContext getPageContext() {
+		return this.pageContext;
+	}
+
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+	
 	/**
 	 * Returns a link to this page, which can be supplied for when the user
 	 * should be redirected back to this page.
@@ -136,5 +138,13 @@ public abstract class View {
 	 */
 	public String getWebPageTitle() {
 		return "Dendrite";
+	}
+
+	public void setPageContext(final PageContext pageContext) {
+		this.pageContext = pageContext;
+	}
+
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
 	}
 }
