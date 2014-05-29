@@ -27,11 +27,6 @@ view.initialise();
 // header bar which is common to all Dendrite web pages.
 %><%@include file="top.jspf"
 
-%><%
-
-final String bodyMainTitle = view.getBodyMainTitle();
-pageContext.setAttribute("bodyMainTitle", bodyMainTitle);
-
 %>
       <h2>${fn:escapeXml(bodyMainTitle)}</h2><%
 	

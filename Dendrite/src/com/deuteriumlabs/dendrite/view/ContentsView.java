@@ -205,5 +205,7 @@ public class ContentsView extends View {
 		pageContext.setAttribute("webPageTitle", webPageTitle);
 		final HttpServletRequest request = this.getRequest();
 		this.setContentsPageNumberFromRequest(request);
+		final String bodyMainTitle = this.getBodyMainTitle();
+		pageContext.setAttribute("bodyMainTitle", bodyMainTitle);
 	}
 }
