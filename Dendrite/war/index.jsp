@@ -22,6 +22,8 @@ final ContentsView view = new ContentsView();
 
 // The value of `webPageTitle` is passed to `top.jspf` and inserted into the
 // title of the HTML page.
+// TODO: Move this into `top.jspf` after making sure that all Views implement
+// `getWebPageTitle()` correctly.
 final String webPageTitle = view.getWebPageTitle();
 pageContext.setAttribute("webPageTitle", webPageTitle);
 
