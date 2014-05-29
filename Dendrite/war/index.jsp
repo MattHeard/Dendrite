@@ -1,14 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" 
+    pageEncoding="UTF-8" %><%
     
-%><%@ page import="com.deuteriumlabs.dendrite.view.ContentsView"
+/*
+ * The ContentsView contains the view logic for the table of contents on
+ * Dendrite. This JSP page should not perform any calculation itself but instead
+ * merely call functions from the ContentsView. This ensures that the HTML and
+ * the Java components are cleanly separated.
+ */
+%><%@ page import="com.deuteriumlabs.dendrite.view.ContentsView" %><%
 
-%><%
-
-// The JSTL functions provide `escapeXml(...)`. Currently, all
-// `pageContext` attributes are escaped to prevent malicious injections. Some
-// attributes may not need to be escaped but I cannot currently guarantee that.
+/*
+ * The JSTL functions provide `escapeXml(...)`. Currently, all
+ * `pageContext` attributes are escaped to prevent malicious injections. Some
+ * attributes may not need to be escaped but I cannot currently guarantee that.
+ */
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
+
 %><%
 
 pageContext.setAttribute("webPageTitle", "Dendrite");
