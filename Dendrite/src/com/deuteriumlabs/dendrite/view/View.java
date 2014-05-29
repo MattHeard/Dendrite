@@ -1,5 +1,7 @@
 package com.deuteriumlabs.dendrite.view;
 
+import javax.servlet.jsp.PageContext;
+
 import com.deuteriumlabs.dendrite.model.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -85,6 +87,16 @@ public abstract class View {
 		return User.isMyUserLoggedIn();
 	}
 
+	private PageContext pageContext;
+
+	public void setPageContext(final PageContext pageContext) {
+		this.pageContext = pageContext;
+	}
+	
+	protected PageContext getPageContext() {
+		return this.pageContext;
+	}
+
 	/**
 	 * Returns a link for logging in, with a redirect back to this page after
 	 * the login has completed.
@@ -116,7 +128,7 @@ public abstract class View {
 	 * @return The URL to this page
 	 */
 	abstract String getUrl();
-
+	
 	/**
 	 * Returns the title of the web page displaying this View.
 	 * 
@@ -125,5 +137,4 @@ public abstract class View {
 	public String getWebPageTitle() {
 		return "Dendrite";
 	}
-
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.PageContext;
 
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
 
@@ -196,5 +197,11 @@ public class ContentsView extends View {
 	// 		 subclasses.
 	public String getBodyMainTitle() {
 		return BODY_MAIN_TITLE;
+	}
+	
+	public void initialise() {
+		final String webPageTitle = this.getWebPageTitle();
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("webPageTitle", webPageTitle);
 	}
 }
