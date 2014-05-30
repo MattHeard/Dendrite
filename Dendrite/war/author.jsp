@@ -25,14 +25,8 @@ view.initialise();
 
 // `top.jspf` contains the JSP code starting the HTML page and displaying the
 // header bar which is common to all Dendrite web pages.
-%><%@include file="top.jspf" %><%
-
-%>
-        <div id="author_side_bar"><%
-
-view.prepareAvatarId();
-
-%>
+%><%@include file="top.jspf" %>
+        <div id="author_side_bar">
           <img id="author_avatar" src="avatars/${fn:escapeXml(avatarId)}.png" />
           <h1>${fn:escapeXml(penName)}</h1><%
 
@@ -47,54 +41,33 @@ if (view.isAuthorPageOfUser() == true) {
         </div>
         <div id="author_body">
           <h2>Pages Written</h2><%
-    
-final List<String> titles = view.getTitles();
-final List<String> summaries = view.getSummaries();
-final List<String> pageIds = view.getPageIds();
-final List<String> authorNames = view.getAuthorNames();
-String prevTitle = null;
-    
-for (int i = 0; i < titles.size(); i++) {
-    String currTitle = titles.get(i);
-    if (currTitle == null) {
-        currTitle = "";
-    }
-    final boolean isDifferentTitle = (currTitle.equals(prevTitle) == false);
-    if (isDifferentTitle == true) {
-    	view.prepareTitle(currTitle);
-    		
-        %>
-          <h3 class="do_not_clear">${fn:escapeXml(title)}</h3><%
-	
-        prevTitle = currTitle;
-    }
-    String summary = summaries.get(i);
-    if (summary == null) {
-        summary = "";
-    }
-    pageContext.setAttribute("summary", summary);
-    String pageId = pageIds.get(i);
-	pageContext.setAttribute("pageId", pageId);
-	final String authorName = authorNames.get(i);
-	final String penName = view.getPenName();
-	final boolean isSameAuthorName = (authorName.equals(penName));
 
+while (view.hasAnotherStoryPage() == true) {
+	view.prepareNextStoryPage();
+	if (view.isThisStoryPageInADifferentStory() == true) {
+		
+		%>
+          <h3 class="do_not_clear">${fn:escapeXml(title)}</h3><%
+          
+	}
+    
     %>
           <div class="item">
             <div class="itemContent"><a
-                href="/read.jsp?p=${fn:escapeXml(pageId)}">${fn:escapeXml(summary)}</a><%
-	
-    if (isSameAuthorName == false) {
-        pageContext.setAttribute("authorName", authorName);
-			
-        %> (credited as <i>${fn:escapeXml(authorName)}</i>)<%
-			
+                href="/read.jsp?p=${fn:escapeXml(pageId)}"
+                >${fn:escapeXml(summary)}</a><%
+                
+    if (view.isThisStoryPageCreditedDifferently() == true) {
+    	
+    	%> (credited as <i>${fn:escapeXml(authorName)}</i>)<%
+    	
     }
-	
-    %></div>
+                
+%></div>
             <div class="itemNumber">${fn:escapeXml(pageId)}</div>
           </div>
           <div class="clear"></div><%
+        
 }
     
 final boolean isFirstPage = view.isFirstPage();

@@ -18,8 +18,15 @@ import com.google.appengine.api.datastore.Text;
  */
 public class AuthorView extends View {
 
+	private class StoryPageEntry {
+		String authorName;
+		String pageId;
+		String summary;
+		String title;
+	}
 	private static final String ELLIPSIS = "...";
 	private static final int NUM_PAGES_DISPLAYED = 10;
+
 	private static final int SUMMARY_LEN = 30;
 
 	private static String summariseText(final Text text) {
@@ -32,12 +39,16 @@ public class AuthorView extends View {
 			return cropped + ELLIPSIS;
 		}
 	}
-
 	private List<String> authorNames;
 	private int authorPageNumber;
+	private String currStoryPageAuthorName;
+	private String currTitle;
+	private List<StoryPageEntry> entries;
 	private String id;
+	private int numStoryPagesAlreadyDisplayed;
 	private List<String> pageIds;
 	private List<StoryPage> pages;
+	private String prevTitle;
 	private List<String> summaries;
 	private List<String> titles;
 
@@ -45,6 +56,29 @@ public class AuthorView extends View {
 
 	public AuthorView() {
 		this.setAuthorPageNumber(1);
+		this.setNumStoryPagesAlreadyDisplayed(0);
+		this.setPrevTitle(null);
+		this.setCurrTitle(null);
+	}
+
+	private void generateEntries() {
+		final List<String> titles = this.getTitles();
+		final int length = titles.size();
+		final List<String> summaries = this.getSummaries();
+		final List<String> pageIds = this.getPageIds();
+		final List<String> authorNames = this.getAuthorNames();
+		
+		final List<StoryPageEntry> pages = new ArrayList<StoryPageEntry>();
+		for (int i = 0; i < length; i++) {
+			final StoryPageEntry page = new StoryPageEntry();
+			page.title = titles.get(i);
+			page.summary = summaries.get(i);
+			page.pageId = pageIds.get(i);
+			page.authorName = authorNames.get(i);
+			pages.add(page);
+		}
+		
+		this.setEntries(pages);
 	}
 
 	public int getAuthorAvatarId() {
@@ -62,6 +96,21 @@ public class AuthorView extends View {
 		return this.authorPageNumber;
 	}
 
+	private String getCurrStoryPageAuthorName() {
+		return this.currStoryPageAuthorName;
+	}
+
+	public String getCurrTitle() {
+		return currTitle;
+	}
+
+	private List<StoryPageEntry> getEntries() {
+		if (this.entries == null) {
+			this.generateEntries();
+		}
+		return this.entries;
+	}
+
 	public String getId() {
 		return this.id;
 	}
@@ -77,9 +126,24 @@ public class AuthorView extends View {
 		return Integer.toString(next);
 	}
 
+	private StoryPageEntry getNextStoryPage() {
+		final List<StoryPageEntry> pages = this.getEntries();
+		final int index = this.getNumStoryPagesAlreadyDisplayed();
+		return pages.get(index);
+	}
+
 	private int getNumberOfPages() {
 		final String authorId = this.getId();
 		return StoryPage.countAllPagesWrittenBy(authorId);
+	}
+
+	private int getNumStoryPagesAlreadyDisplayed() {
+		return numStoryPagesAlreadyDisplayed;
+	}
+
+	private int getNumStoryPagesToDisplay() {
+		final List<String> titles = this.getTitles();
+		return titles.size();
 	}
 
 	public List<String> getPageIds() {
@@ -108,6 +172,10 @@ public class AuthorView extends View {
 		return Integer.toString(prev);
 	}
 
+	public String getPrevTitle() {
+		return prevTitle;
+	}
+
 	public List<String> getSummaries() {
 		if (this.summaries == null)
 			this.readSummaries();
@@ -130,6 +198,21 @@ public class AuthorView extends View {
 		return this.user;
 	}
 
+	public boolean hasAnotherStoryPage() {
+		final int numAlreadyDisplayed = this.getNumStoryPagesAlreadyDisplayed();
+		final int numToDisplay = this.getNumStoryPagesToDisplay();
+		if (numAlreadyDisplayed < numToDisplay) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private void incrementNumStoryPagesAlreadyDisplayed() {
+		final int num = this.getNumStoryPagesAlreadyDisplayed();
+		this.setNumStoryPagesAlreadyDisplayed(num + 1);
+	}
+
 	public void initialise() {
 		final HttpServletRequest request = this.getRequest();
 		final String id = request.getParameter("id");
@@ -147,6 +230,8 @@ public class AuthorView extends View {
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute("penName", penName);
 		pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
+		
+		this.prepareAvatarId();
 	}
 
 	public boolean isAuthorAvatarAvailable() {
@@ -171,6 +256,18 @@ public class AuthorView extends View {
 		return (curr == last);
 	}
 
+	public boolean isThisStoryPageCreditedDifferently() {
+		final String authorName = this.getCurrStoryPageAuthorName();
+		final String penName = this.getPenName();
+		return (authorName != null && authorName.equals(penName));
+	}
+
+	public boolean isThisStoryPageInADifferentStory() {
+		final String prevTitle = this.getPrevTitle();
+		final String currTitle = this.getCurrTitle();
+		return (prevTitle == null || prevTitle.equals(currTitle) == false);
+	}
+
 	public void prepareAvatarId() {
 		final int avatarId;
 		if (this.isAuthorAvatarAvailable() == true) {
@@ -182,11 +279,28 @@ public class AuthorView extends View {
 		pageContext.setAttribute("avatarId", avatarId);
 	}
 
+	public void prepareNextStoryPage() {
+		this.savePrevTitle();
+		final StoryPageEntry page = this.getNextStoryPage();
+		this.setCurrTitle(page.title);
+		this.prepareStoryPage(page);
+		this.setCurrStoryPageAuthorName(page.authorName);
+		this.incrementNumStoryPagesAlreadyDisplayed();
+	}
+
+	private void prepareStoryPage(final StoryPageEntry page) {
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("title", page.title);
+	    pageContext.setAttribute("summary", page.summary);
+		pageContext.setAttribute("pageId", page.pageId);
+		pageContext.setAttribute("authorName", page.authorName);
+	}
+
 	public void prepareTitle(final String title) {
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute("title", title);
 	}
-
+	
 	private void readAuthorNames() {
 		final List<StoryPage> pages = this.getPages();
 		final List<String> authorNames = new ArrayList<String>();
@@ -196,7 +310,7 @@ public class AuthorView extends View {
 		}
 		this.setAuthorNames(authorNames);
 	}
-
+	
 	private void readPageIds() {
 		final List<StoryPage> pages = this.getPages();
 		final List<String> pageIds = new ArrayList<String>();
@@ -244,6 +358,11 @@ public class AuthorView extends View {
 		this.setTitles(titles);
 	}
 
+	private void savePrevTitle() {
+		final String currTitle = this.getCurrTitle();
+		this.setPrevTitle(currTitle);
+	}
+
 	private void setAuthorNames(final List<String> authorNames) {
 		this.authorNames = authorNames;
 	}
@@ -261,12 +380,28 @@ public class AuthorView extends View {
 		}
 	}
 
+	private void setCurrStoryPageAuthorName(final String authorName) {
+		this.currStoryPageAuthorName = authorName;
+	}
+
+	public void setCurrTitle(final String currTitle) {
+		this.currTitle = currTitle;
+	}
+
+	private void setEntries(final List<StoryPageEntry> entries) {
+		this.entries = entries;
+	}
+
 	public void setId(final String id) {
 		this.id = id;
 		final User user = new User();
 		user.setId(id);
 		user.read();
 		this.setUser(user);
+	}
+	
+	private void setNumStoryPagesAlreadyDisplayed(final int num) {
+		this.numStoryPagesAlreadyDisplayed = num;
 	}
 
 	private void setPageIds(final List<String> pageIds) {
@@ -278,10 +413,14 @@ public class AuthorView extends View {
 
 	}
 
+	public void setPrevTitle(final String prevTitle) {
+		this.prevTitle = prevTitle;
+	}
+
 	private void setSummaries(final List<String> summaries) {
 		this.summaries = summaries;
 	}
-
+	
 	private void setTitles(final List<String> titles) {
 		this.titles = titles;
 	}
