@@ -56,17 +56,17 @@ if (isFirstPage == false) {
           <div><a href="/index.jsp?p=${fn:escapeXml(prev)}">Previous</a></div><%
     	
 }
-    final boolean isLastPage = view.isLastPage();
-    if (isLastPage == false) {
-    	final String next = view.getNextPageNumber();
-    	pageContext.setAttribute("next", next);
+
+final boolean isLastPage = view.isLastPage();
+if (isLastPage == false) {
+	view.prepareNextPageNum();
     	
-    	%>
+    %>
           <div><a href="/index.jsp?p=${fn:escapeXml(next)}">Next</a></div><%
     	
-    }
+}
 	
-	%>
+%>
         </p>
-        <p id="newStory"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/new.jsp">Start a new story</a></p>
+        <p id="newStory"><a href="/new.jsp">Start a new story</a></p>
 <%@include file="bottom.jspf" %>

@@ -250,6 +250,12 @@ public class ContentsView extends View {
 		this.prepareLink(link);
 		this.incrementNumLinksAlreadyDisplayed();
 	}
+	
+	public void prepareNextPageNum() {
+		final PageContext pageContext = this.getPageContext();
+	    final String next = this.getNextPageNumber();
+	    pageContext.setAttribute("next", next);
+	}
 
 	public void preparePrevPageNum() {
 		final PageContext pageContext = this.getPageContext();
