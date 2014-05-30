@@ -28,21 +28,21 @@ view.initialise();
 %><%@include file="top.jspf"
 
 %>
-      <h2>${fn:escapeXml(bodyMainTitle)}</h2><%
+        <h2>${fn:escapeXml(bodyMainTitle)}</h2><%
 
 while (view.hasAnotherLink() == true) {
 	view.prepareNextLink();
     
     %>
-      <div class="item">
-        <div class="itemContent"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="${fn:escapeXml(link)}">${fn:escapeXml(title)}</a></div>
-        <div class="itemNumber">${fn:escapeXml(pageNumber)}</div>
-        <div class="clear"></div>
-      </div><%
+        <div class="item">
+          <div class="itemContent"><a class="${fn:escapeXml(fontColourClassName)} href="${fn:escapeXml(link)}">${fn:escapeXml(title)}</a></div>
+          <div class="itemNumber">${fn:escapeXml(pageNumber)}</div>
+          <div class="clear"></div>
+        </div><%
 }
     
 %>
-      <p><%
+        <p><%
     
     final boolean isFirstPage = view.isFirstPage();
     if (isFirstPage == false) {
@@ -50,7 +50,7 @@ while (view.hasAnotherLink() == true) {
     	pageContext.setAttribute("prev", prev);
     	
     	%>
-        <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/index.jsp?p=${fn:escapeXml(prev)}">Previous</a></div><%
+          <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/index.jsp?p=${fn:escapeXml(prev)}">Previous</a></div><%
     	
     }
     final boolean isLastPage = view.isLastPage();
@@ -59,11 +59,11 @@ while (view.hasAnotherLink() == true) {
     	pageContext.setAttribute("next", next);
     	
     	%>
-        <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/index.jsp?p=${fn:escapeXml(next)}">Next</a></div><%
+          <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/index.jsp?p=${fn:escapeXml(next)}">Next</a></div><%
     	
     }
 	
 	%>
-      </p>
-      <p id="newStory"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/new.jsp">Start a new story</a></p>
+        </p>
+        <p id="newStory"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/new.jsp">Start a new story</a></p>
 <%@include file="bottom.jspf" %>

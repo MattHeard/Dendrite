@@ -17,19 +17,19 @@ a:hover {
 	text-decoration:	underline;
 }
 
-a.themeLight {
+a.themeLight, .themeLight a {
 	color: #666;
 }
 
-a.themeDark {
+a.themeDark, .themeDark a {
 	color: #949191;
 }
 
-a.themeSepia {
+a.themeSepia, .themeSepia a {
 	color: #6e5c41;
 }
 
-a.themeLovely {
+a.themeLovely, .themeLovely a {
 	color: #c20045;
 }
 
