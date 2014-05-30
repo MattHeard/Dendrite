@@ -29,27 +29,19 @@ view.initialise();
 
 %>
       <h2>${fn:escapeXml(bodyMainTitle)}</h2><%
-	
-    final List<String> links = view.getLinks();
-    final int length = links.size();
-	final List<String> titles = view.getTitles();
-    final List<String> pageNumbers = view.getPageNumbers();
-    for (int i = 0; i < length; i++) {
-    	final String link = links.get(i);
-    	pageContext.setAttribute("link", link);
-    	final String title = titles.get(i);
-    	pageContext.setAttribute("title", title);
-    	final String pageNumber = pageNumbers.get(i);
-    	pageContext.setAttribute("pageNumber", pageNumber);
-    	%>
+
+while (view.hasAnotherLink() == true) {
+	view.prepareNextLink();
+    
+    %>
       <div class="item">
         <div class="itemContent"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="${fn:escapeXml(link)}">${fn:escapeXml(title)}</a></div>
         <div class="itemNumber">${fn:escapeXml(pageNumber)}</div>
         <div class="clear"></div>
       </div><%
-    }
+}
     
-    %>
+%>
       <p><%
     
     final boolean isFirstPage = view.isFirstPage();

@@ -23,6 +23,7 @@ public class ContentsView extends View {
 	private List<StoryBeginning> beginnings;
 	
 	private int contentsPageNumber;
+	private List<Link> links;
 	
 	/**
 	 * Default constructor. Sets the default page number to 1, which displays
@@ -31,6 +32,7 @@ public class ContentsView extends View {
 	public ContentsView() {
 		this.setBeginnings(null);
 		this.setContentsPageNumber(1);
+		this.setNumLinksAlreadyDisplayed(0);
 	}
 
 	/**
@@ -75,7 +77,7 @@ public class ContentsView extends View {
 	 * Returns the list of links to all beginnings on this page of contents.
 	 * @return The list of links to all beginnings on this page of contents
 	 */
-	public List<String> getLinks() {
+	public List<String> getUrls() {
 		final List<String> links = new ArrayList<String>();
 		List<String> numbers = this.getPageNumbers();
 		for (final String number : numbers) {
@@ -207,5 +209,89 @@ public class ContentsView extends View {
 		final String parameter = req.getParameter(parameterName);
 		final int number = getContentsPageNumberFromParameter(parameter);
 		this.setContentsPageNumber(number);
+	}
+	
+	public void prepareLink(final Link link) {
+		final PageContext pageContext = this.getPageContext();
+	    final String url = link.url;
+	    pageContext.setAttribute("link", url);
+	    final String text = link.text;
+	    pageContext.setAttribute("title", text);
+	    final String number = link.number;
+	    pageContext.setAttribute("pageNumber", number);
+	}
+	
+	public List<Link> getLinks() {
+		if (this.links == null) {
+			final List<String> urls = this.getUrls();
+			final int length = urls.size();
+			final List<String> texts = this.getTitles();
+			final List<String> numbers = this.getPageNumbers();
+	
+			final List<Link> links = new ArrayList<Link>();
+			for (int i = 0; i < length; i++) {
+				final Link link = new Link();
+				link.url = urls.get(i);
+				link.text = texts.get(i);
+				link.number = numbers.get(i);
+				links.add(link);
+			}
+			
+			this.setLinks(links);
+		}
+		
+		return this.links;
+	}
+	
+	private void setLinks(final List<Link> links) {
+		this.links = links;
+	}
+
+	public boolean hasAnotherLink() {
+		final int numAlreadyDisplayed = this.getNumLinksAlreadyDisplayed();
+		final int numToDisplay = this.getNumLinksToDisplay();
+		if (numAlreadyDisplayed < numToDisplay) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private int getNumLinksToDisplay() {
+		final List<StoryBeginning> beginnings = this.getBeginnings();
+		return beginnings.size();
+	}
+
+	public int getNumLinksAlreadyDisplayed() {
+		return numLinksAlreadyDisplayed;
+	}
+
+	public void setNumLinksAlreadyDisplayed(int numLinksAlreadyDisplayed) {
+		this.numLinksAlreadyDisplayed = numLinksAlreadyDisplayed;
+	}
+	
+	private void incrementNumLinksAlreadyDisplayed() {
+		final int num = this.getNumLinksAlreadyDisplayed();
+		this.setNumLinksAlreadyDisplayed(num + 1);
+	}
+
+	private int numLinksAlreadyDisplayed;
+	
+	public void prepareNextLink() {
+		final Link link = this.getNextLink();
+		this.prepareLink(link);
+		this.incrementNumLinksAlreadyDisplayed();
+	}
+
+	private Link getNextLink() {
+		final List<Link> links = this.getLinks();
+		final int index = this.getNumLinksAlreadyDisplayed();
+		return links.get(index);
+	}
+
+	public class Link {
+		public String url;
+		public String text;
+		public String number;
 	}
 }
