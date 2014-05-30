@@ -267,4 +267,15 @@ public class AuthorView extends View {
 		pageContext.setAttribute("penName", penName);
 		pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
 	}
+	
+	public void prepareAvatarId() {
+		final int avatarId;
+		if (this.isAuthorAvatarAvailable() == true) {
+			avatarId = this.getAuthorAvatarId();
+		} else {
+			avatarId = 1;
+		}
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("avatarId", avatarId);
+	}
 }

@@ -23,23 +23,17 @@ view.setPageContext(pageContext);
 view.setRequest(request);
 view.initialise();
 
-//`top.jspf` contains the JSP code starting the HTML page and displaying the
-//header bar which is common to all Dendrite web pages.
+// `top.jspf` contains the JSP code starting the HTML page and displaying the
+// header bar which is common to all Dendrite web pages.
 %><%@include file="top.jspf" %><%
 
 %>
         <div id="author_side_bar"><%
 
-final int avatarId;
-if (view.isAuthorAvatarAvailable() == true) {
-	avatarId = view.getAuthorAvatarId();
-} else {
-	avatarId = 1;
-}
-pageContext.setAttribute("avatarId", avatarId);
+view.prepareAvatarId();
 
 %>
-          <img id="author_avatar" src="avatars/${avatarId}.png" />
+          <img id="author_avatar" src="avatars/${fn:escapeXml(avatarId)}.png" />
           <h1>${fn:escapeXml(penName)}</h1><%
     
     final String myUserId = AuthorView.getMyUserId();
