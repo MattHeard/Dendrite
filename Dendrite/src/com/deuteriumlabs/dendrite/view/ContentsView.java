@@ -13,18 +13,27 @@ import com.deuteriumlabs.dendrite.model.StoryBeginning;
  * read.
  */
 public class ContentsView extends View {
-	
+
+	public class Link {
+		public String number;
+		public String text;
+		public String url;
+	}
+
 	private static final String BODY_MAIN_TITLE = "Table of Contents";
 	private static final String CONTENTS_PAGE_NUMBER_PARAMETER_NAME = "p";
+
 	private static final int DEFAULT_CONTENTS_PAGE_NUMBER = 1;
 
 	private static final int NUM_STORIES_DISPLAYED = 10;
-	
+
 	private List<StoryBeginning> beginnings;
-	
 	private int contentsPageNumber;
+
 	private List<Link> links;
-	
+
+	private int numLinksAlreadyDisplayed;
+
 	/**
 	 * Default constructor. Sets the default page number to 1, which displays
 	 * the first page of story beginnings.
@@ -37,6 +46,7 @@ public class ContentsView extends View {
 
 	/**
 	 * Returns the list of all beginnings on this page of contents.
+	 * 
 	 * @return The list of all beginnings on this page of contents
 	 */
 	private List<StoryBeginning> getBeginnings() {
@@ -46,25 +56,28 @@ public class ContentsView extends View {
 	}
 
 	// TODO: Create an abstract method in the parent `View` and implement in all
-	// 		 subclasses.
+	// subclasses.
 	public String getBodyMainTitle() {
 		return BODY_MAIN_TITLE;
 	}
 
 	/**
 	 * Returns which page of beginnings are currently being displayed.
+	 * 
 	 * @return The page number of contents currently being displayed
 	 */
 	private int getContentsPageNumber() {
 		return this.contentsPageNumber;
 	}
+
 	private int getContentsPageNumberFromParameter(final String parameter) {
 		try {
-		    return Integer.parseInt(parameter);
+			return Integer.parseInt(parameter);
 		} catch (NumberFormatException e) {
-		    return DEFAULT_CONTENTS_PAGE_NUMBER;
+			return DEFAULT_CONTENTS_PAGE_NUMBER;
 		}
 	}
+
 	private int getLastPageNumber() {
 		final int numberOfStories = this.getNumberOfStories();
 		if (numberOfStories == 0)
@@ -73,20 +86,34 @@ public class ContentsView extends View {
 			return ((numberOfStories - 1) / NUM_STORIES_DISPLAYED) + 1;
 	}
 
-	/**
-	 * Returns the list of links to all beginnings on this page of contents.
-	 * @return The list of links to all beginnings on this page of contents
-	 */
-	public List<String> getUrls() {
-		final List<String> links = new ArrayList<String>();
-		List<String> numbers = this.getPageNumbers();
-		for (final String number : numbers) {
-			final String link = "/read.jsp?p=" + number;
-			links.add(link);
+	public List<Link> getLinks() {
+		if (this.links == null) {
+			final List<String> urls = this.getUrls();
+			final int length = urls.size();
+			final List<String> texts = this.getTitles();
+			final List<String> numbers = this.getPageNumbers();
+
+			final List<Link> links = new ArrayList<Link>();
+			for (int i = 0; i < length; i++) {
+				final Link link = new Link();
+				link.url = urls.get(i);
+				link.text = texts.get(i);
+				link.number = numbers.get(i);
+				links.add(link);
+			}
+
+			this.setLinks(links);
 		}
-		return links;
+
+		return this.links;
 	}
-	
+
+	private Link getNextLink() {
+		final List<Link> links = this.getLinks();
+		final int index = this.getNumLinksAlreadyDisplayed();
+		return links.get(index);
+	}
+
 	public String getNextPageNumber() {
 		final int curr = this.getContentsPageNumber();
 		int next = curr + 1;
@@ -97,11 +124,21 @@ public class ContentsView extends View {
 		return StoryBeginning.countAllBeginnings();
 	}
 
+	public int getNumLinksAlreadyDisplayed() {
+		return numLinksAlreadyDisplayed;
+	}
+
+	private int getNumLinksToDisplay() {
+		final List<StoryBeginning> beginnings = this.getBeginnings();
+		return beginnings.size();
+	}
+
 	/**
 	 * Returns the list of page numbers of all beginnings on this page of
 	 * contents.
+	 * 
 	 * @return The list of page numbers of all beginnings on this page of
-	 * contents
+	 *         contents
 	 */
 	public List<String> getPageNumbers() {
 		final List<String> numbers = new ArrayList<String>();
@@ -113,7 +150,7 @@ public class ContentsView extends View {
 		}
 		return numbers;
 	}
-	
+
 	public String getPrevPageNumber() {
 		final int curr = this.getContentsPageNumber();
 		int prev = curr - 1;
@@ -124,6 +161,7 @@ public class ContentsView extends View {
 
 	/**
 	 * Returns the list of titles of all beginnings on this page of contents.
+	 * 
 	 * @return The list of titles of all beginnings on this page of contents
 	 */
 	public List<String> getTitles() {
@@ -135,13 +173,45 @@ public class ContentsView extends View {
 		}
 		return titles;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.deuteriumlabs.dendrite.view.View#getUrl()
 	 */
 	@Override
 	String getUrl() {
 		return "/";
+	}
+
+	/**
+	 * Returns the list of links to all beginnings on this page of contents.
+	 * 
+	 * @return The list of links to all beginnings on this page of contents
+	 */
+	public List<String> getUrls() {
+		final List<String> links = new ArrayList<String>();
+		List<String> numbers = this.getPageNumbers();
+		for (final String number : numbers) {
+			final String link = "/read.jsp?p=" + number;
+			links.add(link);
+		}
+		return links;
+	}
+
+	public boolean hasAnotherLink() {
+		final int numAlreadyDisplayed = this.getNumLinksAlreadyDisplayed();
+		final int numToDisplay = this.getNumLinksToDisplay();
+		if (numAlreadyDisplayed < numToDisplay) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private void incrementNumLinksAlreadyDisplayed() {
+		final int num = this.getNumLinksAlreadyDisplayed();
+		this.setNumLinksAlreadyDisplayed(num + 1);
 	}
 
 	public void initialise() {
@@ -158,13 +228,35 @@ public class ContentsView extends View {
 		final int number = this.getContentsPageNumber();
 		return (number == 1);
 	}
-	
+
 	public boolean isLastPage() {
 		final int curr = this.getContentsPageNumber();
 		final int last = this.getLastPageNumber();
 		return (curr == last);
 	}
-	
+
+	public void prepareLink(final Link link) {
+		final PageContext pageContext = this.getPageContext();
+		final String url = link.url;
+		pageContext.setAttribute("link", url);
+		final String text = link.text;
+		pageContext.setAttribute("title", text);
+		final String number = link.number;
+		pageContext.setAttribute("pageNumber", number);
+	}
+
+	public void prepareNextLink() {
+		final Link link = this.getNextLink();
+		this.prepareLink(link);
+		this.incrementNumLinksAlreadyDisplayed();
+	}
+
+	public void preparePrevPageNum() {
+		final PageContext pageContext = this.getPageContext();
+		final String prev = this.getPrevPageNumber();
+		pageContext.setAttribute("prev", prev);
+	}
+
 	/**
 	 * Loads a page of beginnings from the datastore. The beginnings are
 	 * paginated so that a limited number of beginnings are displayed at one
@@ -181,18 +273,22 @@ public class ContentsView extends View {
 
 	/**
 	 * Sets the list of beginnings to display.
-	 * @param beginnings The list of beginnings to display
+	 * 
+	 * @param beginnings
+	 *            The list of beginnings to display
 	 */
 	private void setBeginnings(final List<StoryBeginning> beginnings) {
 		this.beginnings = beginnings;
 	}
-	
+
 	/**
 	 * Sets the current contents page number. The page number must be positive.
 	 * If the page number is changed successfully, the cached list of beginnings
 	 * is nulled so that the new page is loaded the next time the getter for the
 	 * beginnings is called.
-	 * @param contentsPageNumber The contents page number to change to
+	 * 
+	 * @param contentsPageNumber
+	 *            The contents page number to change to
 	 */
 	public void setContentsPageNumber(final int contentsPageNumber) {
 		final int previousPageNum = this.getContentsPageNumber();
@@ -203,101 +299,19 @@ public class ContentsView extends View {
 		if (contentsPageNumber != previousPageNum)
 			this.setBeginnings(null);
 	}
-	
+
 	public void setContentsPageNumberFromRequest(final HttpServletRequest req) {
 		final String parameterName = CONTENTS_PAGE_NUMBER_PARAMETER_NAME;
 		final String parameter = req.getParameter(parameterName);
 		final int number = getContentsPageNumberFromParameter(parameter);
 		this.setContentsPageNumber(number);
 	}
-	
-	public void prepareLink(final Link link) {
-		final PageContext pageContext = this.getPageContext();
-	    final String url = link.url;
-	    pageContext.setAttribute("link", url);
-	    final String text = link.text;
-	    pageContext.setAttribute("title", text);
-	    final String number = link.number;
-	    pageContext.setAttribute("pageNumber", number);
-	}
-	
-	public List<Link> getLinks() {
-		if (this.links == null) {
-			final List<String> urls = this.getUrls();
-			final int length = urls.size();
-			final List<String> texts = this.getTitles();
-			final List<String> numbers = this.getPageNumbers();
-	
-			final List<Link> links = new ArrayList<Link>();
-			for (int i = 0; i < length; i++) {
-				final Link link = new Link();
-				link.url = urls.get(i);
-				link.text = texts.get(i);
-				link.number = numbers.get(i);
-				links.add(link);
-			}
-			
-			this.setLinks(links);
-		}
-		
-		return this.links;
-	}
-	
+
 	private void setLinks(final List<Link> links) {
 		this.links = links;
 	}
 
-	public boolean hasAnotherLink() {
-		final int numAlreadyDisplayed = this.getNumLinksAlreadyDisplayed();
-		final int numToDisplay = this.getNumLinksToDisplay();
-		if (numAlreadyDisplayed < numToDisplay) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	private int getNumLinksToDisplay() {
-		final List<StoryBeginning> beginnings = this.getBeginnings();
-		return beginnings.size();
-	}
-
-	public int getNumLinksAlreadyDisplayed() {
-		return numLinksAlreadyDisplayed;
-	}
-
 	public void setNumLinksAlreadyDisplayed(int numLinksAlreadyDisplayed) {
 		this.numLinksAlreadyDisplayed = numLinksAlreadyDisplayed;
-	}
-	
-	private void incrementNumLinksAlreadyDisplayed() {
-		final int num = this.getNumLinksAlreadyDisplayed();
-		this.setNumLinksAlreadyDisplayed(num + 1);
-	}
-
-	private int numLinksAlreadyDisplayed;
-	
-	public void prepareNextLink() {
-		final Link link = this.getNextLink();
-		this.prepareLink(link);
-		this.incrementNumLinksAlreadyDisplayed();
-	}
-
-	private Link getNextLink() {
-		final List<Link> links = this.getLinks();
-		final int index = this.getNumLinksAlreadyDisplayed();
-		return links.get(index);
-	}
-
-	public class Link {
-		public String url;
-		public String text;
-		public String number;
-	}
-	
-	public void preparePrevPageNum() {
-		final PageContext pageContext = this.getPageContext();
-    	final String prev = this.getPrevPageNumber();
-    	pageContext.setAttribute("prev", prev);
 	}
 }
