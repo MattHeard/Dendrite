@@ -25,7 +25,7 @@ view.initialise();
 
 // `top.jspf` contains the JSP code starting the HTML page and displaying the
 // header bar which is common to all Dendrite web pages.
-%><%@include file="top.jspf"
+%><%@include file="top.jspf" %><%
 
 %>
         <h2>${fn:escapeXml(bodyMainTitle)}</h2><%

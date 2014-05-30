@@ -16,15 +16,16 @@
  * `pageContext` attributes are escaped to prevent malicious injections. Some
  * attributes may not need to be escaped but I cannot currently guarantee that.
  */
-%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
-%><%
+%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %><%
 
 final AuthorView view = new AuthorView();
 view.setPageContext(pageContext);
 view.setRequest(request);
 view.initialise();
 
-%><%@include file="top.jspf"
+//`top.jspf` contains the JSP code starting the HTML page and displaying the
+//header bar which is common to all Dendrite web pages.
+%><%@include file="top.jspf" %><%
 
 %>
     <div id="author_side_bar"><%
