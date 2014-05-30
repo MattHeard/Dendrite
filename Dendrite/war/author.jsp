@@ -20,20 +20,9 @@
 %><%
 
 final AuthorView view = new AuthorView();
-final String id = request.getParameter("id");
-view.setId(id);
-final String pParameter = request.getParameter("p");
-int authorPageNumber;
-try {
-    authorPageNumber = Integer.parseInt(pParameter);
-} catch (NumberFormatException e) {
-    authorPageNumber = 1;
-}
-view.setAuthorPageNumber(authorPageNumber);
-final String penName = view.getPenName();
-
-pageContext.setAttribute("penName", penName);
-pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
+view.setPageContext(pageContext);
+view.setRequest(request);
+view.initialise();
 
 %><%@include file="top.jspf"
 
@@ -53,6 +42,7 @@ pageContext.setAttribute("avatarId", avatarId);
       <h1>${fn:escapeXml(penName)}</h1><%
     
     final String myUserId = AuthorView.getMyUserId();
+    final String id = view.getId();
     if (id.equals(myUserId) == true) {
     
         %>
@@ -92,6 +82,7 @@ pageContext.setAttribute("avatarId", avatarId);
     	String pageId = pageIds.get(i);
     	pageContext.setAttribute("pageId", pageId);
     	final String authorName = authorNames.get(i);
+    	final String penName = view.getPenName();
     	final boolean isSameAuthorName = (authorName.equals(penName));
     	%>
       <div class="item">

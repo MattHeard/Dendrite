@@ -3,6 +3,9 @@ package com.deuteriumlabs.dendrite.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.PageContext;
+
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryPage;
@@ -54,7 +57,7 @@ public class AuthorView extends View {
 		return this.authorPageNumber;
 	}
 
-	private String getId() {
+	public String getId() {
 		return this.id;
 	}
 
@@ -244,5 +247,24 @@ public class AuthorView extends View {
 	public int getAuthorAvatarId() {
 		final User author = this.getUser();
 		return author.getAvatarId();
+	}
+	
+	public void initialise() {
+		final HttpServletRequest request = this.getRequest();
+		final String id = request.getParameter("id");
+		this.setId(id);
+		final String pParameter = request.getParameter("p");
+		int authorPageNumber;
+		try {
+		    authorPageNumber = Integer.parseInt(pParameter);
+		} catch (NumberFormatException e) {
+		    authorPageNumber = 1;
+		}
+		this.setAuthorPageNumber(authorPageNumber);
+		final String penName = this.getPenName();
+
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("penName", penName);
+		pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
 	}
 }
