@@ -284,4 +284,9 @@ public class AuthorView extends View {
 		final String id = this.getId();
 		return id.equals(myUserId);
 	}
+	
+	public void prepareTitle(final String title) {
+		final PageContext pageContext = this.getPageContext();
+        pageContext.setAttribute("title", title);
+	}
 }

@@ -61,8 +61,7 @@ for (int i = 0; i < titles.size(); i++) {
     }
     final boolean isDifferentTitle = (currTitle.equals(prevTitle) == false);
     if (isDifferentTitle == true) {
-        final String title = currTitle;
-        pageContext.setAttribute("title", title);
+    	view.prepareTitle(currTitle);
     		
         %>
           <h3 class="do_not_clear">${fn:escapeXml(title)}</h3><%
