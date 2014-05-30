@@ -14,24 +14,20 @@ import com.deuteriumlabs.dendrite.model.StoryBeginning;
  */
 public class ContentsView extends View {
 
-	public class Link {
-		public String number;
-		public String text;
-		public String url;
+	private class Link {
+		String number;
+		String text;
+		String url;
 	}
 
 	private static final String BODY_MAIN_TITLE = "Table of Contents";
 	private static final String CONTENTS_PAGE_NUMBER_PARAMETER_NAME = "p";
-
 	private static final int DEFAULT_CONTENTS_PAGE_NUMBER = 1;
-
 	private static final int NUM_STORIES_DISPLAYED = 10;
 
 	private List<StoryBeginning> beginnings;
 	private int contentsPageNumber;
-
 	private List<Link> links;
-
 	private int numLinksAlreadyDisplayed;
 
 	/**
