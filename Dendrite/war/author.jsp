@@ -82,7 +82,7 @@ for (int i = 0; i < titles.size(); i++) {
 
     %>
           <div class="item">
-            <div class="itemContent"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+            <div class="itemContent"><a
                 href="/read.jsp?p=${fn:escapeXml(pageId)}">${fn:escapeXml(summary)}</a><%
 	
     if (isSameAuthorName == false) {
@@ -106,7 +106,7 @@ if (isFirstPage == false) {
 	pageContext.setAttribute("prev", prev);
     	
     %>
-          <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+          <div><a
               href="/author.jsp?id=${fn:escapeXml(id)}&p=${fn:escapeXml(prev)}">Previous</a></div><%
     	
 }
@@ -118,7 +118,7 @@ if (isLastPage == false) {
 	pageContext.setAttribute("next", next);
     	
     %>
-          <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+          <div><a
               href="/author.jsp?id=${fn:escapeXml(id)}&p=${fn:escapeXml(next)}">Next</a></div><%
     	
 }
