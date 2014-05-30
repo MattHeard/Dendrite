@@ -278,4 +278,10 @@ public class AuthorView extends View {
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute("avatarId", avatarId);
 	}
+	
+	public boolean isAuthorPageOfUser() {
+		final String myUserId = AuthorView.getMyUserId();
+		final String id = this.getId();
+		return id.equals(myUserId);
+	}
 }

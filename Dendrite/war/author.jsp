@@ -36,14 +36,13 @@ view.prepareAvatarId();
           <img id="author_avatar" src="avatars/${fn:escapeXml(avatarId)}.png" />
           <h1>${fn:escapeXml(penName)}</h1><%
     
-    final String myUserId = AuthorView.getMyUserId();
-    final String id = view.getId();
-    if (id.equals(myUserId) == true) {
+final String id = view.getId();
+if (view.isAuthorPageOfUser() == true) {
     
         %>
-          <p><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/preferences.jsp">Preferences</a></p><%
+          <p><a href="/preferences.jsp">Preferences</a></p><%
     
-    }
+}
     
     %>
         </div>
