@@ -28,7 +28,7 @@ view.initialise();
 %><%@include file="top.jspf" %><%
 
 %>
-    <div id="author_side_bar"><%
+        <div id="author_side_bar"><%
 
 final int avatarId;
 if (view.isAuthorAvatarAvailable() == true) {
@@ -39,22 +39,22 @@ if (view.isAuthorAvatarAvailable() == true) {
 pageContext.setAttribute("avatarId", avatarId);
 
 %>
-      <img id="author_avatar" src="avatars/${avatarId}.png" />
-      <h1>${fn:escapeXml(penName)}</h1><%
+          <img id="author_avatar" src="avatars/${avatarId}.png" />
+          <h1>${fn:escapeXml(penName)}</h1><%
     
     final String myUserId = AuthorView.getMyUserId();
     final String id = view.getId();
     if (id.equals(myUserId) == true) {
     
         %>
-      <p><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/preferences.jsp">Preferences</a></p><%
+          <p><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/preferences.jsp">Preferences</a></p><%
     
     }
     
     %>
-    </div>
-    <div id="author_body">
-      <h2>Pages Written</h2><%
+        </div>
+        <div id="author_body">
+          <h2>Pages Written</h2><%
     
     final List<String> titles = view.getTitles();
     final List<String> summaries = view.getSummaries();
@@ -72,7 +72,7 @@ pageContext.setAttribute("avatarId", avatarId);
     		pageContext.setAttribute("title", title);
     		
     		%>
-      <h3 class="do_not_clear">${fn:escapeXml(title)}</h3><%
+          <h3 class="do_not_clear">${fn:escapeXml(title)}</h3><%
 	
 			prevTitle = currTitle;
     	}
@@ -86,9 +86,9 @@ pageContext.setAttribute("avatarId", avatarId);
     	final String penName = view.getPenName();
     	final boolean isSameAuthorName = (authorName.equals(penName));
     	%>
-      <div class="item">
-        <div class="itemContent"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
-            href="/read.jsp?p=${fn:escapeXml(pageId)}">${fn:escapeXml(summary)}</a><%
+          <div class="item">
+            <div class="itemContent"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+                href="/read.jsp?p=${fn:escapeXml(pageId)}">${fn:escapeXml(summary)}</a><%
 	
 		if (isSameAuthorName == false) {
 			pageContext.setAttribute("authorName", authorName);
@@ -98,9 +98,9 @@ pageContext.setAttribute("avatarId", avatarId);
 		}
 	
 	%></div>
-        <div class="itemNumber">${fn:escapeXml(pageId)}</div>
-      </div>
-      <div class="clear"></div><%
+            <div class="itemNumber">${fn:escapeXml(pageId)}</div>
+          </div>
+          <div class="clear"></div><%
     }
     
     final boolean isFirstPage = view.isFirstPage();
@@ -110,8 +110,8 @@ pageContext.setAttribute("avatarId", avatarId);
     	pageContext.setAttribute("prev", prev);
     	
     	%>
-      <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
-          href="/author.jsp?id=${fn:escapeXml(id)}&p=${fn:escapeXml(prev)}">Previous</a></div><%
+          <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+              href="/author.jsp?id=${fn:escapeXml(id)}&p=${fn:escapeXml(prev)}">Previous</a></div><%
     	
     }
     final boolean isLastPage = view.isLastPage();
@@ -121,11 +121,11 @@ pageContext.setAttribute("avatarId", avatarId);
     	pageContext.setAttribute("next", next);
     	
     	%>
-      <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
-          href="/author.jsp?id=${fn:escapeXml(id)}&p=${fn:escapeXml(next)}">Next</a></div><%
+          <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+              href="/author.jsp?id=${fn:escapeXml(id)}&p=${fn:escapeXml(next)}">Next</a></div><%
     	
     }
 	
 	%>
-    </div>
+        </div>
 <%@include file="bottom.jspf" %>
