@@ -18,47 +18,12 @@ public class ContentsView extends View {
 	private static final String CONTENTS_PAGE_NUMBER_PARAMETER_NAME = "p";
 	private static final int DEFAULT_CONTENTS_PAGE_NUMBER = 1;
 
-	public boolean isFirstPage() {
-		final int number = this.getContentsPageNumber();
-		return (number == 1);
-	}
-	
-	public boolean isLastPage() {
-		final int curr = this.getContentsPageNumber();
-		final int last = this.getLastPageNumber();
-		return (curr == last);
-	}
-	
-	public String getPrevPageNumber() {
-		final int curr = this.getContentsPageNumber();
-		int prev = curr - 1;
-		if (prev < 1)
-			prev = 1;
-		return Integer.toString(prev);
-	}
-	
-	public String getNextPageNumber() {
-		final int curr = this.getContentsPageNumber();
-		int next = curr + 1;
-		return Integer.toString(next);
-	}
-
-	private int getLastPageNumber() {
-		final int numberOfStories = this.getNumberOfStories();
-		if (numberOfStories == 0)
-			return 1;
-		else
-			return ((numberOfStories - 1) / NUM_STORIES_DISPLAYED) + 1;
-	}
-
-	private int getNumberOfStories() {
-		return StoryBeginning.countAllBeginnings();
-	}
-
 	private static final int NUM_STORIES_DISPLAYED = 10;
+	
 	private List<StoryBeginning> beginnings;
+	
 	private int contentsPageNumber;
-
+	
 	/**
 	 * Default constructor. Sets the default page number to 1, which displays
 	 * the first page of story beginnings.
@@ -67,7 +32,7 @@ public class ContentsView extends View {
 		this.setBeginnings(null);
 		this.setContentsPageNumber(1);
 	}
-	
+
 	/**
 	 * Returns the list of all beginnings on this page of contents.
 	 * @return The list of all beginnings on this page of contents
@@ -78,12 +43,56 @@ public class ContentsView extends View {
 		return this.beginnings;
 	}
 
+	// TODO: Create an abstract method in the parent `View` and implement in all
+	// 		 subclasses.
+	public String getBodyMainTitle() {
+		return BODY_MAIN_TITLE;
+	}
+
 	/**
 	 * Returns which page of beginnings are currently being displayed.
 	 * @return The page number of contents currently being displayed
 	 */
 	private int getContentsPageNumber() {
 		return this.contentsPageNumber;
+	}
+	private int getContentsPageNumberFromParameter(final String parameter) {
+		try {
+		    return Integer.parseInt(parameter);
+		} catch (NumberFormatException e) {
+		    return DEFAULT_CONTENTS_PAGE_NUMBER;
+		}
+	}
+	private int getLastPageNumber() {
+		final int numberOfStories = this.getNumberOfStories();
+		if (numberOfStories == 0)
+			return 1;
+		else
+			return ((numberOfStories - 1) / NUM_STORIES_DISPLAYED) + 1;
+	}
+
+	/**
+	 * Returns the list of links to all beginnings on this page of contents.
+	 * @return The list of links to all beginnings on this page of contents
+	 */
+	public List<String> getLinks() {
+		final List<String> links = new ArrayList<String>();
+		List<String> numbers = this.getPageNumbers();
+		for (final String number : numbers) {
+			final String link = "/read.jsp?p=" + number;
+			links.add(link);
+		}
+		return links;
+	}
+	
+	public String getNextPageNumber() {
+		final int curr = this.getContentsPageNumber();
+		int next = curr + 1;
+		return Integer.toString(next);
+	}
+
+	private int getNumberOfStories() {
+		return StoryBeginning.countAllBeginnings();
 	}
 
 	/**
@@ -103,18 +112,12 @@ public class ContentsView extends View {
 		return numbers;
 	}
 	
-	/**
-	 * Returns the list of links to all beginnings on this page of contents.
-	 * @return The list of links to all beginnings on this page of contents
-	 */
-	public List<String> getLinks() {
-		final List<String> links = new ArrayList<String>();
-		List<String> numbers = this.getPageNumbers();
-		for (final String number : numbers) {
-			final String link = "/read.jsp?p=" + number;
-			links.add(link);
-		}
-		return links;
+	public String getPrevPageNumber() {
+		final int curr = this.getContentsPageNumber();
+		int prev = curr - 1;
+		if (prev < 1)
+			prev = 1;
+		return Integer.toString(prev);
 	}
 
 	/**
@@ -139,6 +142,27 @@ public class ContentsView extends View {
 		return "/";
 	}
 
+	public void initialise() {
+		final String webPageTitle = this.getWebPageTitle();
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("webPageTitle", webPageTitle);
+		final HttpServletRequest request = this.getRequest();
+		this.setContentsPageNumberFromRequest(request);
+		final String bodyMainTitle = this.getBodyMainTitle();
+		pageContext.setAttribute("bodyMainTitle", bodyMainTitle);
+	}
+
+	public boolean isFirstPage() {
+		final int number = this.getContentsPageNumber();
+		return (number == 1);
+	}
+	
+	public boolean isLastPage() {
+		final int curr = this.getContentsPageNumber();
+		final int last = this.getLastPageNumber();
+		return (curr == last);
+	}
+	
 	/**
 	 * Loads a page of beginnings from the datastore. The beginnings are
 	 * paginated so that a limited number of beginnings are displayed at one
@@ -183,29 +207,5 @@ public class ContentsView extends View {
 		final String parameter = req.getParameter(parameterName);
 		final int number = getContentsPageNumberFromParameter(parameter);
 		this.setContentsPageNumber(number);
-	}
-
-	private int getContentsPageNumberFromParameter(final String parameter) {
-		try {
-		    return Integer.parseInt(parameter);
-		} catch (NumberFormatException e) {
-		    return DEFAULT_CONTENTS_PAGE_NUMBER;
-		}
-	}
-	
-	// TODO: Create an abstract method in the parent `View` and implement in all
-	// 		 subclasses.
-	public String getBodyMainTitle() {
-		return BODY_MAIN_TITLE;
-	}
-	
-	public void initialise() {
-		final String webPageTitle = this.getWebPageTitle();
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("webPageTitle", webPageTitle);
-		final HttpServletRequest request = this.getRequest();
-		this.setContentsPageNumberFromRequest(request);
-		final String bodyMainTitle = this.getBodyMainTitle();
-		pageContext.setAttribute("bodyMainTitle", bodyMainTitle);
 	}
 }
