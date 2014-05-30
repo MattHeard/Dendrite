@@ -294,4 +294,10 @@ public class ContentsView extends View {
 		public String text;
 		public String number;
 	}
+	
+	public void preparePrevPageNum() {
+		final PageContext pageContext = this.getPageContext();
+    	final String prev = this.getPrevPageNumber();
+    	pageContext.setAttribute("prev", prev);
+	}
 }

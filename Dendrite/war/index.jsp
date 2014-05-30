@@ -37,31 +37,32 @@ while (view.hasAnotherLink() == true) {
     
     %>
         <div class="item">
-          <div class="itemContent"><a href="${fn:escapeXml(link)}">${fn:escapeXml(title)}</a></div>
+          <div class="itemContent"><a
+              href="${fn:escapeXml(link)}">${fn:escapeXml(title)}</a></div>
           <div class="itemNumber">${fn:escapeXml(pageNumber)}</div>
           <div class="clear"></div>
         </div><%
+        
 }
     
 %>
         <p><%
     
-    final boolean isFirstPage = view.isFirstPage();
-    if (isFirstPage == false) {
-    	final String prev = view.getPrevPageNumber();
-    	pageContext.setAttribute("prev", prev);
+final boolean isFirstPage = view.isFirstPage();
+if (isFirstPage == false) {
+    view.preparePrevPageNum();
     	
-    	%>
-          <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/index.jsp?p=${fn:escapeXml(prev)}">Previous</a></div><%
+    %>
+          <div><a href="/index.jsp?p=${fn:escapeXml(prev)}">Previous</a></div><%
     	
-    }
+}
     final boolean isLastPage = view.isLastPage();
     if (isLastPage == false) {
     	final String next = view.getNextPageNumber();
     	pageContext.setAttribute("next", next);
     	
     	%>
-          <div><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/index.jsp?p=${fn:escapeXml(next)}">Next</a></div><%
+          <div><a href="/index.jsp?p=${fn:escapeXml(next)}">Next</a></div><%
     	
     }
 	
