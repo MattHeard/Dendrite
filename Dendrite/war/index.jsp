@@ -30,12 +30,14 @@ view.initialise();
 %>
         <h2>${fn:escapeXml(bodyMainTitle)}</h2><%
 
+// Display the links to the stories which have already been written. Only ten
+// links are shown at one time.
 while (view.hasAnotherLink() == true) {
 	view.prepareNextLink();
     
     %>
         <div class="item">
-          <div class="itemContent"><a class="${fn:escapeXml(fontColourClassName)} href="${fn:escapeXml(link)}">${fn:escapeXml(title)}</a></div>
+          <div class="itemContent"><a href="${fn:escapeXml(link)}">${fn:escapeXml(title)}</a></div>
           <div class="itemNumber">${fn:escapeXml(pageNumber)}</div>
           <div class="clear"></div>
         </div><%

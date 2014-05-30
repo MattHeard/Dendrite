@@ -33,29 +33,29 @@ a.themeLovely, .themeLovely a {
 	color: #c20045;
 }
 
-a.fontColourBlack {
+a.fontColourBlack, .fontColourBlack a {
   color: #555;
 }
 
-a.fontColourBlue {
+a.fontColourBlue, .fontColourBlue a {
   color: #55d;
 }
 
-a.fontColourCharcoal {
+a.fontColourCharcoal, .fontColourCharcoal a {
 	color: #888;
 }
 
-a.fontColourDefault { }
+a.fontColourDefault, .fontColourDefault a { }
 
-a.fontColourGrey {
+a.fontColourGrey, .fontColourGrey a {
   color: #bbb;
 }
 
-a.fontColourGreen {
+a.fontColourGreen, .fontColourGreen a {
   color: #5d5;
 }
 
-a.fontColourRed {
+a.fontColourRed, .fontColourRed a {
   color: #d55;
 }
 
