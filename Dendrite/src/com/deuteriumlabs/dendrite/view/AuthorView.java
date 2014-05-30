@@ -21,7 +21,7 @@ public class AuthorView extends View {
 	private static final String ELLIPSIS = "...";
 	private static final int NUM_PAGES_DISPLAYED = 10;
 	private static final int SUMMARY_LEN = 30;
-	
+
 	private static String summariseText(final Text text) {
 		final String full = text.getValue();
 		final int fullSize = full.length();
@@ -32,7 +32,7 @@ public class AuthorView extends View {
 			return cropped + ELLIPSIS;
 		}
 	}
-	
+
 	private List<String> authorNames;
 	private int authorPageNumber;
 	private String id;
@@ -40,11 +40,16 @@ public class AuthorView extends View {
 	private List<StoryPage> pages;
 	private List<String> summaries;
 	private List<String> titles;
-	
+
 	private User user;
 
 	public AuthorView() {
 		this.setAuthorPageNumber(1);
+	}
+
+	public int getAuthorAvatarId() {
+		final User author = this.getUser();
+		return author.getAvatarId();
 	}
 
 	public List<String> getAuthorNames() {
@@ -65,13 +70,13 @@ public class AuthorView extends View {
 		final int numberOfStories = this.getNumberOfPages();
 		return (numberOfStories / NUM_PAGES_DISPLAYED) + 1;
 	}
-	
+
 	public String getNextPageNumber() {
 		final int curr = this.getAuthorPageNumber();
 		int next = curr + 1;
 		return Integer.toString(next);
 	}
-	
+
 	private int getNumberOfPages() {
 		final String authorId = this.getId();
 		return StoryPage.countAllPagesWrittenBy(authorId);
@@ -125,6 +130,36 @@ public class AuthorView extends View {
 		return this.user;
 	}
 
+	public void initialise() {
+		final HttpServletRequest request = this.getRequest();
+		final String id = request.getParameter("id");
+		this.setId(id);
+		final String pParameter = request.getParameter("p");
+		int authorPageNumber;
+		try {
+			authorPageNumber = Integer.parseInt(pParameter);
+		} catch (NumberFormatException e) {
+			authorPageNumber = 1;
+		}
+		this.setAuthorPageNumber(authorPageNumber);
+		final String penName = this.getPenName();
+
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("penName", penName);
+		pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
+	}
+
+	public boolean isAuthorAvatarAvailable() {
+		final User author = this.getUser();
+		return author.isAvatarAvailable();
+	}
+
+	public boolean isAuthorPageOfUser() {
+		final String myUserId = AuthorView.getMyUserId();
+		final String id = this.getId();
+		return id.equals(myUserId);
+	}
+
 	public boolean isFirstPage() {
 		final int number = this.getAuthorPageNumber();
 		return (number == 1);
@@ -136,6 +171,22 @@ public class AuthorView extends View {
 		return (curr == last);
 	}
 
+	public void prepareAvatarId() {
+		final int avatarId;
+		if (this.isAuthorAvatarAvailable() == true) {
+			avatarId = this.getAuthorAvatarId();
+		} else {
+			avatarId = 1;
+		}
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("avatarId", avatarId);
+	}
+
+	public void prepareTitle(final String title) {
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("title", title);
+	}
+
 	private void readAuthorNames() {
 		final List<StoryPage> pages = this.getPages();
 		final List<String> authorNames = new ArrayList<String>();
@@ -144,10 +195,6 @@ public class AuthorView extends View {
 			authorNames.add(authorName);
 		}
 		this.setAuthorNames(authorNames);
-	}
-
-	private void setAuthorNames(final List<String> authorNames) {
-		this.authorNames = authorNames;
 	}
 
 	private void readPageIds() {
@@ -197,6 +244,10 @@ public class AuthorView extends View {
 		this.setTitles(titles);
 	}
 
+	private void setAuthorNames(final List<String> authorNames) {
+		this.authorNames = authorNames;
+	}
+
 	public void setAuthorPageNumber(final int authorPageNumber) {
 		final int previousPageNumber = this.getAuthorPageNumber();
 		if (authorPageNumber > 1)
@@ -209,7 +260,7 @@ public class AuthorView extends View {
 			this.setPageIds(null);
 		}
 	}
-	
+
 	public void setId(final String id) {
 		this.id = id;
 		final User user = new User();
@@ -217,16 +268,16 @@ public class AuthorView extends View {
 		user.read();
 		this.setUser(user);
 	}
-	
+
 	private void setPageIds(final List<String> pageIds) {
 		this.pageIds = pageIds;
 	}
-	
+
 	private void setPages(final List<StoryPage> pages) {
 		this.pages = pages;
 
 	}
-	
+
 	private void setSummaries(final List<String> summaries) {
 		this.summaries = summaries;
 	}
@@ -237,56 +288,5 @@ public class AuthorView extends View {
 
 	private void setUser(final User user) {
 		this.user = user;
-	}
-	
-	public boolean isAuthorAvatarAvailable() {
-		final User author = this.getUser();
-		return author.isAvatarAvailable();
-	}
-	
-	public int getAuthorAvatarId() {
-		final User author = this.getUser();
-		return author.getAvatarId();
-	}
-	
-	public void initialise() {
-		final HttpServletRequest request = this.getRequest();
-		final String id = request.getParameter("id");
-		this.setId(id);
-		final String pParameter = request.getParameter("p");
-		int authorPageNumber;
-		try {
-		    authorPageNumber = Integer.parseInt(pParameter);
-		} catch (NumberFormatException e) {
-		    authorPageNumber = 1;
-		}
-		this.setAuthorPageNumber(authorPageNumber);
-		final String penName = this.getPenName();
-
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("penName", penName);
-		pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
-	}
-	
-	public void prepareAvatarId() {
-		final int avatarId;
-		if (this.isAuthorAvatarAvailable() == true) {
-			avatarId = this.getAuthorAvatarId();
-		} else {
-			avatarId = 1;
-		}
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("avatarId", avatarId);
-	}
-	
-	public boolean isAuthorPageOfUser() {
-		final String myUserId = AuthorView.getMyUserId();
-		final String id = this.getId();
-		return id.equals(myUserId);
-	}
-	
-	public void prepareTitle(final String title) {
-		final PageContext pageContext = this.getPageContext();
-        pageContext.setAttribute("title", title);
 	}
 }
