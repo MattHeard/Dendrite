@@ -34,14 +34,12 @@ view.initialise();
             <br />
             <input id="title" name="title" type="text"></input><%
 
-final boolean isTitleBlank = view.isTitleBlank();
-final boolean isTitleTooLong = view.isTitleTooLong();
-if (isTitleBlank == true) {
+if (view.isTitleBlank() == true) {
 
     %>
             <i>Must not be blank</i><%
 		
-} else if (isTitleTooLong == true) {
+} else if (view.isTitleTooLong() == true) {
 		
     %>
             <i>Must not be longer than 100 characters</i><%
