@@ -140,10 +140,12 @@ public abstract class View {
 		return "Dendrite";
 	}
 
+	public void initialise() { }
+
 	public void setPageContext(final PageContext pageContext) {
 		this.pageContext = pageContext;
 	}
-
+	
 	public void setRequest(HttpServletRequest request) {
 		this.request = request;
 	}
