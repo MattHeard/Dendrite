@@ -558,6 +558,38 @@ select {
 	float: left;
 }
 
+#tabs {
+    border-bottom: 1px solid #bbb;
+    margin-top: 20px;
+    padding-bottom: 5px;
+}
+
+#tabs a.selected_tab {
+    color: initial;
+    border: 1px solid #bbb;
+    border-bottom: 1px solid #fefefe;
+    border-radius: 5px 5px 0px 0px;
+}
+
+#tabs a {
+	padding: 15px;
+	padding-bottom: 8px;
+    color: #666;
+    border: 1px solid transparent;
+    text-decoration: none;
+}
+
+#tabs a:not(.selected_tab) {
+    display: none;
+}
+
+#tabs #more {
+	display: inherit;
+	float: right;
+	padding: 0px 10px;
+	cursor: pointer;
+}
+
 #text, .text {
 	clear:	both;
 }
@@ -618,6 +650,15 @@ textarea {
 	.radio_list li {
 	    display:   inline;
 	    padding-right: 1em;
+	}
+
+	#tabs a:not(.selected_tab) {
+	    display: initial;
+        cursor: pointer;
+	}
+	
+	#tabs #more {
+	    display: none;
 	}
 }
 

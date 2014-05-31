@@ -20,7 +20,12 @@ view.initialise();
 %><%@include file="top.jspf"
 
 %>
-        <h2>About Dendrite</h2>
+        <div id="tabs">
+          <a class="selected_tab">About</a>
+          <a href="contributors.jsp">Contributors</a>
+          <a id="more" href="about_more.jsp">⋮</a>
+        </div>
+        <div class="clear"></div>
         <p><i>Dendrite</i> is an online, choose-your-own-adventure book that you
           can both read, and write. This allows you, the reader and author, to
           participate in the story however you see fit. The stories branch
