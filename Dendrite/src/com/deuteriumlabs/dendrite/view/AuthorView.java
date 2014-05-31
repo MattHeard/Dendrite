@@ -428,4 +428,12 @@ public class AuthorView extends View {
 	private void setUser(final User user) {
 		this.user = user;
 	}
+	
+	public void preparePrevAuthorPageLink() {
+		final PageContext pageContext = this.getPageContext();
+		final String id = this.getId();
+		pageContext.setAttribute("id", id);
+		final String prev = this.getPrevPageNumber();
+		pageContext.setAttribute("prev", prev);
+	}
 }

@@ -69,21 +69,17 @@ while (view.hasAnotherStoryPage() == true) {
           <div class="clear"></div><%
         
 }
-    
-final boolean isFirstPage = view.isFirstPage();
-if (isFirstPage == false) {
-	final String id = view.getId();
-	pageContext.setAttribute("id", id);
-	final String prev = view.getPrevPageNumber();
-	pageContext.setAttribute("prev", prev);
+
+if (view.isFirstPage() == false) {
+	view.preparePrevAuthorPageLink();
     	
     %>
           <div><a
               href="/author.jsp?id=${fn:escapeXml(id)}&p=${fn:escapeXml(prev)}">Previous</a></div><%
     	
 }
-final boolean isLastPage = view.isLastPage();
-if (isLastPage == false) {
+
+if (view.isLastPage() == false) {
 	final String id = view.getId();
 	pageContext.setAttribute("id", id);
 	final String next = view.getNextPageNumber();
