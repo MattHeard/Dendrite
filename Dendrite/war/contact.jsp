@@ -12,8 +12,10 @@
 %><%@ page import="com.deuteriumlabs.dendrite.view.ContactView"
 %><%
 
-pageContext.setAttribute("webPageTitle", "Dendrite - Contact us");
-final View view = new ContactView();
+final ContactView view = new ContactView();
+view.setPageContext(pageContext);
+view.setRequest(request);
+view.initialise();
 
 %><%@include file="top.jspf"
 
