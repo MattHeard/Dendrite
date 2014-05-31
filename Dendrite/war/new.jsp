@@ -19,11 +19,10 @@
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %><%
 %><%
 
-pageContext.setAttribute("webPageTitle", "Dendrite - New Story");
 final NewView view = new NewView();
-
-final String error = request.getParameter("error");
-view.setError(error);
+view.setPageContext(pageContext);
+view.setRequest(request);
+view.initialise();
 
 %><%@include file="top.jspf"
 
