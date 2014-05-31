@@ -261,7 +261,7 @@ public class AuthorView extends View {
 	public boolean isThisStoryPageCreditedDifferently() {
 		final String authorName = this.getCurrStoryPageAuthorName();
 		final String penName = this.getPenName();
-		return (authorName != null && authorName.equals(penName));
+		return (authorName != null && authorName.equals(penName) == false);
 	}
 
 	public boolean isThisStoryPageInADifferentStory() {
