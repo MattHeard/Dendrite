@@ -21,7 +21,9 @@ view.initialise();
 
 %>
     <h2>Contact us</h2>
-      <form action="mailto:matt+dendrite@mattheard.net" method="get"
+      <form
+          action="mailto:matt+dendrite@mattheard.net"
+          method="get"
           enctype="text/plain">
         <label for="subject">Subject</label>
         <br />
