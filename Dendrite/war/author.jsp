@@ -75,7 +75,8 @@ if (view.isFirstPage() == false) {
     	
     %>
           <div><a
-              href="/author.jsp?id=${fn:escapeXml(id)}&p=${fn:escapeXml(prev)}">Previous</a></div><%
+              href="/author.jsp?id=${fn:escapeXml(id)}&p=${fn:escapeXml(prev)}"
+              >Previous</a></div><%
     	
 }
 
@@ -84,7 +85,8 @@ if (view.isLastPage() == false) {
     	
     %>
           <div><a
-              href="/author.jsp?id=${fn:escapeXml(id)}&p=${fn:escapeXml(next)}">Next</a></div><%
+              href="/author.jsp?id=${fn:escapeXml(id)}&p=${fn:escapeXml(next)}"
+              >Next</a></div><%
     	
 }
 	
