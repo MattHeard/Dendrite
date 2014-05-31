@@ -51,14 +51,12 @@ if (view.isTitleBlank() == true) {
             <label for="content">Story</label><br />
             <textarea id="content" name="content"></textarea><%
       
-final boolean isContentBlank = view.isContentBlank();
-final boolean isContentTooLong = view.isContentTooLong();
-if (isContentBlank == true) {
+if (view.isContentBlank() == true) {
 		
     %>
             <i>Must not be blank</i><%
 		
-} else if (isContentTooLong == true) {
+} else if (view.isContentTooLong() == true) {
 		
     %>
             <i>Must not be longer than 5000 characters</i><%
@@ -69,8 +67,7 @@ if (isContentBlank == true) {
             <br />
             <label for="option0">Options</label><%
       
-final boolean isAnOptionTooLong = view.isAnOptionTooLong();
-if (isAnOptionTooLong == true) {
+if (view.isAnOptionTooLong() == true) {
 
     %>
             <i>Must not be longer than 80 characters</i><%
