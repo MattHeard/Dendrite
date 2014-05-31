@@ -210,6 +210,7 @@ public class ContentsView extends View {
 		this.setNumLinksAlreadyDisplayed(num + 1);
 	}
 
+	@Override
 	public void initialise() {
 		final String webPageTitle = this.getWebPageTitle();
 		final PageContext pageContext = this.getPageContext();

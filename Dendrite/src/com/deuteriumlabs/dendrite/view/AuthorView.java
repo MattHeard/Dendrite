@@ -215,6 +215,7 @@ public class AuthorView extends View {
 		this.setNumStoryPagesAlreadyDisplayed(num + 1);
 	}
 
+	@Override
 	public void initialise() {
 		final HttpServletRequest request = this.getRequest();
 		final String id = request.getParameter("id");
