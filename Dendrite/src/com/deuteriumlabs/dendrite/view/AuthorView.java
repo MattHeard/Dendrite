@@ -24,6 +24,7 @@ public class AuthorView extends View {
 		String summary;
 		String title;
 	}
+
 	private static final String ELLIPSIS = "...";
 	private static final int NUM_PAGES_DISPLAYED = 10;
 
@@ -39,6 +40,7 @@ public class AuthorView extends View {
 			return cropped + ELLIPSIS;
 		}
 	}
+
 	private List<String> authorNames;
 	private int authorPageNumber;
 	private String currStoryPageAuthorName;
@@ -67,7 +69,7 @@ public class AuthorView extends View {
 		final List<String> summaries = this.getSummaries();
 		final List<String> pageIds = this.getPageIds();
 		final List<String> authorNames = this.getAuthorNames();
-		
+
 		final List<StoryPageEntry> pages = new ArrayList<StoryPageEntry>();
 		for (int i = 0; i < length; i++) {
 			final StoryPageEntry page = new StoryPageEntry();
@@ -77,7 +79,7 @@ public class AuthorView extends View {
 			page.authorName = authorNames.get(i);
 			pages.add(page);
 		}
-		
+
 		this.setEntries(pages);
 	}
 
@@ -230,7 +232,7 @@ public class AuthorView extends View {
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute("penName", penName);
 		pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
-		
+
 		this.prepareAvatarId();
 	}
 
@@ -240,7 +242,7 @@ public class AuthorView extends View {
 	}
 
 	public boolean isAuthorPageOfUser() {
-		final String myUserId = AuthorView.getMyUserId();
+		final String myUserId = View.getMyUserId();
 		final String id = this.getId();
 		return id.equals(myUserId);
 	}
@@ -279,6 +281,14 @@ public class AuthorView extends View {
 		pageContext.setAttribute("avatarId", avatarId);
 	}
 
+	public void prepareNextAuthorPageLink() {
+		final PageContext pageContext = this.getPageContext();
+		final String id = this.getId();
+		pageContext.setAttribute("id", id);
+		final String next = this.getNextPageNumber();
+		pageContext.setAttribute("next", next);
+	}
+
 	public void prepareNextStoryPage() {
 		this.savePrevTitle();
 		final StoryPageEntry page = this.getNextStoryPage();
@@ -288,10 +298,18 @@ public class AuthorView extends View {
 		this.incrementNumStoryPagesAlreadyDisplayed();
 	}
 
+	public void preparePrevAuthorPageLink() {
+		final PageContext pageContext = this.getPageContext();
+		final String id = this.getId();
+		pageContext.setAttribute("id", id);
+		final String prev = this.getPrevPageNumber();
+		pageContext.setAttribute("prev", prev);
+	}
+
 	private void prepareStoryPage(final StoryPageEntry page) {
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute("title", page.title);
-	    pageContext.setAttribute("summary", page.summary);
+		pageContext.setAttribute("summary", page.summary);
 		pageContext.setAttribute("pageId", page.pageId);
 		pageContext.setAttribute("authorName", page.authorName);
 	}
@@ -300,7 +318,7 @@ public class AuthorView extends View {
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute("title", title);
 	}
-	
+
 	private void readAuthorNames() {
 		final List<StoryPage> pages = this.getPages();
 		final List<String> authorNames = new ArrayList<String>();
@@ -310,7 +328,7 @@ public class AuthorView extends View {
 		}
 		this.setAuthorNames(authorNames);
 	}
-	
+
 	private void readPageIds() {
 		final List<StoryPage> pages = this.getPages();
 		final List<String> pageIds = new ArrayList<String>();
@@ -399,7 +417,7 @@ public class AuthorView extends View {
 		user.read();
 		this.setUser(user);
 	}
-	
+
 	private void setNumStoryPagesAlreadyDisplayed(final int num) {
 		this.numStoryPagesAlreadyDisplayed = num;
 	}
@@ -420,20 +438,12 @@ public class AuthorView extends View {
 	private void setSummaries(final List<String> summaries) {
 		this.summaries = summaries;
 	}
-	
+
 	private void setTitles(final List<String> titles) {
 		this.titles = titles;
 	}
 
 	private void setUser(final User user) {
 		this.user = user;
-	}
-	
-	public void preparePrevAuthorPageLink() {
-		final PageContext pageContext = this.getPageContext();
-		final String id = this.getId();
-		pageContext.setAttribute("id", id);
-		final String prev = this.getPrevPageNumber();
-		pageContext.setAttribute("prev", prev);
 	}
 }

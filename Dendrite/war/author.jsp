@@ -80,10 +80,7 @@ if (view.isFirstPage() == false) {
 }
 
 if (view.isLastPage() == false) {
-	final String id = view.getId();
-	pageContext.setAttribute("id", id);
-	final String next = view.getNextPageNumber();
-	pageContext.setAttribute("next", next);
+	view.prepareNextAuthorPageLink();
     	
     %>
           <div><a
