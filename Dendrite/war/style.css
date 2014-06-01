@@ -201,6 +201,10 @@ button, .option {
     box-sizing:         border-box;
 }
 
+.contributors li, .contributors div {
+	margin-bottom: 1em;
+}
+
 .clear {
 	clear: both;
 }
