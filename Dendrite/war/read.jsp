@@ -36,7 +36,7 @@ if (isPageInStore == true) {
     	pageContext.setAttribute("pageNumber", pageNumber);
     	
     	%>
-      <div id="rewriteLink"><a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
+      <div id="rewriteLink"><a
           href="/rewrite.jsp?p=${fn:escapeXml(pageNumber)}">Rewrite</a></div>
       <div class="clear"></div>
       <div id="text_body"><%
@@ -87,8 +87,8 @@ if (isPageInStore == true) {
     		if (optionText != null && optionText.length() > 0) {
     		
     		%>
-      <a class="optionLink ${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
-              href="${fn:escapeXml(optionLink)}"><div class="option"><%
+      <a class="optionLink"
+          href="${fn:escapeXml(optionLink)}"><div class="option"><%
     
                 List<FormattedText> formattedTextChunks;
   	            formattedTextChunks = FormattedText.extractFormattedText(optionText);
