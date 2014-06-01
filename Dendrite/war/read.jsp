@@ -90,8 +90,8 @@ if (isPageInStore == true) {
       <a class="optionLink"
           href="${fn:escapeXml(optionLink)}"><div class="option"><%
     
-                List<FormattedText> formattedTextChunks;
-  	            formattedTextChunks = FormattedText.extractFormattedText(optionText);
+                List<FormattedText> formattedTextChunks
+                         = FormattedText.extractFormattedText(optionText);
   	            for (final FormattedText chunk : formattedTextChunks) {
   		            pageContext.setAttribute("chunk", chunk.getText());
   		            Format format = chunk.getFormat();
@@ -140,7 +140,7 @@ if (isPageInStore == true) {
     		final String authorId = view.getAuthorId();
     		pageContext.setAttribute("authorId", authorId);
     		
-    		%><a class="${fontColourClassName} ${themeClassName}" href="/author.jsp?id=${authorId}"><%
+    		%><a href="/author.jsp?id=${authorId}"><%
     		
     	}
     
@@ -171,8 +171,7 @@ if (isPageInStore == true) {
         	pageContext.setAttribute("first", first);
     
         	%>
-      <p><a class="${fontColourClassName} ${themeClassName}" href="${first}">Return to the first
-          page of this story.</a></p><%
+      <p><a href="${first}">Return to the first page of this story.</a></p><%
     
         }
 	
