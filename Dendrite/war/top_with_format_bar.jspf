@@ -96,13 +96,21 @@ if (isUserLoggedIn == true) {
       <div id="formatBar" class="${fn:escapeXml(themeClassName)}">
         <div id="formatMenu"><%
 
-final String[] formatDimensions = { "size", "type", "colour", "alignment", "spacing", "theme" };
+final String[] formatDimensions = { "size", "type", "colour", "align", "spacing", "theme" };
 for (String dimension : formatDimensions) {
     pageContext.setAttribute("dimension", dimension);
     pageContext.setAttribute("dimensionUpper", dimension.toUpperCase());
         
     %>
-          <img class="formatIcon" id="${fn:escapeXml(dimension)}Button" src="icons/${fn:escapeXml(dimension)}.png" title="${fn:escapeXml(dimensionUpper)}" onClick="clickFormatButton('${fn:escapeXml(dimension)}');" /><%
+          <div class="formatIcon"
+              onClick="clickFormatButton('${fn:escapeXml(dimension)}');">
+            <img
+                id="${fn:escapeXml(dimension)}Button"
+                src="icons/${fn:escapeXml(dimension)}.png"
+                title="${fn:escapeXml(dimensionUpper)}" />
+            <span>${fn:escapeXml(dimensionUpper)}</span>
+            <img id="arrow" src="arrow.png" />
+          </div><%
           
 }
 

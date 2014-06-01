@@ -325,13 +325,33 @@ button, .option {
 }
 
 .formatIcon {
+	float: left;
+	padding: 0px;
+	margin: 5px 0px 5px 5px;
+    border-radius:     5px;
+    background-color:  #eee;
+}
+
+.formatIcon img, .formatIconPressed img {
 	float:			   left;
-	margin:            5px 10px;
+	margin:            0px;
 	padding:           10px;
+	padding-left:      8px;
+	padding-right:     0px;
 	height:			   20px;
-	border:            1px solid #fff;
-	border-radius:     10px;
-	background-color:  #eee;
+}
+
+.formatIcon span {
+	display: none;
+}
+
+.formatIcon #arrow {
+	height: 6px;
+	width:  9px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 17px;
+	padding-bottom: 17px;
 }
 
 .themeDark .formatIcon,
@@ -340,16 +360,6 @@ button, .option {
 	background-color: #949191;
 	border-color:     #747674;
 	color:            #000000;
-}
-
-.formatIconPressed {
-	float:			  left;
-	margin:           5px 10px;
-	padding:          10px;
-	height:			  20px;
-    border:           1px solid #fff;
-    border-radius:    10px;
-    background-color: #eee;
 }
 
 #formatMenu {
@@ -627,18 +637,6 @@ textarea {
         text-align: left;
 	}
 	
-	.formatIcon {
-		padding-left:	10px;
-		padding-right:	10px;
-		margin-right:	20px;
-	}
-	
-	.formatIconPressed {
-		padding-left:	10px;
-		padding-right:	10px;
-		margin-right:	20px;
-	}
-	
 	button, .option {
 	   width:  49%;
 	   margin-right:   1%;
@@ -663,6 +661,36 @@ textarea {
 	
 	#tabs #more {
 	    display: none;
+	}
+	
+	.formatIcon {
+	   margin: 5px 10px 5px 0px;
+	   padding: 0px;
+	}
+	
+	.formatIcon img, .formatIconPressed img {
+	   margin:        0px;
+	   padding:       10px;
+	   border-radius: 5px 0px 0px 5px;
+	   border-right:  1px solid #ccc;
+	}
+
+	.formatIcon span {
+	    font-size:         16px;
+	    color:             #111;
+	    display:           initial;
+	    float:             left;
+	    height:            20px;
+	    margin:            0px;
+	    padding:           10px;
+        background-color:  #eee;
+        border-radius:     0px 5px 5px 0px;
+        padding-right:     5px;
+	}
+	
+	.formatIcon #arrow {
+	   border-right: none;
+	   padding-left: 0px;
 	}
 }
 
