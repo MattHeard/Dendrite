@@ -9,10 +9,10 @@
  * merely call functions from the AboutView. This ensures that the HTML and the
  * Java components are cleanly separated.
  */
-%><%@ page import="com.deuteriumlabs.dendrite.view.AboutView"
+%><%@ page import="com.deuteriumlabs.dendrite.view.ContributorsView"
 %><%
 
-final AboutView view = new AboutView();
+final ContributorsView view = new ContributorsView();
 view.setPageContext(pageContext);
 view.setRequest(request);
 view.initialise();
