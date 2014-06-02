@@ -1,26 +1,14 @@
-function toggleFormatButton(name) {
-	var button = document.getElementById(name + "Button");
-	button.className = (button.className === 
-			'formatIcon' ? 'formatIconPressed' : 'formatIcon');
-}
-
-function unsetFormatButton(name) {
-	var button = document.getElementById(name + "Button");
-	button.className = 'formatIcon';
-}
-
 function unsetFormatBar(name) {
 	var bar = document.getElementById(name + "PickerBar");
 	bar.style.display = "none";
 }
 
 function unsetOtherFormatButtonsAndPickerBars(name) {
-	var others = [ "size", "type", "colour", "alignment", "spacing",
+	var others = [ "size", "type", "colour", "align", "spacing",
 	               "theme" ];
 	var len = others.length;
 	for (var i = 0; i < len; i++) {
 		if (others[i] !== name) {
-			unsetFormatButton(others[i]);
 			unsetFormatBar(others[i]);
 		}
 	}
@@ -33,23 +21,25 @@ function toggleFormatPicker(name) {
 }
 
 function clickFormatButton(name) {
-	toggleFormatButton(name);
 	toggleFormatPicker(name);
 	unsetOtherFormatButtonsAndPickerBars(name);
+}
+
+function removeCurrentStyleClass(classes) {
+	for (i = 0; i < classes.length; i++) {
+		if ($('.modifiableText').hasClass(classes[i])) {
+			$('.modifiableText').removeClass(classes[i]);
+			break;
+		}
+	}
 }
 
 var lineHeight = "1.5em";
 
 function pickSize(value) {
-    if ($('.modifiableText').hasClass('sizeHuge')) {
-        $('.modifiableText').removeClass('sizeHuge');
-    } else if ($('.modifiableText').hasClass('sizeLarge')) {
-        $('.modifiableText').removeClass('sizeLarge');
-    } else if ($('.modifiableText').hasClass('sizeMedium')) {
-        $('.modifiableText').removeClass('sizeMedium');
-    } else if ($('.modifiableText').hasClass('sizeSmall')) {
-        $('.modifiableText').removeClass('sizeSmall');
-    }
+	var classes = [ "sizeHuge", "sizeLarge", "sizeMedium", "sizeSmall" ];
+	removeCurrentStyleClass(classes);
+
     $('.modifiableText').addClass('size' + value);
     $('.modifiableText').css("lineHeight", lineHeight);
 }
@@ -59,45 +49,29 @@ function pickType(value) {
 		value = "SansSerif";
 	}
 	
-	if ($('.modifiableText').hasClass('fontTypeSerif')) {
-		$('.modifiableText').removeClass('fontTypeSerif');
-    } else if ($('.modifiableText').hasClass('fontTypeSansSerif')) {
-        $('.modifiableText').removeClass('fontTypeSansSerif');
-    } else if ($('.modifiableText').hasClass('fontTypeMonospace')) {
-        $('.modifiableText').removeClass('fontTypeMonospace');
-    } else if ($('.modifiableText').hasClass('fontTypeFantasy')) {
-        $('.modifiableText').removeClass('fontTypeFantasy');
-    } else if ($('.modifiableText').hasClass('fontTypeCursive')) {
-        $('.modifiableText').removeClass('fontTypeCursive');
-    }
+	var classes = [ "fontTypeSerif", "fontTypeSansSerif", "fontTypeMonospace",
+	                "fontTypeFantasy", "fontTypeCursive" ];
+	removeCurrentStyleClass(classes);
 	
     $('.modifiableText').addClass('fontType' + value);
     $('.modifiableText').css("lineHeight", lineHeight);
 }
 
 function pickColour(value) {
-	var elements = document.getElementsByClassName("modifiableText");
-	for (var i = 0; i < elements.length; ++i) {
-	    var element = elements[i];  
-		element.style.color = "#" + value;
-	}
+	var classes = [ "fontColourDefault", "fontColourCharcoal",
+	                "fontColourBlack", "fontColourGrey", "fontColourBlue",
+	                "fontColourGreen", "fontColourRed" ];
+	removeCurrentStyleClass(classes);
+	
+    $('.modifiableText').addClass('fontColour' + value);
 }
 
-function pickDayNight(value) {
-	var theme = $('select#themePicker').val();
-	if (value === "day") {
-		pickLightTheme(theme);
-	} else {
-		pickDarkTheme(theme);
-	}
-}
-
-function pickAlignment(value) {
-	var elements = document.getElementsByClassName("modifiableText");
-	for (var i = 0; i < elements.length; ++i) {
-	    var element = elements[i];  
-		element.style.textAlign = value;
-	}
+function pickAlign(value) {
+	var classes = [ "alignmentLeft", "alignmentRight", "alignmentCenter",
+	                "alignmentJustify" ];
+	removeCurrentStyleClass(classes);
+	
+    $('.modifiableText').addClass('alignment' + value);
 }
 
 function pickSpacing(value) {

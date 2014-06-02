@@ -332,7 +332,7 @@ button, .option {
     background-color:  #eee;
 }
 
-.formatIcon img, .formatIconPressed img {
+.formatIcon img {
 	float:			   left;
 	margin:            0px;
 	padding:           10px;
@@ -668,7 +668,7 @@ textarea {
 	   padding: 0px;
 	}
 	
-	.formatIcon img, .formatIconPressed img {
+	.formatIcon img {
 	   margin:        0px;
 	   padding:       10px;
 	   border-radius: 5px 0px 0px 5px;

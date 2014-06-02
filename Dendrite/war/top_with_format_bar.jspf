@@ -86,7 +86,10 @@ if (isUserLoggedIn == true) {
     pageContext.setAttribute("loginLink", loginLink);
     
     %>
-          <div id="login"><a href="${fn:escapeXml(loginLink)}" class="${fn:escapeXml(themeClassName)}">Login or register</a></div><%
+          <div id="login"><a
+              href="${fn:escapeXml(loginLink)}"
+              class="${fn:escapeXml(themeClassName)}"
+              >Login or register</a></div><%
     
 }
     
@@ -96,16 +99,17 @@ if (isUserLoggedIn == true) {
       <div id="formatBar" class="${fn:escapeXml(themeClassName)}">
         <div id="formatMenu"><%
 
-final String[] formatDimensions = { "size", "type", "colour", "align", "spacing", "theme" };
+final String[] formatDimensions = { "size", "type", "colour", "align",
+         "spacing", "theme" };
 for (String dimension : formatDimensions) {
     pageContext.setAttribute("dimension", dimension);
     pageContext.setAttribute("dimensionUpper", dimension.toUpperCase());
         
     %>
           <div class="formatIcon"
+              id="${fn:escapeXml(dimension)}Button"
               onClick="clickFormatButton('${fn:escapeXml(dimension)}');">
             <img
-                id="${fn:escapeXml(dimension)}Button"
                 src="icons/${fn:escapeXml(dimension)}.png"
                 title="${fn:escapeXml(dimensionUpper)}" />
             <span>${fn:escapeXml(dimensionUpper)}</span>
@@ -158,23 +162,39 @@ for (int i = 0; i < types.length; i++) {
     }
             
     %>>${fn:escapeXml(type)}</option><%
+    
 }
           
-          %>
+%>
           </select>
         </div>
         <div id="colourPickerBar" class="formatPickerBar">
-          <select id="colourPicker" onchange="pickColour(this.value);">
-            <option value="333">Charcoal</option>
-            <option value="000" selected="selected">Black</option>
-            <option value="999">Grey</option>
-            <option value="009">Blue</option>
-            <option value="090">Green</option>
-            <option value="900">Red</option>
+          <select id="colourPicker" onchange="pickColour(this.value);"><%
+          
+final String[] colours = { "Default", "Charcoal", "Black", "Grey", "Blue",
+        "Green", "Red" };
+
+for (final String colour : colours) {
+	pageContext.setAttribute("colour", colour);
+	
+	%>
+            <option value="${fn:escapeXml(colour)}"<%
+    
+    if (colour.equals(userFontColour)) {
+    
+        %> selected="selected"<%
+    
+    }
+    
+    %>>${fn:escapeXml(colour)}</option><%
+    
+}
+
+%>
           </select>
         </div>
-        <div id="alignmentPickerBar" class="formatPickerBar">
-          <select id="alignmentPicker" onchange="pickAlignment(this.value);">
+        <div id="alignPickerBar" class="formatPickerBar">
+          <select id="alignPicker" onchange="pickAlign(this.value);">
             <option value="left">Left</option>
             <option value="right">Right</option>
             <option value="center">Center</option>
