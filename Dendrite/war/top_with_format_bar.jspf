@@ -62,9 +62,9 @@ if (userTheme != null && userTheme.equals("Light") == false) {
   
 %>>
     <div id="nonFooter">
-      <div id="headerBar" class="${fn:escapeXml(themeClassName)}">
+      <div id="headerBar">
         <div id="header">
-          <div id="logo"><a href="/" class="${fn:escapeXml(themeClassName)}"><img class="${fn:escapeXml(themeClassName)}" id="logoImage" src="logo/<%
+          <div id="logo"><a href="/"><img id="logoImage" src="logo/<%
           
 if (userTheme != null && userTheme.equals("Light") == false) {
           
@@ -77,8 +77,8 @@ if (userTheme != null && userTheme.equals("Light") == false) {
 if (isUserLoggedIn == true) {
     
     %>
-          <div id="logout">Welcome back, <a href="${fn:escapeXml(authorLink)}" class="${fn:escapeXml(themeClassName)}">${fn:escapeXml(userName)}</a>.
-            (<a href="${fn:escapeXml(logoutLink)}" class="${fn:escapeXml(themeClassName)}">Logout</a>)
+          <div id="logout">Welcome back, <a href="${fn:escapeXml(authorLink)}">${fn:escapeXml(userName)}</a>.
+            (<a href="${fn:escapeXml(logoutLink)}">Logout</a>)
           </div><%
     
 } else {
@@ -87,25 +87,68 @@ if (isUserLoggedIn == true) {
     
     %>
           <div id="login"><a
-              href="${fn:escapeXml(loginLink)}"
-              class="${fn:escapeXml(themeClassName)}"
-              >Login or register</a></div><%
+              href="${fn:escapeXml(loginLink)}">Login or register</a></div><%
     
 }
     
 %>
         </div>
       </div>
-      <div id="formatBar" class="${fn:escapeXml(themeClassName)}">
+      <div id="formatBar">
         <div id="formatMenu"><%
 
 final String[] formatDimensions = { "size", "type", "colour", "align",
          "spacing", "theme" };
-for (String dimension : formatDimensions) {
+final String[][] formatValues = {
+		{ "Huge", "Large", "Medium", "Small" },
+		{ "Serif", "Sans-serif", "Monospace", "Cursive", "Fantasy" },
+		{ "Default", "Charcoal", "Black", "Grey", "Blue", "Green", "Red" },
+		{ "Left", "Right", "Center", "Justify" },
+		{ "Huge", "Large", "Medium", "Small" },
+		{ "Light", "Dark", "Sepia", "Lovely" }
+};
+final double[] sizes = { 2.0, 1.5, 1.0, 0.8 };
+final double[] spacings = { 3.0, 2.0, 1.5, 1.0 };
+
+for (int i = 0; i < formatDimensions.length; i++) {
+	final String dimension = formatDimensions[i];
     pageContext.setAttribute("dimension", dimension);
     pageContext.setAttribute("dimensionUpper", dimension.toUpperCase());
         
     %>
+          <ul class="dropdown" id="${fn:escapeXml(dimension)}Dropdown"><%
+          
+    for (int j = 0; j < formatValues[i].length; j++) {
+        final String value = formatValues[i][j];
+        pageContext.setAttribute("value", value);
+        
+        
+        %>
+            <li
+                id="${dimension}${value}DropdownOption" 
+                onClick="pick('${dimension}','${value}');"<%
+                
+        boolean isSelected = 
+                (dimension.equals("size") && sizes[j] == userFontSize) ||
+                (dimension.equals("type") && value.equals(userFontType)) ||
+                (dimension.equals("colour") && value.equals(userFontColour)) ||
+                (dimension.equals("align") && value.equals(userAlignment)) ||
+                (dimension.equals("spacing") && spacings[j] == userSpacing) ||
+                (dimension.equals("theme") && value.equals(userTheme));
+        
+        if (isSelected == true) {
+        	
+        	%>
+                class="selected"<%
+        	   
+        }
+                
+        %>>${fn:escapeXml(value)}</li><%
+        
+    }
+
+%>
+          </ul>
           <div class="formatIcon"
               id="${fn:escapeXml(dimension)}Button"
               onClick="clickFormatButton('${fn:escapeXml(dimension)}');">
@@ -119,103 +162,6 @@ for (String dimension : formatDimensions) {
 }
 
 %>
-        </div>
-        <div id="sizePickerBar" class="formatPickerBar">
-          <select id="sizePicker" onchange="pickSize(this.value);"><%
-            
-final String[] sizeLabels = { "Huge", "Large", "Medium", "Small" };
-final double[] sizeValues = { 2.0, 1.5, 1.0, 0.8 };
-for (int i = 0; i < sizeLabels.length; i++) {
-    pageContext.setAttribute("label", sizeLabels[i]);
-        
-    %>
-            <option value="${fn:escapeXml(label)}"<%
-            
-    if (sizeValues[i] == userFontSize) {
-            
-        %> selected="selected"<%
-            
-    }
-            
-    %>>${fn:escapeXml(label)}</option><%
-
-}
-            
-%>
-          </select>
-        </div>
-        <div id="typePickerBar" class="formatPickerBar">
-          <select id="typePicker" onchange="pickType(this.value);"><%
-          
-final String[] types = { "Serif", "Sans-serif", "Monospace", "Cursive",
-		"Fantasy" };
-for (int i = 0; i < types.length; i++) {
-	pageContext.setAttribute("type", types[i]);
-	
-	%>
-            <option value="${fn:escapeXml(type)}"<%
-            
-    if (types[i].equals(userFontType)) {
-    	
-        %> selected="selected"<%
-    	
-    }
-            
-    %>>${fn:escapeXml(type)}</option><%
-    
-}
-          
-%>
-          </select>
-        </div>
-        <div id="colourPickerBar" class="formatPickerBar">
-          <select id="colourPicker" onchange="pickColour(this.value);"><%
-          
-final String[] colours = { "Default", "Charcoal", "Black", "Grey", "Blue",
-        "Green", "Red" };
-
-for (final String colour : colours) {
-	pageContext.setAttribute("colour", colour);
-	
-	%>
-            <option value="${fn:escapeXml(colour)}"<%
-    
-    if (colour.equals(userFontColour)) {
-    
-        %> selected="selected"<%
-    
-    }
-    
-    %>>${fn:escapeXml(colour)}</option><%
-    
-}
-
-%>
-          </select>
-        </div>
-        <div id="alignPickerBar" class="formatPickerBar">
-          <select id="alignPicker" onchange="pickAlign(this.value);">
-            <option value="left">Left</option>
-            <option value="right">Right</option>
-            <option value="center">Center</option>
-            <option value="justify" selected="selected">Justify</option>
-          </select>
-        </div>
-        <div id="spacingPickerBar" class="formatPickerBar">
-          <select id="spacingPicker" onchange="pickSpacing(this.value);">
-            <option value="3">Huge</option>
-            <option value="2">Large</option>
-            <option value="1.5" selected="selected">Medium</option>
-            <option value="1">Small</option>
-          </select>
-        </div>
-        <div id="themePickerBar" class="formatPickerBar">
-          <select id="themePicker" onchange="pickTheme(this.value);">
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-            <option value="sepia">Sepia</option>
-            <option value="lovely">Lovely</option>
-          </select>
         </div>
       </div>
       <script type="text/javascript">showFormatBar();</script> 

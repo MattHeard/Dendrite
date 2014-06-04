@@ -61,9 +61,9 @@ if (userTheme.equals("Light") == false && userTheme != null) {
   
 %> onLoad="init();">
     <div id="nonFooter">
-      <div id="headerBar" class="${fn:escapeXml(themeClassName)}">
+      <div id="headerBar">
         <div id="header">
-          <div id="logo"><a href="/" class="${fn:escapeXml(themeClassName)}"><img class="${fn:escapeXml(themeClassName)}" id="logoImage" src="logo/<%
+          <div id="logo"><a href="/"><img id="logoImage" src="logo/<%
           
 if (userTheme != null && userTheme.equals("Light") == false) {
           
@@ -76,8 +76,8 @@ if (userTheme != null && userTheme.equals("Light") == false) {
 if (isUserLoggedIn == true) {
     
     %>
-          <div id="logout">Welcome back, <a href="${fn:escapeXml(authorLink)}" class="${fn:escapeXml(themeClassName)}">${fn:escapeXml(userName)}</a>.
-            (<a href="${fn:escapeXml(logoutLink)}" class="${fn:escapeXml(themeClassName)}">Logout</a>)
+          <div id="logout">Welcome back, <a href="${fn:escapeXml(authorLink)}">${fn:escapeXml(userName)}</a>.
+            (<a href="${fn:escapeXml(logoutLink)}">Logout</a>)
           </div><%
     
 } else {
@@ -85,7 +85,7 @@ if (isUserLoggedIn == true) {
     pageContext.setAttribute("loginLink", loginLink);
     
     %>
-          <div id="login"><a href="${fn:escapeXml(loginLink)}" class="${fn:escapeXml(themeClassName)}">Login or register</a></div><%
+          <div id="login"><a href="${fn:escapeXml(loginLink)}">Login or register</a></div><%
     
 }
     

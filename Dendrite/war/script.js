@@ -1,31 +1,20 @@
-function unsetFormatBar(name) {
-	var bar = document.getElementById(name + "PickerBar");
-	bar.style.display = "none";
-}
-
-function unsetOtherFormatButtonsAndPickerBars(name) {
-	var others = [ "size", "type", "colour", "align", "spacing",
-	               "theme" ];
-	var len = others.length;
-	for (var i = 0; i < len; i++) {
-		if (others[i] !== name) {
-			unsetFormatBar(others[i]);
-		}
+function clickFormatButton(name) {
+	var buttonName = "#" + name + "Button";
+	var wasPreviouslySet = $(buttonName).hasClass("pressed");
+	$('.formatIcon').removeClass("pressed");
+	if (wasPreviouslySet === false) {
+		$(buttonName).addClass("pressed");
+	}
+	
+	var idName = "#" + name + "Dropdown";
+	var wasOpen = $(idName).hasClass("visible");
+	$('.dropdown').removeClass("visible");
+	if (wasOpen === false) {
+		$(idName).addClass("visible");
 	}
 }
 
-function toggleFormatPicker(name) {
-	var pickerBar = document.getElementById(name + "PickerBar");
-	pickerBar.style.display =
-			(pickerBar.style.display === "block" ? "none" : "block");
-}
-
-function clickFormatButton(name) {
-	toggleFormatPicker(name);
-	unsetOtherFormatButtonsAndPickerBars(name);
-}
-
-function removeCurrentStyleClass(classes) {
+function removeCurrentModifiableTextStyle(classes) {
 	for (i = 0; i < classes.length; i++) {
 		if ($('.modifiableText').hasClass(classes[i])) {
 			$('.modifiableText').removeClass(classes[i]);
@@ -34,53 +23,94 @@ function removeCurrentStyleClass(classes) {
 	}
 }
 
-var lineHeight = "1.5em";
+var themes = [ "Light", "Dark", "Sepia", "Lovely" ];
 
-function pickSize(value) {
-	var classes = [ "sizeHuge", "sizeLarge", "sizeMedium", "sizeSmall" ];
-	removeCurrentStyleClass(classes);
-
-    $('.modifiableText').addClass('size' + value);
-    $('.modifiableText').css("lineHeight", lineHeight);
-}
-
-function pickType(value) {
-	if (value === "Sans-serif") {
-		value = "SansSerif";
+function setDropdownOptionAsSelected(dimension, value) {
+	if (dimension === "size") {
+		var sizes = [ "Huge", "Large", "Medium", "Small" ];
+		for (var i = 0; i < sizes.length; i++) {
+			var idName = "#size" + sizes[i] + "DropdownOption";
+			$(idName).removeClass("selected");
+		}
+	} else if (dimension === "type") {
+		var types = [ "Serif", "Sans-serif", "Monospace", "Fantasy",
+		              "Cursive" ];
+		for (var i = 0; i < types.length; i++) {
+			var idName = "#type" + types[i] + "DropdownOption";
+			$(idName).removeClass("selected");
+		}
+	} else if (dimension === "colour") {
+		var colours = [ "Default", "Charcoal", "Black", "Grey", "Blue", "Green",
+		                "Red" ];
+		for (var i = 0; i < colours.length; i++) {
+			var idName = "#colour" + colours[i] + "DropdownOption";
+			$(idName).removeClass("selected");
+		}
+	} else if (dimension === "align") {
+		var alignments = [ "Left", "Right", "Center", "Justify" ];
+		for (var i = 0; i < alignments.length; i++) {
+			var idName = "#align" + alignments[i] + "DropdownOption";
+			$(idName).removeClass("selected");
+		}
+	} else if (dimension === "spacing") {
+		var spacings = [ "Huge", "Large", "Medium", "Small" ];
+		for (var i = 0; i < spacings.length; i++) {
+			var idName = "#spacing" + spacings[i] + "DropdownOption";
+			$(idName).removeClass("selected");
+		}
+	} else if (dimension === "theme") {
+		for (var i = 0; i < themes.length; i++) {
+			var idName = "#theme" + themes[i] + "DropdownOption";
+			$(idName).removeClass("selected");
+		}
 	}
 	
-	var classes = [ "fontTypeSerif", "fontTypeSansSerif", "fontTypeMonospace",
-	                "fontTypeFantasy", "fontTypeCursive" ];
-	removeCurrentStyleClass(classes);
-	
-    $('.modifiableText').addClass('fontType' + value);
-    $('.modifiableText').css("lineHeight", lineHeight);
+	var idName = "#" + dimension + value + "DropdownOption";
+	$(idName).addClass("selected");
 }
 
-function pickColour(value) {
-	var classes = [ "fontColourDefault", "fontColourCharcoal",
-	                "fontColourBlack", "fontColourGrey", "fontColourBlue",
-	                "fontColourGreen", "fontColourRed" ];
-	removeCurrentStyleClass(classes);
-	
-    $('.modifiableText').addClass('fontColour' + value);
-}
-
-function pickAlign(value) {
-	var classes = [ "alignmentLeft", "alignmentRight", "alignmentCenter",
-	                "alignmentJustify" ];
-	removeCurrentStyleClass(classes);
-	
-    $('.modifiableText').addClass('alignment' + value);
-}
-
-function pickSpacing(value) {
-	lineHeight = value + "em";
-	var elements = document.getElementsByClassName("modifiableText");
-	for (var i = 0; i < elements.length; ++i) {
-	    var element = elements[i];  
-		element.style.lineHeight = lineHeight;
+function removeCurrentTheme() {
+	for (var i = 0; i < themes.length; i++) {
+		var className = "theme" + themes[i];
+		$("body").removeClass(className);
 	}
+}
+
+var sizes = [ "sizeHuge", "sizeLarge", "sizeMedium", "sizeSmall" ];
+var types = [ "fontTypeSerif", "fontTypeSansSerif", "fontTypeMonospace",
+              "fontTypeFantasy", "fontTypeCursive" ];
+var colours = [ "fontColourDefault", "fontColourCharcoal", "fontColourBlack",
+                "fontColourGrey", "fontColourBlue", "fontColourGreen",
+                "fontColourRed" ];
+var alignments = [ "alignmentLeft", "alignmentRight", "alignmentCenter",
+                "alignmentJustify" ];
+var spacings = [ "spacingHuge", "spacingLarge", "spacingMedium",
+                 "spacingSmall" ];
+
+function pick(dimension, value) {
+	if (dimension === "size") {
+		removeCurrentModifiableTextStyle(sizes);
+		$('.modifiableText').addClass("size" + value);
+	} else if (dimension === "type") {
+		removeCurrentModifiableTextStyle(types);
+		$('.modifiableText').addClass("fontType" + value);
+	} else if (dimension === "colour") {
+		removeCurrentModifiableTextStyle(colours);
+		$('.modifiableText').addClass("fontColour" + value);
+	} else if (dimension === "align") {
+		removeCurrentModifiableTextStyle(alignments);
+		$('.modifiableText').addClass("alignment" + value);
+	} else if (dimension === "spacing") {
+		removeCurrentModifiableTextStyle(spacings);
+		$('.modifiableText').addClass("spacing" + value);
+	} else if (dimension === "theme") {
+		removeCurrentTheme();
+		$("body").addClass("theme" + value);
+	}
+
+	setDropdownOptionAsSelected(dimension, value);
+	$('.formatIcon').removeClass("pressed");
+	$('.dropdown').removeClass("visible");
 }
 
 function pickTheme(value) {
@@ -149,7 +179,7 @@ function showFormatBar() {
 	showFormatMenuElement();
 }
 
-function init() {
+function preventEnterFromSubmittingForms() {
   $("form :not(textarea)").bind("keyup keypress", function(e) {
     var code = e.keyCode || e.which; 
     if (code  == 13) {               
@@ -157,4 +187,8 @@ function init() {
       return false;
     }
   });
+}
+
+function init() {
+	preventEnterFromSubmittingForms();
 }

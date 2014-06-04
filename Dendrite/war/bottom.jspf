@@ -9,7 +9,7 @@
 
 %>      </div>
     </div>
-    <div id="footerBar" class="${fn:escapeXml(themeClassName)}">
+    <div id="footerBar">
       <div id="footerMenu">
         <span class="footer"><a href="/about.jsp">About</a></span>
         <span class="footer"><a href="/terms.jsp">Terms</a></span>
