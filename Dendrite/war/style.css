@@ -232,6 +232,11 @@ button, .option {
     background-color: #eee;
 }
 
+.themeDark .dropdown {
+	color:            #000000;
+	background-color: #949191;
+}
+
 .visible {
 	display: initial;
 }
@@ -349,8 +354,8 @@ button, .option {
 }
 
 #formatBar.themeSepia, .themeSepia #formatBar {
-  background-color:  #8b6a2e;
-  border-color:      #604412;
+  background-color:  #977B5F;
+  border-color:      #715941;
 }
 
 #formatBar.themeLovely, .themeLovely #formatBar {
@@ -414,11 +419,21 @@ button, .option {
 
 .themeSepia .formatIcon,
 .themeSepia .formatIcon img,
+.themeSepia .dropdown {
+    background-color: #f2edd8;
+    border-color:     #e2ddc8;
+    color:            #604412;
+}
+
+.themeSepia .dropdown .selected {
+    background-color: #E7DFBF;
+}
+
 .themeSepia .option,
 .themeSepia button {
-    background-color: #ddbe86;
-    border-color:     #af8d4f;
-    color:            #604412;
+    background-color: #977B5F;
+    border-color:     #715941;
+    color:            #f2edd8;
 }
 
 #formatMenu {
