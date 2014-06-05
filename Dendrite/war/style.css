@@ -349,8 +349,8 @@ button, .option {
 }
 
 #formatBar.themeSepia, .themeSepia #formatBar {
-  background-color:  #806e4f;
-  border-color:      #6e5c41;
+  background-color:  #8b6a2e;
+  border-color:      #604412;
 }
 
 #formatBar.themeLovely, .themeLovely #formatBar {
@@ -404,11 +404,21 @@ button, .option {
 }
 
 .themeDark .formatIcon,
+.themeDark .formatIcon img,
 .themeDark .option,
 .themeDark button {
 	background-color: #949191;
 	border-color:     #747674;
 	color:            #000000;
+}
+
+.themeSepia .formatIcon,
+.themeSepia .formatIcon img,
+.themeSepia .option,
+.themeSepia button {
+    background-color: #ddbe86;
+    border-color:     #af8d4f;
+    color:            #604412;
 }
 
 #formatMenu {
@@ -483,10 +493,6 @@ hr.minor_separator {
 
 html, body {
 	height:	100%;
-}
-
-img.themeSepia, .themeSepia img {
-	-webkit-filter: sepia(50%);
 }
 
 input, textarea {
@@ -736,7 +742,6 @@ textarea {
 	    height:            20px;
 	    margin:            0px;
 	    padding:           10px;
-        background-color:  #eee;
         border-radius:     0px 5px 5px 0px;
         padding-right:     5px;
 	}
@@ -752,7 +757,7 @@ textarea {
 	}
 	
 	#themeDropdown {
-	   margin-left: -45px;
+	   margin-left: -35px;
 	}
 }
 
