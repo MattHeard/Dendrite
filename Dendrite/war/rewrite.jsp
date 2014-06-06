@@ -24,10 +24,13 @@ if (isExistingPage == true) {
       
     %>
       <h2>Rewrite this page</h2>
-      <p>The <i>rewrite</i> option allows you to completely rewrite the text of this page. You will be credited as the only author.</p>
+      <p>The <i>rewrite</i> option allows you to completely rewrite the text of
+          this page. You will be credited as the only author.
+      </p>
       <form action="submitRewrite" method="post">
         <div id="form_body">
-        <input type="hidden" name="pageNumber" value="${fn:escapeXml(pageNumber)}" />
+        <input type="hidden" name="pageNumber"
+            value="${fn:escapeXml(pageNumber)}" />
         <label for="content">Story</label>
         <br />
         <textarea id="content" name="content"></textarea><%
