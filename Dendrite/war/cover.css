@@ -1,0 +1,68 @@
+body {
+	background-color:	#f0f0f0;
+    font-family:        Helvetica, Arial, sans-serif;
+    font-size:          20px;
+}
+
+#logo {
+	height: 150px;
+}
+
+#welcome {
+	text-align: center;
+}
+
+h1 {
+}
+
+#main {
+	padding:        20px;
+    max-width:      1000px;
+    margin-left:    auto;
+    margin-right:   auto;
+}
+
+#actions {
+	margin-top: 40px;
+}
+
+.option {
+	width:             410px;
+	font-size:         40px;
+	padding:           20px;
+    margin:            20px;
+    background-color:  #999;
+    color:             #eee;
+    border-radius:     5px;
+    text-align:        center;
+    float:             left;
+    cursor:            pointer;
+}
+
+.story {
+	width:             260px;
+    padding:           20px;
+    margin-left:       20px;
+    background-color:  #999;
+    color:             #eee;
+    border-radius:     5px;
+    text-align:        center;
+    float:             left;
+    cursor:            pointer;
+}
+
+.story h2 {
+	font-weight:   normal;
+}
+
+.first {
+	background-color: darkred;
+}
+
+.second {
+	background-color: darkblue;
+}
+
+.third {
+	background-color: darkgreen;
+}
