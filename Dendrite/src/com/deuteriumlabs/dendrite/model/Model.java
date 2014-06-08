@@ -20,7 +20,7 @@ public abstract class Model {
 	 * @param preparedQuery the prepared query matching a single entity
 	 * @return The single entity from the prepared query
 	 */
-	private static Entity getSingleEntity(final PreparedQuery preparedQuery) {
+	protected static Entity getSingleEntity(final PreparedQuery preparedQuery) {
 		try {
 			return preparedQuery.asSingleEntity();
 		} catch (TooManyResultsException e) {

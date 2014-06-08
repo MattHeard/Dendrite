@@ -338,4 +338,31 @@ public class StoryOption extends Model {
 		return (target > 0);
 	}
 
+	public void readWithTarget() {
+		final Entity entity = this.getEntityWithTarget();
+		if (entity != null)
+			this.readPropertiesFromEntity(entity);
+	}
+
+	private Entity getEntityWithTarget() {
+		final DatastoreService store = getStore();
+		final Query query = this.getQueryWithTarget();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		return getSingleEntity(preparedQuery);
+	}
+
+	private Query getQueryWithTarget() {
+		final Query query = new Query(KIND_NAME);
+		final int target = this.getTarget();
+		final Filter filter = getTargetFilter(target);
+		return query.setFilter(filter);
+	}
+
+	private Filter getTargetFilter(int target) {
+		final String propertyName = TARGET_PROPERTY;
+		final FilterOperator operator = FilterOperator.EQUAL;
+		final int value = target;
+		return new FilterPredicate(propertyName, operator, value);
+	}
+
 }

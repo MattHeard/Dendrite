@@ -26,7 +26,28 @@ if (isExistingPage == true) {
       <h2>Rewrite this page</h2>
       <p>The <i>rewrite</i> option allows you to completely rewrite the text of
           this page. You will be credited as the only author.
-      </p>
+      </p><%
+    
+    final boolean isBeginning = view.isBeginning();
+    if (isBeginning == true) {
+    	
+    	final String storyTitle = view.getStoryTitle();
+    	pageContext.setAttribute("title", storyTitle);
+    	
+    	%>
+      <h3>${fn:escapeXml(title)}</h3><%
+    	
+    } else {
+    
+        final String incomingOptionText = view.getIncomingOptionText();
+        pageContext.setAttribute("option", incomingOptionText);
+      
+        %>
+      <h3>${fn:escapeXml(option)}</h3><%
+    
+    }
+    
+    %>
       <form action="submitRewrite" method="post">
         <div id="form_body">
         <input type="hidden" name="pageNumber"
