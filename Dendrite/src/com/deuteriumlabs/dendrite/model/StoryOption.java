@@ -29,16 +29,23 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
  * rather than to the page creation form.
  */
 public class StoryOption extends Model {
+	private static final int INVALID_LIST_INDEX = -1;
+	private static final int INVALID_TARGET_PAGE_NUMBER = 0;
 	private static final String KIND_NAME = "StoryOption";
 	private static final String LIST_INDEX_PROPERTY = "listIndex";
 	private static final String SOURCE_NUMBER_PROPERTY = "sourceNumber";
 	private static final String SOURCE_VERSION_PROPERTY = "sourceVersion";
-	private static final String TEXT_PROPERTY = "text";
 	private static final String TARGET_PROPERTY = "target";
-	private static final int INVALID_TARGET_PAGE_NUMBER = 0;
+	private static final String TEXT_PROPERTY = "text";
 	
-	public StoryOption() {
-		this.setTarget(0);
+	public static int countOptions(final PageId source) {
+		final Query query = new Query(KIND_NAME);
+		final Filter filter = getSourceFilter(source);
+		query.setFilter(filter);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		return preparedQuery.countEntities(fetchOptions);
 	}
 	
 	/**
@@ -133,8 +140,31 @@ public class StoryOption extends Model {
 	
 	private int listIndex;
 	private PageId source;
-	private String text;
 	private int target;
+	private String text;
+
+	public StoryOption() {
+		this.setListIndex(INVALID_LIST_INDEX);
+		this.setTarget(INVALID_TARGET_PAGE_NUMBER);
+	}
+
+	private boolean areSourceAndIndexSet() {
+		final PageId source = this.getSource();
+		final boolean isSourceSet = (source != null && source.isValid());
+		final int listIndex = this.getListIndex();
+		final boolean isListIndexSet = (listIndex != INVALID_LIST_INDEX);
+		return isSourceSet && isListIndexSet;
+	}
+
+	private Entity getEntityWithTarget() {
+		final DatastoreService store = getStore();
+		final Query query1 = new Query(KIND_NAME);
+		final int target = this.getTarget();
+		final Filter filter = this.getTargetFilter(target);
+		final Query query = query1.setFilter(filter);
+		final PreparedQuery preparedQuery = store.prepare(query);
+		return getSingleEntity(preparedQuery);
+	}
 
 	/* (non-Javadoc)
 	 * @see com.deuteriumlabs.dendrite.model.Model#getKindName()
@@ -157,6 +187,14 @@ public class StoryOption extends Model {
 	 */
 	@Override
 	Query getMatchingQuery() {
+		if (this.areSourceAndIndexSet() == true) {
+			return getQueryMatchingSourceAndIndex();
+		} else {
+			return getQueryMatchingTarget();
+		}
+	}
+
+	private Query getQueryMatchingSourceAndIndex() {		
 		final Query query = new Query(KIND_NAME);
 		final PageId source = this.getSource();
 		final Filter sourceFilter = getSourceFilter(source);
@@ -164,6 +202,13 @@ public class StoryOption extends Model {
 		final Filter listIndexFilter = getListIndexFilter(listIndex);
 		final Filter filter;
 		filter = CompositeFilterOperator.and(sourceFilter, listIndexFilter);
+		return query.setFilter(filter);
+	}
+
+	private Query getQueryMatchingTarget() {
+		final Query query = new Query(KIND_NAME);
+		final int target = this.getTarget();
+		final Filter filter = getTargetFilter(target);
 		return query.setFilter(filter);
 	}
 
@@ -175,12 +220,36 @@ public class StoryOption extends Model {
 		return this.source;
 	}
 
+	public int getTarget() {
+		return this.target;
+	}
+
+	private Filter getTargetFilter(int target) {
+		final String propertyName = TARGET_PROPERTY;
+		final FilterOperator operator = FilterOperator.EQUAL;
+		final int value = target;
+		return new FilterPredicate(propertyName, operator, value);
+	}
+
+	private int getTargetFromEntity(final Entity entity) {
+		final Long number = (Long) entity.getProperty(TARGET_PROPERTY);
+		if (number != null)
+			return number.intValue();
+		else
+			return INVALID_TARGET_PAGE_NUMBER;
+	}
+
 	/**
 	 * Returns the text of this story option.
 	 * @return The text of this story option
 	 */
 	public String getText() {
 		return this.text;
+	}
+
+	public boolean isConnected() {
+		final int target = this.getTarget();
+		return (target > 0);
 	}
 
 	/**
@@ -204,23 +273,6 @@ public class StoryOption extends Model {
 		this.readTargetFromEntity(entity);
 	}
 
-	private void readTargetFromEntity(final Entity entity) {
-		final int target = getTargetFromEntity(entity);
-		this.setTarget(target);
-	}
-
-	public void setTarget(final int target) {
-		this.target = target;
-	}
-
-	private int getTargetFromEntity(final Entity entity) {
-		final Long number = (Long) entity.getProperty(TARGET_PROPERTY);
-		if (number != null)
-			return number.intValue();
-		else
-			return INVALID_TARGET_PAGE_NUMBER;
-	}
-
 	/**
 	 * Reads the values from the entity corresponding to the source page ID of
 	 * this story option.
@@ -235,6 +287,11 @@ public class StoryOption extends Model {
 		this.setSource(source);
 	}
 
+	private void readTargetFromEntity(final Entity entity) {
+		final int target = getTargetFromEntity(entity);
+		this.setTarget(target);
+	}
+
 	/**
 	 * Reads the value from the entity corresponding to the text of this story
 	 * option.
@@ -243,6 +300,12 @@ public class StoryOption extends Model {
 	private void readTextFromEntity(final Entity entity) {
 		final String text = getTextFromEntity(entity);
 		this.setText(text);
+	}
+
+	public void readWithTarget() {
+		final Entity entity = this.getEntityWithTarget();
+		if (entity != null)
+			this.readPropertiesFromEntity(entity);
 	}
 
 	/**
@@ -273,13 +336,7 @@ public class StoryOption extends Model {
 		this.setTextInEntity(entity);
 		this.setTargetInEntity(entity);
 	}
-
-	private void setTargetInEntity(final Entity entity) {
-		final int target = this.getTarget();
-		if (target != 0)
-			entity.setProperty(TARGET_PROPERTY, target);
-	}
-
+	
 	/**
 	 * Sets the source page ID of this story option.
 	 * @param source The new source page ID for this story option
@@ -300,6 +357,16 @@ public class StoryOption extends Model {
 		final String version = source.getVersion();
 		entity.setProperty(SOURCE_VERSION_PROPERTY, version);
 	}
+	
+	public void setTarget(final int target) {
+		this.target = target;
+	}
+
+	private void setTargetInEntity(final Entity entity) {
+		final int target = this.getTarget();
+		if (target != 0)
+			entity.setProperty(TARGET_PROPERTY, target);
+	}
 
 	/**
 	 * Sets the text of this story option.
@@ -317,52 +384,6 @@ public class StoryOption extends Model {
 	private void setTextInEntity(final Entity entity) {
 		final String text = this.getText();
 		entity.setProperty(TEXT_PROPERTY, text);
-	}
-	
-	public static int countOptions(final PageId source) {
-		final Query query = new Query(KIND_NAME);
-		final Filter filter = getSourceFilter(source);
-		query.setFilter(filter);
-		final DatastoreService store = getStore();
-		final PreparedQuery preparedQuery = store.prepare(query);
-		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		return preparedQuery.countEntities(fetchOptions);
-	}
-
-	public int getTarget() {
-		return this.target;
-	}
-	
-	public boolean isConnected() {
-		final int target = this.getTarget();
-		return (target > 0);
-	}
-
-	public void readWithTarget() {
-		final Entity entity = this.getEntityWithTarget();
-		if (entity != null)
-			this.readPropertiesFromEntity(entity);
-	}
-
-	private Entity getEntityWithTarget() {
-		final DatastoreService store = getStore();
-		final Query query = this.getQueryWithTarget();
-		final PreparedQuery preparedQuery = store.prepare(query);
-		return getSingleEntity(preparedQuery);
-	}
-
-	private Query getQueryWithTarget() {
-		final Query query = new Query(KIND_NAME);
-		final int target = this.getTarget();
-		final Filter filter = getTargetFilter(target);
-		return query.setFilter(filter);
-	}
-
-	private Filter getTargetFilter(int target) {
-		final String propertyName = TARGET_PROPERTY;
-		final FilterOperator operator = FilterOperator.EQUAL;
-		final int value = target;
-		return new FilterPredicate(propertyName, operator, value);
 	}
 
 }

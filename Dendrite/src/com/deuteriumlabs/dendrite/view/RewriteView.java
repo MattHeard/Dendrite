@@ -22,7 +22,7 @@ public class RewriteView extends FormView {
 		final StoryOption option = new StoryOption();
 		final int target = this.getPageNumberAsInt();
 		option.setTarget(target);
-		option.readWithTarget();
+		option.read();
 		return option;
 	}
 
