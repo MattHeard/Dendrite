@@ -44,9 +44,7 @@ public abstract class Model {
 	public void create() {
 		final String kindName = this.getKindName();
 		final Entity entity = new Entity(kindName);
-		this.setPropertiesInEntity(entity);
-		final DatastoreService store = getStore();
-		store.put(entity);
+		putEntityInStore(entity);
 	}
 
 	/**
@@ -56,10 +54,14 @@ public abstract class Model {
 	public void delete() {
 		final Entity entity = this.getMatchingEntity();
 		if (entity != null) {
-			final Key key = entity.getKey();
-			final DatastoreService store = getStore();
-			store.delete(key);
+			deleteEntityByKey(entity);
 		}
+	}
+
+	private void deleteEntityByKey(final Entity entity) {
+		final Key key = entity.getKey();
+		final DatastoreService store = getStore();
+		store.delete(key);
 	}
 
 	/**
@@ -97,12 +99,16 @@ public abstract class Model {
 	 * otherwise.
 	 */
 	public boolean isInStore() {
+		final int count = countMatchingEntities();
+		return (count > 0);
+	}
+
+	private int countMatchingEntities() {
 		final Query query = this.getMatchingQuery();
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		final int count = preparedQuery.countEntities(fetchOptions);
-		return (count > 0);
+		return preparedQuery.countEntities(fetchOptions);
 	}
 
 	/**
@@ -136,10 +142,14 @@ public abstract class Model {
 	public void update() {
 		final Entity entity = this.getMatchingEntity();
 		if (entity != null) {
-			this.setPropertiesInEntity(entity);
-			final DatastoreService store = getStore();
-			store.put(entity);
+			putEntityInStore(entity);
 		}
+	}
+
+	private void putEntityInStore(final Entity entity) {
+		this.setPropertiesInEntity(entity);
+		final DatastoreService store = getStore();
+		store.put(entity);
 	}
 
 }

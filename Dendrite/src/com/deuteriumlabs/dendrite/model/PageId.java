@@ -12,6 +12,8 @@ package com.deuteriumlabs.dendrite.model;
  *	of the <code>int</code> representation.
  */
 public class PageId {
+	private static final int MIN_PAGE_NUM = 1;
+	private static final int INVALID_PAGE_NUM = 0;
 	private int number;
 	private String version;
 	
@@ -22,36 +24,45 @@ public class PageId {
 			for (; i < string.length(); i++) {
 				final char curr = string.charAt(i);
 				final boolean isDigit = Character.isDigit(curr);
-				if (isDigit == true)
+				if (isDigit == true) {
 					digits += curr;
-				else
+				} else {
 					break;
+				}
 			}
-			int number;
-			try {
-				number = Integer.parseInt(digits);
-			} catch (NumberFormatException e) {
-				number = 0;
-			}
-			if (number < 1)
-				number = 0;
+			int number = parseInt(digits);
+			number = (number < MIN_PAGE_NUM) ? INVALID_PAGE_NUM : number;
 			this.setNumber(number);
+			
 			String letters = "";
 			if (number > 0) {
 				for (; i < string.length(); i++) {
 					final char curr = string.charAt(i);
 					final boolean isLetter = Character.isLetter(curr);
-					if (isLetter == true)
+					if (isLetter == true) {
 						letters += curr;
-					else
+					} else {
 						break;
+					}
 				}
-				if (letters.isEmpty() == true)
+				if (letters.isEmpty() == true) {
 					letters = null;
-			} else
+				}
+			} else {
 				letters = null;
+			}
 			this.setVersion(letters);
 		}
+	}
+
+	private int parseInt(String digits) {
+		int number;
+		try {
+			number = Integer.parseInt(digits);
+		} catch (NumberFormatException e) {
+			number = INVALID_PAGE_NUM;
+		}
+		return number;
 	}
 	
 	public PageId() { }
@@ -77,10 +88,7 @@ public class PageId {
 	 * @param number the new number component for the ID
 	 */
 	public void setNumber(int number) {
-		if (number > 0)
-			this.number = number;
-		else
-			this.number = 0;
+		this.number = (number > INVALID_PAGE_NUM) ? number : INVALID_PAGE_NUM;
 	}
 	
 	/**
@@ -89,10 +97,7 @@ public class PageId {
 	 */
 	public void setVersion(String version) {
 		final boolean isValid = isValidVersion(version);
-		if (isValid == true)
-			this.version = version;
-		else
-			this.version = null;
+		this.version = (isValid == true) ? version : null;
 	}
 
 	/**
@@ -102,14 +107,16 @@ public class PageId {
 	 * @return true if the version is valid, false otherwise
 	 */
 	private static boolean isValidVersion(final String version) {
-		if (version == null)
+		if (version == null) {
 			return false;
+		}
 		for (int i = 0; i < version.length(); i++) {
 			char ch = version.charAt(i);
 			ch = Character.toLowerCase(ch);
 			final boolean isCharacterValid = (ch >= 'a' && ch <= 'z');
-			if (isCharacterValid == false)
+			if (isCharacterValid == false) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -118,15 +125,14 @@ public class PageId {
 	public String toString() {
 		final int number = this.getNumber();
 		String version = this.getVersion();
-		if (version == null)
-			version = "";
+		version = (version == null) ? "" : version;
 		final String string = number + version;
 		return string;
 	}
 
 	public boolean isValid() {
 		final int number = this.getNumber();
-		final boolean isValidNumber = (number > 0);
+		final boolean isValidNumber = (number > INVALID_PAGE_NUM);
 		final String version = this.getVersion();
 		final boolean isValidVersion = isValidVersion(version);
 		return (isValidNumber && isValidVersion);
