@@ -17,7 +17,7 @@ import com.google.appengine.api.datastore.Text;
  * preferences visible only to the matching user.
  */
 public class AuthorView extends View {
-
+	
 	private class StoryPageEntry {
 		String authorName;
 		String pageId;
@@ -43,11 +43,11 @@ public class AuthorView extends View {
 
 	private List<String> authorNames;
 	private int authorPageNumber;
+	private BibliographyView bibliographyView;
 	private String currStoryPageAuthorName;
 	private String currTitle;
 	private List<StoryPageEntry> entries;
 	private String id;
-	private int numStoryPagesAlreadyDisplayed;
 	private List<String> pageIds;
 	private List<StoryPage> pages;
 	private String prevTitle;
@@ -61,6 +61,7 @@ public class AuthorView extends View {
 		this.setNumStoryPagesAlreadyDisplayed(0);
 		this.setPrevTitle(null);
 		this.setCurrTitle(null);
+		this.initialiseBibilographyView();
 	}
 
 	private void generateEntries() {
@@ -96,6 +97,10 @@ public class AuthorView extends View {
 
 	private int getAuthorPageNumber() {
 		return this.authorPageNumber;
+	}
+
+	private BibliographyView getBibiliographyView() {
+		return bibliographyView;
 	}
 
 	private String getCurrStoryPageAuthorName() {
@@ -140,7 +145,8 @@ public class AuthorView extends View {
 	}
 
 	private int getNumStoryPagesAlreadyDisplayed() {
-		return numStoryPagesAlreadyDisplayed;
+		final BibliographyView bibliographyView = this.getBibiliographyView();
+		return bibliographyView.getNumStoryPagesAlreadyDisplayed();
 	}
 
 	private int getNumStoryPagesToDisplay() {
@@ -235,6 +241,11 @@ public class AuthorView extends View {
 		pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
 
 		this.prepareAvatarId();
+	}
+
+	private void initialiseBibilographyView() {
+		final BibliographyView view = new BibliographyView();
+		this.setBibiliographyView(view);
 	}
 
 	public boolean isAuthorAvatarAvailable() {
@@ -399,6 +410,10 @@ public class AuthorView extends View {
 		}
 	}
 
+	private void setBibiliographyView(BibliographyView bibiliographyView) {
+		this.bibliographyView = bibiliographyView;
+	}
+
 	private void setCurrStoryPageAuthorName(final String authorName) {
 		this.currStoryPageAuthorName = authorName;
 	}
@@ -420,7 +435,8 @@ public class AuthorView extends View {
 	}
 
 	private void setNumStoryPagesAlreadyDisplayed(final int num) {
-		this.numStoryPagesAlreadyDisplayed = num;
+		final BibliographyView bibliographyView = this.getBibiliographyView();
+		bibliographyView.setNumStoryPagesAlreadyDisplayed(num);
 	}
 
 	private void setPageIds(final List<String> pageIds) {
