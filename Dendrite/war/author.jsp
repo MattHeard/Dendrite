@@ -40,7 +40,12 @@ if (view.isAuthorPageOfUser() == true) {
 %>
         </div>
         <div id="author_body">
-          <h2>Pages Written</h2><%
+          <div id="tabs">
+            <a class="selected_tab">Pages Written</a>
+            <a>Statistics</a>
+            <a>Friends</a>
+            <a id="more">⋮</a>
+          </div><%
 
 while (view.hasAnotherStoryPage() == true) {
 	view.prepareNextStoryPage();
