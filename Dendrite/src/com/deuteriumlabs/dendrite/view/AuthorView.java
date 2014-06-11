@@ -42,26 +42,23 @@ public class AuthorView extends View {
 	}
 
 	private List<String> authorNames;
-	private int authorPageNumber;
 	private BibliographyView bibliographyView;
 	private String currStoryPageAuthorName;
 	private String currTitle;
 	private List<StoryPageEntry> entries;
 	private String id;
 	private List<String> pageIds;
-	private List<StoryPage> pages;
 	private String prevTitle;
 	private List<String> summaries;
-	private List<String> titles;
 
 	private User user;
 
 	public AuthorView() {
+		this.initialiseBibilographyView();
 		this.setAuthorPageNumber(1);
 		this.setNumStoryPagesAlreadyDisplayed(0);
 		this.setPrevTitle(null);
 		this.setCurrTitle(null);
-		this.initialiseBibilographyView();
 	}
 
 	private void generateEntries() {
@@ -96,7 +93,9 @@ public class AuthorView extends View {
 	}
 
 	private int getAuthorPageNumber() {
-		return this.authorPageNumber;
+		final BibliographyView bibliographyView = this.getBibiliographyView();
+		final int number = bibliographyView.getAuthorPageNumber();
+		return number;
 	}
 
 	private BibliographyView getBibiliographyView() {
@@ -135,18 +134,14 @@ public class AuthorView extends View {
 
 	private StoryPageEntry getNextStoryPage() {
 		final List<StoryPageEntry> pages = this.getEntries();
-		final int index = this.getNumStoryPagesAlreadyDisplayed();
+		final BibliographyView bibliographyView = this.getBibiliographyView();
+		final int index = bibliographyView.getNumStoryPagesAlreadyDisplayed();
 		return pages.get(index);
 	}
 
 	private int getNumberOfPages() {
 		final String authorId = this.getId();
 		return StoryPage.countAllPagesWrittenBy(authorId);
-	}
-
-	private int getNumStoryPagesAlreadyDisplayed() {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		return bibliographyView.getNumStoryPagesAlreadyDisplayed();
 	}
 
 	private int getNumStoryPagesToDisplay() {
@@ -161,9 +156,13 @@ public class AuthorView extends View {
 	}
 
 	private List<StoryPage> getPages() {
-		if (this.pages == null)
+		final BibliographyView bibliographyView = this.getBibiliographyView();
+		List<StoryPage> pages = bibliographyView.getPages();
+		if (pages == null) {
 			this.readPages();
-		return this.pages;
+			pages = bibliographyView.getPages(); 
+		}
+		return pages;
 	}
 
 	public String getPenName() {
@@ -191,9 +190,13 @@ public class AuthorView extends View {
 	}
 
 	public List<String> getTitles() {
-		if (this.titles == null)
+		final BibliographyView bibliographyView = this.getBibiliographyView();
+		List<String> titles = bibliographyView.getTitles();
+		if (titles == null) {
 			this.readTitles();
-		return this.titles;
+			titles = bibliographyView.getTitles();
+		}
+		return titles;
 	}
 
 	@Override
@@ -207,7 +210,9 @@ public class AuthorView extends View {
 	}
 
 	public boolean hasAnotherStoryPage() {
-		final int numAlreadyDisplayed = this.getNumStoryPagesAlreadyDisplayed();
+		final BibliographyView bibliographyView = this.getBibiliographyView();
+		final int numAlreadyDisplayed =
+				bibliographyView.getNumStoryPagesAlreadyDisplayed();
 		final int numToDisplay = this.getNumStoryPagesToDisplay();
 		if (numAlreadyDisplayed < numToDisplay) {
 			return true;
@@ -217,7 +222,8 @@ public class AuthorView extends View {
 	}
 
 	private void incrementNumStoryPagesAlreadyDisplayed() {
-		final int num = this.getNumStoryPagesAlreadyDisplayed();
+		final BibliographyView bibliographyView = this.getBibiliographyView();
+		final int num = bibliographyView.getNumStoryPagesAlreadyDisplayed();
 		this.setNumStoryPagesAlreadyDisplayed(num + 1);
 	}
 
@@ -359,7 +365,8 @@ public class AuthorView extends View {
 		final List<StoryPage> pages;
 		final String authorId = this.getId();
 		pages = StoryPage.getPagesWrittenBy(authorId, firstIndex, lastIndex);
-		this.setPages(pages);
+		final BibliographyView bibliographyView = this.getBibiliographyView();
+		bibliographyView.setPages(pages);
 	}
 
 	private void readSummaries() {
@@ -385,7 +392,8 @@ public class AuthorView extends View {
 			final String title = beginning.getTitle();
 			titles.add(title);
 		}
-		this.setTitles(titles);
+		final BibliographyView bibliographyView = this.getBibiliographyView();
+		bibliographyView.setTitles(titles);
 	}
 
 	private void savePrevTitle() {
@@ -398,13 +406,15 @@ public class AuthorView extends View {
 	}
 
 	public void setAuthorPageNumber(final int authorPageNumber) {
+		final BibliographyView bibliographyView = this.getBibiliographyView();
 		final int previousPageNumber = this.getAuthorPageNumber();
-		if (authorPageNumber > 1)
-			this.authorPageNumber = authorPageNumber;
-		else
-			this.authorPageNumber = 1;
+		if (authorPageNumber > 1) {
+			bibliographyView.setAuthorPageNumber(authorPageNumber);
+		} else {
+			bibliographyView.setDefaultAuthorPageNumber();
+		}
 		if (authorPageNumber != previousPageNumber) {
-			this.setTitles(null);
+			bibliographyView.setTitles(null);
 			this.setSummaries(null);
 			this.setPageIds(null);
 		}
@@ -443,21 +453,12 @@ public class AuthorView extends View {
 		this.pageIds = pageIds;
 	}
 
-	private void setPages(final List<StoryPage> pages) {
-		this.pages = pages;
-
-	}
-
 	public void setPrevTitle(final String prevTitle) {
 		this.prevTitle = prevTitle;
 	}
 
 	private void setSummaries(final List<String> summaries) {
 		this.summaries = summaries;
-	}
-
-	private void setTitles(final List<String> titles) {
-		this.titles = titles;
 	}
 
 	private void setUser(final User user) {
