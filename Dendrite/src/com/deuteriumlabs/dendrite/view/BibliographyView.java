@@ -13,18 +13,37 @@ class BibliographyView {
 	private static final int NUM_PAGES_DISPLAYED = 10;
 	
 	private int authorPageNumber;
+	private String id;
 	private int numStoryPagesAlreadyDisplayed;
 	private List<StoryPage> pages;
-	private List<String> titles;
 
-	private String id;
+	private List<String> titles;
 
 	public int getAuthorPageNumber() {
 		return authorPageNumber;
 	}
 
+	public int getFirstIndex() {
+		final int authorPageNumber = this.getAuthorPageNumber();
+		return (authorPageNumber - 1) * NUM_PAGES_DISPLAYED;
+	}
+
+	public String getId() {
+		return this.id;
+	}
+
+	public int getLastIndex() {
+		final int firstIndex = this.getFirstIndex();
+		return firstIndex + NUM_PAGES_DISPLAYED;
+	}
+
 	public int getNumStoryPagesAlreadyDisplayed() {
 		return numStoryPagesAlreadyDisplayed;
+	}
+
+	public int getNumStoryPagesToDisplay() {
+		final List<String> titles = this.getTitles();
+		return titles.size();
 	}
 
 	public List<StoryPage> getPages() {
@@ -41,42 +60,9 @@ class BibliographyView {
 		return titles;
 	}
 
-	public void setAuthorPageNumber(final int authorPageNumber) {
-		this.authorPageNumber = authorPageNumber;
-	}
-
-	public void setDefaultAuthorPageNumber() {
-		this.setAuthorPageNumber(DEFAULT_AUTHOR_PAGE_NUM);
-	}
-
-	public void setNumStoryPagesAlreadyDisplayed(final int num) {
-		this.numStoryPagesAlreadyDisplayed = num;
-	}
-
-	public void setPages(final List<StoryPage> pages) {
-		this.pages = pages;
-	}
-
-	public void setTitles(final List<String> titles) {
-		this.titles = titles;
-	}
-
-	public int getFirstIndex() {
-		final int authorPageNumber = this.getAuthorPageNumber();
-		return (authorPageNumber - 1) * NUM_PAGES_DISPLAYED;
-	}
-
-	public int getLastIndex() {
-		final int firstIndex = this.getFirstIndex();
-		return firstIndex + NUM_PAGES_DISPLAYED;
-	}
-
-	public String getId() {
-		return this.id;
-	}
-
-	public void setId(final String id) {
-		this.id = id;
+	public void incrementNumStoryPagesAlreadyDisplayed() {
+		final int num = this.getNumStoryPagesAlreadyDisplayed();
+		this.setNumStoryPagesAlreadyDisplayed(num + 1);
 	}
 
 	public void readPages() {
@@ -101,5 +87,29 @@ class BibliographyView {
 			titles.add(title);
 		}
 		this.setTitles(titles);
+	}
+
+	public void setAuthorPageNumber(final int authorPageNumber) {
+		this.authorPageNumber = authorPageNumber;
+	}
+
+	public void setDefaultAuthorPageNumber() {
+		this.setAuthorPageNumber(DEFAULT_AUTHOR_PAGE_NUM);
+	}
+
+	public void setId(final String id) {
+		this.id = id;
+	}
+
+	public void setNumStoryPagesAlreadyDisplayed(final int num) {
+		this.numStoryPagesAlreadyDisplayed = num;
+	}
+
+	public void setPages(final List<StoryPage> pages) {
+		this.pages = pages;
+	}
+
+	public void setTitles(final List<String> titles) {
+		this.titles = titles;
 	}
 }

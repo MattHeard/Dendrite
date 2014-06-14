@@ -55,7 +55,8 @@ public class AuthorView extends View {
 	public AuthorView() {
 		this.initialiseBibilographyView();
 		this.setAuthorPageNumber(1);
-		this.setNumStoryPagesAlreadyDisplayed(0);
+		final BibliographyView bibliographyView = this.getBibiliographyView();
+		bibliographyView.setNumStoryPagesAlreadyDisplayed(0);
 		this.setPrevTitle(null);
 		this.setCurrTitle(null);
 	}
@@ -139,13 +140,6 @@ public class AuthorView extends View {
 		return StoryPage.countAllPagesWrittenBy(authorId);
 	}
 
-	// TODO: Extract into BibliographyView
-	private int getNumStoryPagesToDisplay() {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		final List<String> titles = bibliographyView.getTitles();
-		return titles.size();
-	}
-
 	public List<String> getPageIds() {
 		if (this.pageIds == null)
 			this.readPageIds();
@@ -192,18 +186,13 @@ public class AuthorView extends View {
 		final BibliographyView bibliographyView = this.getBibiliographyView();
 		final int numAlreadyDisplayed =
 				bibliographyView.getNumStoryPagesAlreadyDisplayed();
-		final int numToDisplay = this.getNumStoryPagesToDisplay();
+		final BibliographyView bibliographyView1 = this.getBibiliographyView();
+		final int numToDisplay = bibliographyView1.getNumStoryPagesToDisplay();
 		if (numAlreadyDisplayed < numToDisplay) {
 			return true;
 		} else {
 			return false;
 		}
-	}
-
-	private void incrementNumStoryPagesAlreadyDisplayed() {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		final int num = bibliographyView.getNumStoryPagesAlreadyDisplayed();
-		this.setNumStoryPagesAlreadyDisplayed(num + 1);
 	}
 
 	@Override
@@ -294,7 +283,8 @@ public class AuthorView extends View {
 		this.setCurrTitle(page.title);
 		this.prepareStoryPage(page);
 		this.setCurrStoryPageAuthorName(page.authorName);
-		this.incrementNumStoryPagesAlreadyDisplayed();
+		final BibliographyView bibliographyView = this.getBibiliographyView();
+		bibliographyView.incrementNumStoryPagesAlreadyDisplayed();
 	}
 
 	public void preparePrevAuthorPageLink() {
@@ -403,11 +393,6 @@ public class AuthorView extends View {
 		if (bibliographyView != null) {
 			bibliographyView.setId(id);
 		}
-	}
-
-	private void setNumStoryPagesAlreadyDisplayed(final int num) {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		bibliographyView.setNumStoryPagesAlreadyDisplayed(num);
 	}
 
 	private void setPageIds(final List<String> pageIds) {
