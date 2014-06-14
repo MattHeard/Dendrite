@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 
 import com.deuteriumlabs.dendrite.model.PageId;
-import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 import com.deuteriumlabs.dendrite.model.User;
 import com.google.appengine.api.datastore.Text;
@@ -62,7 +61,8 @@ public class AuthorView extends View {
 	}
 
 	private void generateEntries() {
-		final List<String> titles = this.getTitles();
+		final BibliographyView bibliographyView = this.getBibiliographyView();
+		final List<String> titles = bibliographyView.getTitles();
 		final int length = titles.size();
 		final List<String> summaries = this.getSummaries();
 		final List<String> pageIds = this.getPageIds();
@@ -141,7 +141,8 @@ public class AuthorView extends View {
 
 	// TODO: Extract into BibliographyView
 	private int getNumStoryPagesToDisplay() {
-		final List<String> titles = this.getTitles();
+		final BibliographyView bibliographyView = this.getBibiliographyView();
+		final List<String> titles = bibliographyView.getTitles();
 		return titles.size();
 	}
 
@@ -174,17 +175,6 @@ public class AuthorView extends View {
 		if (this.summaries == null)
 			this.readSummaries();
 		return this.summaries;
-	}
-
-	// TODO: Extract into BibliographyView
-	public List<String> getTitles() {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		List<String> titles = bibliographyView.getTitles();
-		if (titles == null) {
-			this.readTitles();
-			titles = bibliographyView.getTitles();
-		}
-		return titles;
 	}
 
 	@Override
@@ -361,12 +351,6 @@ public class AuthorView extends View {
 			summaries.add(summary);
 		}
 		this.setSummaries(summaries);
-	}
-
-	// TODO: Extract into BibliographyView
-	private void readTitles() {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		bibliographyView.readTitles();
 	}
 
 	private void savePrevTitle() {

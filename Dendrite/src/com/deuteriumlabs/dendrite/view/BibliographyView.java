@@ -35,6 +35,9 @@ class BibliographyView {
 	}
 
 	public List<String> getTitles() {
+		if (titles == null) {
+			this.readTitles();
+		}
 		return titles;
 	}
 
