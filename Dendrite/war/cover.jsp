@@ -1,41 +1,60 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
+%><%@ page import="com.deuteriumlabs.dendrite.view.CoverView"
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
+%><%
+
+final CoverView view = new CoverView();
+view.setPageContext(pageContext);
+
 %>
+<!DOCTYPE html>
 <html>
-<head>
-<link rel="stylesheet" type="text/css" href="cover.css">
-</head>
-<body>
-<div id="main">
-  <div id="welcome">
-    <a href="index.jsp"><img id="logo" src="logo/head.png"/></a>
-    <h1>Welcome to Dendrite</h1>
-    <p>Dendrite is a read-and-write-your-own-adventure website.</p>
-    <p>Click the "Read" button below to go to the Table of Contents.</p>
-    <p>Click the "Write" button to start your own story.</p>
-    <p>Or select one of the three stories below!</p>
-  </div>
-  <div id="actions">
-    <a href="index.jsp"><div class="option">READ</div></a>
-    <a href="new.jsp"><div class="option">WRITE</div></a>
-  </div>
-  <div>
-    <a href="read.jsp?p=16">
-      <div class="story first">
-        <h2>Leah's adventures in Mattland</h2>
-        <p>Once upon a time...</p>
+  <head>
+    <link rel="stylesheet" type="text/css" href="cover.css">
+    <meta name="viewport" content="width=device-width">
+    <title>Dendrite</title>
+  </head>
+  <body>
+    <div id="main">
+      <div id="welcome">
+        <a href="index.jsp"><img id="logo" src="logo/head.png"/></a>
+        <h1>Dendrite</h1>
+        <p>Read and write your own adventure.</p>
       </div>
-      <div class="story second">
-        <h2>Leah's adventures in Flatland</h2>
-        <p>Once upon a time...</p>
+      <div id="actions">
+        <a href="index.jsp"><h2 class="option">READ</h2></a>
+        <a href="new.jsp"><h2 class="option">WRITE</h2></a>
       </div>
-      <div class="story third">
-        <h2>Leah's adventures in Catland</h2>
-        <p>Once upon a time...</p>
+      <div id="explanation">
+        <p>Click the "Read" button above to go to the table of contents.</p>
+        <p>Click the "Write" button to start your own story.</p>
+        <p>Or select one of the three stories below!</p>
+      </div><%
+
+view.findThreeStories();
+
+%>
+      <div id="stories">
+        <a href="read.jsp?p=16">
+          <div class="story first">
+            <h2>${fn:escapeXml(firstStoryTitle)}</h2>
+            <p>${fn:escapeXml(firstStorySummary)}</p>
+          </div>
+        </a>
+        <a href="read.jsp?p=16">
+          <div class="story second">
+            <h2>${fn:escapeXml(secondStoryTitle)}</h2>
+            <p>${fn:escapeXml(secondStorySummary)}</p>
+          </div>
+        </a>
+        <a href="read.jsp?p=16">
+          <div class="story third">
+            <h2>${fn:escapeXml(thirdStoryTitle)}</h2>
+            <p>${fn:escapeXml(thirdStorySummary)}</p>
+          </div>
+        </a>
       </div>
-    </a>
-  </div>
-</div>
-</body>
+    </div>
+  </body>
 </html>

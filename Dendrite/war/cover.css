@@ -1,11 +1,20 @@
+html, body {
+    height: 100%;
+}
+
 body {
 	background-color:	#f0f0f0;
     font-family:        Helvetica, Arial, sans-serif;
     font-size:          20px;
 }
 
+a {
+	text-decoration: none;
+}
+
 #logo {
 	height: 150px;
+	max-height:    30vh;
 }
 
 #welcome {
@@ -13,46 +22,39 @@ body {
 }
 
 h1 {
+    font-weight:    100;
 }
 
 #main {
-	padding:        20px;
+	text-align:     justify;
+    font-weight:    100;
+	padding:        5px;
     max-width:      1000px;
     margin-left:    auto;
     margin-right:   auto;
 }
 
-#actions {
+#actions, #stories {
 	margin-top: 40px;
 }
 
-.option {
-	width:             410px;
-	font-size:         40px;
-	padding:           20px;
-    margin:            20px;
-    background-color:  #999;
-    color:             #eee;
-    border-radius:     5px;
+.option, .story {
     text-align:        center;
-    float:             left;
     cursor:            pointer;
+    padding:           10px;
+    margin:            10px;
 }
 
 .story {
-	width:             260px;
-    padding:           20px;
-    margin-left:       20px;
-    background-color:  #999;
-    color:             #eee;
-    border-radius:     5px;
-    text-align:        center;
-    float:             left;
-    cursor:            pointer;
+    color: #eee;
 }
 
-.story h2 {
-	font-weight:   normal;
+h2 {
+	font-weight:   100;
+}
+
+.story p {
+	display: none;
 }
 
 .first {
@@ -65,4 +67,39 @@ h1 {
 
 .third {
 	background-color: darkgreen;
+}
+
+.option {
+    background-color:  #999;
+    color:             #eee;
+}
+
+@media all and (min-width: 800px) {
+	
+	#main {
+	    padding:        20px;
+    }
+
+	.option {
+	    width:             410px;
+	    font-size:         40px;
+	    padding:           20px;
+	    margin:            20px;
+	    border-radius:     5px;
+	    float:             left;
+	}
+	
+	.story {
+	    width:             260px;
+	    padding:           20px;
+	    margin-left:       20px;
+	    border-radius:     5px;
+	    text-align:        center;
+	    float:             left;
+	    cursor:            pointer;
+	}
+	
+	.story p {
+        display: initial;
+	}
 }
