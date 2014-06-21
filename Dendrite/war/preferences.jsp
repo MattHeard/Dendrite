@@ -5,7 +5,7 @@
 %><%
 
 pageContext.setAttribute("webPageTitle", "Dendrite - My Preferences");
-final View view = new PreferencesView();
+final PreferencesView view = new PreferencesView();
 
 %><%@include file="top.jspf"
 
@@ -241,7 +241,18 @@ final View view = new PreferencesView();
                 name="avatar"
                 id="avatar_radio_${avatarNum}"
                 value="${avatarNum}"
-                class="avatar_input_hidden" />
+                class="avatar_input_hidden"<%
+                
+        final int userAvatarId = view.getAvatarId();
+        final boolean isSelected = (userAvatarId == i);
+        if (isSelected == true) {
+        	
+        	%>
+                checked="checked"<%
+                
+        }
+                
+        %> />
             <label for="avatar_radio_${avatarNum}">
               <img src="avatars/${avatarNum}.png"
                   class="avatar_radio_button" />
