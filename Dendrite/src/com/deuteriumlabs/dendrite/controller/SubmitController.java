@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpSession;
+
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryOption;
 import com.deuteriumlabs.dendrite.model.StoryPage;
@@ -16,6 +18,7 @@ public abstract class SubmitController {
 	protected String content;
 	protected PageId id;
 	protected List<String> options;
+	private HttpSession session;
 	
 	public SubmitController() {
 		this.options = new ArrayList<String>();
@@ -24,8 +27,9 @@ public abstract class SubmitController {
 	public void addOption(final String option) {
 		final List<String> options = this.getOptions();
 		final int size = options.size();
-		if (size < 5)
+		if (size < 5) {
 			options.add(option);
+		}
 	}
 
 	public void buildNewPage() {
@@ -48,8 +52,9 @@ public abstract class SubmitController {
 			option.setListIndex(linkIndex);
 			option.setText(text);
 			final boolean isInStore = option.isInStore();
-			if (isInStore == false)
+			if (isInStore == false) {
 				option.create();
+			}
 			linkIndex++;
 		}
 	}
@@ -152,14 +157,20 @@ public abstract class SubmitController {
 
 	public void setAuthorId(final String authorId) {
 		this.authorId = authorId;
+		final HttpSession session = this.getSession();
+		session.setAttribute("authorId", authorId);
 	}
 
 	public void setAuthorName(final String authorName) {
 		this.authorName = authorName;
+		final HttpSession session = this.getSession();
+		session.setAttribute("authorName", authorName);
 	}
 
 	public void setContent(final String content) {
 		this.content = content;
+		final HttpSession session = this.getSession();
+		session.setAttribute("content", content);
 	}
 
 	protected void setNewPageId() {
@@ -169,5 +180,13 @@ public abstract class SubmitController {
 
 	protected void setPageId(final PageId id) {
 		this.id = id;
+	}
+
+	protected HttpSession getSession() {
+		return this.session;
+	}
+
+	public void setSession(final HttpSession session) {	
+		this.session = session;
 	}
 }

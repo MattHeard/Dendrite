@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.deuteriumlabs.dendrite.model.PageId;
 
@@ -18,6 +19,9 @@ public class SubmitNewServlet extends SubmitServlet {
 		this.setResponse(resp);
 		final SubmitNewController controller;
 		controller = new SubmitNewController();
+		final HttpSession session = req.getSession();
+		controller.setSession(session);
+		controller.startDraft();
 		final String title = req.getParameter("title");
 		controller.setTitle(title);
 		final String content = req.getParameter("content");

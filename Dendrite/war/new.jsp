@@ -22,6 +22,7 @@
 final NewView view = new NewView();
 view.setPageContext(pageContext);
 view.setRequest(request);
+view.setSession(session);
 view.initialise();
 
 %><%@include file="top.jspf"
@@ -32,7 +33,17 @@ view.initialise();
           <div id="form_body">
             <label for="title">Title</label>
             <br />
-            <input id="title" name="title" type="text"></input><%
+            <input id="title" name="title" type="text" value="<%
+            
+final boolean isDraftPending = view.isDraftPending();
+if (isDraftPending == true) {
+	view.prepareDraftTitle();
+	
+	%>${fn:escapeXml(draftTitle)}<%
+	
+}
+            
+%>"></input><%
 
 if (view.isTitleBlank() == true) {
 
@@ -45,7 +56,7 @@ if (view.isTitleBlank() == true) {
             <i>Must not be longer than 100 characters</i><%
 		
 }
-      
+     
 %>
             <br />
             <label for="content">Story</label>
@@ -53,7 +64,15 @@ if (view.isTitleBlank() == true) {
                 characters remaining)
             </span>
             <br />
-            <textarea id="content" name="content"></textarea><%
+            <textarea id="content" name="content"><%
+
+if (isDraftPending == true) {
+	view.prepareDraftContent();
+	
+	%>${fn:escapeXml(draftContent)}<%
+}
+            
+%></textarea><%
       
 if (view.isContentBlank() == true) {
 		
