@@ -6,6 +6,8 @@
 
 pageContext.setAttribute("webPageTitle", "Dendrite - My Preferences");
 final PreferencesView view = new PreferencesView();
+view.setRequest(request);
+view.initialise();
 
 %><%@include file="top.jspf"
 
@@ -17,6 +19,16 @@ final PreferencesView view = new PreferencesView();
             <label for="newPenName" class="prefLabel">Pen name</label>
             <input type="text" name="newPenName" id="newPenName" class="prefInput"
                 value="${fn:escapeXml(userName)}"></input>
+            <%
+
+final boolean isNewPenNameBlank = view.isNewPenNameBlank();
+if (isNewPenNameBlank == true) {
+
+    %><i>The pen name must not be blank.</i><%
+
+}
+
+%>
           </p>
           <hr />
           <h3>Display</h3>
