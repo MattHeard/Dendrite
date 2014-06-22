@@ -206,6 +206,10 @@ button,.option {
 	margin-bottom: 1em;
 }
 
+#contentCountNote {
+	display: none;
+}
+
 .clear {
 	clear: both;
 }

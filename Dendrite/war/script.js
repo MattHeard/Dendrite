@@ -189,6 +189,16 @@ function preventEnterFromSubmittingForms() {
   });
 }
 
+function initTextEntryFields() {
+  $('#content').keyup(function() {
+	var numChars = 5000 - $('#content').val().length;
+    $('#contentCount').text(numChars);
+  });
+  
+  $('#contentCountNote').show();
+}
+
 function init() {
-	preventEnterFromSubmittingForms();
+  preventEnterFromSubmittingForms();
+  initTextEntryFields();
 }

@@ -48,7 +48,11 @@ if (view.isTitleBlank() == true) {
       
 %>
             <br />
-            <label for="content">Story</label><br />
+            <label for="content">Story</label>
+            <span id="contentCountNote">(<span id="contentCount">5000</span>
+                characters remaining)
+            </span>
+            <br />
             <textarea id="content" name="content"></textarea><%
       
 if (view.isContentBlank() == true) {
