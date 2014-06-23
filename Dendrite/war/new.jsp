@@ -133,6 +133,11 @@ if (isUserLoggedIn == true) {
     
 %>
             <label for="authorName">Author</label>
+            <span
+                id="authorNameCountNote"
+                class="countNote">(<span id="authorNameCount">100</span>
+                characters remaining)
+            </span>
             <br />
             <input id="authorName" name="authorName" type="text"<%
       

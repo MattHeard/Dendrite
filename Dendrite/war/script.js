@@ -193,25 +193,45 @@ function initTitleCountNote() {
   $('#title').keyup(function() {
 	var numChars = 100 - $('#title').val().length;
     $('#titleCount').text(numChars);
+  }).focus(function() {
+	$('#titleCountNote').show();
+  }).focusout(function() {
+	$('#titleCountNote').hide();
   });
-  $('#title').keyup();
   
-  $('#titleCountNote').show();
+  $('#title').keyup();
 }
 
 function initContentCountNote() {
   $('#content').keyup(function() {
 	var numChars = 5000 - $('#content').val().length;
     $('#contentCount').text(numChars);
+  }).focus(function() {
+	$('#contentCountNote').show();
+  }).focusout(function() {
+	$('#contentCountNote').hide();
   });
-  $('#content').keyup();
   
-  $('#contentCountNote').show();
+  $('#content').keyup();
+}
+
+function initAuthorNameCountNote() {
+  $('#authorName').keyup(function() {
+	var numChars = 100 - $('#authorName').val().length;
+    $('#authorNameCount').text(numChars);
+  }).focus(function() {
+	$('#authorNameCountNote').show();
+  }).focusout(function() {
+	$('#authorNameCountNote').hide();
+  });
+  
+  $('#authorName').keyup();
 }
 
 function initTextEntryFields() {
   initTitleCountNote();
   initContentCountNote();
+  initAuthorNameCountNote();
 }
 
 function init() {
