@@ -32,6 +32,11 @@ view.initialise();
         <form action="submitNewStory" method="post">
           <div id="form_body">
             <label for="title">Title</label>
+            <span
+                id="titleCountNote"
+                class="countNote">(<span id="titleCount">100</span>
+                characters remaining)
+            </span>
             <br />
             <input id="title" name="title" type="text" value="<%
             
@@ -60,7 +65,9 @@ if (view.isTitleBlank() == true) {
 %>
             <br />
             <label for="content">Story</label>
-            <span id="contentCountNote">(<span id="contentCount">5000</span>
+            <span
+                id="contentCountNote"
+                class="countNote">(<span id="contentCount">5000</span>
                 characters remaining)
             </span>
             <br />

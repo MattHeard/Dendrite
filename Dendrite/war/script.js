@@ -180,22 +180,38 @@ function showFormatBar() {
 }
 
 function preventEnterFromSubmittingForms() {
-  $("form :not(textarea)").bind("keyup keypress", function(e) {
-    var code = e.keyCode || e.which; 
-    if (code  == 13) {               
+  $("input").not("textarea").bind("keyup keypress", function(e) {
+    var code = e.keyCode || e.which;
+    if (code == 13) {
       e.preventDefault();
       return false;
     }
   });
 }
 
-function initTextEntryFields() {
+function initTitleCountNote() {
+  $('#title').keyup(function() {
+	var numChars = 100 - $('#title').val().length;
+    $('#titleCount').text(numChars);
+  });
+  $('#title').keyup();
+  
+  $('#titleCountNote').show();
+}
+
+function initContentCountNote() {
   $('#content').keyup(function() {
 	var numChars = 5000 - $('#content').val().length;
     $('#contentCount').text(numChars);
   });
+  $('#content').keyup();
   
   $('#contentCountNote').show();
+}
+
+function initTextEntryFields() {
+  initTitleCountNote();
+  initContentCountNote();
 }
 
 function init() {

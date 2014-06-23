@@ -206,7 +206,7 @@ button,.option {
 	margin-bottom: 1em;
 }
 
-#contentCountNote {
+.countNote {
 	display: none;
 }
 

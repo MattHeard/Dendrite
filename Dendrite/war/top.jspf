@@ -65,7 +65,8 @@ if (userTheme.equals("Light") == false && userTheme != null) {
     <div id="nonFooter">
       <div id="headerBar">
         <div id="header">
-          <div id="logo"><a href="/"><img id="logoImage" src="logo/<%
+          <div id="logo"><a href="/"><img id="logoImage"
+              alt="Dendrite" title="Dendrite" src="logo/<%
           
 if (userTheme != null && userTheme.equals("Light") == false) {
           

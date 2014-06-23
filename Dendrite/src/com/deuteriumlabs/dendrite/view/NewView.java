@@ -34,7 +34,6 @@ public class NewView extends FormView {
 		final HttpSession session = this.getSession();
 		final Boolean isDraftPendingAttribute;
 		isDraftPendingAttribute = (Boolean) session.getAttribute("isDraftPending");
-		System.out.println(isDraftPendingAttribute);
 		final boolean isDraftPending;
 		if (isDraftPendingAttribute == null) {
 			isDraftPending = false;
