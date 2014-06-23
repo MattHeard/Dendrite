@@ -109,12 +109,17 @@ if (view.isAnOptionTooLong() == true) {
 
 for (int i = 0; i < 5; i++) {
     pageContext.setAttribute("optionNumber", i);
+    
+    if (view.isDraftPending() == true) {
+        view.prepareDraftOption(i);
+    }
         	
     %>
             <input
                 id="option${fn:escapeXml(optionNumber)}"
                 name="option${fn:escapeXml(optionNumber)}"
-                type="text"></input>
+                type="text"
+                value="${fn:escapeXml(draftOption)}"></input>
             <br /><%
         	
 }

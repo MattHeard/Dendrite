@@ -29,6 +29,9 @@ public abstract class SubmitController {
 		final int size = options.size();
 		if (size < 5) {
 			options.add(option);
+			final HttpSession session = this.getSession();
+			final String sessionAttributeName = "option" + size;
+			session.setAttribute(sessionAttributeName, option);
 		}
 	}
 

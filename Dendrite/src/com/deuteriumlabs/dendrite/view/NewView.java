@@ -56,4 +56,14 @@ public class NewView extends FormView {
 		final String content = (String) session.getAttribute("content");
 		pageContext.setAttribute("draftContent", content);
 	}
+	
+	public void prepareDraftOption(final int optionNumber) {
+		final PageContext pageContext = this.getPageContext();
+		final HttpSession session = this.getSession();
+		final String attributeName = "option" + optionNumber;
+		final String option = (String) session.getAttribute(attributeName);
+		if (option != null) {
+			pageContext.setAttribute("draftOption", option);
+		}
+	}
 }

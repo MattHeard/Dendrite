@@ -30,8 +30,9 @@ public class SubmitNewServlet extends SubmitServlet {
 		controller.setAuthorName(authorName);
 		for (int i = 0; i < 5; i++) {
 			final String option = req.getParameter("option" + i);
-			if (option != null)
+			if (option != null) {
 				controller.addOption(option);
+			}
 		}
 		final String authorId = req.getParameter("authorId");
 		controller.setAuthorId(authorId);
