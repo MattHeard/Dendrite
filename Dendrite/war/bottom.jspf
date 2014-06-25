@@ -14,18 +14,14 @@
     <div id="footerBar">
       <div id="footerMenu"><%
       
-final List<String> links;
-links = Arrays.asList("About", "Terms", "Privacy", "Contact");
-for (String link : links) {
-	final String url = "/" + link.toLowerCase() + ".jsp";
-	pageContext.setAttribute("url", url);
-    pageContext.setAttribute("text", link);
+while (view.hasAnotherFooterLink()) {
+	view.prepareNextFooterLink();
     
     %>
         <span class="footer">
           <a href="${fn:escapeXml(url)}">${fn:escapeXml(text)}</a>
         </span><%
-    
+        
 }
 
 %>

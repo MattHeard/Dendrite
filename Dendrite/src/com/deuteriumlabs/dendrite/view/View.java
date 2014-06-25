@@ -12,6 +12,35 @@ import com.google.appengine.api.users.UserServiceFactory;
  * and displays it to the user in JSPs.
  */
 public abstract class View {
+	
+	protected View() {
+		this.footerLinks = new FooterLinkList();
+	}
+
+	public class FooterLinkList {
+		private String[] list = { "About", "Terms", "Privacy", "Contact" };
+		private int currIndex;
+
+		public boolean hasAnotherLink() {
+			return currIndex < list.length;
+		}
+		
+		public FooterLinkList() {
+			this.currIndex = 0;
+		}
+
+		public String getCurrUrl() {
+			return "/" + list[currIndex].toLowerCase() + ".jsp";
+		}
+		
+		public void next() {
+			++currIndex;
+		}
+
+		public String getCurrText() {
+			return list[currIndex];
+		}
+	}
 
 	/**
 	 * Returns the URL to the author page of the logged-in user, using the App
@@ -90,6 +119,7 @@ public abstract class View {
 
 	private PageContext pageContext;
 	private HttpServletRequest request;
+	private FooterLinkList footerLinks;
 	
 	/**
 	 * Returns a link for logging in, with a redirect back to this page after
@@ -146,7 +176,17 @@ public abstract class View {
 		this.pageContext = pageContext;
 	}
 	
-	public void setRequest(HttpServletRequest request) {
+	public void setRequest(final HttpServletRequest request) {
 		this.request = request;
+	}
+	
+	public boolean hasAnotherFooterLink() {
+		return footerLinks.hasAnotherLink();
+	}
+
+	public void prepareNextFooterLink() {
+		pageContext.setAttribute("url", footerLinks.getCurrUrl());
+		pageContext.setAttribute("text", footerLinks.getCurrText());
+		footerLinks.next();
 	}
 }
