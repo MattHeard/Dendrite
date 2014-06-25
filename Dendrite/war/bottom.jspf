@@ -1,4 +1,6 @@
-<%
+<%@ page import="java.util.Arrays"
+%><%@ page import="java.util.List"
+%><%
 
 /*
  * The JSTL functions provide `escapeXml(...)`. Currently, all
@@ -10,11 +12,23 @@
 %>      </div>
     </div>
     <div id="footerBar">
-      <div id="footerMenu">
-        <span class="footer"><a href="/about.jsp">About</a></span>
-        <span class="footer"><a href="/terms.jsp">Terms</a></span>
-        <span class="footer"><a href="/privacy.jsp">Privacy</a></span>
-        <span class="footer"><a href="/contact.jsp">Contact</a></span>
+      <div id="footerMenu"><%
+      
+final List<String> links;
+links = Arrays.asList("About", "Terms", "Privacy", "Contact");
+for (String link : links) {
+	final String url = "/" + link.toLowerCase() + ".jsp";
+	pageContext.setAttribute("url", url);
+    pageContext.setAttribute("text", link);
+    
+    %>
+        <span class="footer">
+          <a href="${fn:escapeXml(url)}">${fn:escapeXml(text)}</a>
+        </span><%
+    
+}
+
+%>
       </div>
     </div>
   </body>
