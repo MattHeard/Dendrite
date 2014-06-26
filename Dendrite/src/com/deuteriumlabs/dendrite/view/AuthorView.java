@@ -13,18 +13,19 @@ import com.deuteriumlabs.dendrite.model.User;
  */
 public class AuthorView extends View {
 
+	private static final int DEF_AUTHOR_PG_NUM = 1;
+	
 	private BibliographyView bibliographyView;
 	private String id;
 	private User user;
 
 	public AuthorView() {
 		this.initialiseBibilographyView();
-		this.setAuthorPageNumber(1);
+		this.setAuthorPageNumber(DEF_AUTHOR_PG_NUM);
 	}
 
 	public int getAuthorAvatarId() {
-		final User author = this.getUser();
-		return author.getAvatarId();
+		return user.getAvatarId();
 	}
 
 	private BibliographyView getBibiliographyView() {
@@ -36,7 +37,7 @@ public class AuthorView extends View {
 	}
 
 	public String getPenName() {
-		final User user = this.getUser();
+		final User user = this.user;
 		final String penName = user.getDefaultPenName();
 		return penName;
 	}
@@ -45,10 +46,6 @@ public class AuthorView extends View {
 	String getUrl() {
 		final String id = this.getId();
 		return "/author.jsp?id=" + id;
-	}
-
-	private User getUser() {
-		return this.user;
 	}
 
 	public boolean hasAnotherStoryPage() {
@@ -87,7 +84,7 @@ public class AuthorView extends View {
 	}
 
 	public boolean isAuthorAvatarAvailable() {
-		final User author = this.getUser();
+		final User author = this.user;
 		return author.isAvatarAvailable();
 	}
 
