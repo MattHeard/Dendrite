@@ -185,7 +185,6 @@ public abstract class View {
 	}
 
 	public void prepareNextFooterLink() {
-		System.out.println(pageContext);
 		pageContext.setAttribute("url", footerLinks.getCurrUrl());
 		pageContext.setAttribute("text", footerLinks.getCurrText());
 		footerLinks.next();
