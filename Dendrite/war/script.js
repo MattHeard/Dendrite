@@ -216,9 +216,19 @@ function initContentCountNote() {
 }
 
 function initOptionCountNote() {
-  var numOptionInputs = 5;
-  for (var i = 0; i < numOptionInputs; i++) {
-	  
+  var NUM_OPTION_INPUTS = 5;
+  for (var i = 0; i < NUM_OPTION_INPUTS; i++) {
+    var id = '#option' + i;
+    $(id).keyup(function() {
+      var numChars = 80 - $(this).val().length;
+      $('#optionCount').text(numChars);
+    }).focus(function() {
+      $('#optionCountNote').show();
+      var numChars = 80 - $(this).val().length;
+      $('#optionCount').text(numChars);
+    }).focusout(function() {
+      $('#optionCountNote').hide();
+    }).keyup();
   }
 }
 
