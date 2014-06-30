@@ -6,6 +6,7 @@
 
 pageContext.setAttribute("webPageTitle", "Dendrite - Write");
 final WriteView view = new WriteView();
+view.setPageContext(pageContext);
 
 final String from = request.getParameter("from");
 view.setFrom(from);

@@ -5,6 +5,7 @@
 
 pageContext.setAttribute("webPageTitle", "Dendrite - Terms of Use");
 final TermsView view = new TermsView();
+view.setPageContext(pageContext);
 
 %><%@include file="top.jspf"
 

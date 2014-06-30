@@ -6,6 +6,7 @@
 
 pageContext.setAttribute("webPageTitle", "Dendrite - My Preferences");
 final PrivacyView view = new PrivacyView();
+view.setPageContext(pageContext);
 
 %><%@include file="top.jspf"
 

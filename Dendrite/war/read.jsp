@@ -7,6 +7,7 @@
 %><%
 
 final ReadView view = new ReadView();
+view.setPageContext(pageContext);
 final String pageId = request.getParameter("p");
 view.setPageId(pageId);
 

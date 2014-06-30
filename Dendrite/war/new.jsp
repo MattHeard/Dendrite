@@ -105,6 +105,11 @@ if (view.isAnOptionTooLong() == true) {
 }
   	
 %>
+            <span
+                id="optionCountNote"
+                class="countNote">(<span id="optionCount">80</span>
+                characters remaining)
+            </span>
             <br /><%
 
 for (int i = 0; i < 5; i++) {

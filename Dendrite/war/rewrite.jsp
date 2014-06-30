@@ -6,6 +6,7 @@
 
 pageContext.setAttribute("webPageTitle", "Dendrite - Rewrite");
 final RewriteView view = new RewriteView();
+view.setPageContext(pageContext);
 
 final String pageNumber = request.getParameter("p");
 view.setPageNumber(pageNumber);

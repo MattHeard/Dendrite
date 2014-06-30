@@ -6,6 +6,7 @@
 
 pageContext.setAttribute("webPageTitle", "Dendrite - My Preferences");
 final PreferencesView view = new PreferencesView();
+view.setPageContext(pageContext);
 view.setRequest(request);
 view.initialise();
 

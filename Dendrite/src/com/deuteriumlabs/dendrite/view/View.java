@@ -18,7 +18,7 @@ public abstract class View {
 	}
 
 	public class FooterLinkList {
-		private String[] list = { "About", "Terms", "Privacy", "Contact" };
+		private final String[] list = { "About", "Terms", "Privacy", "Contact" };
 		private int currIndex;
 
 		public boolean hasAnotherLink() {
@@ -185,6 +185,7 @@ public abstract class View {
 	}
 
 	public void prepareNextFooterLink() {
+		System.out.println(pageContext);
 		pageContext.setAttribute("url", footerLinks.getCurrUrl());
 		pageContext.setAttribute("text", footerLinks.getCurrText());
 		footerLinks.next();

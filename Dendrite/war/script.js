@@ -215,6 +215,13 @@ function initContentCountNote() {
   $('#content').keyup();
 }
 
+function initOptionCountNote() {
+  var numOptionInputs = 5;
+  for (var i = 0; i < numOptionInputs; i++) {
+	  
+  }
+}
+
 function initAuthorNameCountNote() {
   $('#authorName').keyup(function() {
 	var numChars = 100 - $('#authorName').val().length;
@@ -231,6 +238,7 @@ function initAuthorNameCountNote() {
 function initTextEntryFields() {
   initTitleCountNote();
   initContentCountNote();
+  initOptionCountNote();
   initAuthorNameCountNote();
 }
 
