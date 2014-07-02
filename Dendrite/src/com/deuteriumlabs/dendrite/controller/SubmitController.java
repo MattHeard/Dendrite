@@ -39,6 +39,7 @@ public abstract class SubmitController {
 		this.setNewPageId();
 		this.buildStoryPage();
 		this.buildStoryOptions();
+		this.forgetDraft();
 	}
 
 	protected void buildStoryOptions() {
@@ -115,6 +116,10 @@ public abstract class SubmitController {
 		return this.options;
 	}
 	
+	protected HttpSession getSession() {
+		return this.session;
+	}
+
 	public boolean isAnyOptionTooLong() {
 		final List<String> options = this.getOptions();
 		for (final String option : options) {
@@ -124,12 +129,12 @@ public abstract class SubmitController {
 		}
 		return false;
 	}
-
+	
 	public boolean isAuthorNameBlank() {
 		final String authorName = this.getAuthorName();
 		return (authorName == null || authorName.equals(""));
 	}
-	
+
 	public boolean isAuthorNameTooLong() {
 		final String authorName = this.getAuthorName();
 		final int length = authorName.length();
@@ -185,11 +190,20 @@ public abstract class SubmitController {
 		this.id = id;
 	}
 
-	protected HttpSession getSession() {
-		return this.session;
-	}
-
 	public void setSession(final HttpSession session) {	
 		this.session = session;
+	}
+
+	public void setPendingDraft(final boolean isPendingDraft) {
+		final HttpSession session = this.getSession();
+		session.setAttribute("isDraftPending", isPendingDraft);
+	}
+
+	public void startDraft() {
+		this.setPendingDraft(true);
+	}
+
+	protected void forgetDraft() {
+		this.setPendingDraft(false);
 	}
 }

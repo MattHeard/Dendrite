@@ -7,6 +7,7 @@
 pageContext.setAttribute("webPageTitle", "Dendrite - Rewrite");
 final RewriteView view = new RewriteView();
 view.setPageContext(pageContext);
+view.setSession(session);
 
 final String pageNumber = request.getParameter("p");
 view.setPageNumber(pageNumber);
@@ -55,7 +56,16 @@ if (isExistingPage == true) {
             value="${fn:escapeXml(pageNumber)}" />
         <label for="content">Story</label>
         <br />
-        <textarea id="content" name="content"></textarea><%
+        <textarea id="content" name="content"><%
+
+final boolean isDraftPending = view.isDraftPending();
+if (isDraftPending == true) {
+    view.prepareDraftContent();
+    
+    %>${fn:escapeXml(draftContent)}<%
+}
+            
+%></textarea><%
 
     final boolean isContentBlank = view.isContentBlank();
     final boolean isContentTooLong = view.isContentTooLong();
@@ -88,10 +98,15 @@ if (isExistingPage == true) {
       
     for (int i = 0; i < 5; i++) {
         pageContext.setAttribute("optionNumber", i);
+        
+        if (view.isDraftPending() == true) {
+            view.prepareDraftOption(i);
+        }
         	
         %>
-        <input id="option${fn:escapeXml(optionNumber)}" name="option${fn:escapeXml(optionNumber)}"
-            type="text"></input>
+        <input id="option${fn:escapeXml(optionNumber)}"
+            name="option${fn:escapeXml(optionNumber)}"
+            type="text" value="${fn:escapeXml(draftOption)}"></input>
         <br /><%
         	
     }
@@ -100,7 +115,8 @@ if (isExistingPage == true) {
         pageContext.setAttribute("authorId", authorId);
         
         %>
-          <input name="authorId" type="hidden" value="${fn:escapeXml(authorId)}" /><%
+          <input name="authorId" type="hidden"
+              value="${fn:escapeXml(authorId)}" /><%
         
     }
       

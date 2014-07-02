@@ -14,11 +14,6 @@ public class SubmitNewController extends SubmitController {
 	public void buildNewStory() {
 		this.buildNewPage();
 		this.buildStoryBeginning();
-		this.forgetDraft();
-	}
-
-	private void forgetDraft() {
-		this.setPendingDraft(false);
 	}
 
 	private void buildStoryBeginning() {
@@ -76,15 +71,6 @@ public class SubmitNewController extends SubmitController {
 		this.title = title;
 		final HttpSession session = this.getSession();
 		session.setAttribute("title", title);
-	}
-
-	public void startDraft() {
-		this.setPendingDraft(true);
-	}
-
-	public void setPendingDraft(final boolean isPendingDraft) {
-		final HttpSession session = this.getSession();
-		session.setAttribute("isDraftPending", isPendingDraft);
 	}
 	
 	
