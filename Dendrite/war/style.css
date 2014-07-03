@@ -584,8 +584,9 @@ input,textarea {
 }
 
 .prefLabel {
-	min-width: 30%;
-	float: left;
+	font-weight: bold;
+	min-width:   30%;
+	float:       left;
 }
 
 .radio_list input {
