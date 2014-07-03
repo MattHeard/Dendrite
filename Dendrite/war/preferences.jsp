@@ -131,7 +131,6 @@ if (isNewPenNameBlank == true) {
         %> />
              <label
                  for="fontColour${fn:escapeXml(fontColourOption)}"
-                 class="fontColour${fn:escapeXml(fontColourOption)}"
                  >${fn:escapeXml(fontColourOption)}</label>
            </li><%
     }
