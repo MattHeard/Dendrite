@@ -55,6 +55,11 @@ if (isExistingPage == true) {
         <input type="hidden" name="pageNumber"
             value="${fn:escapeXml(pageNumber)}" />
         <label for="content">Story</label>
+        <span
+            id="contentCountNote"
+            class="countNote">(<span id="contentCount">5000</span>
+            characters remaining)
+        </span>
         <br />
         <textarea id="content" name="content"><%
 
@@ -94,6 +99,11 @@ if (isDraftPending == true) {
 		}
   	
     %>
+        <span
+            id="optionCountNote"
+            class="countNote">(<span id="optionCount">80</span>
+            characters remaining)
+        </span>
         <br /><%
       
     for (int i = 0; i < 5; i++) {
@@ -122,6 +132,11 @@ if (isDraftPending == true) {
       
     %>
           <label for="authorName">Author</label>
+          <span
+              id="authorNameCountNote"
+              class="countNote">(<span id="authorNameCount">100</span>
+              characters remaining)
+          </span>
           <br />
           <input id="authorName" name="authorName" type="text"<%
         

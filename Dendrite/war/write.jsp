@@ -44,6 +44,11 @@ if (isValidOption == true) {
         <input type="hidden" name="from" value="${fn:escapeXml(from)}" />
         <input type="hidden" name="linkIndex" value="${fn:escapeXml(linkIndex)}" />
         <label for="content">Story</label>
+        <span
+            id="contentCountNote"
+            class="countNote">(<span id="contentCount">5000</span>
+            characters remaining)
+        </span>
         <br />
         <textarea id="content" name="content"><%
 
@@ -83,6 +88,11 @@ if (isDraftPending == true) {
     }
     		  	
     %>
+        <span
+            id="optionCountNote"
+            class="countNote">(<span id="optionCount">80</span>
+            characters remaining)
+        </span>
         <br /><%
       
     for (int i = 0; i < 5; i++) {
@@ -93,8 +103,11 @@ if (isDraftPending == true) {
         }
         	
         %>
-        <input id="option${fn:escapeXml(optionNumber)}" name="option${fn:escapeXml(optionNumber)}"
-            type="text" value="${fn:escapeXml(draftOption)}"></input>
+        <input
+            id="option${fn:escapeXml(optionNumber)}"
+            name="option${fn:escapeXml(optionNumber)}"
+            type="text"
+            value="${fn:escapeXml(draftOption)}"></input>
         <br /><%
         	
     }
@@ -109,6 +122,11 @@ if (isDraftPending == true) {
       
     %>
         <label for="authorName">Author</label>
+        <span
+            id="authorNameCountNote"
+            class="countNote">(<span id="authorNameCount">100</span>
+            characters remaining)
+        </span>
         <br />
         <input id="authorName" name="authorName" type="text"<%
         
