@@ -14,10 +14,6 @@ public class DendriteServlet extends HttpServlet {
 		return this.response;
 	}
 
-	protected void setResponse(final HttpServletResponse response) {
-		this.response = response;
-	}
-
 	protected void redirect(String url) {
 		final HttpServletResponse response = this.getResponse();
 		try {
@@ -26,6 +22,10 @@ public class DendriteServlet extends HttpServlet {
 			// TODO Find out what circumstances lead here.
 			e.printStackTrace();
 		}
+	}
+
+	protected void setResponse(final HttpServletResponse response) {
+		this.response = response;
 	}
 
 }
