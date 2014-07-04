@@ -183,5 +183,19 @@ if (isPageInStore == true) {
 	
     }
 	
+	if (view.isShowingFirstPage() == false) {
+		view.preparePrevPageNum();
+		
+		%>
+      <span
+          class="pageArrow"
+          id="prevPage"><a href="/read.jsp?p=${prevPageNum}">←</a></span><%
+		
+	}
+	
+	view.prepareNextPageNum();
 	%>
+      <span
+          class="pageArrow"
+          id="nextPage"><a href="/read.jsp?p=${nextPageNum}">→</a></span>
 <%@include file="bottom.jspf" %>

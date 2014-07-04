@@ -252,7 +252,20 @@ function initTextEntryFields() {
   initAuthorNameCountNote();
 }
 
+function showAlt() {
+  $(this).replaceWith(this.alt);
+}
+
+function addShowAlt(selector) {
+  $(selector).error(showAlt).attr("src", $(selector).src);
+}
+
+function initAltLogoText() {
+  addShowAlt("#logoImage");
+}
+
 function init() {
   preventEnterFromSubmittingForms();
   initTextEntryFields();
+  initAltLogoText();
 }

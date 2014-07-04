@@ -579,6 +579,14 @@ input,textarea {
 	color: #eee;
 }
 
+.pageArrow {
+	opacity: 0.2;
+}
+
+#nextPage {
+	float: right;
+}
+
 .prefInput {
 	max-width: 70%;
 }

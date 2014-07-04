@@ -3,6 +3,8 @@ package com.deuteriumlabs.dendrite.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.jsp.PageContext;
+
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryOption;
@@ -204,5 +206,27 @@ public class ReadView extends View {
 			this.author.read();
 		}
 		return this.author;
+	}
+	
+	public boolean isShowingFirstPage() {
+		final PageId id = this.getPageId();
+		final int num = id.getNumber();
+		return (num == 1);
+	}
+	
+	public void preparePrevPageNum() {
+		final PageContext pageContext = this.getPageContext();
+		final PageId id = this.getPageId();
+		final int currPageNum = id.getNumber();
+		final int prevPageNum = currPageNum - 1;
+		pageContext.setAttribute("prevPageNum", prevPageNum);
+	}
+	
+	public void prepareNextPageNum() {
+		final PageContext pageContext = this.getPageContext();
+		final PageId id = this.getPageId();
+		final int currPageNum = id.getNumber();
+		final int nextPageNum = currPageNum + 1;
+		pageContext.setAttribute("nextPageNum", nextPageNum);
 	}
 }
