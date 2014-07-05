@@ -275,5 +275,7 @@ if (isNewPenNameBlank == true) {
     %>
           </div>
           <button type="submit">Update</button>
+          <a href="/resetPreferences"><div class="button">Reset to
+              defaults</div></a>
         </form>
 <%@include file="bottom.jspf" %>

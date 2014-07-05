@@ -121,21 +121,22 @@ public class User extends Model {
 			final User cachedUser = getCachedUser();
 			if (cachedUser != null) {
 				final String cachedUserId = cachedUser.getId();
-				if (cachedUserId == myUserId)
+				if (cachedUserId == myUserId) {
 					return cachedUser;
+				}
 			}
 			myUser.setId(myUserId);
 			final boolean isInStore = myUser.isInStore();
 			if (isInStore == true) {
 				myUser.read();
-				setCachedUser(myUser);
 			} else {
 				myUser.create();
-				setCachedUser(myUser);
 			}
+			setCachedUser(myUser);
 			return myUser;
-		} else
+		} else {
 			return null;
+		}
 	}
 	
 	/**
@@ -503,5 +504,33 @@ public class User extends Model {
 		} else {
 			this.avatarId = 0;
 		}
+	}
+
+	public static double getDefaultFontSize() {
+		return DEFAULT_FONT_SIZE;
+	}
+
+	public static String getDefaultFontType() {
+		return DEFAULT_FONT_TYPE;
+	}
+
+	public static String getDefaultFontColour() {
+		return DEFAULT_FONT_COLOUR;
+	}
+
+	public static double getDefaultSpacing() {
+		return DEFAULT_SPACING;
+	}
+
+	public static String getDefaultAlignment() {
+		return DEFAULT_ALIGNMENT;
+	}
+
+	public static String getDefaultTheme() {
+		return DEFAULT_THEME;
+	}
+
+	public static int getDefaultAvatarId() {
+		return DEFAULT_AVATAR_ID;
 	}
 }

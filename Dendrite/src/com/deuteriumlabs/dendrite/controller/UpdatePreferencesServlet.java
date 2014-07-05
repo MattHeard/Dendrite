@@ -70,15 +70,9 @@ public class UpdatePreferencesServlet extends DendriteServlet {
 		this.redirect(url);
 	}
 
-	private void redirectToMyPreferencesPage() {
+	protected void redirectToMyPreferencesPage() {
 		final String url = "/preferences.jsp";
 		this.redirect(url);
-	}
-
-	@SuppressWarnings("all")
-	@Override
-	protected void redirect(String url) {
-		super.redirect(url);
 	}
 
 }

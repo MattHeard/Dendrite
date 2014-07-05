@@ -181,7 +181,7 @@ body.themeLovely {
 	background-color: #fff1f6;
 }
 
-button,.option {
+button, .button, .option {
 	font-weight: 100;
 	font-family: inherit;
 	font-size: 1em;
@@ -717,7 +717,7 @@ textarea {
 	#footerMenu {
 		text-align: left;
 	}
-	button,.option {
+	button, .button, .option {
 		width: 49%;
 		margin-right: 1%;
 	}
