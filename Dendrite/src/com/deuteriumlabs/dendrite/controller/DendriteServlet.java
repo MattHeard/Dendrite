@@ -5,27 +5,48 @@ import java.io.IOException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Handles HTTP requests and responses for Dendrite servlets.
+ */
 public class DendriteServlet extends HttpServlet {
 
-	private static final long serialVersionUID = -8346778276358190966L;
-	private HttpServletResponse response;
+    /**
+     * Serialises the class state.
+     * @see java.io.Serializable
+     */
+    private static final long serialVersionUID = -8346778276358190966L;
 
-	protected HttpServletResponse getResponse() {
-		return this.response;
-	}
+    /**
+     * The HTTP response.
+     */
+    private HttpServletResponse response;
 
-	protected void redirect(String url) {
-		final HttpServletResponse response = this.getResponse();
-		try {
-			response.sendRedirect(url);
-		} catch (IOException e) {
-			// TODO Find out what circumstances lead here.
-			e.printStackTrace();
-		}
-	}
+    /**
+     * Returns the HTTP response.
+     * @return the HTTP response
+     */
+    protected final HttpServletResponse getResponse() {
+        return this.response;
+    }
 
-	protected void setResponse(final HttpServletResponse response) {
-		this.response = response;
-	}
+    /**
+     * Sets the HTTP response to redirect the client to the given URL.
+     * @param url The redirect target
+     */
+    protected final void redirect(final String url) {
+        try {
+            this.getResponse().sendRedirect(url);
+        } catch (IOException e) {
+            System.err.println("DendriteServlet.redirect failed.");
+        }
+    }
+
+    /**
+     * Sets the HTTP response.
+     * @param r the HTTP response
+     */
+    protected final void setResponse(final HttpServletResponse r) {
+        this.response = r;
+    }
 
 }

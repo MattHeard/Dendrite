@@ -33,7 +33,7 @@ view.initialise();
 if (view.isAuthorPageOfUser() == true) {
     
         %>
-          <p><a href="/preferences.jsp">Preferences</a></p><%
+          <p><a href="/preferences">Preferences</a></p><%
     
 }
     
@@ -59,7 +59,7 @@ while (view.hasAnotherStoryPage() == true) {
     %>
           <div class="item">
             <div class="itemContent"><a
-                href="/read.jsp?p=${fn:escapeXml(pageId)}"
+                href="/read?p=${fn:escapeXml(pageId)}"
                 >${fn:escapeXml(summary)}</a><%
                 
     if (view.isThisStoryPageCreditedDifferently() == true) {
@@ -80,7 +80,7 @@ if (view.isFirstPage() == false) {
     	
     %>
           <div><a
-              href="/author.jsp?id=${fn:escapeXml(id)}&p=${fn:escapeXml(prev)}"
+              href="/author?id=${fn:escapeXml(id)}&p=${fn:escapeXml(prev)}"
               >Previous</a></div><%
     	
 }
@@ -90,7 +90,7 @@ if (view.isLastPage() == false) {
     	
     %>
           <div><a
-              href="/author.jsp?id=${fn:escapeXml(id)}&p=${fn:escapeXml(next)}"
+              href="/author?id=${fn:escapeXml(id)}&p=${fn:escapeXml(next)}"
               >Next</a></div><%
     	
 }

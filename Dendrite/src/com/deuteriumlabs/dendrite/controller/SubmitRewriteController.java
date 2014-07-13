@@ -11,19 +11,14 @@ public class SubmitRewriteController extends SubmitController {
 	@Override
 	void buildStoryPage() {
 		final StoryPage page = new StoryPage();
-		final PageId id = this.getId();
-		page.setId(id);
-		final String text = this.getContent();
-		page.setText(text);
-		final String authorName = this.getAuthorName();
-		page.setAuthorName(authorName);
-		final String authorId = this.getAuthorId();
-		page.setAuthorId(authorId);
+		this.addStoryPageValues(page);
 		final PageId beginning = this.getBeginning();
 		page.setBeginning(beginning);
+		page.setParent(this.getParent());
 		final boolean isInStore = page.isInStore();
-		if (isInStore == false)
+		if (isInStore == false) {
 			page.create();
+		}
 	}
 
 	private PageId getBeginning() {
@@ -36,10 +31,11 @@ public class SubmitRewriteController extends SubmitController {
 		alternative.read();
 		final PageId alternativeBeginning = alternative.getBeginning();
 		final int altBeginningNumber = alternativeBeginning.getNumber();
-		if (altBeginningNumber != number)
+		if (altBeginningNumber != number) {
 			return alternativeBeginning;
-		else
+		} else {
 			return this.getId();
+		}
 	}
 
 	private String getNextVersion() {

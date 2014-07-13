@@ -12,7 +12,7 @@ public class PreferencesView extends View {
 	
 	@Override
 	String getUrl() {
-		return "/preferences.jsp";
+		return "/preferences";
 	}
 	
 	public int getAvatarId() {

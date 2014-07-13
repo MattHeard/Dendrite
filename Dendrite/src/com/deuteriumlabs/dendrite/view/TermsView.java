@@ -4,6 +4,6 @@ public class TermsView extends View {
 
 	@Override
 	String getUrl() {
-		return "/terms.jsp";
+		return "/terms";
 	}
 }

@@ -22,8 +22,8 @@ view.initialise();
 %>
         <div id="tabs">
           <a class="selected_tab">About</a>
-          <a href="contributors.jsp">Contributors</a>
-          <a id="more" href="about_more.jsp">⋮</a>
+          <a href="contributors">Contributors</a>
+          <a id="more" href="about_more">⋮</a>
         </div>
         <div class="clear"></div>
         <p><i>Dendrite</i> is an online, choose-your-own-adventure book that you

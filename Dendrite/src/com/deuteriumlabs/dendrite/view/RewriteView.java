@@ -40,7 +40,7 @@ public class RewriteView extends FormView {
 	@Override
 	String getUrl() {
 		String pageNumber = this.getPageNumber();
-		return "/rewrite.jsp?p=" + pageNumber;
+		return "/rewrite?p=" + pageNumber;
 	}
 	
 	public boolean isBeginning() {

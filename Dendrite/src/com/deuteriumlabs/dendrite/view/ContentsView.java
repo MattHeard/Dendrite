@@ -189,7 +189,7 @@ public class ContentsView extends View {
 		final List<String> links = new ArrayList<String>();
 		List<String> numbers = this.getPageNumbers();
 		for (final String number : numbers) {
-			final String link = "/read.jsp?p=" + number;
+			final String link = "/read?p=" + number;
 			links.add(link);
 		}
 		return links;

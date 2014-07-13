@@ -137,6 +137,36 @@ public class PageId {
 		final boolean isValidVersion = isValidVersion(version);
 		return (isValidNumber && isValidVersion);
 	}
+
+	/**
+	 * 
+	 */
+	public void incrementVersion() {
+		final String version = this.getVersion();
+		final String incrementedVersion = PageId.increment(version);
+		this.setVersion(incrementedVersion);
+	}
+
+	/**
+	 * @param version
+	 * @return
+	 */
+	private static String increment(final String version) {
+		final String allButLast;
+		if (version.length() > 1) {
+			allButLast = version.substring(0, version.length() - 1);
+		} else {
+			allButLast = "";
+		}
+		char last = version.charAt(version.length() - 1);
+		final String incrementedVersion;
+		if (last >= 'a' && last < 'z') {
+			incrementedVersion = allButLast + (char) (last + 1);
+		} else {
+			incrementedVersion = PageId.increment(allButLast) + 'a';
+		}
+		return incrementedVersion;
+	}
 	
 	
 }

@@ -21,7 +21,7 @@ view.initialise();
 
 %>
         <ul>
-          <li><a href="about.jsp">About</a></li>
-          <li><a href="contributors.jsp">Contributors</a></li>
+          <li><a href="about">About</a></li>
+          <li><a href="contributors">Contributors</a></li>
         </ul>
 <%@include file="bottom.jspf" %>

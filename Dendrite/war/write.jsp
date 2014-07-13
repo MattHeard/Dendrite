@@ -26,7 +26,7 @@ if (isValidOption == true) {
 	
 	if (isConnected == true) {
 		int target = view.getTarget();
-		response.sendRedirect("/rewrite.jsp?p=" + target);
+		response.sendRedirect("/rewrite?p=" + target);
 	}
 	
     final String optionText = view.getOptionText();

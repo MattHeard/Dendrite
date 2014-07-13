@@ -12,181 +12,201 @@ import com.google.appengine.api.users.UserServiceFactory;
  * and displays it to the user in JSPs.
  */
 public abstract class View {
-	
-	protected View() {
-		this.footerLinks = new FooterLinkList();
-	}
 
-	public class FooterLinkList {
-		private final String[] list = { "About", "Terms", "Privacy", "Contact" };
-		private int currIndex;
+    /**
+     * Displays content to the user.
+     */
+    protected View() {
+        this.footerLinks = new FooterLinkList();
+    }
 
-		public boolean hasAnotherLink() {
-			return currIndex < list.length;
-		}
-		
-		public FooterLinkList() {
-			this.currIndex = 0;
-		}
+    /**
+     * Lists the links in the footer bar.
+     */
+    public class FooterLinkList {
 
-		public String getCurrUrl() {
-			return "/" + list[currIndex].toLowerCase() + ".jsp";
-		}
-		
-		public void next() {
-			++currIndex;
-		}
+        /**
+         * The list of link texts to display.
+         */
+        private final String[] list = {
+        		"About", "Terms", "Privacy", "Contact" };
+        
+        /**
+         * The index used for iterating over the list.
+         */
+        private int currIndex;
 
-		public String getCurrText() {
-			return list[currIndex];
-		}
-	}
+        /**
+         * Returns whether the end of the list has not yet finished iterating.
+         * @return true if there are remaining links to display
+         */
+        public final boolean hasAnotherLink() {
+            return currIndex < list.length;
+        }
 
-	/**
-	 * Returns the URL to the author page of the logged-in user, using the App
-	 * Engine user ID.
-	 * 
-	 * @return The URL to the author page of the logged-in user
-	 */
-	public static String getAuthorLink() {
-		final User myUser = User.getMyUser();
-		final String userId = myUser.getId();
-		return "author.jsp?id=" + userId;
-	}
+        public FooterLinkList() {
+            this.currIndex = 0;
+        }
 
-	public static String getMyUserId() {
-		final User myUser = User.getMyUser();
-		if (myUser != null)
-			return myUser.getId();
-		else
-			return null;
-	}
+        public final String getCurrUrl() {
+            return "/" + list[currIndex].toLowerCase();
+        }
+        
+        public final void next() {
+            ++currIndex;
+        }
 
-	/**
-	 * Returns the default pen name of the logged-in user.
-	 * 
-	 * @return The default pen name of the logged-in user
-	 */
-	public static String getMyUserName() {
-		final User myUser = User.getMyUser();
-		return myUser.getDefaultPenName();
-	}
+        public final String getCurrText() {
+            return list[currIndex];
+        }
+    }
 
-	public static String getUserAlignment() {
-		final User myUser = User.getMyUser();
-		return myUser.getAlignment();
-	}
+    /**
+     * Returns the URL to the author page of the logged-in user, using the App
+     * Engine user ID.
+     * 
+     * @return The URL to the author page of the logged-in user
+     */
+    public static String getAuthorLink() {
+        final User myUser = User.getMyUser();
+        final String userId = myUser.getId();
+        return "author?id=" + userId;
+    }
 
-	public static String getUserFontColour() {
-		final User myUser = User.getMyUser();
-		return myUser.getFontColour();
-	}
+    public static String getMyUserId() {
+        final User myUser = User.getMyUser();
+        if (myUser != null) {
+            return myUser.getId();
+        } else {
+            return null;
+        }
+    }
 
-	public static double getUserFontSize() {
-		final User myUser = User.getMyUser();
-		return myUser.getFontSize();
-	}
+    /**
+     * Returns the default pen name of the logged-in user.
+     * 
+     * @return The default pen name of the logged-in user
+     */
+    public static String getMyUserName() {
+        final User myUser = User.getMyUser();
+        return myUser.getDefaultPenName();
+    }
 
-	public static String getUserFontType() {
-		final User myUser = User.getMyUser();
-		return myUser.getFontType();
-	}
+    public static String getUserAlignment() {
+        final User myUser = User.getMyUser();
+        return myUser.getAlignment();
+    }
 
-	public static double getUserSpacing() {
-		final User myUser = User.getMyUser();
-		return myUser.getSpacing();
-	}
+    public static String getUserFontColour() {
+        final User myUser = User.getMyUser();
+        return myUser.getFontColour();
+    }
 
-	public static String getUserTheme() {
-		final User myUser = User.getMyUser();
-		return myUser.getTheme();
-	}
+    public static double getUserFontSize() {
+        final User myUser = User.getMyUser();
+        return myUser.getFontSize();
+    }
 
-	public static boolean isUserFontSizeSet() {
-		final User myUser = User.getMyUser();
-		return myUser.isFontSizeSet();
-	}
+    public static String getUserFontType() {
+        final User myUser = User.getMyUser();
+        return myUser.getFontType();
+    }
 
-	/**
-	 * Returns whether the visitor is logged in or not.
-	 * 
-	 * @return <code>true</code> if the visitor is logged in, <code>false</code>
-	 *         otherwise
-	 */
-	public static boolean isUserLoggedIn() {
-		return User.isMyUserLoggedIn();
-	}
+    public static double getUserSpacing() {
+        final User myUser = User.getMyUser();
+        return myUser.getSpacing();
+    }
 
-	private PageContext pageContext;
-	private HttpServletRequest request;
-	private FooterLinkList footerLinks;
-	
-	/**
-	 * Returns a link for logging in, with a redirect back to this page after
-	 * the login has completed.
-	 * 
-	 * @return The URL to the login page
-	 */
-	public String getLoginLink() {
-		final String returnUrl = this.getUrl();
-		final UserService userService = UserServiceFactory.getUserService();
-		return userService.createLoginURL(returnUrl);
-	}
+    public static String getUserTheme() {
+        final User myUser = User.getMyUser();
+        return myUser.getTheme();
+    }
 
-	/**
-	 * Returns a link for logging out, with a redirect back to this page after
-	 * the logout has completed.
-	 * 
-	 * @return The URL to the logout page
-	 */
-	public String getLogoutLink() {
-		final String returnUrl = this.getUrl();
-		final UserService userService = UserServiceFactory.getUserService();
-		return userService.createLogoutURL(returnUrl);
-	}
+    public static boolean isUserFontSizeSet() {
+        final User myUser = User.getMyUser();
+        return myUser.isFontSizeSet();
+    }
 
-	protected PageContext getPageContext() {
-		return this.pageContext;
-	}
+    /**
+     * Returns whether the visitor is logged in or not.
+     * 
+     * @return <code>true</code> if the visitor is logged in, <code>false</code>
+     *         otherwise
+     */
+    public static boolean isUserLoggedIn() {
+        return User.isMyUserLoggedIn();
+    }
 
-	public HttpServletRequest getRequest() {
-		return request;
-	}
-	
-	/**
-	 * Returns a link to this page, which can be supplied for when the user
-	 * should be redirected back to this page.
-	 * 
-	 * @return The URL to this page
-	 */
-	abstract String getUrl();
-	
-	/**
-	 * Returns the title of the web page displaying this View.
-	 * 
-	 * @return The title of the web page displaying this View.
-	 */
-	public String getWebPageTitle() {
-		return "Dendrite";
-	}
+    private PageContext pageContext;
+    private HttpServletRequest request;
+    private FooterLinkList footerLinks;
+    
+    /**
+     * Returns a link for logging in, with a redirect back to this page after
+     * the login has completed.
+     * 
+     * @return The URL to the login page
+     */
+    public final String getLoginLink() {
+        final String returnUrl = this.getUrl();
+        final UserService userService = UserServiceFactory.getUserService();
+        return userService.createLoginURL(returnUrl);
+    }
 
-	public void initialise() { }
+    /**
+     * Returns a link for logging out, with a redirect back to this page after
+     * the logout has completed.
+     * 
+     * @return The URL to the logout page
+     */
+    public final String getLogoutLink() {
+        final String returnUrl = this.getUrl();
+        final UserService userService = UserServiceFactory.getUserService();
+        return userService.createLogoutURL(returnUrl);
+    }
 
-	public void setPageContext(final PageContext pageContext) {
-		this.pageContext = pageContext;
-	}
-	
-	public void setRequest(final HttpServletRequest request) {
-		this.request = request;
-	}
-	
-	public boolean hasAnotherFooterLink() {
-		return footerLinks.hasAnotherLink();
-	}
+    protected final PageContext getPageContext() {
+        return this.pageContext;
+    }
 
-	public void prepareNextFooterLink() {
-		pageContext.setAttribute("url", footerLinks.getCurrUrl());
-		pageContext.setAttribute("text", footerLinks.getCurrText());
-		footerLinks.next();
-	}
+    public final HttpServletRequest getRequest() {
+        return request;
+    }
+    
+    /**
+     * Returns a link to this page, which can be supplied for when the user
+     * should be redirected back to this page.
+     * 
+     * @return The URL to this page
+     */
+    abstract String getUrl();
+    
+    /**
+     * Returns the title of the web page displaying this View.
+     * 
+     * @return The title of the web page displaying this View.
+     */
+    public final String getWebPageTitle() {
+        return "Dendrite";
+    }
+
+    public void initialise() { }
+
+    public void setPageContext(final PageContext pageContext) {
+        this.pageContext = pageContext;
+    }
+    
+    public final void setRequest(final HttpServletRequest request) {
+        this.request = request;
+    }
+    
+    public final boolean hasAnotherFooterLink() {
+        return footerLinks.hasAnotherLink();
+    }
+
+    public final void prepareNextFooterLink() {
+        pageContext.setAttribute("url", footerLinks.getCurrUrl());
+        pageContext.setAttribute("text", footerLinks.getCurrText());
+        footerLinks.next();
+    }
 }

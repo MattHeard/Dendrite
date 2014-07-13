@@ -16,7 +16,7 @@ public class CoverView extends View {
 
 	@Override
 	String getUrl() {
-		return "/cover.jsp";
+		return "/cover";
 	}
 
 	@Override

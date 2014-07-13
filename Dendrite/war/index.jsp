@@ -53,7 +53,7 @@ if (isFirstPage == false) {
     view.preparePrevPageNum();
     	
     %>
-          <div><a href="/index.jsp?p=${fn:escapeXml(prev)}">Previous</a></div><%
+          <div><a href="/index?p=${fn:escapeXml(prev)}">Previous</a></div><%
     	
 }
 
@@ -62,11 +62,11 @@ if (isLastPage == false) {
 	view.prepareNextPageNum();
     	
     %>
-          <div><a href="/index.jsp?p=${fn:escapeXml(next)}">Next</a></div><%
+          <div><a href="/index?p=${fn:escapeXml(next)}">Next</a></div><%
     	
 }
 	
 %>
         </p>
-        <p id="newStory"><a href="/new.jsp">Start a new story</a></p>
+        <p id="newStory"><a href="/new">Start a new story</a></p>
 <%@include file="bottom.jspf" %>

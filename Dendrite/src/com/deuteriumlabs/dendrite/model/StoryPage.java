@@ -24,6 +24,8 @@ import com.google.appengine.api.datastore.Text;
  * interwoven.
  */
 public class StoryPage extends Model {
+	private static final char ANCESTRY_DELIMITER = '>';
+	private static final String ANCESTRY_PROPERTY = "ancestry";
 	private static final String AUTHOR_ID_PROPERTY = "authorId";
 	private static final String AUTHOR_NAME_PROPERTY = "authorName";
 	private static final String BEGINNING_NUMBER_PROPERTY = "beginningNumber";
@@ -181,29 +183,63 @@ public class StoryPage extends Model {
 		return pages;
 	}
 
-	public static String getRandomVersion(PageId id) {
-		final int number = id.getNumber();
-		final Query query = new Query(KIND_NAME);
-		final Filter filter = getIdNumberFilter(number);
-		query.setFilter(filter);
-		final DatastoreService store = getStore();
-		final PreparedQuery preparedQuery = store.prepare(query);
-		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		final int count = preparedQuery.countEntities(fetchOptions);
-		if (count > 1) {
-			Random generator = new Random();
-			final int randomNumber = generator.nextInt(count) + 1;
-			final String version = convertNumberToVersion(randomNumber);
-			return version;
-		} else
-			return "a";
+	/**
+	 * @param pageId
+	 * @return
+	 */
+	public static StoryPage getParentOf(final PageId childId) {
+		childId.setVersion("a");
+		final StoryPage child = new StoryPage();
+		child.setId(childId);
+		child.read();
+		return child.getParent();
 	}
+	
+	public static String getRandomVersion(final PageId id) {
+		id.setVersion("a");
+		final StoryPage page = new StoryPage();
+		page.setId(id);
+		page.read();
+		final int denominator = page.calculateChanceDenominator();
+		System.out.println("denominator: " + denominator);
+		Random generator = new Random();
+		int randomNum = generator.nextInt(denominator);
+		while (randomNum >= 0) {
+			System.out.println("LOOP START");
+			System.out.println("version: " + page.getId().getVersion());
+			System.out.println("randomNum: " + randomNum);
+			final int numerator = page.calculateChanceNumerator();
+			System.out.println("numerator: " + numerator);
+			randomNum -= numerator;
+			System.out.println("new randomNum: " + randomNum);
+			if (randomNum >= 0) {
+				page.incrementVersion();
+				System.out.println("new version: " + page.getId().getVersion());
+			}
+			System.out.println("LOOP END");
+		}
+		final String version = page.getId().getVersion();
+		System.out.println(version);
+		return version;
+	}
+	
+	/**
+	 * @return
+	 */
+	private void incrementVersion() {
+		this.getId().incrementVersion();
+	}
+
+	private List<PageId> ancestry;
 	private String authorId;
 	private String authorName;
+
 	private PageId beginning;
 	private PageId id;
+	private StoryPage parent;
 
 	private Text text;
+	private String chance;
 
 	public StoryPage() {
 		this.setBeginning(null);
@@ -211,6 +247,44 @@ public class StoryPage extends Model {
 
 	public StoryPage(final Entity entity) {
 		this.readPropertiesFromEntity(entity);
+	}
+
+	@Override
+	public void create() {
+		this.generateAncestry();
+		super.create();
+	}
+
+	/**
+	 * 
+	 */
+	private void generateAncestry() {
+		final StoryPage parent = this.getParent();
+		final List<PageId> ancestry;
+		if (parent != null) {
+			ancestry = parent.getAncestry();
+		} else {
+			ancestry = new ArrayList<PageId>();
+		}
+		final PageId id = this.getId();
+		ancestry.add(id);
+		this.setAncestry(ancestry);
+	}
+
+	/**
+	 * @return ancestry The list of pages that lead to this page.
+	 */
+	public List<PageId> getAncestry() {
+		return this.ancestry;
+	}
+
+	/**
+	 * @param entity
+	 * @return
+	 */
+	private List<PageId> getAncestryFromEntity(final Entity entity) {
+		final String str = (String) entity.getProperty(ANCESTRY_PROPERTY);
+		return parseAncestry(str);
 	}
 
 	public String getAuthorId() {
@@ -236,10 +310,11 @@ public class StoryPage extends Model {
 	private int getBeginningNumberFromEntity(final Entity entity) {
 		final String property = BEGINNING_NUMBER_PROPERTY;
 		final Long number = (Long) entity.getProperty(property);
-		if (number != null)
+		if (number != null) {
 			return number.intValue();
-		else
+		} else {
 			return 0;
+		}
 	}
 
 	private String getBeginningVersionFromEntity(final Entity entity) {
@@ -279,6 +354,13 @@ public class StoryPage extends Model {
 	}
 
 	/**
+	 * @return
+	 */
+	private StoryPage getParent() {
+		return this.parent;
+	}
+
+	/**
 	 * Returns the text of this story page.
 	 * 
 	 * @return The text of this story page
@@ -296,6 +378,31 @@ public class StoryPage extends Model {
 	 */
 	private Text getTextFromEntity(final Entity entity) {
 		return (Text) entity.getProperty(TEXT_PROPERTY);
+	}
+
+	/**
+	 * @param str
+	 * @return
+	 */
+	private List<PageId> parseAncestry(final String str) {
+		final List<PageId> ancestry = new ArrayList<PageId>();
+		if (str != null && str.equals("") == false) {
+			final String regex = String.valueOf(ANCESTRY_DELIMITER);
+			final String[] words = str.split(regex);
+			for (final String word : words) {
+				ancestry.add(new PageId(word));
+			}
+		}
+		return ancestry;
+	}
+
+	/**
+	 * @param entity
+	 */
+	private void readAncestryFromEntity(final Entity entity) {
+		final List<PageId> ancestry = getAncestryFromEntity(entity);
+		this.setAncestry(ancestry);
+		this.setParentFromAncestry(ancestry);
 	}
 
 	private void readAuthorIdFromEntity(final Entity entity) {
@@ -346,6 +453,7 @@ public class StoryPage extends Model {
 	 */
 	@Override
 	void readPropertiesFromEntity(final Entity entity) {
+		this.readAncestryFromEntity(entity);
 		this.readIdFromEntity(entity);
 		this.readTextFromEntity(entity);
 		this.readBeginningFromEntity(entity);
@@ -365,14 +473,37 @@ public class StoryPage extends Model {
 		this.setText(text);
 	}
 
+	/**
+	 * @param ancestry
+	 */
+	private void setAncestry(final List<PageId> ancestry) {
+		this.ancestry = ancestry;
+	}
+
+	/**
+	 * @param entity
+	 */
+	private void setAncestryInEntity(final Entity entity) {
+		final List<PageId> ancestry = this.getAncestry();
+		String entityVal = "";
+		for (int i = 0; i < ancestry.size(); i++) {
+			entityVal += ancestry.get(i);
+			if (i < ancestry.size() - 1) {
+				entityVal += ANCESTRY_DELIMITER;
+			}
+		}
+		entity.setProperty(ANCESTRY_PROPERTY, entityVal);
+	}
+
 	public void setAuthorId(final String authorId) {
 		this.authorId = authorId;
 	}
 
 	private void setAuthorIdInEntity(final Entity entity) {
 		final String authorId = this.getAuthorId();
-		if (authorId != null)
+		if (authorId != null) {
 			entity.setProperty(AUTHOR_ID_PROPERTY, authorId);
+		}
 	}
 
 	public void setAuthorName(final String authorName) {
@@ -381,8 +512,9 @@ public class StoryPage extends Model {
 
 	private void setAuthorNameInEntity(final Entity entity) {
 		final String authorName = this.getAuthorName();
-		if (authorName != null)
+		if (authorName != null) {
 			entity.setProperty(AUTHOR_NAME_PROPERTY, authorName);
+		}
 	}
 
 	public void setBeginning(PageId beginning) {
@@ -406,8 +538,9 @@ public class StoryPage extends Model {
 	public void setId(final PageId id) {
 		this.id = id;
 		final PageId beginning = this.getBeginning();
-		if (beginning == null)
+		if (beginning == null) {
 			this.setBeginning(id);
+		}
 	}
 
 	/**
@@ -425,6 +558,26 @@ public class StoryPage extends Model {
 		entity.setProperty(ID_VERSION_PROPERTY, version);
 	}
 
+	public void setParent(final StoryPage parent) {
+		this.parent = parent;
+	}
+
+	/**
+	 * @param ancestry
+	 */
+	private void setParentFromAncestry(final List<PageId> ancestry) {
+		if (ancestry.size() > 1) {
+			final int parentIndex = ancestry.size() - 2;
+			final PageId parentId = ancestry.get(parentIndex);
+			final StoryPage parent = new StoryPage();
+			parent.setId(parentId);
+			parent.read();
+			this.setParent(parent);
+		} else {
+			this.setParent(null);
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -434,6 +587,7 @@ public class StoryPage extends Model {
 	 */
 	@Override
 	void setPropertiesInEntity(final Entity entity) {
+		this.setAncestryInEntity(entity);
 		this.setIdInEntity(entity);
 		this.setTextInEntity(entity);
 		this.setBeginningInEntity(entity);
@@ -466,5 +620,117 @@ public class StoryPage extends Model {
 	private void setTextInEntity(Entity entity) {
 		final Text text = this.getText();
 		entity.setProperty(TEXT_PROPERTY, text);
+	}
+
+	/**
+	 * @return
+	 */
+	public String getChance() {
+		if (this.chance == null) {
+			this.calculateChance();
+		}
+		return this.chance;
+	}
+
+	/**
+	 * 
+	 */
+	private void calculateChance() {
+		final int numerator = this.calculateChanceNumerator();
+		final int denominator = this.calculateChanceDenominator();
+		this.setChance(numerator + "/" + denominator);
+	}
+
+	/**
+	 * @return
+	 */
+	private int calculateChanceDenominator() {
+		if (this.isTheFirstPage()) {
+			/*
+			 * For example, the first page of the story is 1a. Find the number
+			 * of nodes in all subtrees of all versions of 1a. So, if there are
+			 * two versions, 1a and 1b, I need to find the size of both subtrees
+			 * and add 1 to each size and then add them together. This is O(n)
+			 * where n is the number of versions. Is there an O(1) solution?
+			 * We're looking for all nodes with subtrees which match the
+			 * following regex: "1[a-z]+". From this, we know that the string
+			 * must be greater than "1\`" and less than "1\{".
+			 */
+			return this.getSizeOfBeginningSubtree();
+		} else {
+			return this.getParent().getSizeOfSubtree();
+		}
+	}
+
+	/**
+	 * @return
+	 */
+	private int getSizeOfBeginningSubtree() {
+		final int number = this.getId().getNumber();
+		final String greaterThanOrEqual = number + "`";
+		final String lessThan = number + "{";
+		return StoryPage.countSubtreeBetween(greaterThanOrEqual, lessThan);
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean isTheFirstPage() {
+		return this.getId().getNumber() == this.getBeginning().getNumber();
+	}
+
+	/**
+	 * @return
+	 */
+	private int calculateChanceNumerator() {
+		return this.getSizeOfSubtree() + 1;
+	}
+
+	/**
+	 * @return
+	 */
+	private int getSizeOfSubtree() {
+		final List<PageId> ancestry = this.getAncestry();
+		String subtreeAncestry = "";
+		for (int i = 0; i < ancestry.size(); i++) {
+			subtreeAncestry += ancestry.get(i);
+			if (i < ancestry.size() - 1) {
+				subtreeAncestry += String.valueOf(ANCESTRY_DELIMITER);
+			}
+		}
+		final String greater = subtreeAncestry + ANCESTRY_DELIMITER;
+		final char nextChar = ANCESTRY_DELIMITER + 1;
+		final String less = subtreeAncestry + nextChar;
+		return StoryPage.countSubtreeBetween(greater, less);
+	}
+
+	/**
+	 * @param greaterEqual
+	 * @param less
+	 * @return
+	 */
+	private static int countSubtreeBetween(final String greater,
+			final String less) {
+		final Query query = new Query(KIND_NAME);
+		final String propertyName = ANCESTRY_PROPERTY;
+		FilterOperator operator = FilterOperator.GREATER_THAN;
+		String value = greater;
+		final Filter greaterFilter = new FilterPredicate(propertyName, operator, value);
+		operator = FilterOperator.LESS_THAN;
+		value = less;
+		final Filter lessFilter = new FilterPredicate(propertyName, operator, value);
+		final Filter filter = CompositeFilterOperator.and(greaterFilter, lessFilter);
+		query.setFilter(filter);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		return preparedQuery.countEntities(fetchOptions);
+	}
+
+	/**
+	 * @param chance
+	 */
+	private void setChance(final String chance) {
+		this.chance = chance;
 	}
 }

@@ -19,6 +19,7 @@ public abstract class SubmitController {
 	protected PageId id;
 	protected List<String> options;
 	private HttpSession session;
+	private StoryPage parent;
 	
 	public SubmitController() {
 		this.options = new ArrayList<String>();
@@ -35,13 +36,36 @@ public abstract class SubmitController {
 		}
 	}
 
+	/**
+	 * 
+	 */
+	protected void addStoryPageValues(final StoryPage page) {
+		final PageId id = this.getId();
+		page.setId(id);
+		final String text = this.getContent();
+		page.setText(text);
+		final String authorName = this.getAuthorName();
+		page.setAuthorName(authorName);
+		final String authorId = this.getAuthorId();
+		page.setAuthorId(authorId);
+		final StoryPage parent = this.getParent();
+		page.setParent(parent);
+	}
+
+	/**
+	 * @return
+	 */
+	protected StoryPage getParent() {
+		return this.parent;
+	}
+
 	public void buildNewPage() {
 		this.setNewPageId();
 		this.buildStoryPage();
 		this.buildStoryOptions();
 		this.forgetDraft();
 	}
-
+	
 	protected void buildStoryOptions() {
 		final List<String> optionTexts = this.getOptions();
 		int linkIndex = 0;
@@ -64,7 +88,7 @@ public abstract class SubmitController {
 	}
 	
 	abstract void buildStoryPage();
-	
+
 	private PageId findUnallocatedPageId() {
 		final PageId id = new PageId();
 		final int number = this.findUnallocatedPageNumber();
@@ -87,6 +111,10 @@ public abstract class SubmitController {
 		return -1; // Theoretically unreachable.
 	}
 
+	protected void forgetDraft() {
+		this.setPendingDraft(false);
+	}
+
 	int generateRandomNumber(final int exponent) {
 		final int POWER_BASE = 2;
 		double upper = Math.pow(POWER_BASE, exponent);
@@ -95,7 +123,7 @@ public abstract class SubmitController {
 		double newNumber = (upper * randomDouble) + 1;
 		return (int) newNumber;
 	}
-
+	
 	protected String getAuthorId() {
 		return this.authorId;
 	}
@@ -107,11 +135,11 @@ public abstract class SubmitController {
 	protected String getContent() {
 		return this.content;
 	}
-
+	
 	public PageId getId() {
 		return this.id;
 	}
-	
+
 	protected List<String> getOptions() {
 		return this.options;
 	}
@@ -129,7 +157,7 @@ public abstract class SubmitController {
 		}
 		return false;
 	}
-	
+
 	public boolean isAuthorNameBlank() {
 		final String authorName = this.getAuthorName();
 		return (authorName == null || authorName.equals(""));
@@ -190,20 +218,20 @@ public abstract class SubmitController {
 		this.id = id;
 	}
 
-	public void setSession(final HttpSession session) {	
-		this.session = session;
-	}
-
 	public void setPendingDraft(final boolean isPendingDraft) {
 		final HttpSession session = this.getSession();
 		session.setAttribute("isDraftPending", isPendingDraft);
+	}
+
+	public void setSession(final HttpSession session) {	
+		this.session = session;
 	}
 
 	public void startDraft() {
 		this.setPendingDraft(true);
 	}
 
-	protected void forgetDraft() {
-		this.setPendingDraft(false);
+	public void setParent(final StoryPage parent) {
+		this.parent = parent;
 	}
 }

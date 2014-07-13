@@ -32,14 +32,7 @@ public class SubmitNewController extends SubmitController {
 	@Override
 	void buildStoryPage() {
 		final StoryPage page = new StoryPage();
-		final PageId id = this.getId();
-		page.setId(id);
-		final String text = this.getContent();
-		page.setText(text);
-		final String authorName = this.getAuthorName();
-		page.setAuthorName(authorName);
-		final String authorId = this.getAuthorId();
-		page.setAuthorId(authorId);
+		this.addStoryPageValues(page);
 		final boolean isInStore = page.isInStore();
 		if (isInStore == false) {
 			page.create();

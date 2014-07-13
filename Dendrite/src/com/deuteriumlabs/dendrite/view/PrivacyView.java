@@ -4,6 +4,6 @@ public class PrivacyView extends View {
 
 	@Override
 	String getUrl() {
-		return "/privacy.jsp";
+		return "/privacy";
 	}
 }

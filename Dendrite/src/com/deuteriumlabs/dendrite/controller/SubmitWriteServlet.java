@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.deuteriumlabs.dendrite.model.PageId;
+import com.deuteriumlabs.dendrite.model.StoryPage;
 
 public class SubmitWriteServlet extends SubmitServlet {
 
@@ -34,6 +35,10 @@ public class SubmitWriteServlet extends SubmitServlet {
 		controller.setContent(content);
 		final String authorName = req.getParameter("authorName");
 		controller.setAuthorName(authorName);
+		final StoryPage parent = new StoryPage();
+		parent.setId(new PageId(from));
+		parent.read();
+		controller.setParent(parent);
 		for (int i = 0; i < 5; i++) {
 			final String option = req.getParameter("option" + i);
 			if (option != null)
@@ -55,7 +60,7 @@ public class SubmitWriteServlet extends SubmitServlet {
 			controller.buildNewPage();
 			controller.connectIncomingOption();
 			final PageId id = controller.getId();
-			resp.sendRedirect("/read.jsp?p=" + id);
+			resp.sendRedirect("/read?p=" + id);
 		}
 	}
 
@@ -70,7 +75,7 @@ public class SubmitWriteServlet extends SubmitServlet {
 	@Override
 	String getUrl() {
 		final String from = this.getFrom();
-		String url = "/write.jsp?from=" + from;
+		String url = "/write?from=" + from;
 		final String linkIndex = this.getLinkIndex();
 		url += "&linkIndex=" + linkIndex;
 		return url;

@@ -38,8 +38,9 @@ if (isPageInStore == true) {
     	
     	%>
       <div id="rewriteLink"><a
-          href="/rewrite.jsp?p=${fn:escapeXml(pageNumber)}">Rewrite</a></div>
+          href="/rewrite?p=${fn:escapeXml(pageNumber)}">Rewrite</a></div>
       <div class="clear"></div>
+      <!-- <%= view.getChance() %> -->
       <div id="text_body"><%
     	
     	//final String text = view.getPageText();
@@ -141,7 +142,7 @@ if (isPageInStore == true) {
     		final String authorId = view.getAuthorId();
     		pageContext.setAttribute("authorId", authorId);
     		
-    		%><a href="/author.jsp?id=${authorId}"><%
+    		%><a href="/author?id=${authorId}"><%
     		
     	}
     
@@ -172,6 +173,8 @@ if (isPageInStore == true) {
         	pageContext.setAttribute("first", first);
     
         	%>
+      <p><a href="/read?p=<%= view.getParentId() %>">Return to the previous
+          page.</a></p>
       <p><a href="${first}">Return to the first page of this story.</a></p><%
     
         }
@@ -189,7 +192,7 @@ if (isPageInStore == true) {
 		%>
       <span
           class="pageArrow"
-          id="prevPage"><a href="/read.jsp?p=${prevPageNum}">←</a></span><%
+          id="prevPage"><a href="/read?p=${prevPageNum}">←</a></span><%
 		
 	}
 	
@@ -197,5 +200,5 @@ if (isPageInStore == true) {
 	%>
       <span
           class="pageArrow"
-          id="nextPage"><a href="/read.jsp?p=${nextPageNum}">→</a></span>
+          id="nextPage"><a href="/read?p=${nextPageNum}">→</a></span>
 <%@include file="bottom.jspf" %>

@@ -4,7 +4,7 @@ import javax.servlet.jsp.PageContext;
 
 public class AboutView extends View {
 
-	private static final String URL = "/about.jsp";
+	private static final String URL = "/about";
 	private static final String WEB_PG_TITLE_ATTR_NAME = "webPageTitle";
 	private static final String WEB_PG_TITLE_ATTR_VAL = "Dendrite - About";
 

@@ -43,7 +43,7 @@ public class WriteView extends FormView {
 	@Override
 	String getUrl() {
 		final String from = this.getFrom();
-		String url = "/write.jsp?from=" + from;
+		String url = "/write?from=" + from;
 		final String linkIndex = this.getListIndex();
 		if (linkIndex != null)
 			url += "&linkIndex=" + linkIndex;

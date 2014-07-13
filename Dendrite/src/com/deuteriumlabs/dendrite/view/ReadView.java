@@ -16,13 +16,37 @@ import com.google.appengine.api.datastore.Text;
  * Represents a story page.
  */
 public class ReadView extends View {
+	
+	public enum Format {
+		BOLD, BOLD_ITALIC, ITALIC, NONE
+	}
 
+	private User author;
 	private StoryBeginning beginning;
 	private StoryPage page;
 	private PageId pageId;
-	private User author;
 	
 	public ReadView() {
+	}
+	
+	public List<PageId> getAncestry() {
+		return this.getPage().getAncestry();
+	}
+	
+	private User getAuthor() {
+		if (this.author == null) {
+			final StoryPage page = this.getPage();
+			final String userId = page.getAuthorId();
+			this.author = new User();
+			this.author.setId(userId);
+			this.author.read();
+		}
+		return this.author;
+	}
+
+	public int getAuthorAvatarId() {
+		final User user = getAuthor();
+		return user.getAvatarId();
 	}
 	
 	public String getAuthorId() {
@@ -34,17 +58,17 @@ public class ReadView extends View {
 		final StoryPage page = this.getPage();
 		return page.getAuthorName();
 	}
-
+	
 	private StoryBeginning getBeginning() {
 		return this.beginning;
 	}
-	
+
 	public String getFirstUrl() {
 		final StoryPage page = this.getPage();
 		final PageId firstPageId = page.getBeginning();
-		return "read.jsp?p=" + firstPageId;
+		return "read?p=" + firstPageId;
 	}
-	
+
 	public int getNumberOfOptions() {
 		final PageId source = this.getPageId();
 		return StoryOption.countOptions(source);
@@ -59,12 +83,12 @@ public class ReadView extends View {
 		final int target = option.getTarget();
 		if (target == 0) {
 			final String from = source.toString();
-			return "/write.jsp?from=" + from + "&linkIndex=" + index;
+			return "/write?from=" + from + "&linkIndex=" + index;
 		} else {
-			return "/read.jsp?p=" + target;
+			return "/read?p=" + target;
 		}
 	}
-
+	
 	public String getOptionText(final int index) {
 		final StoryOption option = new StoryOption();
 		final PageId source = this.getPageId();
@@ -77,17 +101,17 @@ public class ReadView extends View {
 	private StoryPage getPage() {
 		return this.page;
 	}
-	
+
 	private PageId getPageId() {
 		return this.pageId;
 	}
-	
+
 	public String getPageNumber() {
 		final PageId id = this.getPageId();
 		final int number = id.getNumber();
 		return Integer.toString(number);
 	}
-
+	
 	public String getPageText() {
 		final StoryPage page = this.getPage();
 		final Text text = page.getText();
@@ -97,6 +121,21 @@ public class ReadView extends View {
 			return null;
 	}
 
+	public List<String> getParagraphs() {
+		final String text = this.getPageText();
+		List<String> list = new ArrayList<String>();
+		if (text != null) {
+			String[] array = text.split("\n");
+			for (String paragraph : array) {
+				paragraph = paragraph.replaceAll("[\n\r]", "");
+				if (paragraph.length() > 0) {
+					list.add(paragraph);
+				}
+			}
+		}
+		return list;
+	}
+	
 	private PageId getSpecificPageId(final String string) {
 		final PageId id = new PageId(string);
 		String version = id.getVersion();
@@ -106,7 +145,7 @@ public class ReadView extends View {
 		}
 		return id;
 	}
-
+	
 	public String getTitle() {
 		final StoryBeginning beginning = this.getBeginning();
 		return beginning.getTitle();
@@ -119,13 +158,18 @@ public class ReadView extends View {
 	String getUrl() {
 		final PageId idValue = this.getPageId();
 		final String idString = idValue.toString();
-		return "/read.jsp?p=" + idString;
+		return "/read?p=" + idString;
 	}
-
+	
 	public boolean isAuthorAnonymous() {
 		final StoryPage page = this.getPage();
 		final String authorId = page.getAuthorId();
 		return (authorId == null);
+	}
+	
+	public boolean isAvatarAvailable() {
+		final User user = getAuthor();
+		return user.isAvatarAvailable();
 	}
 	
 	public boolean isBeginning() {
@@ -141,6 +185,28 @@ public class ReadView extends View {
 		return page.isInStore();
 	}
 	
+	public boolean isShowingFirstPage() {
+		final PageId id = this.getPageId();
+		final int num = id.getNumber();
+		return (num == 1);
+	}
+	
+	public void prepareNextPageNum() {
+		final PageContext pageContext = this.getPageContext();
+		final PageId id = this.getPageId();
+		final int currPageNum = id.getNumber();
+		final int nextPageNum = currPageNum + 1;
+		pageContext.setAttribute("nextPageNum", nextPageNum);
+	}
+	
+	public void preparePrevPageNum() {
+		final PageContext pageContext = this.getPageContext();
+		final PageId id = this.getPageId();
+		final int currPageNum = id.getNumber();
+		final int prevPageNum = currPageNum - 1;
+		pageContext.setAttribute("prevPageNum", prevPageNum);
+	}
+
 	private void setBeginning(final StoryBeginning beginning) {
 		this.beginning = beginning;
 	}
@@ -168,65 +234,17 @@ public class ReadView extends View {
 		this.setPageId(id);
 	}
 	
-	public List<String> getParagraphs() {
-		final String text = this.getPageText();
-		List<String> list = new ArrayList<String>();
-		if (text != null) {
-			String[] array = text.split("\n");
-			for (String paragraph : array) {
-				paragraph = paragraph.replaceAll("[\n\r]", "");
-				if (paragraph.length() > 0) {
-					list.add(paragraph);
-				}
-			}
+	public String getParentId() {
+		final List<PageId> ancestry = this.getAncestry();
+		if (ancestry.size() > 1) {
+			final PageId parentId = ancestry.get(ancestry.size() - 2);
+			return parentId.toString();
+		} else {
+			return null;
 		}
-		return list;
 	}
 	
-	public enum Format {
-		BOLD, BOLD_ITALIC, ITALIC, NONE
-	}
-	
-	public boolean isAvatarAvailable() {
-		final User user = getAuthor();
-		return user.isAvatarAvailable();
-	}
-	
-	public int getAuthorAvatarId() {
-		final User user = getAuthor();
-		return user.getAvatarId();
-	}
-
-	private User getAuthor() {
-		if (this.author == null) {
-			final StoryPage page = this.getPage();
-			final String userId = page.getAuthorId();
-			this.author = new User();
-			this.author.setId(userId);
-			this.author.read();
-		}
-		return this.author;
-	}
-	
-	public boolean isShowingFirstPage() {
-		final PageId id = this.getPageId();
-		final int num = id.getNumber();
-		return (num == 1);
-	}
-	
-	public void preparePrevPageNum() {
-		final PageContext pageContext = this.getPageContext();
-		final PageId id = this.getPageId();
-		final int currPageNum = id.getNumber();
-		final int prevPageNum = currPageNum - 1;
-		pageContext.setAttribute("prevPageNum", prevPageNum);
-	}
-	
-	public void prepareNextPageNum() {
-		final PageContext pageContext = this.getPageContext();
-		final PageId id = this.getPageId();
-		final int currPageNum = id.getNumber();
-		final int nextPageNum = currPageNum + 1;
-		pageContext.setAttribute("nextPageNum", nextPageNum);
+	public String getChance() {
+		return this.getPage().getChance();
 	}
 }

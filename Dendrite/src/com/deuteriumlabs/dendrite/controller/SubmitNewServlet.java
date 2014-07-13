@@ -28,6 +28,7 @@ public class SubmitNewServlet extends SubmitServlet {
 		controller.setContent(content);
 		final String authorName = req.getParameter("authorName");
 		controller.setAuthorName(authorName);
+		controller.setParent(null);
 		for (int i = 0; i < 5; i++) {
 			final String option = req.getParameter("option" + i);
 			if (option != null) {
@@ -53,50 +54,50 @@ public class SubmitNewServlet extends SubmitServlet {
 		else {
 			controller.buildNewStory();
 			final PageId id = controller.getId();
-			resp.sendRedirect("/read.jsp?p=" + id);
+			resp.sendRedirect("/read?p=" + id);
 		}
 	}
 	
 	@Override
-	String getUrl() { return "/new.jsp"; }
+	String getUrl() { return "/new"; }
 
 	@Override
 	protected void redirectFromBlankAuthorName() {
-		final String url = "/new.jsp?error=blankAuthorName";
+		final String url = "/new?error=blankAuthorName";
 		this.redirect(url);
 	}
 
 	@Override
 	protected void redirectFromBlankContent() {
-		final String url = "/new.jsp?error=blankContent";
+		final String url = "/new?error=blankContent";
 		this.redirect(url);
 	}
 
 	private void redirectFromBlankTitle() {
-		final String url = "/new.jsp?error=blankTitle";
+		final String url = "/new?error=blankTitle";
 		this.redirect(url);
 	}
 
 	@Override
 	protected void redirectFromTooLongAuthorName() {
-		final String url = "/new.jsp?error=authorNameTooLong";
+		final String url = "/new?error=authorNameTooLong";
 		this.redirect(url);
 	}
 
 	@Override
 	protected void redirectFromTooLongContent() {
-		final String url = "/new.jsp?error=contentTooLong";
+		final String url = "/new?error=contentTooLong";
 		this.redirect(url);
 	}
 
 	@Override
 	protected void redirectFromTooLongOption() {
-		final String url = "/new.jsp?error=optionTooLong";
+		final String url = "/new?error=optionTooLong";
 		this.redirect(url);
 	}
 	
 	private void redirectFromTooLongTitle() {
-		final String url = "/new.jsp?error=titleTooLong";
+		final String url = "/new?error=titleTooLong";
 		this.redirect(url);
 	}
 }

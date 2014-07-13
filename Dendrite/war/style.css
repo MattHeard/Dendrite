@@ -770,6 +770,12 @@ textarea {
 	#themeDropdown {
 		margin-left: -35px;
 	}
+	
+	ul.testers {
+        columns: 3;
+        -webkit-columns: 3;
+        -moz-columns: 3;
+	}
 }
 
 @media all and (min-width: 1000px) {

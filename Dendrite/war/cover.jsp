@@ -18,13 +18,13 @@ view.setPageContext(pageContext);
   <body>
     <div id="main">
       <div id="welcome">
-        <a href="index.jsp"><img id="logo" src="logo/head.png"/></a>
+        <a href="index"><img id="logo" src="logo/head.png"/></a>
         <h1>Dendrite</h1>
-        <p>Read and write your own adventure.</p>
+        <p>Read or write your own adventure.</p>
       </div>
       <div id="actions">
-        <a href="index.jsp"><h2 class="option">READ</h2></a>
-        <a href="new.jsp"><h2 class="option">WRITE</h2></a>
+        <a href="index"><h2 class="option">READ</h2></a>
+        <a href="new"><h2 class="option">WRITE</h2></a>
       </div>
       <div id="explanation">
         <p>Click the "Read" button above to go to the table of contents.</p>
@@ -36,19 +36,19 @@ view.findThreeStories();
 
 %>
       <div id="stories">
-        <a href="read.jsp?p=16">
+        <a href="read?p=16">
           <div class="story first">
             <h2>${fn:escapeXml(firstStoryTitle)}</h2>
             <p>${fn:escapeXml(firstStorySummary)}</p>
           </div>
         </a>
-        <a href="read.jsp?p=16">
+        <a href="read?p=16">
           <div class="story second">
             <h2>${fn:escapeXml(secondStoryTitle)}</h2>
             <p>${fn:escapeXml(secondStorySummary)}</p>
           </div>
         </a>
-        <a href="read.jsp?p=16">
+        <a href="read?p=16">
           <div class="story third">
             <h2>${fn:escapeXml(thirdStoryTitle)}</h2>
             <p>${fn:escapeXml(thirdStorySummary)}</p>

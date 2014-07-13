@@ -6,7 +6,7 @@ public class ContactView extends View {
 
 	@Override
 	String getUrl() {
-		return "/contact.jsp";
+		return "/contact";
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.deuteriumlabs.dendrite.model.PageId;
+import com.deuteriumlabs.dendrite.model.StoryPage;
 
 public class SubmitRewriteServlet extends SubmitServlet {
 
@@ -15,7 +16,8 @@ public class SubmitRewriteServlet extends SubmitServlet {
 	private String pageNumber;
 	
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+	protected final void doPost(final HttpServletRequest req,
+			final HttpServletResponse resp)
 			throws ServletException, IOException {
 		this.setResponse(resp);
 		final SubmitRewriteController controller = new SubmitRewriteController();
@@ -29,27 +31,30 @@ public class SubmitRewriteServlet extends SubmitServlet {
 		controller.setContent(content);
 		final String authorName = req.getParameter("authorName");
 		controller.setAuthorName(authorName);
+		final StoryPage parent = StoryPage.getParentOf(new PageId(pageNumber));
+		controller.setParent(parent);
 		for (int i = 0; i < 5; i++) {
 			final String option = req.getParameter("option" + i);
-			if (option != null)
+			if (option != null) {
 				controller.addOption(option);
+			}
 		}
 		final String authorId = req.getParameter("authorId");
 		controller.setAuthorId(authorId);
-		if (controller.isContentBlank() == true)
+		if (controller.isContentBlank()) {
 			this.redirectFromBlankContent();
-		else if (controller.isContentTooLong() == true)
+		} else if (controller.isContentTooLong()) {
 			this.redirectFromTooLongContent();
-		else if (controller.isAnyOptionTooLong() == true)
+		} else if (controller.isAnyOptionTooLong()) {
 			this.redirectFromTooLongOption();
-		else if (controller.isAuthorNameBlank() == true)
+		} else if (controller.isAuthorNameBlank()) {
 			this.redirectFromBlankAuthorName();
-		else if (controller.isAuthorNameTooLong() == true)
+		} else if (controller.isAuthorNameTooLong()) {
 			this.redirectFromTooLongAuthorName();
-		else {
+		} else {
 			controller.buildNewPage();
 			final PageId id = controller.getId();
-			resp.sendRedirect("/read.jsp?p=" + id);
+			resp.sendRedirect("/read?p=" + id);
 		}
 	}
 
@@ -58,9 +63,10 @@ public class SubmitRewriteServlet extends SubmitServlet {
 	}
 
 	@Override
+	final
 	String getUrl() {
 		final String p = this.getPageNumber();
-		return "/rewrite.jsp?p=" + p;
+		return "/rewrite?p=" + p;
 	}
 
 	private void setPageNumber(final String pageNumber) {

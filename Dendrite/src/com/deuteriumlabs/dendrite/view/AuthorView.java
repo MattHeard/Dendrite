@@ -45,7 +45,7 @@ public class AuthorView extends View {
 	@Override
 	String getUrl() {
 		final String id = this.getId();
-		return "/author.jsp?id=" + id;
+		return "/author?id=" + id;
 	}
 
 	public boolean hasAnotherStoryPage() {

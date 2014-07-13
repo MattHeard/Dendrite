@@ -74,7 +74,7 @@ public class FormattedText {
 		return secondList;
 	}
 
-	// Called in 'read.jsp'
+	// Called in 'read'
 	public static FormattedText[] parseFormattedText(String input) {
 		List<FormattedText> list = extractFormattedText(input);
 		FormattedText[] array = new FormattedText[list.size()];

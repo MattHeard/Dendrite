@@ -21,9 +21,9 @@ view.initialise();
 
 %>
         <div id="tabs">
-          <a href="about.jsp">About</a>
+          <a href="about">About</a>
           <a class="selected_tab">Contributors</a>
-          <a id="more" href="about_more.jsp">⋮</a>
+          <a id="more" href="about_more">⋮</a>
         </div>
         <div class="clear"></div>
         <h3>Developer</h3>
@@ -72,7 +72,7 @@ view.initialise();
           </li>
         </ul>
         <h3>Beta testing and bug reporting</h3>
-        <ul>
+        <ul class="testers">
           <li>Calum Barrett</li>
           <li>Neil Dudley</li>
           <li>Duncan Hamilton</li>
@@ -81,9 +81,10 @@ view.initialise();
           <li>Nic Henwood</li>
           <li>Jack Li</li>
           <li>Bayard Randel</li>
+          <li>Isaac Randel</li>
           <li>Chris Youngson</li>
         </ul>
         <i>If you would like to contact the developer or either of the major
         contributors, please send a message via the
-        <a href="/contact.jsp">Contact</a> form.</i>
+        <a href="/contact">Contact</a> form.</i>
 <%@include file="bottom.jspf" %>

@@ -6,7 +6,7 @@ public class ContributorsView extends View {
 
 	@Override
 	String getUrl() {
-		return "/contributors.jsp";
+		return "/contributors";
 	}
 
 	@Override

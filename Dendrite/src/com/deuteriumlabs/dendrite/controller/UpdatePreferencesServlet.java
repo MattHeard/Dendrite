@@ -61,17 +61,17 @@ public class UpdatePreferencesServlet extends DendriteServlet {
 	}
 
 	private void redirectFromBlankNewPenName() {
-		final String url = "/preferences.jsp?error=blankNewPenName";
+		final String url = "/preferences?error=blankNewPenName";
 		this.redirect(url);
 	}
 
 	private void redirectFromUpdateFailure() {
-		final String url = "/preferences.jsp?error=updateFailed";
+		final String url = "/preferences?error=updateFailed";
 		this.redirect(url);
 	}
 
 	protected void redirectToMyPreferencesPage() {
-		final String url = "/preferences.jsp";
+		final String url = "/preferences";
 		this.redirect(url);
 	}
 
