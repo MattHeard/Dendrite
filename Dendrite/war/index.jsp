@@ -53,7 +53,7 @@ if (isFirstPage == false) {
     view.preparePrevPageNum();
     	
     %>
-          <div><a href="/index?p=${fn:escapeXml(prev)}">Previous</a></div><%
+          <div><a href="/?p=${fn:escapeXml(prev)}">Previous</a></div><%
     	
 }
 
@@ -62,7 +62,7 @@ if (isLastPage == false) {
 	view.prepareNextPageNum();
     	
     %>
-          <div><a href="/index?p=${fn:escapeXml(next)}">Next</a></div><%
+          <div><a href="/?p=${fn:escapeXml(next)}">Next</a></div><%
     	
 }
 	

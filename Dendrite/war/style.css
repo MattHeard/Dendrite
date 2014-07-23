@@ -606,9 +606,25 @@ ul.radio_list {
 	margin-bottom: 1em;
 }
 
-#rewriteLink {
+#modifyMenu {
 	float: right;
 	padding-top: 1em;
+}
+
+#love {
+	float: right;
+	font-size: 30px;
+	cursor: pointer;
+    color: #f0c0c0;
+}
+
+#love.set {
+    color: #f00000;
+}
+
+#loveCount {
+    float: right;
+    padding-right: 5px;
 }
 
 select {

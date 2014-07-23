@@ -5,17 +5,17 @@ import javax.servlet.jsp.PageContext;
 
 public class NewView extends FormView {
 
-	@Override
-	String getUrl() {
-		return "/new";
-	}
+    @Override
+    String getUrl() {
+        return "/new";
+    }
 
-	@Override
-	public void initialise() {
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("webPageTitle", "Dendrite - New Story");
-		final HttpServletRequest request = this.getRequest();
-		final String error = request.getParameter("error");
-		this.setError(error);
-	}
+    @Override
+    public void initialise() {
+        final PageContext pageContext = this.getPageContext();
+        pageContext.setAttribute("webPageTitle", "Dendrite - New Story");
+        final HttpServletRequest request = this.getRequest();
+        final String error = request.getParameter("error");
+        this.setError(error);
+    }
 }

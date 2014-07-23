@@ -13,103 +13,103 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class StoryPageTest {
-	private static final String DUMMY_TEXT = "Dummy text";
-	private static final String DUMMY_NEW_TEXT = "Dummy new text";
-	
-	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
-			new LocalDatastoreServiceTestConfig());
+    private static final String DUMMY_TEXT = "Dummy text";
+    private static final String DUMMY_NEW_TEXT = "Dummy new text";
 
-	private static PageId getDummyPageId() {
-		final PageId id = new PageId();
-		final int number = 1;
-		id.setNumber(number);
-		final String version = "a";
-		id.setVersion(version);
-		return id;
-	}
+    private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
+            new LocalDatastoreServiceTestConfig());
 
-	@Before
-	public void setUp() {
-		helper.setUp();
-	}
+    private static PageId getDummyPageId() {
+        final PageId id = new PageId();
+        final int number = 1;
+        id.setNumber(number);
+        final String version = "a";
+        id.setVersion(version);
+        return id;
+    }
 
-	@After
-	public void tearDown() {
-		helper.tearDown();
-	}
+    @Before
+    public void setUp() {
+        helper.setUp();
+    }
 
-	@Test
-	public final void testCreate() {
-		final StoryPage page = new StoryPage();
-		final PageId id = getDummyPageId();
-		page.setId(id);
-		page.setText(DUMMY_TEXT);
-		
-		page.create();
-		
-		final boolean isPageInStore = page.isInStore();
-		final String message = "The story page was not in the store.";
-		assertTrue(message, isPageInStore);
-	}
-	
-	@Test
-	public final void testDelete() {
-		createDummyStoryPage();
-		
-		final StoryPage page = new StoryPage();
-		final PageId id = getDummyPageId();
-		page.setId(id);
-		
-		page.delete();
-		
-		final boolean isPageInStore = page.isInStore();
-		final String message;
-		message = "The story page should not have been in the store.";
-		assertFalse(message, isPageInStore);
-	}
-	
-	@Test
-	public final void testUpdate() {
-		createDummyStoryPage();
-		final StoryPage pageBeforeUpdate = new StoryPage();
-		final PageId id = getDummyPageId();
-		pageBeforeUpdate.setId(id);
-		pageBeforeUpdate.read();
-		pageBeforeUpdate.setText(DUMMY_NEW_TEXT);
-		
-		pageBeforeUpdate.update();
-		final StoryPage pageAfterUpdate = new StoryPage();
-		pageAfterUpdate.setId(id);
-		pageAfterUpdate.read();
-		
-		final String expected = DUMMY_NEW_TEXT;
-		final Text text = pageAfterUpdate.getText();
-		final String actual = text.getValue();
-		final String message = "The page text was not updated correctly.";
-		assertEquals(message, expected, actual);
-	}
-	
-	@Test
-	public final void testRead() {
-		createDummyStoryPage();
-		
-		final StoryPage page = new StoryPage();
-		final PageId id = getDummyPageId();
-		page.setId(id);
-		page.read();
-		
-		final String expected = DUMMY_TEXT;
-		final Text text = page.getText();
-		final String actual = text.getValue();
-		final String message = "The page text was not correct.";
-		assertEquals(message, expected, actual);
-	}
+    @After
+    public void tearDown() {
+        helper.tearDown();
+    }
 
-	private static void createDummyStoryPage() {
-		final PageId id = getDummyPageId();
-		final StoryPage page = new StoryPage();
-		page.setId(id);
-		page.setText(DUMMY_TEXT);
-		page.create();
-	}
+    @Test
+    public final void testCreate() {
+        final StoryPage page = new StoryPage();
+        final PageId id = getDummyPageId();
+        page.setId(id);
+        page.setText(DUMMY_TEXT);
+
+        page.create();
+
+        final boolean isPageInStore = page.isInStore();
+        final String message = "The story page was not in the store.";
+        assertTrue(message, isPageInStore);
+    }
+
+    @Test
+    public final void testDelete() {
+        createDummyStoryPage();
+
+        final StoryPage page = new StoryPage();
+        final PageId id = getDummyPageId();
+        page.setId(id);
+
+        page.delete();
+
+        final boolean isPageInStore = page.isInStore();
+        final String message;
+        message = "The story page should not have been in the store.";
+        assertFalse(message, isPageInStore);
+    }
+
+    @Test
+    public final void testUpdate() {
+        createDummyStoryPage();
+        final StoryPage pageBeforeUpdate = new StoryPage();
+        final PageId id = getDummyPageId();
+        pageBeforeUpdate.setId(id);
+        pageBeforeUpdate.read();
+        pageBeforeUpdate.setText(DUMMY_NEW_TEXT);
+
+        pageBeforeUpdate.update();
+        final StoryPage pageAfterUpdate = new StoryPage();
+        pageAfterUpdate.setId(id);
+        pageAfterUpdate.read();
+
+        final String expected = DUMMY_NEW_TEXT;
+        final Text text = pageAfterUpdate.getText();
+        final String actual = text.getValue();
+        final String message = "The page text was not updated correctly.";
+        assertEquals(message, expected, actual);
+    }
+
+    @Test
+    public final void testRead() {
+        createDummyStoryPage();
+
+        final StoryPage page = new StoryPage();
+        final PageId id = getDummyPageId();
+        page.setId(id);
+        page.read();
+
+        final String expected = DUMMY_TEXT;
+        final Text text = page.getText();
+        final String actual = text.getValue();
+        final String message = "The page text was not correct.";
+        assertEquals(message, expected, actual);
+    }
+
+    private static void createDummyStoryPage() {
+        final PageId id = getDummyPageId();
+        final StoryPage page = new StoryPage();
+        page.setId(id);
+        page.setText(DUMMY_TEXT);
+        page.create();
+    }
 }

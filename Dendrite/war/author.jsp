@@ -48,13 +48,13 @@ if (view.isAuthorPageOfUser() == true) {
           </div><%
 
 while (view.hasAnotherStoryPage() == true) {
-	view.prepareNextStoryPage();
-	if (view.isThisStoryPageInADifferentStory() == true) {
-		
-		%>
+    view.prepareNextStoryPage();
+    if (view.isThisStoryPageInADifferentStory() == true) {
+        
+        %>
           <h3 class="do_not_clear">${fn:escapeXml(title)}</h3><%
           
-	}
+    }
     
     %>
           <div class="item">
@@ -63,9 +63,9 @@ while (view.hasAnotherStoryPage() == true) {
                 >${fn:escapeXml(summary)}</a><%
                 
     if (view.isThisStoryPageCreditedDifferently() == true) {
-    	
-    	%> (credited as <i>${fn:escapeXml(authorName)}</i>)<%
-    	
+        
+        %> (credited as <i>${fn:escapeXml(authorName)}</i>)<%
+        
     }
                 
 %></div>
@@ -76,25 +76,25 @@ while (view.hasAnotherStoryPage() == true) {
 }
 
 if (view.isFirstPage() == false) {
-	view.preparePrevAuthorPageLink();
-    	
+    view.preparePrevAuthorPageLink();
+        
     %>
           <div><a
               href="/author?id=${fn:escapeXml(id)}&p=${fn:escapeXml(prev)}"
               >Previous</a></div><%
-    	
+        
 }
 
 if (view.isLastPage() == false) {
-	view.prepareNextAuthorPageLink();
-    	
+    view.prepareNextAuthorPageLink();
+        
     %>
           <div><a
               href="/author?id=${fn:escapeXml(id)}&p=${fn:escapeXml(next)}"
               >Next</a></div><%
-    	
+        
 }
-	
+
 %>
         </div>
 <%@include file="bottom.jspf" %>

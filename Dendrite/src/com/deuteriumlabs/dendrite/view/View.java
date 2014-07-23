@@ -29,8 +29,8 @@ public abstract class View {
          * The list of link texts to display.
          */
         private final String[] list = {
-        		"About", "Terms", "Privacy", "Contact" };
-        
+                "About", "Terms", "Privacy", "Contact" };
+
         /**
          * The index used for iterating over the list.
          */
@@ -51,7 +51,7 @@ public abstract class View {
         public final String getCurrUrl() {
             return "/" + list[currIndex].toLowerCase();
         }
-        
+
         public final void next() {
             ++currIndex;
         }
@@ -140,7 +140,7 @@ public abstract class View {
     private PageContext pageContext;
     private HttpServletRequest request;
     private FooterLinkList footerLinks;
-    
+
     /**
      * Returns a link for logging in, with a redirect back to this page after
      * the login has completed.
@@ -172,7 +172,7 @@ public abstract class View {
     public final HttpServletRequest getRequest() {
         return request;
     }
-    
+
     /**
      * Returns a link to this page, which can be supplied for when the user
      * should be redirected back to this page.
@@ -180,7 +180,7 @@ public abstract class View {
      * @return The URL to this page
      */
     abstract String getUrl();
-    
+
     /**
      * Returns the title of the web page displaying this View.
      * 
@@ -195,11 +195,11 @@ public abstract class View {
     public void setPageContext(final PageContext pageContext) {
         this.pageContext = pageContext;
     }
-    
+
     public final void setRequest(final HttpServletRequest request) {
         this.request = request;
     }
-    
+
     public final boolean hasAnotherFooterLink() {
         return footerLinks.hasAnotherLink();
     }

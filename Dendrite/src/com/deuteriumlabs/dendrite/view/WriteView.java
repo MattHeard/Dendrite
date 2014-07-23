@@ -8,94 +8,94 @@ import com.deuteriumlabs.dendrite.model.StoryOption;
  */
 public class WriteView extends FormView {
 
-	private static int getListIndexValue(final String listIndex) {
-		try {
-			return Integer.parseInt(listIndex);
-		} catch (NumberFormatException e) {
-			return -1;
-		}
-	}
-	
-	private String from;
-	private String linkIndex;
-	private StoryOption option;
+    private static int getListIndexValue(final String listIndex) {
+        try {
+            return Integer.parseInt(listIndex);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
 
-	private String getFrom() {
-		return this.from;
-	}
-	
-	private String getListIndex() {
-		return this.linkIndex;
-	}
+    private String from;
+    private String linkIndex;
+    private StoryOption option;
 
-	public String getOptionText() {
-		final StoryOption option = new StoryOption();
-		final String from = this.getFrom();
-		final PageId source = new PageId(from);
-		option.setSource(source);
-		final String listIndex = this.getListIndex();
-		int listIndexValue = getListIndexValue(listIndex);
-		option.setListIndex(listIndexValue);
-		option.read();
-		return option.getText();
-	}
+    private String getFrom() {
+        return this.from;
+    }
 
-	@Override
-	String getUrl() {
-		final String from = this.getFrom();
-		String url = "/write?from=" + from;
-		final String linkIndex = this.getListIndex();
-		if (linkIndex != null)
-			url += "&linkIndex=" + linkIndex;
-		return url;
-	}
+    private String getListIndex() {
+        return this.linkIndex;
+    }
 
-	public boolean isNewStory() {
-		final String from = this.getFrom();
-		return ("0".equals(from));
-	}
-	
-	public boolean isValidOption() {
-		final StoryOption option = new StoryOption();
-		final String from = this.getFrom();
-		final PageId source = new PageId(from);
-		option.setSource(source);
-		final String listIndex = this.getListIndex();
-		int listIndexValue = getListIndexValue(listIndex);
-		option.setListIndex(listIndexValue);
-		return option.isInStore();
-	}
+    public String getOptionText() {
+        final StoryOption option = new StoryOption();
+        final String from = this.getFrom();
+        final PageId source = new PageId(from);
+        option.setSource(source);
+        final String listIndex = this.getListIndex();
+        int listIndexValue = getListIndexValue(listIndex);
+        option.setListIndex(listIndexValue);
+        option.read();
+        return option.getText();
+    }
 
-	public void setFrom(final String from) {
-		this.from = from;
-	}
-	
-	public void setLinkIndex(final String linkIndex) {
-		this.linkIndex = linkIndex;
-	}
-	
-	public boolean isOptionConnected() {
-		final StoryOption option = this.getOption();
-		return option.isConnected();
-	}
-	
-	public int getTarget() {
-		final StoryOption option = this.getOption();
-		return option.getTarget();
-	}
+    @Override
+    String getUrl() {
+        final String from = this.getFrom();
+        String url = "/write?from=" + from;
+        final String linkIndex = this.getListIndex();
+        if (linkIndex != null)
+            url += "&linkIndex=" + linkIndex;
+        return url;
+    }
 
-	private StoryOption getOption() {
-		StoryOption option = this.option;
-		if (option == null) {
-			option = new StoryOption();
-			final String from = this.getFrom();
-			final PageId source = new PageId(from);
-			option.setSource(source);
-			final String listIndex = this.getListIndex();
-			int listIndexValue = getListIndexValue(listIndex);
-			option.setListIndex(listIndexValue);
-			option.read();
-		}
-		return option;
-	}
+    public boolean isNewStory() {
+        final String from = this.getFrom();
+        return ("0".equals(from));
+    }
+
+    public boolean isValidOption() {
+        final StoryOption option = new StoryOption();
+        final String from = this.getFrom();
+        final PageId source = new PageId(from);
+        option.setSource(source);
+        final String listIndex = this.getListIndex();
+        int listIndexValue = getListIndexValue(listIndex);
+        option.setListIndex(listIndexValue);
+        return option.isInStore();
+    }
+
+    public void setFrom(final String from) {
+        this.from = from;
+    }
+
+    public void setLinkIndex(final String linkIndex) {
+        this.linkIndex = linkIndex;
+    }
+
+    public boolean isOptionConnected() {
+        final StoryOption option = this.getOption();
+        return option.isConnected();
+    }
+
+    public int getTarget() {
+        final StoryOption option = this.getOption();
+        return option.getTarget();
+    }
+
+    private StoryOption getOption() {
+        StoryOption option = this.option;
+        if (option == null) {
+            option = new StoryOption();
+            final String from = this.getFrom();
+            final PageId source = new PageId(from);
+            option.setSource(source);
+            final String listIndex = this.getListIndex();
+            int listIndexValue = getListIndexValue(listIndex);
+            option.setListIndex(listIndexValue);
+            option.read();
+        }
+        return option;
+    }
 }

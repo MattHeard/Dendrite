@@ -22,36 +22,38 @@ if (isPageInStore == true) {
 %><%@include file="top_with_format_bar.jspf"
 
 %><%
-    
+
     if (isPageInStore == true) {
     	final boolean isBeginning = view.isBeginning();
     	if (isBeginning == true) {
     		final String title = view.getTitle();
     		pageContext.setAttribute("title", title);
-    		
+
     		%>
       <div id="storyTitle"><h2>${fn:escapeXml(title)}</h2></div><%
-    		
+
     	}
     	final String pageNumber = view.getPageNumber();
     	pageContext.setAttribute("pageNumber", pageNumber);
-    	
+
     	%>
-      <div id="rewriteLink"><a
-          href="/rewrite?p=${fn:escapeXml(pageNumber)}">Rewrite</a></div>
+      <div id="modifyMenu">
+        <span id="rewriteLink"><a
+            href="/rewrite?p=${fn:escapeXml(pageNumber)}">Rewrite</a></span>
+      </div>
       <div class="clear"></div>
       <!-- <%= view.getChance() %> -->
       <div id="text_body"><%
-    	
+
     	//final String text = view.getPageText();
-        
+
         // Display formatted content
         // First, break it into paragraphs.
         final List<String> paragraphs = view.getParagraphs();
         for (final String paragraph : paragraphs) {
-        	
+
         	%><p class="text"><%
-          
+
           	List<FormattedText> formattedTextChunks;
           	formattedTextChunks = FormattedText.extractFormattedText(paragraph);
           	for (final FormattedText chunk : formattedTextChunks) {
@@ -72,14 +74,14 @@ if (isPageInStore == true) {
           			break;
           		}
           	}
-          
+
             %></p><%
-        	
+
         }
-        
+
       %>
       </div><%
-    
+
     	final int numberOfOptions = view.getNumberOfOptions();
     	int numSkipped = 0;
     	for (int i = 0; i < numberOfOptions + numSkipped; i++) {
@@ -167,11 +169,38 @@ if (isPageInStore == true) {
         %>
       <img id="avatar" src="avatars/${avatarId}.png" />
       <div class="clear"></div><%
+      
+      if (isUserLoggedIn) {
+      
+      %>
+      <div id="love"<%
+        
+        if (view.isLoved() == true) {
+            
+            %> class="set"<%
+            
+        }
+      
+      %>>♥</div>
+      <script type="text/javascript" lang="javascript">
+        var IS_NOT_CURRENTLY_LOVED = <%= view.isNotLoved() %>;
+        var LOVE_URI_WITHOUT_VAL = "/love?<%
+            %>p=<%= view.getPageId() %><%
+            %>&user=<%= View.getMyUserId() %><%
+            %>&isAdded=";
+        var love_uri = LOVE_URI_WITHOUT_VAL + IS_NOT_CURRENTLY_LOVED;
+      </script>
+      <div id="loveCount"><%= view.getNumLovingUsersString() %></div><%
+      
+      }
+      
+      %>
+      <div class="clear"></div><%
     
         if (isBeginning == false) {
         	final String first = view.getFirstUrl();
         	pageContext.setAttribute("first", first);
-    
+
         	%>
       <p><a href="/read?p=<%= view.getParentId() %>">Return to the previous
           page.</a></p>

@@ -252,20 +252,33 @@ function initTextEntryFields() {
   initAuthorNameCountNote();
 }
 
-function showAlt() {
-  $(this).replaceWith(this.alt);
-}
-
-function addShowAlt(selector) {
-  $(selector).error(showAlt).attr("src", $(selector).src);
-}
-
-function initAltLogoText() {
-  addShowAlt("#logoImage");
+function initLoveButton() {
+  $("#love").click(function() {
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+      if (req.readyState == 4 && req.status == 200) {
+    	var count = parseInt(req.responseText);
+    	if (count > 0) {
+          $("#loveCount").text(count);
+    	} else {
+    		$("#loveCount").text("");
+    	}
+        if (IS_NOT_CURRENTLY_LOVED === true) {
+          IS_NOT_CURRENTLY_LOVED = false;
+        } else {
+          IS_NOT_CURRENTLY_LOVED = true;
+        }
+        love_uri = LOVE_URI_WITHOUT_VAL + IS_NOT_CURRENTLY_LOVED;
+      }
+    };
+    req.open("POST", love_uri, IS_NOT_CURRENTLY_LOVED);
+    req.send();
+    $("#love").toggleClass("set");
+  });
 }
 
 function init() {
   preventEnterFromSubmittingForms();
   initTextEntryFields();
-  initAltLogoText();
+  initLoveButton();
 }

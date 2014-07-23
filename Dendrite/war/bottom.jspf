@@ -15,7 +15,7 @@
       <div id="footerMenu"><%
       
 while (view.hasAnotherFooterLink()) {
-	view.prepareNextFooterLink();
+    view.prepareNextFooterLink();
     
     %>
         <span class="footer">

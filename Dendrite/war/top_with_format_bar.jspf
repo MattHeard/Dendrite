@@ -62,7 +62,7 @@ if (userTheme != null && userTheme.equals("Light") == false) {
     pageContext.setAttribute("themeClassName", "");
 }
   
-%>>
+%> onLoad="init();">
     <div id="nonFooter">
       <div id="headerBar">
         <div id="header">
