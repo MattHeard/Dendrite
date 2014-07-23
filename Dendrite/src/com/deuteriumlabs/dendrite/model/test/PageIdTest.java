@@ -1,12 +1,28 @@
 package com.deuteriumlabs.dendrite.model.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
 import com.deuteriumlabs.dendrite.model.PageId;
 
 public class PageIdTest {
+    
+    @Test
+    public final void testDefaultConstructor() {
+        final PageId id = new PageId();
+        
+        final int expectedNum = 0;
+        final int actualNum = id.getNumber();
+        final String numMsg = "The default number should be 0.";
+        assertEquals(numMsg, expectedNum, actualNum);
+        
+        final String expectedVersion = null;
+        final String actualVersion = id.getVersion();
+        final String versionMsg = "The default version should be null.";
+        assertEquals(versionMsg, expectedVersion, actualVersion);
+    }
 
     @Test
     public final void testInvalidNumber() {
