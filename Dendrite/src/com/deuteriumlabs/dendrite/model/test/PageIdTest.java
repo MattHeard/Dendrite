@@ -28,7 +28,7 @@ public class PageIdTest {
             final String incrementMsg;
             incrementMsg = "The default page ID should not be incrementable.";
             fail(incrementMsg);
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException expected) {
             // The id version is null, so it cannot be incremented.
         }
 
@@ -136,5 +136,28 @@ public class PageIdTest {
         actualStr = id.toString();
         msg = "The page ID with 1 and 'a' should print '1a'.";
         assertEquals(msg, expectedStr, actualStr);
+    }
+
+    @Test
+    public final void testIsValid() {
+        final PageId id = new PageId();
+        boolean expected = false;
+        boolean actual = id.isValid();
+        String msg = "The default page ID should be invalid.";
+        assertEquals(msg, expected, actual);
+
+        final int num = 1;
+        id.setNumber(num);
+        expected = false;
+        actual = id.isValid();
+        msg = "Page ID '1' should be invalid.";
+        assertEquals(msg, expected, actual);
+
+        final String version = "a";
+        id.setVersion(version);
+        expected = true;
+        actual = id.isValid();
+        msg = "Page ID '1a' should be valid.";
+        assertEquals(msg, expected, actual);
     }
 }
