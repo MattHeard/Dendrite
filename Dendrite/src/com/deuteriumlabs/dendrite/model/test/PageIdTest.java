@@ -37,6 +37,11 @@ public class PageIdTest {
         final boolean actualValidity = id.isValid();
         final String validityMsg = "The default page ID should be invalid.";
         assertEquals(validityMsg, expectedValidity, actualValidity);
+
+        final String expectedString = "0";
+        final String actualString = id.toString();
+        final String stringMsg = "The default page ID string should be \"0\".";
+        assertEquals(stringMsg, expectedString, actualString);
     }
 
     @Test
