@@ -52,6 +52,11 @@ public class PageIdTest {
         int actualNum = id.getNumber();
         String numMsg = "The null string should produce ID number 0.";
         assertEquals(numMsg, expectedNum, actualNum);
+
+        String expectedVersion = null;
+        String actualVersion = id.getVersion();
+        String versionMsg = "The null string should produce null ID version.";
+        assertEquals(versionMsg, expectedVersion, actualVersion);
     }
 
     @Test
