@@ -64,6 +64,59 @@ public class PageIdTest {
         actualNum = id.getNumber();
         numMsg = "The empty string should produce ID number 0.";
         assertEquals(numMsg, expectedNum, actualNum);
+
+        expectedVersion = null;
+        actualVersion = id.getVersion();
+        versionMsg = "The empty string should produce null ID version.";
+        assertEquals(versionMsg, expectedVersion, actualVersion);
+
+        final String genericNum = "1";
+        id = new PageId(genericNum);
+        expectedNum = 1;
+        actualNum = id.getNumber();
+        numMsg = "The string \"1\" should produce ID number 1.";
+        assertEquals(numMsg, expectedNum, actualNum);
+
+        expectedVersion = null;
+        actualVersion = id.getVersion();
+        versionMsg = "The string \"1\" should produce null ID version.";
+        assertEquals(versionMsg, expectedVersion, actualVersion);
+
+        final String specificNum = "1a";
+        id = new PageId(specificNum);
+        expectedNum = 1;
+        actualNum = id.getNumber();
+        numMsg = "The string \"1a\" should produce ID number 1.";
+        assertEquals(numMsg, expectedNum, actualNum);
+
+        expectedVersion = "a";
+        actualVersion = id.getVersion();
+        versionMsg = "The string \"1a\" should produce ID version \"a\".";
+        assertEquals(versionMsg, expectedVersion, actualVersion);
+
+        final String genericNumWithCruft = "1!";
+        id = new PageId(genericNumWithCruft);
+        expectedNum = 1;
+        actualNum = id.getNumber();
+        numMsg = "The string \"1!\" should produce ID number 1.";
+        assertEquals(numMsg, expectedNum, actualNum);
+
+        expectedVersion = null;
+        actualVersion = id.getVersion();
+        versionMsg = "The string \"1!\" should produce null ID version.";
+        assertEquals(versionMsg, expectedVersion, actualVersion);
+
+        final String specificNumWithCruft = "1a!";
+        id = new PageId(specificNumWithCruft);
+        expectedNum = 1;
+        actualNum = id.getNumber();
+        numMsg = "The string \"1a!\" should produce ID number 1.";
+        assertEquals(numMsg, expectedNum, actualNum);
+
+        expectedVersion = "a";
+        actualVersion = id.getVersion();
+        versionMsg = "The string \"1a!\" should produce ID version \"a\".";
+        assertEquals(versionMsg, expectedVersion, actualVersion);
     }
 
     @Test
