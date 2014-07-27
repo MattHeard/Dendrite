@@ -45,6 +45,16 @@ public class PageIdTest {
     }
 
     @Test
+    public final void testConstructorFromString() {
+        final String nullStr = null;
+        PageId id = new PageId(nullStr);
+        int expectedNum = 0;
+        int actualNum = id.getNumber();
+        String numMsg = "The null string should produce ID number 0.";
+        assertEquals(numMsg, expectedNum, actualNum);
+    }
+
+    @Test
     public final void testInvalidNumber() {
         final PageId id = new PageId();
         final int invalidNum = -1;
