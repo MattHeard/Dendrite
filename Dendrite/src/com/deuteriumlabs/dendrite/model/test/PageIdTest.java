@@ -2,6 +2,7 @@ package com.deuteriumlabs.dendrite.model.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -12,16 +13,23 @@ public class PageIdTest {
     @Test
     public final void testDefaultConstructor() {
         final PageId id = new PageId();
-        
+
         final int expectedNum = 0;
         final int actualNum = id.getNumber();
         final String numMsg = "The default number should be 0.";
         assertEquals(numMsg, expectedNum, actualNum);
-        
+
         final String expectedVersion = null;
         final String actualVersion = id.getVersion();
         final String versionMsg = "The default version should be null.";
         assertEquals(versionMsg, expectedVersion, actualVersion);
+
+        try {
+            id.incrementVersion();
+            fail();
+        } catch (IllegalStateException e) {
+            // The id version is null, so it cannot be incremented.
+        }
     }
 
     @Test

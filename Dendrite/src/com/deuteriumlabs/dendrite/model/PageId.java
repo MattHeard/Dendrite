@@ -143,8 +143,13 @@ public class PageId {
      */
     public void incrementVersion() {
         final String version = this.getVersion();
-        final String incrementedVersion = PageId.increment(version);
-        this.setVersion(incrementedVersion);
+        if (version == null) {
+            final String message = "A null version cannot be incremented.";
+            throw new IllegalStateException(message);
+        } else {
+            final String incrementedVersion = PageId.increment(version);
+            this.setVersion(incrementedVersion);
+        }
     }
 
     /**
