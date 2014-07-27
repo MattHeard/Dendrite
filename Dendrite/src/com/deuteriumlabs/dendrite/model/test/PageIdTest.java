@@ -26,10 +26,17 @@ public class PageIdTest {
 
         try {
             id.incrementVersion();
-            fail();
+            final String incrementMsg;
+            incrementMsg = "The default page ID should not be incrementable.";
+            fail(incrementMsg);
         } catch (IllegalStateException e) {
             // The id version is null, so it cannot be incremented.
         }
+
+        final boolean expectedValidity = false;
+        final boolean actualValidity = id.isValid();
+        final String validityMsg = "The default page ID should be invalid.";
+        assertEquals(validityMsg, expectedValidity, actualValidity);
     }
 
     @Test
