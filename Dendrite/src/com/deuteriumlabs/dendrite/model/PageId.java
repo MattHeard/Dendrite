@@ -14,7 +14,7 @@ package com.deuteriumlabs.dendrite.model;
 public class PageId {
     private static final int MIN_PAGE_NUM = 1;
     private static final int INVALID_PAGE_NUM = 0;
-    private int number = -1;
+    private int number = INVALID_PAGE_NUM;
     private String version = null;
 
     public PageId(String string) {
