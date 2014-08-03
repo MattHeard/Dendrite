@@ -5,7 +5,10 @@ package com.deuteriumlabs.dendrite.controller;
 
 import java.util.List;
 
+import sun.reflect.generics.tree.FormalTypeParameter;
+
 import com.deuteriumlabs.dendrite.model.PageId;
+import com.deuteriumlabs.dendrite.model.PgLovedNotification;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 
 /**
@@ -13,40 +16,77 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
  */
 public class LoveController {
     public PageId pageId;
-    public String userId;
+    public String loverId;
+    private String authorId;
     
     /**
      * @return 
      * 
      */
     public int addLove() {
-        final StoryPage p = new StoryPage();
-        p.setId(pageId);
-        p.read();
-        final List<String> lovingUsers = p.getLovingUsers();
+        final StoryPage pg = new StoryPage();
+        pg.setId(pageId);
+        pg.read();
+        authorId = pg.getAuthorId();
+        
+        final List<String> formerlyLovingUsers = pg.getFormerlyLovingUsers();
+        final boolean isUserAFormerLover;
+        if (formerlyLovingUsers.contains(loverId) == true) {
+            isUserAFormerLover = true;
+            do {
+                formerlyLovingUsers.remove(loverId);
+            } while (formerlyLovingUsers.contains(loverId) == true);
+        } else {
+            isUserAFormerLover = false;
+        }
+        
+        final List<String> lovingUsers = pg.getLovingUsers();
         int count = lovingUsers.size();
-        if (lovingUsers.contains(userId) == false) {
-            lovingUsers.add(userId);
+        if (lovingUsers.contains(loverId) == false) {
+            lovingUsers.add(loverId);
             count++;
-            p.setLovingUsers(lovingUsers);
-            p.update();
+            pg.setFormerlyLovingUsers(formerlyLovingUsers);
+            pg.setLovingUsers(lovingUsers);
+            pg.update();
+            if (isUserAFormerLover == false) {
+                this.notifyLove();
+            }
         }
         return count;
     }
 
+    /**
+     * 
+     */
+    private void notifyLove() {
+        final PgLovedNotification notification = new PgLovedNotification();
+        notification.setPgId(pageId);
+        notification.setLoverId(loverId);
+        notification.setRecipientId(authorId);
+        notification.create();
+    }
+
     public int removeLove() {
-        final StoryPage p = new StoryPage();
-        p.setId(pageId);
-        p.read();
-        final List<String> lovingUsers = p.getLovingUsers();
+        final StoryPage pg = new StoryPage();
+        pg.setId(pageId);
+        pg.read();
+        
+        final List<String> formerlyLovingUsers = pg.getFormerlyLovingUsers();
+        if (formerlyLovingUsers.contains(loverId) == false) {
+            formerlyLovingUsers.add(loverId);
+            pg.setFormerlyLovingUsers(formerlyLovingUsers);
+        }
+        
+        final List<String> lovingUsers = pg.getLovingUsers();
         int count = lovingUsers.size();
-        if (lovingUsers.contains(userId) == true) {
-            while (lovingUsers.contains(userId) == true) {
-                lovingUsers.remove(userId);
+        if (lovingUsers.contains(loverId) == true) {
+            do {
+                lovingUsers.remove(loverId);
                 count--;
             }
-            p.setLovingUsers(lovingUsers);
-            p.update();
+            while (lovingUsers.contains(loverId) == true);
+            pg.setLovingUsers(lovingUsers);
+            pg.update();
         }
         return count;
     }

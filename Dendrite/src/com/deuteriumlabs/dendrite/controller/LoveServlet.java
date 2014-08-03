@@ -41,7 +41,7 @@ public class LoveServlet extends DendriteServlet {
             this.setInvalidUserIdError(resp);
         } else {
             controller.pageId = pageId;
-            controller.userId = userId;
+            controller.loverId = userId;
             
             final boolean isLoveAdded = this.extractIsLoveAdded(req);
             final int count;

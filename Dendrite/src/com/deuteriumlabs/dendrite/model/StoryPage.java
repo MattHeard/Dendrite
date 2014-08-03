@@ -39,24 +39,26 @@ public class StoryPage extends Model {
         'u', 'v', 'w', 'x', 'y', 'z' };
     private static final String LOVING_USERS_PROPERTY = "lovingUsers";
     private static final String TEXT_PROPERTY = "text";
+    private static final String FORMERLY_LOVING_USERS_PROPERTY = 
+            "formerlyLovingUsers";
 
-    private static char convertNumberToLetter(int number) {
+    private static char convertNumToLetter(int num) {
         Map<Integer, Character> map = new HashMap<Integer, Character>();
         for (int i = 0; i < LETTERS.length; i++)
             map.put(i + 1, LETTERS[i]);
-        return map.get(number);
+        return map.get(num);
     }
 
-    public static String convertNumberToVersion(final int number) {
-        final int lowNumber = ((number - 1) % LEN_ALPHABET) + 1;
-        final char lowLetter = convertNumberToLetter(lowNumber);
-        final int highNumbers = (number - 1) / LEN_ALPHABET;
-        String versionString = Character.toString(lowLetter);
-        if (highNumbers > 0) {
-            final String highLetters = convertNumberToVersion(highNumbers);
-            versionString = highLetters + versionString;
+    public static String convertNumberToVersion(final int num) {
+        final int lowNum = ((num - 1) % LEN_ALPHABET) + 1;
+        final char lowLetter = convertNumToLetter(lowNum);
+        final int highNums = (num - 1) / LEN_ALPHABET;
+        String versionStr = Character.toString(lowLetter);
+        if (highNums > 0) {
+            final String highLetters = convertNumberToVersion(highNums);
+            versionStr = highLetters + versionStr;
         }
-        return versionString;
+        return versionStr;
     }
 
     public static int countAllPagesWrittenBy(final String authorId) {
@@ -70,7 +72,7 @@ public class StoryPage extends Model {
     }
 
     /**
-     * @param greaterEqual
+     * @param greater
      * @param less
      * @return
      */
@@ -95,9 +97,9 @@ public class StoryPage extends Model {
         return preparedQuery.countEntities(fetchOptions);
     }
 
-    public static int countVersions(final int number) {
+    public static int countVersions(final int num) {
         final Query query = new Query(KIND_NAME);
-        final Filter filter = getIdNumberFilter(number);
+        final Filter filter = getIdNumFilter(num);
         query.setFilter(filter);
         final DatastoreService store = getStore();
         final PreparedQuery preparedQuery = store.prepare(query);
@@ -120,11 +122,11 @@ public class StoryPage extends Model {
      * @return The filter to apply to the query
      */
     private static Filter getIdFilter(final PageId id) {
-        final int number = id.getNumber();
-        final Filter numberFilter = getIdNumberFilter(number);
+        final int num = id.getNumber();
+        final Filter numFilter = getIdNumFilter(num);
         final String version = id.getVersion();
         final Filter versionFilter = getIdVersionFilter(version);
-        return CompositeFilterOperator.and(numberFilter, versionFilter);
+        return CompositeFilterOperator.and(numFilter, versionFilter);
     }
 
     /**
@@ -132,14 +134,14 @@ public class StoryPage extends Model {
      * also applying a filter to restrict to a particular ID version, this will
      * provide a collection of versions of one page in a story.
      * 
-     * @param number
+     * @param num
      *            The page number to filter for
      * @return The filter to apply to the query
      */
-    private static Filter getIdNumberFilter(final int number) {
+    private static Filter getIdNumFilter(final int num) {
         final String propertyName = ID_NUMBER_PROPERTY;
         final FilterOperator operator = FilterOperator.EQUAL;
-        final int value = number;
+        final int value = num;
         return new FilterPredicate(propertyName, operator, value);
     }
 
@@ -150,9 +152,9 @@ public class StoryPage extends Model {
      *            The entity containing the ID
      * @return The number component of the story page ID
      */
-    private static int getIdNumberFromEntity(final Entity entity) {
-        final Long number = (Long) entity.getProperty(ID_NUMBER_PROPERTY);
-        return number.intValue();
+    private static int getIdNumFromEntity(final Entity entity) {
+        final Long num = (Long) entity.getProperty(ID_NUMBER_PROPERTY);
+        return num.intValue();
     }
 
     /**
@@ -181,14 +183,14 @@ public class StoryPage extends Model {
         return (String) entity.getProperty(ID_VERSION_PROPERTY);
     }
 
-    private static List<StoryPage> getPagesFromEntities(
+    private static List<StoryPage> getPgsFromEntities(
             final List<Entity> entities) {
-        final List<StoryPage> pages = new ArrayList<StoryPage>();
+        final List<StoryPage> pgs = new ArrayList<StoryPage>();
         for (final Entity entity : entities) {
-            StoryPage page = new StoryPage(entity);
-            pages.add(page);
+            StoryPage pg = new StoryPage(entity);
+            pgs.add(pg);
         }
-        return pages;
+        return pgs;
     }
 
     public static List<StoryPage> getPagesWrittenBy(String authorId, int start,
@@ -206,8 +208,8 @@ public class StoryPage extends Model {
         final int offset = start;
         fetchOptions.offset(offset);
         List<Entity> entities = preparedQuery.asList(fetchOptions);
-        List<StoryPage> pages = getPagesFromEntities(entities);
-        return pages;
+        List<StoryPage> pgs = getPgsFromEntities(entities);
+        return pgs;
     }
 
     /**
@@ -224,21 +226,25 @@ public class StoryPage extends Model {
 
     public static String getRandomVersion(final PageId id) {
         id.setVersion("a");
-        final StoryPage page = new StoryPage();
-        page.setId(id);
-        page.read();
-        final int denominator = page.calculateChanceDenominator();
-        Random generator = new Random();
-        int randomNum = generator.nextInt(denominator);
-        while (randomNum >= 0) {
-            final int numerator = page.calculateChanceNumerator();
-            randomNum -= numerator;
-            if (randomNum >= 0) {
-                page.incrementVersion();
+        final StoryPage pg = new StoryPage();
+        pg.setId(id);
+        pg.read();
+        if (pg.isInStore() == true) {
+            final int denominator = pg.calculateChanceDenominator();
+            Random generator = new Random();
+            int randomNum = generator.nextInt(denominator);
+            while (randomNum >= 0) {
+                final int numerator = pg.calculateChanceNumerator();
+                randomNum -= numerator;
+                if (randomNum >= 0) {
+                    pg.incrementVersion();
+                }
             }
+            final String version = pg.getId().getVersion();
+            return version;
+        } else {
+            return "a";
         }
-        final String version = page.getId().getVersion();
-        return version;
     }
 
     private List<PageId> ancestry;
@@ -250,6 +256,7 @@ public class StoryPage extends Model {
     private List<String> lovingUsers;
     private StoryPage parent;
     private Text text;
+    private List<String> formerlyLovingUsers;
 
     public StoryPage() {
         this.setBeginning(null);
@@ -355,11 +362,11 @@ public class StoryPage extends Model {
         return this.beginning;
     }
 
-    private int getBeginningNumberFromEntity(final Entity entity) {
+    private int getBeginningNumFromEntity(final Entity entity) {
         final String property = BEGINNING_NUMBER_PROPERTY;
-        final Long number = (Long) entity.getProperty(property);
-        if (number != null) {
-            return number.intValue();
+        final Long num = (Long) entity.getProperty(property);
+        if (num != null) {
+            return num.intValue();
         } else {
             return 0;
         }
@@ -438,9 +445,9 @@ public class StoryPage extends Model {
      * @return
      */
     private int getSizeOfBeginningSubtree() {
-        final int number = this.getId().getNumber();
-        final String greaterThanOrEqual = number + "`";
-        final String lessThan = number + "{";
+        final int num = this.getId().getNumber();
+        final String greaterThanOrEqual = num + "`";
+        final String lessThan = num + "{";
         return StoryPage.countSubtreeBetween(greaterThanOrEqual, lessThan);
     }
 
@@ -454,8 +461,8 @@ public class StoryPage extends Model {
             subtreeAncestry += ancestry.get(i);
             subtreeAncestry += String.valueOf(ANCESTRY_DELIMITER);
         }
-        final int number = this.getId().getNumber();
-        subtreeAncestry += number;
+        final int num = this.getId().getNumber();
+        subtreeAncestry += num;
         final String greaterThanOrEqual = subtreeAncestry + "`";
         final String lessThan = subtreeAncestry + "{";
         return StoryPage.countSubtreeBetween(greaterThanOrEqual, lessThan);
@@ -550,8 +557,8 @@ public class StoryPage extends Model {
 
     private void readBeginningFromEntity(final Entity entity) {
         final PageId beginning = new PageId();
-        final int number = getBeginningNumberFromEntity(entity);
-        beginning.setNumber(number);
+        final int num = getBeginningNumFromEntity(entity);
+        beginning.setNumber(num);
         final String version = getBeginningVersionFromEntity(entity);
         beginning.setVersion(version);
         final boolean isValid = beginning.isValid();
@@ -570,8 +577,8 @@ public class StoryPage extends Model {
      */
     private void readIdFromEntity(final Entity entity) {
         final PageId id = new PageId();
-        final int number = getIdNumberFromEntity(entity);
-        id.setNumber(number);
+        final int num = getIdNumFromEntity(entity);
+        id.setNumber(num);
         final String version = getIdVersionFromEntity(entity);
         id.setVersion(version);
         this.setId(id);
@@ -581,11 +588,11 @@ public class StoryPage extends Model {
      * @param entity
      */
     private void readLovingUsersFromEntity(final Entity entity) {
-        List<String> lovingUsers = getLovingUsersFromEntity(entity);
-        if (lovingUsers == null) {
-            lovingUsers = new ArrayList<String>(0);
+        List<String> users = getLovingUsersFromEntity(entity);
+        if (users == null) {
+            users = new ArrayList<String>();
         }
-        this.setLovingUsers(lovingUsers);
+        this.setLovingUsers(users);
     }
 
     /*
@@ -604,6 +611,35 @@ public class StoryPage extends Model {
         this.readAuthorNameFromEntity(entity);
         this.readAuthorIdFromEntity(entity);
         this.readLovingUsersFromEntity(entity);
+        this.readFormerlyLovingUsersFromEntity(entity);
+    }
+
+    /**
+     * @param entity
+     */
+    private void readFormerlyLovingUsersFromEntity(final Entity entity) {
+        List<String> users = getFormerlyLovingUsersFromEntity(entity);
+        if (users == null) {
+            users = new ArrayList<String>();
+        }
+        this.setFormerlyLovingUsers(users);
+    }
+
+    /**
+     * @param users
+     */
+    public void setFormerlyLovingUsers(final List<String> users) {
+        this.formerlyLovingUsers = users;
+    }
+
+    /**
+     * @param entity
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    private List<String> getFormerlyLovingUsersFromEntity(final Entity entity) {
+        final String property = FORMERLY_LOVING_USERS_PROPERTY;
+        return (List<String>) entity.getProperty(property);
     }
 
     /**
@@ -668,8 +704,8 @@ public class StoryPage extends Model {
 
     private void setBeginningInEntity(final Entity entity) {
         final PageId beginning = this.getBeginning();
-        final int number = beginning.getNumber();
-        entity.setProperty(BEGINNING_NUMBER_PROPERTY, number);
+        final int num = beginning.getNumber();
+        entity.setProperty(BEGINNING_NUMBER_PROPERTY, num);
         final String version = beginning.getVersion();
         entity.setProperty(BEGINNING_VERSION_PROPERTY, version);
     }
@@ -704,8 +740,8 @@ public class StoryPage extends Model {
      */
     private void setIdInEntity(final Entity entity) {
         final PageId id = this.getId();
-        final int number = id.getNumber();
-        entity.setProperty(ID_NUMBER_PROPERTY, number);
+        final int num = id.getNumber();
+        entity.setProperty(ID_NUMBER_PROPERTY, num);
         final String version = id.getVersion();
         entity.setProperty(ID_VERSION_PROPERTY, version);
     }
@@ -761,6 +797,22 @@ public class StoryPage extends Model {
         this.setAuthorNameInEntity(entity);
         this.setAuthorIdInEntity(entity);
         this.setLovingUsersInEntity(entity);
+        this.setFormerlyLovingUsersInEntity(entity);
+    }
+
+    /**
+     * @param entity
+     */
+    private void setFormerlyLovingUsersInEntity(final Entity entity) {
+        final List<String> users = this.getFormerlyLovingUsers();
+        entity.setProperty(FORMERLY_LOVING_USERS_PROPERTY, users);
+    }
+
+    /**
+     * @return
+     */
+    public List<String> getFormerlyLovingUsers() {
+        return this.formerlyLovingUsers;
     }
 
     /**
