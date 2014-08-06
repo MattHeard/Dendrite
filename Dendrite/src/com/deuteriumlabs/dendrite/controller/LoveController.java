@@ -40,6 +40,15 @@ public class LoveController {
             isUserAFormerLover = false;
         }
         
+        final boolean isAuthorNotifiable = (authorId != null);
+        
+        final boolean isLoverCurrentAuthor;
+        isLoverCurrentAuthor = ((loverId != null) && loverId.equals(authorId));
+        
+        boolean isNotificationNeeded = (isUserAFormerLover == false) &&
+                                       (isAuthorNotifiable == true) && 
+                                       (isLoverCurrentAuthor == false);
+        
         final List<String> lovingUsers = pg.getLovingUsers();
         int count = lovingUsers.size();
         if (lovingUsers.contains(loverId) == false) {
@@ -48,7 +57,7 @@ public class LoveController {
             pg.setFormerlyLovingUsers(formerlyLovingUsers);
             pg.setLovingUsers(lovingUsers);
             pg.update();
-            if (isUserAFormerLover == false) {
+            if (isNotificationNeeded == true) {
                 this.notifyLove();
             }
         }

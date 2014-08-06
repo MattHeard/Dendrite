@@ -81,6 +81,7 @@ if (isUserLoggedIn == true) {
     %>
           <div id="logout">Welcome back, <a href="${fn:escapeXml(authorLink)}">${fn:escapeXml(userName)}</a>.
             (<a href="${fn:escapeXml(logoutLink)}">Logout</a>)
+            <a href="/notifications"><span id="notifications"><%= view.countNewNotifications() %></span></a>
           </div><%
     
 } else {

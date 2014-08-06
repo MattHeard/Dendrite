@@ -3,6 +3,7 @@ package com.deuteriumlabs.dendrite.view;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 
+import com.deuteriumlabs.dendrite.model.Notification;
 import com.deuteriumlabs.dendrite.model.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -208,5 +209,10 @@ public abstract class View {
         pageContext.setAttribute("url", footerLinks.getCurrUrl());
         pageContext.setAttribute("text", footerLinks.getCurrText());
         footerLinks.next();
+    }
+    
+    public int countNewNotifications() {
+        final String id = View.getMyUserId();
+        return Notification.countNewNotificationsForRecipient(id);
     }
 }

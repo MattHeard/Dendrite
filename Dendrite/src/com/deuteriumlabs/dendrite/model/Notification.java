@@ -3,14 +3,20 @@
  */
 package com.deuteriumlabs.dendrite.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 /**
  * 
@@ -77,6 +83,13 @@ public class Notification extends Model {
     public Notification() {
         this.setTimeToNow();
         this.setAsNew();
+    }
+
+    /**
+     * @param entity
+     */
+    public Notification(final Entity entity) {
+        this.readPropertiesFromEntity(entity);
     }
 
     /* (non-Javadoc)
@@ -228,6 +241,81 @@ public class Notification extends Model {
         // nearest millisecond.
         final Date now = new Date();
         this.setTime(now);
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    public static int countNewNotificationsForRecipient(
+            final String recipientId) {
+        final Query query = new Query(KIND_NAME);
+        final Filter recipientFilter = getRecipientFilter(recipientId);
+        final boolean isNew = true;
+        final Filter isNewFilter = getIsNewFilter(isNew);
+        final Filter filter;
+        filter = CompositeFilterOperator.and(recipientFilter, isNewFilter); 
+        query.setFilter(filter);
+        final DatastoreService store = getStore();
+        final PreparedQuery preparedQuery = store.prepare(query);
+        final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+        return preparedQuery.countEntities(fetchOptions);
+    }
+
+    /**
+     * @param isNew
+     * @return
+     */
+    private static Filter getIsNewFilter(final boolean isNew) {
+        final String propertyName = IS_NEW_PROPERTY;
+        final FilterOperator operator = FilterOperator.EQUAL;
+        final boolean value = isNew;
+        return new FilterPredicate(propertyName, operator, value);
+    }
+
+    /**
+     * @param userId
+     * @return
+     */
+    public static List<Notification> getNotificationsForUser(
+            final String userId) {
+        final Query query = new Query(KIND_NAME);
+        final Filter filter = getRecipientFilter(userId);
+        query.setFilter(filter);
+        query.addSort(TIME_PROPERTY, SortDirection.ASCENDING);
+        final DatastoreService store = getStore();
+        final PreparedQuery preparedQuery = store.prepare(query);
+        final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+        final List<Entity> entities = preparedQuery.asList(fetchOptions);
+        final List<Notification> notifications;
+        notifications = getNotificationsFromEntities(entities);
+        return notifications;
+    }
+
+    /**
+     * @param entities
+     * @return
+     */
+    private static List<Notification> getNotificationsFromEntities(
+            List<Entity> entities) {
+        final List<Notification> notifications = new ArrayList<Notification>();
+        for (final Entity entity : entities) {
+            final Notification notification;
+            if (entity.hasProperty(PgLovedNotification.LOVER_ID_PROPERTY)) {
+                notification = new PgLovedNotification(entity);
+            } else {
+                notification = new Notification(entity);
+            }
+            notifications.add(notification);
+        }
+        return notifications;
+    }
+
+    /**
+     * @return
+     */
+    public String getMsg() {
+        return "Something happened. (Unknown notification.)";
     }
 
 }

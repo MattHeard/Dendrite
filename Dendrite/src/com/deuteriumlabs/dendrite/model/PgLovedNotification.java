@@ -10,12 +10,21 @@ import com.google.appengine.api.datastore.Entity;
  */
 public class PgLovedNotification extends Notification {
 
-    private static final String LOVER_ID_PROPERTY = "loverId";
+    public static final String LOVER_ID_PROPERTY = "loverId";
     private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
     private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
     
     private PageId pgId;
     private String loverId;
+    
+    public PgLovedNotification() {}
+
+    /**
+     * @param entity
+     */
+    public PgLovedNotification(final Entity entity) {
+        this.readPropertiesFromEntity(entity);
+    }
 
     /**
      * @param pgId The page which has been loved.
@@ -122,5 +131,23 @@ public class PgLovedNotification extends Notification {
      */
     private PageId getPgId() {
         return this.pgId;
+    }
+
+    @Override
+    public String getMsg() {
+        final String lover = this.getLoverName();
+        final PageId pgId = this.getPgId();
+        return lover + " loves page " + pgId + ".";
+    }
+
+    /**
+     * @return
+     */
+    private String getLoverName() {
+        final String id = this.getLoverId();
+        final User lover = new User();
+        lover.setId(id);
+        lover.read();
+        return lover.getDefaultPenName();
     }
 }

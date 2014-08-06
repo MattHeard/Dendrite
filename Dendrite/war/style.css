@@ -575,6 +575,17 @@ input,textarea {
 	min-height: 100%;
 }
 
+#notifications {
+	text-align: center;
+	float: right;
+	font-weight: bold;
+	color: white;
+	background-color: #d80000;
+	border-radius: 5px;
+	min-width: 22px;
+	margin-left: 10px;
+}
+
 .optionLink {
 	color: #eee;
 }
@@ -613,18 +624,22 @@ ul.radio_list {
 
 #love {
 	float: right;
-	font-size: 30px;
 	cursor: pointer;
-    color: #f0c0c0;
+    opacity: 0.3;
 }
 
 #love.set {
-    color: #f00000;
+    opacity: 1.0;
 }
 
 #loveCount {
     float: right;
     padding-right: 5px;
+}
+
+#heartIcon {
+	height: 20px;
+	width: 21px;
 }
 
 select {
@@ -792,6 +807,10 @@ textarea {
         -webkit-columns: 3;
         -moz-columns: 3;
 	}
+	
+	#notifications {
+        margin-right: -5px;
+    }
 }
 
 @media all and (min-width: 1000px) {
