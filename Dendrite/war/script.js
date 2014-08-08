@@ -271,9 +271,28 @@ function initLoveButton() {
         love_uri = LOVE_URI_WITHOUT_VAL + IS_NOT_CURRENTLY_LOVED;
       }
     };
-    req.open("POST", love_uri, IS_NOT_CURRENTLY_LOVED);
+    req.open("POST", love_uri, true);
     req.send();
     $("#love").toggleClass("set");
+  });
+}
+
+function initNotificationDeletion() {
+  var CLASS_NAME = "notificationDelete";
+  var NOTIFICATION_DELETE_URI_WITHOUT_VAL = "/deleteNotification?id=";
+  $("." + CLASS_NAME).click(function() {
+    var buttonIndex = $(this).attr("id");
+    var notificationIndex = buttonIndex.substring(CLASS_NAME.length);
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+      if (req.readyState == 4 && req.status == 200) {
+        var elementId = "#notification" + notificationIndex;
+        $(elementId).fadeOut();
+      }
+    };
+    var deleteUri = NOTIFICATION_DELETE_URI_WITHOUT_VAL + notificationIndex;
+    req.open("POST", deleteUri, true);
+    req.send();
   });
 }
 
@@ -281,4 +300,5 @@ function init() {
   preventEnterFromSubmittingForms();
   initTextEntryFields();
   initLoveButton();
+  initNotificationDeletion();
 }

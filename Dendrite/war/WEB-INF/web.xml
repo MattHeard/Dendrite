@@ -164,6 +164,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>Love</servlet-name>
 		<url-pattern>/love</url-pattern>
 	</servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteNotification</servlet-name>
+        <servlet-class>com.deuteriumlabs.dendrite.controller.DeleteNotificationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteNotification</servlet-name>
+        <url-pattern>/deleteNotification</url-pattern>
+    </servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>

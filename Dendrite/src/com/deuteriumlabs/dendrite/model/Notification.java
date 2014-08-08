@@ -10,6 +10,8 @@ import java.util.List;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
@@ -29,6 +31,44 @@ public class Notification extends Model {
     private static final String TIME_PROPERTY = "time";
 
     /**
+     * @param id
+     * @return
+     */
+    public static int countNewNotificationsForRecipient(
+            final String recipientId) {
+        final Query query = new Query(KIND_NAME);
+        final Filter recipientFilter = getRecipientFilter(recipientId);
+        final boolean isNew = true;
+        final Filter isNewFilter = getIsNewFilter(isNew);
+        final Filter filter;
+        filter = CompositeFilterOperator.and(recipientFilter, isNewFilter); 
+        query.setFilter(filter);
+        final DatastoreService store = getStore();
+        final PreparedQuery preparedQuery = store.prepare(query);
+        final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+        return preparedQuery.countEntities(fetchOptions);
+    }
+
+    /**
+     * @param entity
+     * @return
+     */
+    private static long getEntityIdFromEntity(final Entity entity) {
+        final long id = entity.getKey().getId();
+        return id;
+    }
+
+    /**
+     * @param isNew
+     * @return
+     */
+    private static Filter getIsNewFilter(final boolean isNew) {
+        final String propertyName = IS_NEW_PROPERTY;
+        final FilterOperator operator = FilterOperator.EQUAL;
+        final boolean value = isNew;
+        return new FilterPredicate(propertyName, operator, value);
+    }
+    /**
      * @param entity
      * @return
      */
@@ -36,7 +76,44 @@ public class Notification extends Model {
         final Boolean isNew = (Boolean) entity.getProperty(IS_NEW_PROPERTY);
         return isNew;
     }
-
+    
+    /**
+     * @param userId
+     * @return
+     */
+    public static List<Notification> getNotificationsForUser(
+            final String userId) {
+        final Query query = new Query(KIND_NAME);
+        final Filter filter = getRecipientFilter(userId);
+        query.setFilter(filter);
+        query.addSort(TIME_PROPERTY, SortDirection.ASCENDING);
+        final DatastoreService store = getStore();
+        final PreparedQuery preparedQuery = store.prepare(query);
+        final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+        final List<Entity> entities = preparedQuery.asList(fetchOptions);
+        final List<Notification> notifications;
+        notifications = getNotificationsFromEntities(entities);
+        return notifications;
+    }
+    
+    /**
+     * @param entities
+     * @return
+     */
+    private static List<Notification> getNotificationsFromEntities(
+            List<Entity> entities) {
+        final List<Notification> notifications = new ArrayList<Notification>();
+        for (final Entity entity : entities) {
+            final Notification notification;
+            if (entity.hasProperty(PgLovedNotification.LOVER_ID_PROPERTY)) {
+                notification = new PgLovedNotification(entity);
+            } else {
+                notification = new Notification(entity);
+            }
+            notifications.add(notification);
+        }
+        return notifications;
+    }
     /**
      * @param recipientId
      * @return
@@ -47,7 +124,6 @@ public class Notification extends Model {
         final String value = recipientId;
         return new FilterPredicate(propertyName, operator, value);
     }
-
     /**
      * @param entity
      * @return
@@ -66,7 +142,7 @@ public class Notification extends Model {
         final Date value = time;
         return new FilterPredicate(propertyName, operator, value);
     }
-    
+
     /**
      * @param entity
      * @return
@@ -75,7 +151,11 @@ public class Notification extends Model {
         final Date time = (Date) entity.getProperty(TIME_PROPERTY);
         return time;
     }
+
+    private long entityId;
+
     private boolean isNew;
+
     private String recipientId;
 
     private Date time;
@@ -90,6 +170,17 @@ public class Notification extends Model {
      */
     public Notification(final Entity entity) {
         this.readPropertiesFromEntity(entity);
+    }
+
+    /**
+     * @return
+     */
+    private long getEntityId() {
+        return this.entityId;
+    }
+
+    public long getId() {
+        return this.getEntityId();
     }
 
     /* (non-Javadoc)
@@ -118,6 +209,13 @@ public class Notification extends Model {
     /**
      * @return
      */
+    public String getMsg() {
+        return "Something happened. (Unknown notification.)";
+    }
+
+    /**
+     * @return
+     */
     private String getRecipientId() {
         return this.recipientId;
     }
@@ -139,6 +237,14 @@ public class Notification extends Model {
     /**
      * @param entity
      */
+    private void readEntityIdFromEntity(final Entity entity) {
+        final long id = getEntityIdFromEntity(entity);
+        this.setEntityId(id);
+    }
+
+    /**
+     * @param entity
+     */
     private void readIsNewFromEntity(final Entity entity) {
         final boolean isNew = getIsNewFromEntity(entity);
         this.setNew(isNew);
@@ -152,6 +258,7 @@ public class Notification extends Model {
         this.readRecipientFromEntity(entity);
         this.readTimeFromEntity(entity);
         this.readIsNewFromEntity(entity);
+        this.readEntityIdFromEntity(entity);
     }
 
     /**
@@ -175,6 +282,13 @@ public class Notification extends Model {
      */
     private void setAsNew() {
         this.setNew(true);
+    }
+
+    /**
+     * @param id
+     */
+    private void setEntityId(final long id) {
+        this.entityId = id;
     }
 
     /**
@@ -231,7 +345,7 @@ public class Notification extends Model {
         final Date time = this.getTime();
         entity.setProperty(TIME_PROPERTY, time);
     }
-
+    
     /**
      * 
      */
@@ -244,78 +358,35 @@ public class Notification extends Model {
     }
 
     /**
-     * @param id
-     * @return
+     * @param notificationId
      */
-    public static int countNewNotificationsForRecipient(
-            final String recipientId) {
-        final Query query = new Query(KIND_NAME);
-        final Filter recipientFilter = getRecipientFilter(recipientId);
-        final boolean isNew = true;
-        final Filter isNewFilter = getIsNewFilter(isNew);
-        final Filter filter;
-        filter = CompositeFilterOperator.and(recipientFilter, isNewFilter); 
-        query.setFilter(filter);
-        final DatastoreService store = getStore();
-        final PreparedQuery preparedQuery = store.prepare(query);
-        final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-        return preparedQuery.countEntities(fetchOptions);
-    }
-
-    /**
-     * @param isNew
-     * @return
-     */
-    private static Filter getIsNewFilter(final boolean isNew) {
-        final String propertyName = IS_NEW_PROPERTY;
-        final FilterOperator operator = FilterOperator.EQUAL;
-        final boolean value = isNew;
-        return new FilterPredicate(propertyName, operator, value);
-    }
-
-    /**
-     * @param userId
-     * @return
-     */
-    public static List<Notification> getNotificationsForUser(
-            final String userId) {
-        final Query query = new Query(KIND_NAME);
-        final Filter filter = getRecipientFilter(userId);
-        query.setFilter(filter);
-        query.addSort(TIME_PROPERTY, SortDirection.ASCENDING);
-        final DatastoreService store = getStore();
-        final PreparedQuery preparedQuery = store.prepare(query);
-        final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-        final List<Entity> entities = preparedQuery.asList(fetchOptions);
-        final List<Notification> notifications;
-        notifications = getNotificationsFromEntities(entities);
-        return notifications;
-    }
-
-    /**
-     * @param entities
-     * @return
-     */
-    private static List<Notification> getNotificationsFromEntities(
-            List<Entity> entities) {
-        final List<Notification> notifications = new ArrayList<Notification>();
-        for (final Entity entity : entities) {
-            final Notification notification;
-            if (entity.hasProperty(PgLovedNotification.LOVER_ID_PROPERTY)) {
-                notification = new PgLovedNotification(entity);
-            } else {
-                notification = new Notification(entity);
-            }
-            notifications.add(notification);
+    public void setId(final String notificationId) {
+        try {
+            final long entityId = Long.parseLong(notificationId);
+            this.setEntityId(entityId);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException();
         }
-        return notifications;
     }
 
     /**
      * @return
      */
-    public String getMsg() {
-        return "Something happened. (Unknown notification.)";
+    public void deleteById() {
+        final long id = this.getEntityId();
+        final Key key = KeyFactory.createKey(KIND_NAME, id);
+        final DatastoreService store = getStore();
+        store.delete(key);
+    }
+
+    /**
+     * @param key
+     * @return
+     */
+    private Filter getKeyFilter(final Key key) {
+        final Filter filter = new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
+                Query.FilterOperator.EQUAL, key);
+        return filter;
     }
 
 }
