@@ -14,8 +14,8 @@ public class PgLovedNotification extends Notification {
     private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
     private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
     
-    private PageId pgId;
     private String loverId;
+    private PageId pgId;
     
     public PgLovedNotification() {}
 
@@ -27,24 +27,61 @@ public class PgLovedNotification extends Notification {
     }
 
     /**
-     * @param pgId The page which has been loved.
+     * @param entity
+     * @return
      */
-    public void setPgId(final PageId pgId) {
-        this.pgId = pgId;
+    private String getLoverFromEntity(final Entity entity) {
+        final String id = (String) entity.getProperty(LOVER_ID_PROPERTY);
+        return id;
     }
 
     /**
-     * @param loverId The user who now loves the page.
+     * @return
      */
-    public void setLoverId(final String loverId) {
-        this.loverId = loverId;
+    private String getLoverId() {
+        return this.loverId;
+    }
+
+    /**
+     * @return
+     */
+    private String getLoverName() {
+        final String id = this.getLoverId();
+        final User lover = new User();
+        lover.setId(id);
+        lover.read();
+        return lover.getDefaultPenName();
     }
 
     @Override
-    void readPropertiesFromEntity(final Entity entity) {
-        super.readPropertiesFromEntity(entity);
-        this.readPgIdFromEntity(entity);
-        this.readLoverIdFromEntity(entity);
+    public String getMsg() {
+        final String lover = this.getLoverName();
+        final PageId pgId = this.getPgId();
+        return lover + " loves page " + pgId + ".";
+    }
+
+    /**
+     * @return
+     */
+    private PageId getPgId() {
+        return this.pgId;
+    }
+
+    /**
+     * @param entity
+     * @return
+     */
+    private int getPgIdNumFromEntity(final Entity entity) {
+        final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
+        return num.intValue();
+    }
+
+    /**
+     * @param entity
+     * @return
+     */
+    private String getPgIdVersionFromEntity(final Entity entity) {
+        return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
     }
 
     /**
@@ -53,15 +90,6 @@ public class PgLovedNotification extends Notification {
     private void readLoverIdFromEntity(final Entity entity) {
         final String id = getLoverFromEntity(entity);
         this.setLoverId(id);
-    }
-
-    /**
-     * @param entity
-     * @return
-     */
-    private String getLoverFromEntity(final Entity entity) {
-        final String id = (String) entity.getProperty(LOVER_ID_PROPERTY);
-        return id;
     }
 
     /**
@@ -76,28 +104,18 @@ public class PgLovedNotification extends Notification {
         this.setPgId(id);
     }
 
-    /**
-     * @param entity
-     * @return
-     */
-    private String getPgIdVersionFromEntity(final Entity entity) {
-        return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
-    }
-
-    /**
-     * @param entity
-     * @return
-     */
-    private int getPgIdNumFromEntity(final Entity entity) {
-        final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
-        return num.intValue();
-    }
-
     @Override
-    void setPropertiesInEntity(final Entity entity) {
-        super.setPropertiesInEntity(entity);
-        this.setPgIdInEntity(entity);
-        this.setLoverIdInEntity(entity);
+    void readPropertiesFromEntity(final Entity entity) {
+        super.readPropertiesFromEntity(entity);
+        this.readPgIdFromEntity(entity);
+        this.readLoverIdFromEntity(entity);
+    }
+
+    /**
+     * @param loverId The user who now loves the page.
+     */
+    public void setLoverId(final String loverId) {
+        this.loverId = loverId;
     }
 
     /**
@@ -109,10 +127,10 @@ public class PgLovedNotification extends Notification {
     }
 
     /**
-     * @return
+     * @param pgId The page which has been loved.
      */
-    private String getLoverId() {
-        return this.loverId;
+    public void setPgId(final PageId pgId) {
+        this.pgId = pgId;
     }
 
     /**
@@ -126,28 +144,10 @@ public class PgLovedNotification extends Notification {
         entity.setProperty(PG_ID_VERSION_PROPERTY, version);
     }
 
-    /**
-     * @return
-     */
-    private PageId getPgId() {
-        return this.pgId;
-    }
-
     @Override
-    public String getMsg() {
-        final String lover = this.getLoverName();
-        final PageId pgId = this.getPgId();
-        return lover + " loves page " + pgId + ".";
-    }
-
-    /**
-     * @return
-     */
-    private String getLoverName() {
-        final String id = this.getLoverId();
-        final User lover = new User();
-        lover.setId(id);
-        lover.read();
-        return lover.getDefaultPenName();
+    void setPropertiesInEntity(final Entity entity) {
+        super.setPropertiesInEntity(entity);
+        this.setPgIdInEntity(entity);
+        this.setLoverIdInEntity(entity);
     }
 }

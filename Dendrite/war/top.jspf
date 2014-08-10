@@ -85,7 +85,16 @@ if (isUserLoggedIn == true) {
           
           <div id="logout">Welcome back, <a href="${fn:escapeXml(authorLink)}">${fn:escapeXml(userName)}</a>.
             (<a href="${fn:escapeXml(logoutLink)}">Logout</a>)
-            <a href="/notifications"><span id="notifications"><%= view.countNewNotifications() %></span></a>
+            <a href="/notifications"><span id="notifications"<%
+
+    final boolean areThereNewNotifications = view.areThereNewNotifications();
+    if (areThereNewNotifications == false) {
+        
+        %> class="noNewNotifications"<%
+        
+    }
+
+            %> title="Notifications"><%= view.countNewNotifications() %></span></a>
           </div><%
     
 } else {

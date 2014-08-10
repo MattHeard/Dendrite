@@ -1,6 +1,10 @@
 package com.deuteriumlabs.dendrite.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.deuteriumlabs.dendrite.model.PageId;
+import com.deuteriumlabs.dendrite.model.PgRewriteNotification;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 
 
@@ -19,9 +23,42 @@ public class SubmitRewriteController extends SubmitController {
         if (isInStore == false) {
             page.create();
         }
+        this.notifyAboutExtension();
     }
 
-    private PageId getBeginning() {
+    private void notifyAboutExtension() {
+    	List<String> recipientIds = this.getNotificationRecipients();
+    	for (final String recipientId : recipientIds) {
+    		final PgRewriteNotification notification;
+    		notification = new PgRewriteNotification();
+    		final PageId rewritePgId = this.getId();
+    		notification.setPgId(rewritePgId);
+    		final String rewriteAuthorId = this.getAuthorId();
+    		notification.setRewriteAuthorId(rewriteAuthorId);
+    		notification.setRecipientId(recipientId);
+    		notification.create();
+    	}
+	}
+
+	private List<String> getNotificationRecipients() {
+		final List<String> authorIds = new ArrayList<String>();
+		final PageId pageId = new PageId();
+		final int num = this.getPageNumber();
+		pageId.setNumber(num);
+		final List<StoryPage> allVersions = StoryPage.getAllVersions(pageId);
+		for (final StoryPage version : allVersions) {
+			final String authorId = version.getAuthorId();
+			boolean isDuplicate = authorIds.contains(authorId);
+			String newAuthorId = this.getAuthorId();
+			boolean isNewAuthor = authorId.equals(newAuthorId);
+			if (isDuplicate == false && isNewAuthor == false) {
+				authorIds.add(authorId);
+			}
+		}
+		return authorIds;
+	}
+
+	private PageId getBeginning() {
         final StoryPage alternative = new StoryPage();
         final PageId id = new PageId();
         final int number = this.getPageNumber();

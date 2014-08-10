@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.deuteriumlabs.dendrite.model.PageId;
-import com.deuteriumlabs.dendrite.model.StoryPage;
 
 /**
  * 

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.google.appengine.api.datastore.BaseDatastoreService;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
@@ -865,4 +866,17 @@ public class StoryPage extends Model {
         final List<String> lovingUsers = this.getLovingUsers();
         return lovingUsers.size();
     }
+
+	public static List<StoryPage> getAllVersions(final PageId pageId) {
+		final Query query = new Query(KIND_NAME);
+		final int num = pageId.getNumber();
+		final Filter filter = StoryPage.getIdNumFilter(num);
+		query.setFilter(filter);
+		DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		final List<Entity> entities = preparedQuery.asList(fetchOptions);
+		final List<StoryPage> pages = getPgsFromEntities(entities);
+		return pages;
+	}
 }

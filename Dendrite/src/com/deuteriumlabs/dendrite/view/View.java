@@ -215,4 +215,9 @@ public abstract class View {
         final String id = View.getMyUserId();
         return Notification.countNewNotificationsForRecipient(id);
     }
+    
+    public boolean areThereNewNotifications() {
+    	final int numNewNotifications = this.countNewNotifications();
+    	return (numNewNotifications > 0);
+    }
 }

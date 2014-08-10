@@ -105,8 +105,18 @@ public class Notification extends Model {
         final List<Notification> notifications = new ArrayList<Notification>();
         for (final Entity entity : entities) {
             final Notification notification;
-            if (entity.hasProperty(PgLovedNotification.LOVER_ID_PROPERTY)) {
+            final String LOVER_ID_PROPERTY;
+            LOVER_ID_PROPERTY = PgLovedNotification.LOVER_ID_PROPERTY;
+            final String CHILD_AUTHOR_ID_PROPERTY =
+            		PgChildNotification.CHILD_AUTHOR_ID_PROPERTY;
+            final String REWRITE_AUTHOR_ID_PROPERTY =
+            		PgRewriteNotification.REWRITE_AUTHOR_ID_PROPERTY;
+			if (entity.hasProperty(LOVER_ID_PROPERTY) == true) {
                 notification = new PgLovedNotification(entity);
+            } else if (entity.hasProperty(CHILD_AUTHOR_ID_PROPERTY) == true) {
+            	notification = new PgChildNotification(entity);
+            } else if (entity.hasProperty(REWRITE_AUTHOR_ID_PROPERTY) == true) {
+            	notification = new PgRewriteNotification(entity);
             } else {
                 notification = new Notification(entity);
             }

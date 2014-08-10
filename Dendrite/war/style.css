@@ -591,6 +591,15 @@ ul#notificationList {
 	margin-left: 10px;
 }
 
+#notifications.noNewNotifications {
+	background-color: #ccc;
+	color: #fff;
+}
+
+.notificationDelete {
+	cursor: pointer;
+}
+
 .optionLink {
 	color: #eee;
 }
