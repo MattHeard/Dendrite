@@ -5,8 +5,6 @@ package com.deuteriumlabs.dendrite.controller;
 
 import java.util.List;
 
-import sun.reflect.generics.tree.FormalTypeParameter;
-
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.PgLovedNotification;
 import com.deuteriumlabs.dendrite.model.StoryPage;

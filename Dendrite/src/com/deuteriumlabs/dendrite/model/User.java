@@ -1,5 +1,8 @@
 package com.deuteriumlabs.dendrite.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -36,6 +39,8 @@ public class User extends Model {
     private static final String UNKNOWN_PEN_NAME = "???";
     private static final int DEFAULT_AVATAR_ID = 0;
     private static final String AVATAR_ID_PROPERTY = "avatarId";
+	private static final String FOLLOWERS_PROPERTY = "followers";
+	private static final String FORMER_FOLLOWERS_PROPERTY = "formerFollowers";
 
     private static String getAlignmentFromEntity(final Entity entity) {
         String alignment = (String) entity.getProperty(ALIGNMENT_PROPERTY);
@@ -182,9 +187,11 @@ public class User extends Model {
         appEngineUser = userService.getCurrentUser();
         return (appEngineUser != null);
     }
+    
     private static void setCachedUser(final User user) {
         cachedUser = user;
     }
+    
     private String alignment;
     private String defaultPenName;
     private String fontColour;
@@ -194,6 +201,8 @@ public class User extends Model {
     private double spacing;
     private String theme;
     private int avatarId;
+	private List<String> followers;
+	private List<String> formerFollowers;
 
     /**
      * Default constructor, which sets an initial default pen name in case the
@@ -342,9 +351,37 @@ public class User extends Model {
         this.readAlignmentFromEntity(entity);
         this.readThemeFromEntity(entity);
         this.readAvatarIdFromEntity(entity);
+        this.readFollowersFromEntity(entity);
+        this.readFormerFollowersFromEntity(entity);
     }
 
-    private void readAvatarIdFromEntity(final Entity entity) {
+    private void readFormerFollowersFromEntity(final Entity entity) {
+    	List<String> formerFollowers = getFormerFollowersFromEntity(entity);
+    	if (formerFollowers == null) {
+    		formerFollowers = new ArrayList<String>();
+    	}
+    	this.setFormerFollowers(formerFollowers);
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<String> getFormerFollowersFromEntity(final Entity entity) {
+		return (List<String>) entity.getProperty(FORMER_FOLLOWERS_PROPERTY);
+	}
+
+	private void readFollowersFromEntity(final Entity entity) {
+    	List<String> followers = getFollowersFromEntity(entity);
+    	if (followers == null) {
+    		followers = new ArrayList<String>();
+    	}
+    	this.setFollowers(followers);
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<String> getFollowersFromEntity(final Entity entity) {
+		return (List<String>) entity.getProperty(FOLLOWERS_PROPERTY);
+	}
+
+	private void readAvatarIdFromEntity(final Entity entity) {
         final int avatarId = getAvatarIdFromEntity(entity);
         this.setAvatarId(avatarId);
     }
@@ -464,9 +501,21 @@ public class User extends Model {
         this.setAlignmentInEntity(entity);
         this.setThemeInEntity(entity);
         this.setAvatarIdInEntity(entity);
+        this.setFollowersInEntity(entity);
+        this.setFormerFollowersInEntity(entity);
     }
 
-    private void setAvatarIdInEntity(final Entity entity) {
+    private void setFormerFollowersInEntity(final Entity entity) {
+    	final List<String> formerFollowers = this.getFormerFollowers();
+    	entity.setProperty(FORMER_FOLLOWERS_PROPERTY, formerFollowers);
+	}
+
+	private void setFollowersInEntity(final Entity entity) {
+    	final List<String> followers = this.getFollowers();
+    	entity.setProperty(FOLLOWERS_PROPERTY, followers);
+	}
+
+	private void setAvatarIdInEntity(final Entity entity) {
         final int avatarId = this.getAvatarId();
         entity.setProperty(AVATAR_ID_PROPERTY, avatarId);
     }
@@ -533,4 +582,20 @@ public class User extends Model {
     public static int getDefaultAvatarId() {
         return DEFAULT_AVATAR_ID;
     }
+
+	public List<String> getFollowers() {
+		return this.followers;
+	}
+
+	public List<String> getFormerFollowers() {
+		return this.formerFollowers;
+	}
+
+	public void setFormerFollowers(final List<String> formerFollowers) {
+		this.formerFollowers = formerFollowers;
+	}
+
+	public void setFollowers(final List<String> followers) {
+		this.followers = followers;
+	}
 }

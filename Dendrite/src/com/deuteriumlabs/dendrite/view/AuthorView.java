@@ -15,17 +15,26 @@ public class AuthorView extends View {
 
     private static final int DEF_AUTHOR_PG_NUM = 1;
 
+    private User author;
     private BibliographyView bibliographyView;
     private String id;
-    private User user;
 
     public AuthorView() {
         this.initialiseBibilographyView();
         this.setAuthorPageNumber(DEF_AUTHOR_PG_NUM);
     }
 
+    private User getAuthor() {
+		return this.author;
+	}
+    
+    public String getAuthorId() {
+    	final User author = this.getAuthor();
+    	return author.getId();
+    }
+
     public int getAuthorAvatarId() {
-        return user.getAvatarId();
+        return author.getAvatarId();
     }
 
     private BibliographyView getBibiliographyView() {
@@ -37,7 +46,7 @@ public class AuthorView extends View {
     }
 
     public String getPenName() {
-        final User user = this.user;
+        final User user = this.author;
         final String penName = user.getDefaultPenName();
         return penName;
     }
@@ -84,7 +93,7 @@ public class AuthorView extends View {
     }
 
     public boolean isAuthorAvatarAvailable() {
-        final User author = this.user;
+        final User author = this.author;
         return author.isAvatarAvailable();
     }
 
@@ -113,6 +122,14 @@ public class AuthorView extends View {
     public boolean isThisStoryPageInADifferentStory() {
         final BibliographyView bibliographyView = this.getBibiliographyView();
         return bibliographyView.isThisStoryPageInADifferentStory();
+    }
+
+    public boolean isUserFollowingAuthor() {
+    	final User author = this.getAuthor();
+    	final List<String> followers = author.getFollowers();
+    	final User myUser = User.getMyUser();
+    	final String myUserId = myUser.getId();
+    	return followers.contains(myUserId);
     }
 
     public void prepareAvatarId() {
@@ -146,6 +163,10 @@ public class AuthorView extends View {
         pageContext.setAttribute("title", title);
     }
 
+    private void setAuthor(final User author) {
+        this.author = author;
+    }
+
     public void setAuthorPageNumber(final int authorPageNumber) {
         final BibliographyView bibliographyView = this.getBibiliographyView();
         final int previousPageNumber = bibliographyView.getAuthorPageNumber();
@@ -170,30 +191,11 @@ public class AuthorView extends View {
         final User user = new User();
         user.setId(id);
         user.read();
-        this.setUser(user);
+        this.setAuthor(user);
         final BibliographyView bibliographyView = this.getBibiliographyView();
         if (bibliographyView != null) {
             bibliographyView.setAuthorId(id);
         }
-    }
-
-    private void setPageIds(final List<String> pageIds) {
-        final BibliographyView bibliographyView = this.getBibiliographyView();
-        bibliographyView.setPageIds(pageIds);
-    }
-
-    public void setPrevTitle(final String prevTitle) {
-        final BibliographyView bibliographyView = this.getBibiliographyView();
-        bibliographyView.setPrevTitle(prevTitle);
-    }
-
-    private void setSummaries(final List<String> summaries) {
-        final BibliographyView bibliographyView = this.getBibiliographyView();
-        bibliographyView.setSummaries(summaries);
-    }
-
-    private void setUser(final User user) {
-        this.user = user;
     }
 
     @Override
@@ -201,5 +203,20 @@ public class AuthorView extends View {
         super.setPageContext(pageContext);
         final BibliographyView bibliographyView = this.getBibiliographyView();
         bibliographyView.setPageContext(pageContext);
+    }
+
+    private void setPageIds(final List<String> pageIds) {
+        final BibliographyView bibliographyView = this.getBibiliographyView();
+        bibliographyView.setPageIds(pageIds);
+    }
+    
+    public void setPrevTitle(final String prevTitle) {
+        final BibliographyView bibliographyView = this.getBibiliographyView();
+        bibliographyView.setPrevTitle(prevTitle);
+    }
+
+	private void setSummaries(final List<String> summaries) {
+        final BibliographyView bibliographyView = this.getBibiliographyView();
+        bibliographyView.setSummaries(summaries);
     }
 }

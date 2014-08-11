@@ -35,6 +35,20 @@ if (view.isAuthorPageOfUser() == true) {
         %>
           <p><a href="/preferences">Preferences</a></p><%
     
+} else if (view.isUserLoggedIn() == true){
+	final boolean isUserFollowingAuthor = view.isUserFollowingAuthor();
+	if (isUserFollowingAuthor == true) {
+    
+        %><div id="unfollow" class="button">Unfollow</div><%
+                
+    } else {
+	
+	    %><div id="follow" class="button">Follow</div><%
+	    		
+	}
+	
+	%>
+          <script>var AUTHOR_ID = "<%= view.getAuthorId() %>";</script><%
 }
     
 %>
@@ -43,7 +57,7 @@ if (view.isAuthorPageOfUser() == true) {
           <div id="tabs">
             <a class="selected_tab">Pages Written</a>
             <a>Statistics</a>
-            <a>Friends</a>
+            <a>Followers</a>
             <a id="more">⋮</a>
           </div><%
 

@@ -200,6 +200,21 @@ button, .button, .option {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#follow {
+	background-color: #090;
+}
+
+#unfollow {
+    background-color: #c00;
 }
 
 .contributors li,.contributors div {
@@ -585,7 +600,7 @@ ul#notificationList {
 	float: right;
 	font-weight: bold;
 	color: white;
-	background-color: #d80000;
+	background-color: #c00;
 	border-radius: 5px;
 	min-width: 22px;
 	margin-left: 10px;

@@ -296,9 +296,46 @@ function initNotificationDeletion() {
   });
 }
 
+function changeFollowButtonToUnfollow() {
+  $("#follow").unbind("click").attr("id", "unfollow").text("Unfollow");
+  initFollowButtons();
+}
+
+function changeUnfollowButtonToFollow() {
+  $("#unfollow").unbind("click").attr("id", "follow").text("Follow");
+  initFollowButtons();
+}
+
+function initFollowButtons() {
+  $("#follow").click(function() {
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+      if (req.readyState == 4 && req.status == 200) {
+        changeFollowButtonToUnfollow();
+      }
+    };
+    var uri = "/follow?id=" + AUTHOR_ID;
+    req.open("POST", uri, true);
+    req.send();
+  });
+
+  $("#unfollow").click(function() {
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+      if (req.readyState == 4 && req.status == 200) {
+    	  changeUnfollowButtonToFollow();
+      }
+    };
+    var uri = "/unfollow?id=" + AUTHOR_ID;
+    req.open("POST", uri, true);
+    req.send();
+  });
+}
+
 function init() {
   preventEnterFromSubmittingForms();
   initTextEntryFields();
   initLoveButton();
   initNotificationDeletion();
+  initFollowButtons();
 }
