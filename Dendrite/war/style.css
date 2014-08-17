@@ -106,24 +106,27 @@ a.fontColourRed,.fontColourRed a {
 	padding-top: 20px;
 }
 
-#avatar {
-	margin: 1em;
+#avatar, .avatar_radio_button, .followerAvatar {
 	height: 3em;
 	width: 3em;
-	float: right;
 	border: 2px solid #333;
 	background-color: #333;
 	border-radius: 2em;
 }
 
+.followerAvatar {
+	vertical-align: middle;
+	margin-right: 10px;
+}
+
+#avatar {
+    margin: 1em;
+    float: right;
+}
+
 .avatar_input_hidden {
 	position: absolute;
 	left: -9999px;
-}
-
-.avatar_radio_button {
-	height: 3em;
-	width: 3em;
 }
 
 input[type=radio]:checked+label>img {
@@ -590,8 +593,13 @@ input,textarea {
 	min-height: 100%;
 }
 
-ul#notificationList {
+ul#notificationList, ul#followerList {
 	list-style-type: none;
+	padding-left: 0px;
+}
+
+#followerList li {
+	padding: 5px;
 	padding-left: 0px;
 }
 

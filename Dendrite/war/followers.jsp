@@ -58,5 +58,22 @@ view.prepareAuthorPageUrl();
             <a class="selected_tab">Followers</a>
             <a id="more">⋮</a>
           </div>
+          <ul id="followerList"><%
+          
+for (final String id : view.getFollowerIds()) {
+	view.prepareFollower(id);
+	
+	%>
+            <li>
+              <img
+                  class="followerAvatar"
+                  src="avatars/${fn:escapeXml(followerAvatarId)}.png" />
+              <a href="${followerProfileUrl}">${followerName}</a>
+            </li><%
+	
+}
+          
+          %>
+          </ul>
         </div>
 <%@include file="bottom.jspf" %>

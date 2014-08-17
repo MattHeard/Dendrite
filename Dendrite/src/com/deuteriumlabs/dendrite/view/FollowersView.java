@@ -1,5 +1,6 @@
 package com.deuteriumlabs.dendrite.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -116,5 +117,27 @@ public class FollowersView extends View {
     @Override
     public void setPageContext(final PageContext pageContext) {
         super.setPageContext(pageContext);
+    }
+    
+    public List<String> getFollowerIds() {
+    	final User author = this.getAuthor();
+    	final List<String> ids = author.getFollowers();
+    	return ids;
+    }
+    
+    public void prepareFollower(final String id) {
+		final User follower = new User();
+		follower.setId(id);
+		follower.read();
+		final String name = follower.getDefaultPenName();
+    	
+    	final PageContext pageContext = this.getPageContext();
+    	pageContext.setAttribute("followerName", name);
+    	
+    	final String url = "/followers?id=" + id;
+    	pageContext.setAttribute("followerProfileUrl", url);
+    	
+    	final int avatarId = follower.getAvatarId();
+    	pageContext.setAttribute("followerAvatarId", avatarId);
     }
 }
