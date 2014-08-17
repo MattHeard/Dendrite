@@ -132,6 +132,13 @@ public class AuthorView extends View {
     	return followers.contains(myUserId);
     }
 
+    public void prepareFollowersPageUrl() {
+    	final PageContext pageContext = this.getPageContext();
+    	final String id = this.getId();
+    	String url = "/followers?id=" + id;
+		pageContext.setAttribute("followersPageUrl", url);
+    }
+
     public void prepareAvatarId() {
         final int avatarId;
         if (this.isAuthorAvatarAvailable() == true) {
