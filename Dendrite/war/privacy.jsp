@@ -88,7 +88,7 @@ view.setPageContext(pageContext);
     <ul>
       <li><b>Contact:</b>
         <a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
-            href="/contact">write-mattheard.appspot.com/contact</a></li>
+            href="/contact">dendritestories.co.nz/contact</a></li>
       <li><b>E-mail:</b> <a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
           href="mailto:matt+dendrite+privacy@mattheard.net" 
           >matt+dendrite+privacy@mattheard.net</a></li>

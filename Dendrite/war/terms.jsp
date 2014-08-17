@@ -14,7 +14,7 @@ view.setPageContext(pageContext);
       <h3>General</h3>
       <p>Welcome to our website <a
           class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
-          href="/">dendrite.mattheard.net</a> (<b>Website</b>).</p>
+          href="/">dendritestories.co.nz</a> (<b>Website</b>).</p>
       <p>You have found one of the most amazing places on the Web where you can
           share your ideas, stories and dreams with millions of other people
           around the world. You are now part of the "Dendrite Community."</p>
