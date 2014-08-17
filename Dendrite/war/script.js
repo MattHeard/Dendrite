@@ -290,8 +290,10 @@ function initNotificationDeletion() {
     var req = new XMLHttpRequest();
     req.onreadystatechange = function() {
       if (req.readyState == 4 && req.status == 200) {
-        var elementId = "#notification" + notificationIndex;
-        $(elementId).fadeOut();
+        var notificationId = "#notification" + notificationIndex;
+        var notificationDeleteId = "#notificationDelete" + notificationIndex;
+        $(notificationId).fadeOut();
+        $(notificationDeleteId).fadeOut();
       }
     };
     var deleteUri = NOTIFICATION_DELETE_URI_WITHOUT_VAL + notificationIndex;

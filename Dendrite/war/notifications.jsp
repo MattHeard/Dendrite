@@ -28,9 +28,10 @@ while (view.hasAnotherNotification() == true) {
     view.prepareNextNotification();
     
     %>
-      <li id="notification<%= id %>"><%= text %>
-        <span class="notificationDelete"
-            id="notificationDelete<%= id %>">×</span></li><%
+      <li class="notificationItem"
+          id="notification<%= id %>"><%= text %></li>
+      <div class="notificationDelete"
+          id="notificationDelete<%= id %>">×</div><%
     
 }
     

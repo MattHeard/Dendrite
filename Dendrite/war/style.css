@@ -619,8 +619,26 @@ ul#notificationList, ul#followerList {
 	color: #fff;
 }
 
+.notificationItem {
+	float: left;
+}
+
 .notificationDelete {
+	float: left;
+	
+	user-select: none;
+	
 	cursor: pointer;
+	background-color: #ccc;
+	color: white;
+	height: 20px;
+	width: 20px;
+	text-align: center;
+	line-height: 20px;
+	border-radius: 50%;
+	
+	margin-top: 1px;
+	margin-left: 10px;
 }
 
 .optionLink {
