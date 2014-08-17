@@ -1,18 +1,8 @@
 package com.deuteriumlabs.dendrite.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.jsp.PageContext;
 
 public class CoverView extends View {
-
-    private class Story {
-        String title;
-        String summary;
-    }
-
-    private List<Story> stories;
 
     @Override
     String getUrl() {
@@ -23,15 +13,6 @@ public class CoverView extends View {
     public void initialise() {
         final PageContext pageContext = this.getPageContext();
         pageContext.setAttribute("webPageTitle", "Dendrite");
-        this.initialiseStories();
-    }
-
-    private void initialiseStories() {
-        this.setStories(new ArrayList<Story>());
-    }
-
-    private void setStories(final List<Story> stories) {
-        this.stories = stories;
     }
 
     public void findThreeStories() {

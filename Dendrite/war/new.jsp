@@ -25,19 +25,22 @@ view.setRequest(request);
 view.setSession(session);
 view.initialise();
 
-%><%@include file="top.jspf"
+%><%@include file="top_with_side_bar.jspf"
 
 %>
         <h2>Start a new story</h2>
+        <div class="clear"></div>
         <form action="submitNewStory" method="post">
-          <div id="form_body">
+          <div>
             <label for="title">Title</label>
             <span
                 id="titleCountNote"
                 class="countNote">(<span id="titleCount">100</span>
                 characters remaining)
             </span>
-            <br />
+          </div>
+          <div class="clear"></div>
+          <div>
             <input id="title" name="title" type="text" value="<%
             
 final boolean isDraftPending = view.isDraftPending();
@@ -48,29 +51,41 @@ if (isDraftPending == true) {
 	
 }
             
-%>"></input><%
+%>"></input>
+          </div>
+          <div class="clear"></div><%
 
 if (view.isTitleBlank() == true) {
 
     %>
-            <i>Must not be blank</i><%
+          <div>
+            <i>Must not be blank</i>
+          </div>
+          <div class="clear"></div><%
+              
 		
 } else if (view.isTitleTooLong() == true) {
 		
     %>
-            <i>Must not be longer than 100 characters</i><%
+          <div>
+            <i>Must not be longer than 100 characters</i>
+          </div>
+          <div class="clear"></div><%
 		
 }
      
 %>
-            <br />
+            
+          <div>
             <label for="content">Story</label>
             <span
                 id="contentCountNote"
                 class="countNote">(<span id="contentCount">5000</span>
                 characters remaining)
             </span>
-            <br />
+          </div>
+          <div class="clear"></div>
+          <div>
             <textarea id="content" name="content"><%
 
 if (isDraftPending == true) {
@@ -79,22 +94,38 @@ if (isDraftPending == true) {
 	%>${fn:escapeXml(draftContent)}<%
 }
             
-%></textarea><%
+%></textarea>
+            <aside class="formattingTips" id="contentFormattingTips">
+              <h3>Formatting</h3>
+              <ul>
+                <li>*i* → <i>i</i>
+                <li>**B** → <b>B</b>
+                <li>***B & i*** → <b><i>B & i</i></b>
+              </ul>
+            </aside>
+          </div>
+          <div class="clear"></div><%
       
 if (view.isContentBlank() == true) {
 		
     %>
-            <i>Must not be blank</i><%
+          <div>
+            <i>Must not be blank</i>
+          </div>
+          <div class="clear"></div><%
 		
 } else if (view.isContentTooLong() == true) {
 		
     %>
-            <i>Must not be longer than 5000 characters</i><%
+          <div>
+            <i>Must not be longer than 5000 characters</i>
+          </div>
+          <div class="clear"></div><%
 		
 }
       
 %>
-            <br />
+          <div>
             <label for="option0">Options</label><%
       
 if (view.isAnOptionTooLong() == true) {
@@ -110,7 +141,9 @@ if (view.isAnOptionTooLong() == true) {
                 class="countNote">(<span id="optionCount">80</span>
                 characters remaining)
             </span>
-            <br /><%
+          </div>
+          <div class="clear"></div>
+          <div><div id="optionSet"><%
 
 for (int i = 0; i < 5; i++) {
     pageContext.setAttribute("optionNumber", i);
@@ -124,31 +157,44 @@ for (int i = 0; i < 5; i++) {
                 id="option${fn:escapeXml(optionNumber)}"
                 name="option${fn:escapeXml(optionNumber)}"
                 type="text"
-                value="${fn:escapeXml(draftOption)}"></input>
-            <br /><%
+                value="${fn:escapeXml(draftOption)}"></input><%
         	
 }
+          
+    %>
+          </div>
+            <aside class="formattingTips" id="optionsFormattingTips">
+              <h3>Formatting</h3>
+              <ul>
+                <li>*i* → <i>i</i>
+                <li>**B** → <b>B</b>
+                <li>***B & i*** → <b><i>B & i</i></b>
+              </ul>
+            </aside></div><%
 
 if (isUserLoggedIn == true) {
     final String authorId = NewView.getMyUserId();
     pageContext.setAttribute("authorId", authorId);
       
     %>
-            <input
-                name="authorId"
-                type="hidden"
-                value="${fn:escapeXml(authorId)}" /><%
+          <input
+              name="authorId"
+              type="hidden"
+              value="${fn:escapeXml(authorId)}" /><%
       
 }
     
 %>
+          <div>
             <label for="authorName">Author</label>
             <span
                 id="authorNameCountNote"
                 class="countNote">(<span id="authorNameCount">100</span>
                 characters remaining)
             </span>
-            <br />
+          </div>
+          <div class="clear"></div>
+          <div>
             <input id="authorName" name="authorName" type="text"<%
       
 if (isUserLoggedIn == true) {
@@ -178,8 +224,11 @@ if (isAuthorNameBlank == true) {
 }
       
 %>
-            <br />
           </div>
-          <button type="submit">Submit</button>
+          <div class="clear"></div>
+          <div>
+            <button type="submit">Submit</button>
+          </div>
+          <div class="clear"></div>
         </form>
 <%@include file="bottom.jspf" %>

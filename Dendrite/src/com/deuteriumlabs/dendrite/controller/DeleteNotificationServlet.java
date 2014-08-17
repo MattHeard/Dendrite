@@ -27,6 +27,6 @@ public class DeleteNotificationServlet extends DendriteServlet {
         controller = new DeleteNotificationController();
         final String notificationId = req.getParameter("id");
         controller.setNotificationId(notificationId);
-        final boolean isDeleted = controller.deleteNotification();
+        controller.deleteNotification();
     }
 }

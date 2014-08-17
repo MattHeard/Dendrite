@@ -56,7 +56,7 @@ if (view.isAuthorPageOfUser() == true) {
         <div id="author_body">
           <div id="tabs">
             <a class="selected_tab">Pages Written</a>
-            <a>Statistics</a>
+            <!-- <a>Statistics</a> -->
             <a>Followers</a>
             <a id="more">⋮</a>
           </div><%

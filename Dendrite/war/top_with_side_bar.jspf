@@ -1,0 +1,199 @@
+<%@ page import="com.deuteriumlabs.dendrite.view.View"
+%><%@ page import="java.util.Arrays"
+%><%@ page import="java.util.List"
+%><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
+
+%><!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    <title>${fn:escapeXml(webPageTitle)}</title>
+  </head>
+  <body<%
+  
+// Set up default display settings.
+double userFontSize = 1.0;
+String userFontType = "Sans-serif";
+String userFontColour = "Default";
+double userSpacing = 1.5;
+String userAlignment = "Justify";
+String userTheme = "Light";
+
+final boolean isUserLoggedIn = View.isUserLoggedIn();
+
+if (isUserLoggedIn == true) {
+
+    // Replace default display settings with user preferences.
+    final String authorLink = View.getAuthorLink();
+    pageContext.setAttribute("authorLink", authorLink);
+    final String userName = View.getMyUserName();
+    pageContext.setAttribute("userName", userName);
+    final String logoutLink = view.getLogoutLink();
+    pageContext.setAttribute("logoutLink", logoutLink);
+    userFontSize = View.getUserFontSize();
+    userFontType = View.getUserFontType();
+    userFontColour = View.getUserFontColour();
+    userSpacing = View.getUserSpacing();
+    userAlignment = View.getUserAlignment();
+    userTheme = View.getUserTheme();
+}
+
+if (userTheme.equals("Light") == false && userTheme != null) {
+    String className = "theme";
+    final String[] options = { "Light", "Dark", "Sepia", "Lovely" };
+    final List<String> list = Arrays.asList(options);
+    if (list.contains(userTheme)) {
+        className += userTheme;
+    } else {
+        className += "Light";
+    }
+    pageContext.setAttribute("themeClassName", className);
+
+    %> class="${fn:escapeXml(themeClassName)}"<%
+
+} else {
+    pageContext.setAttribute("themeClassName", "");
+}
+  
+%> onLoad="init();">
+    <div id="nonFooter">
+      <div id="headerBar">
+        <div id="header">
+          <div id="logo"><a href="/"><img id="logoImage"
+              alt="Dendrite"
+              title="Dendrite"
+              height="70px"
+              src="logo/<%
+          
+if (userTheme != null && userTheme.equals("Light") == false) {
+          
+    %>${fn:escapeXml(themeClassName)}/<%
+          
+}
+          
+%>logo.png" /></a></div><%
+
+if (isUserLoggedIn == true) {
+    
+    %>
+          
+          <div id="logout">Welcome back, <a href="${fn:escapeXml(authorLink)}">${fn:escapeXml(userName)}</a>.
+            (<a href="${fn:escapeXml(logoutLink)}">Logout</a>)
+            <a href="/notifications"><span id="notifications"<%
+
+    final boolean areThereNewNotifications = view.areThereNewNotifications();
+    if (areThereNewNotifications == false) {
+        
+        %> class="noNewNotifications"<%
+        
+    }
+
+            %> title="Notifications"><%= view.countNewNotifications() %></span></a>
+          </div><%
+    
+} else {
+    final String loginLink = view.getLoginLink();
+    pageContext.setAttribute("loginLink", loginLink);
+    
+    %>
+          <div id="login"><a href="${fn:escapeXml(loginLink)}">Login or register</a></div><%
+    
+}
+    
+%>
+        </div>
+      </div>
+      <div id="main" class="hasToolbar modifiableText<%
+      
+if (userFontSize != 1.0) {
+    String sizeClassName = "size";
+    if (userFontSize == 2) {
+        sizeClassName += "Huge";
+    } else if (userFontSize == 1.5) {
+        sizeClassName += "Large";
+    } else if (userFontSize == 0.8) {
+        sizeClassName += "Small";
+    } else {
+        sizeClassName += "Medium";
+    }
+    pageContext.setAttribute("sizeClassName", sizeClassName);
+          
+    %> ${fn:escapeXml(sizeClassName)}<%
+          
+}
+    
+if ("Sans-serif".equals(userFontType) == false) {
+    String fontTypeClassName = "fontType";
+    if ("Serif".equals(userFontType)) {
+        fontTypeClassName += "Serif";
+    } else if ("Monospace".equals(userFontType)) {
+        fontTypeClassName += "Monospace";
+    } else if ("Cursive".equals(userFontType)) {
+        fontTypeClassName += "Cursive";
+    } else if ("Fantasy".equals(userFontType)) {
+        fontTypeClassName += "Fantasy";
+    }
+    pageContext.setAttribute("fontTypeClassName", fontTypeClassName);
+            
+    %> ${fn:escapeXml(fontTypeClassName)}<%
+            
+}
+        
+if ("Default".equals(userFontColour) == false) {
+    String fontColourClassName = "fontColour";
+    final String[] fontColourOptions = { "Default", "Charcoal", "Black",
+            "Grey", "Blue", "Green", "Red" };
+    final List<String> list = Arrays.asList(fontColourOptions);
+    if (list.contains(userFontColour)) {
+        fontColourClassName += userFontColour;
+    } else {
+        fontColourClassName += "Default";
+    }
+    pageContext.setAttribute("fontColourClassName", fontColourClassName);
+          
+    %> ${fn:escapeXml(fontColourClassName)}<%
+    
+    } else {
+        pageContext.setAttribute("fontColourClassName", "");
+    }
+        
+    if (userSpacing != 1.5) {
+        String spacingClassName = "spacing";
+        if (userSpacing == 3.0) {
+            spacingClassName += "Huge";
+        } else if (userSpacing == 2.0) {
+            spacingClassName += "Large";
+        } else if (userSpacing == 1.0) {
+            spacingClassName += "Small";
+        } else {
+            spacingClassName += "Medium";
+        }
+        pageContext.setAttribute("spacingClassName", spacingClassName);
+          
+        %> ${fn:escapeXml(spacingClassName)}<%
+            
+    }
+        
+    if ("Justify".equals(userAlignment) == false) {
+        String alignmentClassName = "alignment";
+        final String[] alignmentOptions = { "Left", "Right", "Center",
+                "Justify" };
+        final List<String> list = Arrays.asList(alignmentOptions);
+        if (list.contains(userAlignment)) {
+            alignmentClassName += userAlignment;
+        } else {
+            alignmentClassName += "Default";
+        }
+        pageContext.setAttribute("alignmentClassName", alignmentClassName);
+          
+        %> ${fn:escapeXml(alignmentClassName)}<%
+          
+    }
+      
+    %>">

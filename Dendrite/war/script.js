@@ -202,20 +202,22 @@ function initTitleCountNote() {
   $('#title').keyup();
 }
 
-function initContentCountNote() {
+function initContentFocus() {
   $('#content').keyup(function() {
 	var numChars = 5000 - $('#content').val().length;
     $('#contentCount').text(numChars);
   }).focus(function() {
 	$('#contentCountNote').show();
+	$('#contentFormattingTips').show();
   }).focusout(function() {
 	$('#contentCountNote').hide();
+	$('#contentFormattingTips').hide();
   });
   
   $('#content').keyup();
 }
 
-function initOptionCountNote() {
+function initOptionFocus() {
   var NUM_OPTION_INPUTS = 5;
   for (var i = 0; i < NUM_OPTION_INPUTS; i++) {
     var id = '#option' + i;
@@ -226,8 +228,10 @@ function initOptionCountNote() {
       $('#optionCountNote').show();
       var numChars = 80 - $(this).val().length;
       $('#optionCount').text(numChars);
+  	  $('#optionsFormattingTips').show();
     }).focusout(function() {
       $('#optionCountNote').hide();
+  	  $('#optionsFormattingTips').hide();
     }).keyup();
   }
 }
@@ -247,8 +251,8 @@ function initAuthorNameCountNote() {
 
 function initTextEntryFields() {
   initTitleCountNote();
-  initContentCountNote();
-  initOptionCountNote();
+  initContentFocus();
+  initOptionFocus();
   initAuthorNameCountNote();
 }
 

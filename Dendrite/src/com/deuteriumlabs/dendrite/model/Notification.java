@@ -393,14 +393,4 @@ public class Notification extends Model {
         store.delete(key);
     }
 
-    /**
-     * @param key
-     * @return
-     */
-    private Filter getKeyFilter(final Key key) {
-        final Filter filter = new FilterPredicate(Entity.KEY_RESERVED_PROPERTY,
-                Query.FilterOperator.EQUAL, key);
-        return filter;
-    }
-
 }

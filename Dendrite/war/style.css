@@ -543,7 +543,7 @@ input,textarea {
 	background-color: #eee;
 	color: #333;
 	border: 1px solid #ddd;
-	border-radius: 0.5em;
+	border-radius: 10px;
 }
 
 .themeDark input,.themeDark textarea {
@@ -572,7 +572,7 @@ input,textarea {
 	height: 70px;
 }
 
-#main {
+#main, main {
 	clear: both;
 	padding: 0.5em 0.5em 4em 0.5em;
 	overflow: auto;
@@ -697,6 +697,73 @@ select {
 	line-height: 1.5em;
 }
 
+.small {
+	font-size: 0.8em;
+	color: grey;
+}
+
+@media all and (min-width: 1420px) {
+    #main.hasToolbar, main.hasToolbar, .hasToolbar form, .hasToolbar h2 {
+        max-width: 1400px;
+    }
+    
+    .hasToolbar label, .hasToolbar input, .hasToolbar textarea {
+        max-width: 800px;
+    }
+    
+    .hasToolbar textarea {
+        float: left;
+    }
+
+	.hasToolbar form > div, .hasToolbar h2 {
+	    float: left;
+        
+        width: 1100px;
+    
+        padding-left: 300px;
+	}
+	
+	.hasToolbar #optionSet {
+	    float: left;
+	
+	    width: 800px;
+	}
+	
+	.hasToolbar .formattingTips {
+	    float: left;
+	    
+	    margin-top: 2px;
+	    margin-left: 10px;
+	}
+}
+
+.formattingTips {
+ 	display: none;
+	
+	background-color: #ddd;
+	
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    
+    margin-bottom: 5px;
+    padding: 20px;
+}
+
+.formattingTips h3 {
+	font-style: italic;
+	font-size: 18px;
+	
+	margin: 0px;
+	margin-bottom: 10px;
+}
+
+.formattingTips ul {
+	list-style-type: none;
+	
+	margin: 0px;
+	padding: 0px;
+}
+
 .spacingHuge {
 	line-height: 3em;
 }
@@ -753,13 +820,15 @@ select {
 	clear: both;
 }
 
-#text_body,#form_body {
+#text_body, form {
 	padding-bottom: 1em;
 }
 
 textarea {
-	height: 10em;
+	height: 150px;
 	resize: vertical;
+	
+	margin-top: 2px;
 }
 
 @media all and (min-width: 600px) {
@@ -779,6 +848,7 @@ textarea {
 	}
 	button, .button, .option {
 		width: 49%;
+        max-width: 400px;
 		margin-right: 1%;
 	}
 }
