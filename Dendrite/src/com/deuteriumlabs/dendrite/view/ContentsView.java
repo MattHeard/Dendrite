@@ -14,10 +14,10 @@ import com.deuteriumlabs.dendrite.model.StoryBeginning;
  */
 public class ContentsView extends View {
 
-    private class Link {
-        String number;
-        String text;
-        String url;
+    public class Link {
+        public String number;
+        public String text;
+        public String url;
     }
 
     private static final String BODY_MAIN_TITLE = "Table of Contents";
@@ -28,7 +28,6 @@ public class ContentsView extends View {
     private List<StoryBeginning> beginnings;
     private int contentsPageNumber;
     private List<Link> links;
-    private int numLinksAlreadyDisplayed;
 
     /**
      * Default constructor. Sets the default page number to 1, which displays
@@ -37,7 +36,6 @@ public class ContentsView extends View {
     public ContentsView() {
         this.setBeginnings(null);
         this.setContentsPageNumber(1);
-        this.setNumLinksAlreadyDisplayed(0);
     }
 
     /**
@@ -104,12 +102,6 @@ public class ContentsView extends View {
         return this.links;
     }
 
-    private Link getNextLink() {
-        final List<Link> links = this.getLinks();
-        final int index = this.getNumLinksAlreadyDisplayed();
-        return links.get(index);
-    }
-
     public String getNextPageNumber() {
         final int curr = this.getContentsPageNumber();
         int next = curr + 1;
@@ -118,15 +110,6 @@ public class ContentsView extends View {
 
     private int getNumberOfStories() {
         return StoryBeginning.countAllBeginnings();
-    }
-
-    public int getNumLinksAlreadyDisplayed() {
-        return numLinksAlreadyDisplayed;
-    }
-
-    private int getNumLinksToDisplay() {
-        final List<StoryBeginning> beginnings = this.getBeginnings();
-        return beginnings.size();
     }
 
     /**
@@ -189,26 +172,15 @@ public class ContentsView extends View {
         final List<String> links = new ArrayList<String>();
         List<String> numbers = this.getPageNumbers();
         for (final String number : numbers) {
-            final String link = "/read?p=" + number;
+            final String link = convertPgNumToLink(number);
             links.add(link);
         }
         return links;
     }
 
-    public boolean hasAnotherLink() {
-        final int numAlreadyDisplayed = this.getNumLinksAlreadyDisplayed();
-        final int numToDisplay = this.getNumLinksToDisplay();
-        if (numAlreadyDisplayed < numToDisplay) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private void incrementNumLinksAlreadyDisplayed() {
-        final int num = this.getNumLinksAlreadyDisplayed();
-        this.setNumLinksAlreadyDisplayed(num + 1);
-    }
+	private static String convertPgNumToLink(final String num) {
+		return "/read?p=" + num;
+	}
 
     @Override
     public void initialise() {
@@ -240,12 +212,6 @@ public class ContentsView extends View {
         pageContext.setAttribute("title", text);
         final String number = link.number;
         pageContext.setAttribute("pageNumber", number);
-    }
-
-    public void prepareNextLink() {
-        final Link link = this.getNextLink();
-        this.prepareLink(link);
-        this.incrementNumLinksAlreadyDisplayed();
     }
 
     public void prepareNextPageNum() {
@@ -312,9 +278,5 @@ public class ContentsView extends View {
 
     private void setLinks(final List<Link> links) {
         this.links = links;
-    }
-
-    public void setNumLinksAlreadyDisplayed(int numLinksAlreadyDisplayed) {
-        this.numLinksAlreadyDisplayed = numLinksAlreadyDisplayed;
     }
 }

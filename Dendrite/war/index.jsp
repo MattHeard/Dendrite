@@ -10,6 +10,7 @@
  * the Java components are cleanly separated.
  */
 %><%@ page import="com.deuteriumlabs.dendrite.view.ContentsView" %><%
+%><%@ page import="com.deuteriumlabs.dendrite.view.ContentsView.Link" %><%
 
 /*
  * The JSTL functions provide `escapeXml(...)`. Currently, all
@@ -32,10 +33,11 @@ view.initialise();
 
 // Display the links to the stories which have already been written. Only ten
 // links are shown at one time.
-while (view.hasAnotherLink() == true) {
-	view.prepareNextLink();
-    
-    %>
+        
+for (final Link link : view.getLinks()) {
+	view.prepareLink(link);
+	
+	%>
         <div class="item">
           <div class="itemContent"><a
               href="${fn:escapeXml(link)}">${fn:escapeXml(title)}</a></div>

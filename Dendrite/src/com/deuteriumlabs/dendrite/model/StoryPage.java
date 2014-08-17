@@ -30,6 +30,8 @@ public class StoryPage extends Model {
     private static final String AUTHOR_NAME_PROPERTY = "authorName";
     private static final String BEGINNING_NUMBER_PROPERTY = "beginningNumber";
     private static final String BEGINNING_VERSION_PROPERTY = "beginningVersion";
+    private static final String FORMERLY_LOVING_USERS_PROPERTY = 
+            "formerlyLovingUsers";
     private static final String ID_NUMBER_PROPERTY = "idNumber";
     private static final String ID_VERSION_PROPERTY = "idVersion";
     private static final String KIND_NAME = "StoryPage";
@@ -38,16 +40,8 @@ public class StoryPage extends Model {
         'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
         'u', 'v', 'w', 'x', 'y', 'z' };
     private static final String LOVING_USERS_PROPERTY = "lovingUsers";
-    private static final String TEXT_PROPERTY = "text";
-    private static final String FORMERLY_LOVING_USERS_PROPERTY = 
-            "formerlyLovingUsers";
-
-    private static char convertNumToLetter(int num) {
-        Map<Integer, Character> map = new HashMap<Integer, Character>();
-        for (int i = 0; i < LETTERS.length; i++)
-            map.put(i + 1, LETTERS[i]);
-        return map.get(num);
-    }
+    private static final String TAGS_PROPERTY = "tags";
+	private static final String TEXT_PROPERTY = "text";
 
     public static String convertNumberToVersion(final int num) {
         final int lowNum = ((num - 1) % LEN_ALPHABET) + 1;
@@ -59,6 +53,13 @@ public class StoryPage extends Model {
             versionStr = highLetters + versionStr;
         }
         return versionStr;
+    }
+
+    private static char convertNumToLetter(int num) {
+        Map<Integer, Character> map = new HashMap<Integer, Character>();
+        for (int i = 0; i < LETTERS.length; i++)
+            map.put(i + 1, LETTERS[i]);
+        return map.get(num);
     }
 
     public static int countAllPagesWrittenBy(final String authorId) {
@@ -106,6 +107,19 @@ public class StoryPage extends Model {
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         return preparedQuery.countEntities(fetchOptions);
     }
+
+    public static List<StoryPage> getAllVersions(final PageId pageId) {
+		final Query query = new Query(KIND_NAME);
+		final int num = pageId.getNumber();
+		final Filter filter = StoryPage.getIdNumFilter(num);
+		query.setFilter(filter);
+		DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		final List<Entity> entities = preparedQuery.asList(fetchOptions);
+		final List<StoryPage> pages = getPgsFromEntities(entities);
+		return pages;
+	}
 
     private static Filter getAuthorIdFilter(String authorId) {
         final String propertyName = AUTHOR_ID_PROPERTY;
@@ -183,16 +197,6 @@ public class StoryPage extends Model {
         return (String) entity.getProperty(ID_VERSION_PROPERTY);
     }
 
-    private static List<StoryPage> getPgsFromEntities(
-            final List<Entity> entities) {
-        final List<StoryPage> pgs = new ArrayList<StoryPage>();
-        for (final Entity entity : entities) {
-            StoryPage pg = new StoryPage(entity);
-            pgs.add(pg);
-        }
-        return pgs;
-    }
-
     public static List<StoryPage> getPagesWrittenBy(String authorId, int start,
             int end) {
         final Query query = new Query(KIND_NAME);
@@ -224,6 +228,16 @@ public class StoryPage extends Model {
         return child.getParent();
     }
 
+    private static List<StoryPage> getPgsFromEntities(
+            final List<Entity> entities) {
+        final List<StoryPage> pgs = new ArrayList<StoryPage>();
+        for (final Entity entity : entities) {
+            StoryPage pg = new StoryPage(entity);
+            pgs.add(pg);
+        }
+        return pgs;
+    }
+
     public static String getRandomVersion(final PageId id) {
         id.setVersion("a");
         final StoryPage pg = new StoryPage();
@@ -246,23 +260,23 @@ public class StoryPage extends Model {
             return "a";
         }
     }
-
     private List<PageId> ancestry;
     private String authorId;
     private String authorName;
     private PageId beginning;
     private String chance;
+    private List<String> formerlyLovingUsers;
     private PageId id;
     private List<String> lovingUsers;
     private StoryPage parent;
-    private Text text;
-    private List<String> formerlyLovingUsers;
+    private List<String> tags;
+	private Text text;
 
     public StoryPage() {
         this.setBeginning(null);
     }
 
-    public StoryPage(final Entity entity) {
+	public StoryPage(final Entity entity) {
         this.readPropertiesFromEntity(entity);
     }
 
@@ -387,6 +401,23 @@ public class StoryPage extends Model {
     }
 
     /**
+     * @return
+     */
+    public List<String> getFormerlyLovingUsers() {
+        return this.formerlyLovingUsers;
+    }
+
+    /**
+     * @param entity
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    private List<String> getFormerlyLovingUsersFromEntity(final Entity entity) {
+        final String property = FORMERLY_LOVING_USERS_PROPERTY;
+        return (List<String>) entity.getProperty(property);
+    }
+
+    /**
      * Returns the ID of this story page.
      * 
      * @return The ID of this story page
@@ -432,6 +463,14 @@ public class StoryPage extends Model {
         final PageId id = this.getId();
         final Filter filter = getIdFilter(id);
         return query.setFilter(filter);
+    }
+
+    /**
+     * @return
+     */
+    public int getNumLovingUsers() {
+        final List<String> lovingUsers = this.getLovingUsers();
+        return lovingUsers.size();
     }
 
     /**
@@ -486,6 +525,23 @@ public class StoryPage extends Model {
         return StoryPage.countSubtreeBetween(greater, less);
     }
 
+    public List<String> getTags() {
+    	if (this.tags == null) {
+    		this.initTags();
+    	}
+    	return this.tags;
+	}
+
+    private void initTags() {
+    	final List<String> tags = new ArrayList<String>();
+    	this.setTags(tags);
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<String> getTagsFromEntity(final Entity entity) {
+        return (List<String>) entity.getProperty(TAGS_PROPERTY);
+	}
+
     /**
      * Returns the text of this story page.
      * 
@@ -511,6 +567,15 @@ public class StoryPage extends Model {
      */
     private void incrementVersion() {
         this.getId().incrementVersion();
+    }
+
+    /**
+     * @param userId
+     * @return
+     */
+    public boolean isLovedBy(final String userId) {
+        final List<String> lovingUsers = this.getLovingUsers();
+        return lovingUsers.contains(userId);
     }
 
     /**
@@ -569,6 +634,17 @@ public class StoryPage extends Model {
     }
 
     /**
+     * @param entity
+     */
+    private void readFormerlyLovingUsersFromEntity(final Entity entity) {
+        List<String> users = getFormerlyLovingUsersFromEntity(entity);
+        if (users == null) {
+            users = new ArrayList<String>();
+        }
+        this.setFormerlyLovingUsers(users);
+    }
+
+    /**
      * Reads the values from the entity corresponding to the ID of this story
      * page.
      * 
@@ -612,37 +688,18 @@ public class StoryPage extends Model {
         this.readAuthorIdFromEntity(entity);
         this.readLovingUsersFromEntity(entity);
         this.readFormerlyLovingUsersFromEntity(entity);
+        this.readTagsFromEntity(entity);
     }
 
-    /**
-     * @param entity
-     */
-    private void readFormerlyLovingUsersFromEntity(final Entity entity) {
-        List<String> users = getFormerlyLovingUsersFromEntity(entity);
-        if (users == null) {
-            users = new ArrayList<String>();
+	private void readTagsFromEntity(final Entity entity) {
+    	List<String> tags = getTagsFromEntity(entity);
+        if (tags == null) {
+            tags = new ArrayList<String>();
         }
-        this.setFormerlyLovingUsers(users);
-    }
+    	this.setTags(tags);
+	}
 
-    /**
-     * @param users
-     */
-    public void setFormerlyLovingUsers(final List<String> users) {
-        this.formerlyLovingUsers = users;
-    }
-
-    /**
-     * @param entity
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    private List<String> getFormerlyLovingUsersFromEntity(final Entity entity) {
-        final String property = FORMERLY_LOVING_USERS_PROPERTY;
-        return (List<String>) entity.getProperty(property);
-    }
-
-    /**
+	/**
      * Reads the value from the entity corresponding to the text of this story
      * page.
      * 
@@ -654,7 +711,7 @@ public class StoryPage extends Model {
         this.setText(text);
     }
 
-    /**
+	/**
      * @param ancestry
      */
     private void setAncestry(final List<PageId> ancestry) {
@@ -715,6 +772,21 @@ public class StoryPage extends Model {
      */
     private void setChance(final String chance) {
         this.chance = chance;
+    }
+
+    /**
+     * @param users
+     */
+    public void setFormerlyLovingUsers(final List<String> users) {
+        this.formerlyLovingUsers = users;
+    }
+
+    /**
+     * @param entity
+     */
+    private void setFormerlyLovingUsersInEntity(final Entity entity) {
+        final List<String> users = this.getFormerlyLovingUsers();
+        entity.setProperty(FORMERLY_LOVING_USERS_PROPERTY, users);
     }
 
     /**
@@ -798,22 +870,17 @@ public class StoryPage extends Model {
         this.setAuthorIdInEntity(entity);
         this.setLovingUsersInEntity(entity);
         this.setFormerlyLovingUsersInEntity(entity);
+        this.setTagsInEntity(entity);
     }
 
-    /**
-     * @param entity
-     */
-    private void setFormerlyLovingUsersInEntity(final Entity entity) {
-        final List<String> users = this.getFormerlyLovingUsers();
-        entity.setProperty(FORMERLY_LOVING_USERS_PROPERTY, users);
-    }
+    private void setTags(final List<String> tags) {
+		this.tags = tags;
+	}
 
-    /**
-     * @return
-     */
-    public List<String> getFormerlyLovingUsers() {
-        return this.formerlyLovingUsers;
-    }
+	private void setTagsInEntity(final Entity entity) {
+        final List<String> tags = this.getTags();
+        entity.setProperty(TAGS_PROPERTY, tags);
+	}
 
     /**
      * Sets the text of this story page.
@@ -830,7 +897,7 @@ public class StoryPage extends Model {
         this.text = text;
     }
 
-    /**
+	/**
      * Sets the value in the entity corresponding to the text of this story
      * page.
      * 
@@ -842,40 +909,31 @@ public class StoryPage extends Model {
         entity.setProperty(TEXT_PROPERTY, text);
     }
 
-    @Override
+	@Override
     public String toString() {
         final PageId id = this.getId();
         final String summary = this.getText().toString();
         return "{ " + id + ": " + summary + " }";
     }
 
-    /**
-     * @param userId
-     * @return
-     */
-    public boolean isLovedBy(final String userId) {
-        final List<String> lovingUsers = this.getLovingUsers();
-        return lovingUsers.contains(userId);
-    }
+	public void addTag(final String tag) {
+		final List<String> tags = this.getTags();
+		final boolean isDuplicate = tags.contains(tag);
+		if (isDuplicate == false) {
+			tags.add(tag);
+			this.setTags(tags);
+		}
+	}
 
-    /**
-     * @return
-     */
-    public int getNumLovingUsers() {
-        final List<String> lovingUsers = this.getLovingUsers();
-        return lovingUsers.size();
-    }
-
-	public static List<StoryPage> getAllVersions(final PageId pageId) {
-		final Query query = new Query(KIND_NAME);
-		final int num = pageId.getNumber();
-		final Filter filter = StoryPage.getIdNumFilter(num);
-		query.setFilter(filter);
-		DatastoreService store = getStore();
-		final PreparedQuery preparedQuery = store.prepare(query);
-		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		final List<Entity> entities = preparedQuery.asList(fetchOptions);
-		final List<StoryPage> pages = getPgsFromEntities(entities);
-		return pages;
+	public void removeTag(final String tag) {
+		final List<String> tags = this.getTags();
+		boolean isUpdateNeeded = false;
+		while (tags.contains(tag)) {
+			tags.remove(tag);
+			isUpdateNeeded = true;
+		}
+		if (isUpdateNeeded) {
+			this.setTags(tags);
+		}
 	}
 }

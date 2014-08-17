@@ -158,6 +158,8 @@ public abstract class View {
      * Returns a link for logging out, with a redirect back to this page after
      * the logout has completed.
      * 
+     * TODO: Figure out how to test this method.
+     * 
      * @return The URL to the logout page
      */
     public final String getLogoutLink() {

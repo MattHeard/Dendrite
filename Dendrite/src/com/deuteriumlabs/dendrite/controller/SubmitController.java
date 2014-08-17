@@ -69,7 +69,11 @@ public abstract class SubmitController {
     protected void buildStoryOptions() {
         final List<String> optionTexts = this.getOptions();
         int linkIndex = 0;
-        for (int i = 0; i < 5; i++) {
+        int size = optionTexts.size();
+        if (size > 5) {
+        	size = 5;
+        }
+		for (int i = 0; i < size; i++) {
             final String text = optionTexts.get(i);
             if (text == null || text.length() == 0) {
                 continue;
