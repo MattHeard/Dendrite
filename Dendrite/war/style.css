@@ -465,6 +465,48 @@ button, .button, .option {
 	height: 50px;
 }
 
+.format2014-08-18-0 .dropdownButton, .format2014-08-18-0 .saveButton {
+    float: left;
+    
+    background-color: #eee;
+    
+    height: 40px;
+    display: block;
+}
+
+.format2014-08-18-0 .dropdownButton.large {
+    display: none;
+
+    width: 116px;
+    
+    margin-right: 10px;
+}
+
+.format2014-08-18-0 .dropdownButton.small {
+    display: initial;
+
+    width: 40px;
+    
+    margin-right: 10px;
+}
+
+.format2014-08-18-0 .saveButton {
+    margin-left: 4px;
+    width: 40px;
+}
+
+.format2014-08-18-0 #formatMenu {
+    height: 40px;
+    
+    list-style-type: none;
+    
+    padding: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
 h2,h3 {
 	font-weight: 300;
 	clear: both;
@@ -935,6 +977,14 @@ textarea {
 	
 	#notifications {
         margin-right: -5px;
+    }
+	
+	.format2014-08-18-0 .dropdownButton.large {
+	    display: initial;
+	}
+    
+    .format2014-08-18-0 .dropdownButton.small {
+        display: none;
     }
 }
 

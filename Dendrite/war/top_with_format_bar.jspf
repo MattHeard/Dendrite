@@ -115,7 +115,36 @@ if (isUserLoggedIn == true) {
     
 %>
         </div>
-      </div>
+      </div><% /* %>
+      <div id="formatBar" class="format2014-08-18-0">
+        <ul id="formatMenu"><%
+        
+final String[] formatDimensions = { "size", "type", "colour", "align",
+        "spacing", "theme" };
+for (final String dimension : formatDimensions) {
+	
+	%>
+          <li>
+            <img
+                class="dropdownButton large"
+                src="/icons/2014-08-18-0/large/<%= dimension %>.png" />
+          </li>
+          <li>
+            <img
+                class="dropdownButton small"
+                src="/icons/2014-08-18-0/small/<%= dimension %>.png" />
+          </li><%
+	
+}
+        
+        %>
+          <li>
+            <img
+                class="saveButton"
+                src="/icons/2014-08-18-0/save.png" />
+          </li>
+        </ul>
+      </div><% */ %>
       <div id="formatBar">
         <div id="formatMenu"><%
 
@@ -186,7 +215,7 @@ for (int i = 0; i < formatDimensions.length; i++) {
 %>
         </div>
       </div>
-      <script type="text/javascript">showFormatBar();</script> 
+      <script type="text/javascript">showFormatBar();</script>
       <div id="main" class="modifiableText<%
       
 if (userFontSize != 1.0) {
