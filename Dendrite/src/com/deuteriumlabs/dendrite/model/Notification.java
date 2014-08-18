@@ -113,6 +113,8 @@ public class Notification extends Model {
             		PgRewriteNotification.REWRITE_AUTHOR_ID_PROPERTY;
             final String FOLLOWER_ID_PROPERTY;
             FOLLOWER_ID_PROPERTY = FollowNotification.FOLLOWER_ID_PROPERTY;
+            final String NEW_AUTHOR_ID_PROPERTY =
+            		FolloweeNewNotification.NEW_AUTHOR_ID_PROPERTY;
 			if (entity.hasProperty(LOVER_ID_PROPERTY) == true) {
                 notification = new PgLovedNotification(entity);
             } else if (entity.hasProperty(CHILD_AUTHOR_ID_PROPERTY) == true) {
@@ -121,6 +123,8 @@ public class Notification extends Model {
             	notification = new PgRewriteNotification(entity);
             } else if (entity.hasProperty(FOLLOWER_ID_PROPERTY) == true) {
             	notification = new FollowNotification(entity);
+            } else if (entity.hasProperty(NEW_AUTHOR_ID_PROPERTY) == true) {
+            	notification = new FolloweeNewNotification(entity);
             } else {
                 notification = new Notification(entity);
             }

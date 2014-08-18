@@ -1,10 +1,14 @@
 package com.deuteriumlabs.dendrite.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+import com.deuteriumlabs.dendrite.model.FolloweeNewNotification;
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryPage;
+import com.deuteriumlabs.dendrite.model.User;
 
 public class SubmitNewController extends SubmitController {
 
@@ -14,9 +18,25 @@ public class SubmitNewController extends SubmitController {
     public void buildNewStory() {
         this.buildNewPage();
         this.buildStoryBeginning();
+        this.notifyFollowers();
     }
 
-    private void buildStoryBeginning() {
+    private void notifyFollowers() {
+    	final User myUser = User.getMyUser();
+    	List<String> followerIds = myUser.getFollowers();
+    	for (final String followerId : followerIds) {
+    		final FolloweeNewNotification notification;
+    		notification = new FolloweeNewNotification();
+    		notification.setPgId(this.getId());
+    		notification.setAuthorId(this.getAuthorId());
+    		notification.setAuthorName(this.getAuthorName());
+    		notification.setTitle(this.getTitle());
+    		notification.setRecipientId(followerId);
+    		notification.create();
+    	}
+    }
+
+	private void buildStoryBeginning() {
         final StoryBeginning beginning = new StoryBeginning();
         final PageId id = this.getId();
         final int pageNumber = id.getNumber();
