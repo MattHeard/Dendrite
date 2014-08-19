@@ -352,7 +352,7 @@ function initTagButtons() {
   });
   
   $("ul.tags > li").after().click(function() {
-    $(this).before().hide();
+    $(this).before().fadeOut();
   })
 }
 
