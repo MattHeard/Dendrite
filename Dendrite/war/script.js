@@ -339,39 +339,51 @@ function initFollowButtons() {
 }
 
 function initTagButtons() {
-  $("ul.tags > li.add").click(function() {
-    $("ul.tags > li.ok")
-        .add("ul.tags > li > select")
-        .add("ul.tags > li.cancel")
+  $("ul.tagControls > li.add").click(function() {
+    $("ul.tagControls > li.ok")
+        .add("ul.tagControls > li.select")
+        .add("ul.tagControls > li.cancel")
         .show();
-    $("ul.tags > li.add").hide();
+    $("ul.tagControls > li.add").hide();
   });
   
-  $("ul.tags > li.ok").add("ul.tags > li.cancel").click(function() {
-    $("ul.tags > li.add").show();
-    $("ul.tags > li.ok")
-        .add("ul.tags > li > select")
-        .add("ul.tags > li.cancel")
+  $("ul.tagControls > li.ok").add("ul.tagControls > li.cancel").click(function() {
+    $("ul.tagControls > li.add").show();
+    $("ul.tagControls > li.ok")
+        .add("ul.tagControls > li.select")
+        .add("ul.tagControls > li.cancel")
         .hide();
   });
   
   $("ul.tags > li")
-      .not(".ok")
-      .not(".cancel")
-      .not(".select")
        .after()
       .click(function() {
-    $(this).before().fadeOut();
-  });
-  
-  $("ul.tags > li.ok").click(function() {
     var req = new XMLHttpRequest();
     req.onreadystatechange = function() {
       if (req.readyState == 4 && req.status == 200) {
-        // TODO: Update tag list.
       }
     };
-    var tag = $("ul.tags > li > select").val();
+    var tag = $(this).before().text();
+    var uri = REMOVE_TAG_URL_WITHOUT_TAG + tag;
+    req.open("POST", uri, true);
+    req.send();
+    $(this).before().fadeOut();
+  });
+  
+  $("ul.tagControls > li.ok").click(function() {
+    var tag = $("ul.tagControls > li > select").val();
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+      if (req.readyState == 4 && req.status == 200) {
+    	var tagClass = tag.toLowerCase();
+    	var tagName = tag.toUpperCase();
+    	var tagElement = $('<li class="' + tagClass + '">' + tagName + '</li>');
+    	tagElement.hide();
+        $("ul.tags")
+            .append(tagElement);
+        tagElement.fadeIn();
+      }
+    };
     var uri = ADD_TAG_URL_WITHOUT_TAG + tag;
     req.open("POST", uri, true);
     req.send();

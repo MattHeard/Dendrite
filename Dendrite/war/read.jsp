@@ -169,8 +169,11 @@ if (isPageInStore == true) {
         %>
       <img id="avatar" src="avatars/${avatarId}.png" />
       <div class="clear"></div>
-      <script>var ADD_TAG_URL_WITHOUT_TAG = "/addTag?<%
-            %>p=<%= view.getPageId() %>&tag=";</script>
+      <script>
+        var ADD_TAG_URL_WITHOUT_TAG = "/addTag?p=<%= view.getPageId() %>&tag=";
+        var REMOVE_TAG_URL_WITHOUT_TAG = "/removeTag?p=<%
+            %><%= view.getPageId() %>&tag=";
+        </script>
       <ul class="tags"><%
       
         final List<String> tags = view.getTags();
@@ -183,6 +186,8 @@ if (isPageInStore == true) {
         }
       
         %>
+      </ul>
+      <ul class="tagControls">
         <li class="add">＋</li>
         <li class="cancel">Cancel</li>
         <li class="ok">OK</li>

@@ -155,6 +155,14 @@ input[type=radio]+label>img {
 }
 
 ul.tags {
+	margin-bottom: 0px;
+}
+
+ul.tagControls {
+	margin-bottom: 30px;
+}
+
+ul.tags, ul.tagControls {
 	float: right;
 	
 	width: 100%;
@@ -164,10 +172,9 @@ ul.tags {
 	text-align: right;
 	
 	padding: 0px;
-	margin-bottom: 30px;
 }
 
-ul.tags > li {
+ul.tags > li, ul.tagControls > li {
 	float: right;
 	
     color: #fff;
@@ -179,17 +186,17 @@ ul.tags > li {
 	margin-left: 10px;
 }
 
-ul.tags > li > select, ul.tags > li.ok, ul.tags > li.cancel {
+ul.tagControls > li.select, ul.tagControls > li.ok, ul.tagControls > li.cancel {
 	display: none;
 }
 
-ul.tags > li.select {
+ul.tagControls > li.select {
 	height: 26px;
 	
 	margin-right: 5px;
 }
 
-ul.tags > li > select {
+ul.tagControls > li > select {
     border-color: #ccc;
     
     background: transparent;
@@ -200,11 +207,11 @@ ul.tags > li > select {
     margin-top: -1px;
 }
 
-ul.tags > li.add, ul.tags > li.cancel {
+ul.tagControls > li.add, ul.tagControls > li.cancel {
 	clear: both;
 }
 
-ul.tags > li.add, ul.tags > li.ok, ul.tags > li.cancel {
+ul.tagControls > li.add, ul.tagControls > li.ok, ul.tagControls > li.cancel {
 	color: #000;
 	border-color: #ccc;
 	font-weight: 900;
@@ -213,15 +220,13 @@ ul.tags > li.add, ul.tags > li.ok, ul.tags > li.cancel {
 	margin-left: 5px;
 }
 
-ul.tags > li.add:hover, ul.tags > li.ok:hover, ul.tags > li.cancel:hover,
-    ul.tags > li > select:hover {
+ul.tagControls > :hover {
 	color: #333;
 	background-color: #ccc;
 	border-color: #999;
 }
 
-ul.tags > li.add:after, ul.tags > li.ok:after, ul.tags > li.cancel:after,
-ul.tags > li.select:after {
+ul.tagControls > :after {
 	content: none;
 }
 

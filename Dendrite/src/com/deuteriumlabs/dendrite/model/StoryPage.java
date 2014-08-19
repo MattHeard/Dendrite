@@ -928,7 +928,7 @@ public class StoryPage extends Model {
 		}
 	}
 
-	public void removeTag(final String tag) {
+	public boolean removeTag(final String tag) {
 		final List<String> tags = this.getTags();
 		boolean isUpdateNeeded = false;
 		while (tags.contains(tag)) {
@@ -937,6 +937,9 @@ public class StoryPage extends Model {
 		}
 		if (isUpdateNeeded) {
 			this.setTags(tags);
+			return true;
+		} else {
+			return false;
 		}
 	}
 }
