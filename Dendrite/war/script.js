@@ -350,6 +350,10 @@ function initTagButtons() {
     $("ul.tags > li.ok").add("ul.tags > li > select")
         .add("ul.tags > li.cancel").hide();
   });
+  
+  $("ul.tags > li").after().click(function() {
+    $(this).before().hide();
+  })
 }
 
 function init() {
