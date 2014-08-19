@@ -9,6 +9,7 @@ public class FolloweeNewNotification extends Notification {
     private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
 	private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
 	private static final String TITLE_PROPERTY = "title";
+	private static final String TYPE = "FolloweeNewNotification";
 	
 	private static String getAuthorIdFromEntity(final Entity entity) {
 		String propertyName = NEW_AUTHOR_ID_PROPERTY;
@@ -53,7 +54,7 @@ public class FolloweeNewNotification extends Notification {
         final String title = this.getTitle();
         final PageId pgId = this.getPgId();
         final String msg;
-        msg = name + " started the story '" + title + "' at " + pgId + ".";
+        msg = name + " started the story '" + title + "' at page " + pgId + ".";
 		return msg;
     }
 
@@ -127,6 +128,13 @@ public class FolloweeNewNotification extends Notification {
 		this.setAuthorNameInEntity(entity);
 		this.setPgIdInEntity(entity);
 		this.setTitleInEntity(entity);
+		setTypeInEntity(entity);
+	}
+
+    private static void setTypeInEntity(final Entity entity) {
+    	final String type = getType();
+    	String propertyName = Notification.getTypePropertyName();
+		entity.setProperty(propertyName, type);
 	}
 
 	private void setTitleInEntity(final Entity entity) {
@@ -154,5 +162,9 @@ public class FolloweeNewNotification extends Notification {
 
 	private String getAuthorId() {
 		return this.authorId;
+	}
+
+	public static String getType() {
+		return TYPE;
 	}
 }

@@ -29,6 +29,8 @@ public class Notification extends Model {
     private static final String KIND_NAME = "Notification";
     private static final String RECIPIENT_ID_PROPERTY = "recipient";
     private static final String TIME_PROPERTY = "time";
+	private static final String TYPE_PROPERTY = "type";
+	private static final String TYPE = "Notification";
 
     /**
      * @param id
@@ -96,6 +98,10 @@ public class Notification extends Model {
         return notifications;
     }
     
+    public static String getType() {
+    	return TYPE;
+    }
+    
     /**
      * @param entities
      * @return
@@ -105,26 +111,21 @@ public class Notification extends Model {
         final List<Notification> notifications = new ArrayList<Notification>();
         for (final Entity entity : entities) {
             final Notification notification;
-            final String LOVER_ID_PROPERTY;
-            LOVER_ID_PROPERTY = PgLovedNotification.LOVER_ID_PROPERTY;
-            final String CHILD_AUTHOR_ID_PROPERTY =
-            		PgChildNotification.CHILD_AUTHOR_ID_PROPERTY;
-            final String REWRITE_AUTHOR_ID_PROPERTY =
-            		PgRewriteNotification.REWRITE_AUTHOR_ID_PROPERTY;
-            final String FOLLOWER_ID_PROPERTY;
-            FOLLOWER_ID_PROPERTY = FollowNotification.FOLLOWER_ID_PROPERTY;
-            final String NEW_AUTHOR_ID_PROPERTY =
-            		FolloweeNewNotification.NEW_AUTHOR_ID_PROPERTY;
-			if (entity.hasProperty(LOVER_ID_PROPERTY) == true) {
-                notification = new PgLovedNotification(entity);
-            } else if (entity.hasProperty(CHILD_AUTHOR_ID_PROPERTY) == true) {
-            	notification = new PgChildNotification(entity);
-            } else if (entity.hasProperty(REWRITE_AUTHOR_ID_PROPERTY) == true) {
-            	notification = new PgRewriteNotification(entity);
-            } else if (entity.hasProperty(FOLLOWER_ID_PROPERTY) == true) {
-            	notification = new FollowNotification(entity);
-            } else if (entity.hasProperty(NEW_AUTHOR_ID_PROPERTY) == true) {
-            	notification = new FolloweeNewNotification(entity);
+            if (entity.hasProperty(TYPE_PROPERTY) == true) {
+            	final String type = (String) entity.getProperty(TYPE_PROPERTY);
+            	if (FolloweeNewNotification.getType().equals(type)) {
+            		notification = new FolloweeNewNotification(entity);
+            	} else if (FollowNotification.getType().equals(type)) {
+            		notification = new FollowNotification(entity);
+            	} else if (PgChildNotification.getType().equals(type)) {
+            		notification = new PgChildNotification(entity);
+            	} else if (PgLovedNotification.getType().equals(type)) {
+            		notification = new PgLovedNotification(entity);
+            	} else if (PgRewriteNotification.getType().equals(type)) {
+            		notification = new PgRewriteNotification(entity);
+            	} else {
+	                notification = new Notification(entity);
+	            }
             } else {
                 notification = new Notification(entity);
             }
@@ -334,7 +335,7 @@ public class Notification extends Model {
         this.setIsNewInEntity(entity);
     }
 
-    /**
+	/**
      * @param id
      */
     public void setRecipientId(final String id) {
@@ -396,5 +397,9 @@ public class Notification extends Model {
         final DatastoreService store = getStore();
         store.delete(key);
     }
+
+	public static String getTypePropertyName() {
+		return TYPE_PROPERTY;
+	}
 
 }

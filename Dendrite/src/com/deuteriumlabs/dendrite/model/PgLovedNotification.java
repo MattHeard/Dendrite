@@ -13,6 +13,7 @@ public class PgLovedNotification extends Notification {
     public static final String LOVER_ID_PROPERTY = "loverId";
     private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
     private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
+	private static final String TYPE = "PgLovedNotification";
     
     private String loverId;
     private PageId pgId;
@@ -149,5 +150,16 @@ public class PgLovedNotification extends Notification {
         super.setPropertiesInEntity(entity);
         this.setPgIdInEntity(entity);
         this.setLoverIdInEntity(entity);
+		setTypeInEntity(entity);
+	}
+
+    private static void setTypeInEntity(final Entity entity) {
+    	final String type = getType();
+    	String propertyName = Notification.getTypePropertyName();
+		entity.setProperty(propertyName, type);
+	}
+    
+    public static String getType() {
+    	return TYPE;
     }
 }

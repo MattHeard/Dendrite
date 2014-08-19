@@ -5,6 +5,8 @@ import com.google.appengine.api.datastore.Entity;
 public class FollowNotification extends Notification {
 
 	static final String FOLLOWER_ID_PROPERTY = "followerId";
+
+	private static final String TYPE = "FollowNotification";
 	
 	private String followerId;
 
@@ -56,12 +58,21 @@ public class FollowNotification extends Notification {
 	void setPropertiesInEntity(final Entity entity) {
 		super.setPropertiesInEntity(entity);
 		this.setFollowerIdInEntity(entity);
+		setTypeInEntity(entity);
+	}
+
+    private static void setTypeInEntity(final Entity entity) {
+    	final String type = getType();
+    	String propertyName = Notification.getTypePropertyName();
+		entity.setProperty(propertyName, type);
 	}
 
 	private void setFollowerIdInEntity(final Entity entity) {
 		final String id = this.getFollowerId();
 		entity.setProperty(FOLLOWER_ID_PROPERTY, id);
 	}
-
-	
+    
+    public static String getType() {
+    	return TYPE;
+    }
 }

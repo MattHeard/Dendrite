@@ -14,6 +14,7 @@ public class PgRewriteNotification extends Notification {
     private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
 	private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
 	public static final String REWRITE_AUTHOR_ID_PROPERTY = "rewriteAuthorId";
+	private static final String TYPE = "PgRewriteNotification";
 	
 	private static int getPgIdNumFromEntity(final Entity entity) {
         final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
@@ -118,6 +119,13 @@ public class PgRewriteNotification extends Notification {
 		super.setPropertiesInEntity(entity);
 		this.setPgIdInEntity(entity);
 		this.setRewriteAuthorIdInEntity(entity);
+		setTypeInEntity(entity);
+	}
+
+    private static void setTypeInEntity(final Entity entity) {
+    	final String type = getType();
+    	String propertyName = Notification.getTypePropertyName();
+		entity.setProperty(propertyName, type);
 	}
 
     /**
@@ -131,4 +139,8 @@ public class PgRewriteNotification extends Notification {
     	final String id = this.getRewriteAuthorId();
     	entity.setProperty(REWRITE_AUTHOR_ID_PROPERTY, id);
 	}
+    
+    public static String getType() {
+    	return TYPE;
+    }
 }
