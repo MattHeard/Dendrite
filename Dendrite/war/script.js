@@ -351,7 +351,8 @@ function initTagButtons() {
         .add("ul.tags > li.cancel").hide();
   });
   
-  $("ul.tags > li").after().click(function() {
+  $("ul.tags > li").not(".ok").not(".cancel").not(".select").after()
+      .click(function() {
     $(this).before().fadeOut();
   })
 }
