@@ -29,9 +29,10 @@ while (view.hasAnotherNotification() == true) {
     
     %>
       <li class="notificationItem"
-          id="notification<%= id %>"><%= text %></li>
-      <div class="notificationDelete"
-          id="notificationDelete<%= id %>">×</div><%
+          id="notification<%= id %>"><%= text %>
+        <img id="notificationDelete<%= id %>"
+            class="notificationDelete"
+            src="/icons/close_notification.png" /></li><%
     
 }
     
