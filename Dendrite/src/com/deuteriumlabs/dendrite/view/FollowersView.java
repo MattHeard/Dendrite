@@ -134,7 +134,7 @@ public class FollowersView extends View {
     	final PageContext pageContext = this.getPageContext();
     	pageContext.setAttribute("followerName", name);
     	
-    	final String url = "/followers?id=" + id;
+    	final String url = "/author?id=" + id;
     	pageContext.setAttribute("followerProfileUrl", url);
     	
     	final int avatarId = follower.getAvatarId();
