@@ -340,21 +340,42 @@ function initFollowButtons() {
 
 function initTagButtons() {
   $("ul.tags > li.add").click(function() {
-    $("ul.tags > li.ok").add("ul.tags > li > select")
-        .add("ul.tags > li.cancel").show();
+    $("ul.tags > li.ok")
+        .add("ul.tags > li > select")
+        .add("ul.tags > li.cancel")
+        .show();
     $("ul.tags > li.add").hide();
   });
   
   $("ul.tags > li.ok").add("ul.tags > li.cancel").click(function() {
     $("ul.tags > li.add").show();
-    $("ul.tags > li.ok").add("ul.tags > li > select")
-        .add("ul.tags > li.cancel").hide();
+    $("ul.tags > li.ok")
+        .add("ul.tags > li > select")
+        .add("ul.tags > li.cancel")
+        .hide();
   });
   
-  $("ul.tags > li").not(".ok").not(".cancel").not(".select").after()
+  $("ul.tags > li")
+      .not(".ok")
+      .not(".cancel")
+      .not(".select")
+       .after()
       .click(function() {
     $(this).before().fadeOut();
-  })
+  });
+  
+  $("ul.tags > li.ok").click(function() {
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+      if (req.readyState == 4 && req.status == 200) {
+        // TODO: Update tag list.
+      }
+    };
+    var tag = $("ul.tags > li > select").val();
+    var uri = ADD_TAG_URL_WITHOUT_TAG + tag;
+    req.open("POST", uri, true);
+    req.send();
+  });
 }
 
 function init() {

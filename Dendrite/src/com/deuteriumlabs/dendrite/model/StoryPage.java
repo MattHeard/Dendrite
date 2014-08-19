@@ -916,12 +916,15 @@ public class StoryPage extends Model {
         return "{ " + id + ": " + summary + " }";
     }
 
-	public void addTag(final String tag) {
+	public boolean addTag(final String tag) {
 		final List<String> tags = this.getTags();
 		final boolean isDuplicate = tags.contains(tag);
 		if (isDuplicate == false) {
 			tags.add(tag);
 			this.setTags(tags);
+			return true;
+		} else {
+			return false;
 		}
 	}
 

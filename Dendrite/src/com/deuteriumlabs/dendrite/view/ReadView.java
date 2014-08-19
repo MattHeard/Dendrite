@@ -275,4 +275,16 @@ public class ReadView extends View {
             return "";
         }
     }
+    
+    public void prepareTag(final String tag) {
+    	final PageContext pageContext = this.getPageContext();
+    	pageContext.setAttribute("tagClass", tag.toLowerCase());
+    	pageContext.setAttribute("tagName", tag.toUpperCase());
+    }
+    
+    public List<String> getTags() {
+    	final StoryPage pg = this.getPage();
+    	final List<String> tags = pg.getTags();
+    	return tags;
+    }
 }

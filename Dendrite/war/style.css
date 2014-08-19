@@ -220,7 +220,8 @@ ul.tags > li.add:hover, ul.tags > li.ok:hover, ul.tags > li.cancel:hover,
 	border-color: #999;
 }
 
-ul.tags > li.add:after, ul.tags > li.ok:after, ul.tags > li.cancel:after {
+ul.tags > li.add:after, ul.tags > li.ok:after, ul.tags > li.cancel:after,
+ul.tags > li.select:after {
 	content: none;
 }
 
