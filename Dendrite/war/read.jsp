@@ -168,6 +168,47 @@ if (isPageInStore == true) {
         
         %>
       <img id="avatar" src="avatars/${avatarId}.png" />
+      <div class="clear"></div>
+      <ul class="tags">
+        <li class="scifi">SCIFI</li>
+        <li class="western">WESTERN</li>
+        <li class="romance">ROMANCE</li>
+        <li class="fanfic">FANFIC</li>
+        <li class="action">ACTION</li>
+        <li class="adventure">ADVENTURE</li>
+        <li class="comedy">COMEDY</li>
+        <li class="crime">CRIME</li>
+        <li class="drama">DRAMA</li>
+        <li class="erotic">EROTIC</li>
+        <li class="fantasy">FANTASY</li>
+        <li class="historical">HISTORICAL</li>
+        <li class="horror">HORROR</li>
+        <li class="inspirational">INSPIRATIONAL</li>
+        <li class="mystery">MYSTERY</li>
+        <li class="political">POLITICAL</li>
+        <li class="religious">RELIGIOUS</li>
+        <li class="thriller">THRILLER</li>
+        <li class="add">＋</li>
+        <li class="cancel">Cancel</li>
+        <li class="ok">OK</li>
+        <li class="select">
+          <select><%
+          
+final String[] tags = { "SCIFI", "WESTERN", "ROMANCE", "FANFIC", "ACTION",
+    "ADVENTURE", "COMEDY", "CRIME", "DRAMA", "EROTIC", "FANTASY", "HISTORICAL",
+    "HORROR", "INSPIRATIONAL", "MYSTERY", "POLITICAL", "RELIGIOUS",
+    "THRILLER" };
+for (final String tag : tags) {
+	
+	%>
+            <option><%= tag %></option><%
+	
+}
+          
+          %>
+          </select>
+        </li>
+      </ul>
       <div class="clear"></div><%
       
       if (isUserLoggedIn) {

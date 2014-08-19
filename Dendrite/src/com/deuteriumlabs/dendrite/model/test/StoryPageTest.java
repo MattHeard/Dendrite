@@ -19,6 +19,9 @@ public class StoryPageTest {
     private static final String DUMMY_NEW_TEXT = "Dummy new text";
     private static final String DUMMY_TEXT = "Dummy text";
 	private static final String DUMMY_TAG = "horror";
+	private static final String SCIFI_TAG = "scifi";
+	private static final String WESTERN_TAG = "western";
+	private static final String FANFIC_TAG = "fanfic";
 
     private static void createDummyStoryPage() {
         final PageId id = getDummyPageId();
@@ -140,6 +143,30 @@ public class StoryPageTest {
     	expected = new ArrayList<String>();
     	actual = pg.getTags();
     	msg = "There should be an empty tags list.";
+    	assertEquals(msg, expected, actual);
+    }
+    
+    @Test
+    public final void testGetTags() {
+    	final PageId id = getDummyPageId();
+    	StoryPage pg = new StoryPage();
+    	pg.setId(id);
+    	pg.setText(DUMMY_TEXT);
+    	pg.addTag(SCIFI_TAG);
+    	pg.addTag(WESTERN_TAG);
+    	pg.addTag(FANFIC_TAG);
+    	pg.create();
+    	
+    	pg = new StoryPage();
+    	pg.setId(id);
+    	pg.read();
+    	
+    	List<String> expected = new ArrayList<String>();
+    	expected.add(SCIFI_TAG);
+    	expected.add(WESTERN_TAG);
+    	expected.add(FANFIC_TAG);
+    	List<String> actual = pg.getTags();
+    	String msg = "There should be three tags: scifi, western, and fanfic.";
     	assertEquals(msg, expected, actual);
     }
 

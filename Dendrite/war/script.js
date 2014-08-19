@@ -338,10 +338,25 @@ function initFollowButtons() {
   });
 }
 
+function initTagButtons() {
+  $("ul.tags > li.add").click(function() {
+    $("ul.tags > li.ok").add("ul.tags > li > select")
+        .add("ul.tags > li.cancel").show();
+    $("ul.tags > li.add").hide();
+  });
+  
+  $("ul.tags > li.ok").add("ul.tags > li.cancel").click(function() {
+    $("ul.tags > li.add").show();
+    $("ul.tags > li.ok").add("ul.tags > li > select")
+        .add("ul.tags > li.cancel").hide();
+  });
+}
+
 function init() {
   preventEnterFromSubmittingForms();
   initTextEntryFields();
   initLoveButton();
   initNotificationDeletion();
   initFollowButtons();
+  initTagButtons();
 }

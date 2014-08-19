@@ -154,6 +154,176 @@ input[type=radio]+label>img {
 	padding: 0px;
 }
 
+ul.tags {
+	float: right;
+	
+	width: 100%;
+	
+	font-size: 12px;
+	list-style-type: none;
+	text-align: right;
+	
+	padding: 0px;
+	margin-bottom: 30px;
+}
+
+ul.tags > li {
+	float: right;
+	
+    color: #fff;
+	border: 1px solid;
+	border-radius: 5px;
+	
+	padding: 0px 5px;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+ul.tags > li > select, ul.tags > li.ok, ul.tags > li.cancel {
+	display: none;
+}
+
+ul.tags > li.select {
+	height: 26px;
+	
+	margin-right: 5px;
+}
+
+ul.tags > li > select {
+    border-color: #ccc;
+    
+    background: transparent;
+    height: 26px;
+    width: 100%;
+    text-align: right;
+    
+    margin-top: -1px;
+}
+
+ul.tags > li.add, ul.tags > li.cancel {
+	clear: both;
+}
+
+ul.tags > li.add, ul.tags > li.ok, ul.tags > li.cancel {
+	color: #000;
+	border-color: #ccc;
+	font-weight: 900;
+	cursor: pointer;
+	
+	margin-left: 5px;
+}
+
+ul.tags > li.add:hover, ul.tags > li.ok:hover, ul.tags > li.cancel:hover,
+    ul.tags > li > select:hover {
+	color: #333;
+	background-color: #ccc;
+	border-color: #999;
+}
+
+ul.tags > li.add:after, ul.tags > li.ok:after, ul.tags > li.cancel:after {
+	content: none;
+}
+
+ul.tags > li.western {
+	background-color: #963;
+	border-color: #960;
+}
+
+ul.tags > li.scifi {
+    background-color: #369;
+    border-color: #36c;
+}
+
+ul.tags > li.drama {
+    background-color: #939;
+    border-color: #93c;
+}
+
+ul.tags > li.romance {
+    background-color: #f69;
+    border-color: #f6c;
+}
+
+ul.tags > li.erotic {
+    background-color: #900;
+    border-color: #903;
+}
+
+ul.tags > li.fantasy {
+    background-color: #096;
+    border-color: #093;
+}
+
+ul.tags > li.horror {
+    background-color: #333;
+    border-color: #666;
+}
+
+ul.tags > li.thriller {
+    background-color: #666;
+    border-color: #999;
+}
+
+ul.tags > li.comedy {
+    color: #000;
+    background-color: #fc3;
+    border-color: #fc6;
+}
+
+ul.tags > li.historical {
+    background-color: #c96;
+    border-color: #c99;
+}
+
+ul.tags > li.adventure {
+    background-color: #f63;
+    border-color: #f66;
+}
+
+ul.tags > li.religious {
+    color: #000;
+    background-color: #c9f;
+    border-color: #c9c;
+}
+
+ul.tags > li.action {
+    background-color: #c00;
+    border-color: #c03;
+}
+
+ul.tags > li.crime {
+    color: #000;
+    background-color: #ff0;
+    border-color: #ff3;
+}
+
+ul.tags > li.mystery {
+    background-color: #306;
+    border-color: #309;
+}
+
+ul.tags > li.political {
+    background-color: #060;
+    border-color: #063;
+}
+
+ul.tags > li.inspirational {
+    background-color: #09c;
+    border-color: #09f;
+}
+
+ul.tags > li.fanfic {
+    color: #000;
+    background-color: #0f6;
+    border-color: #0f9;
+}
+
+ul.tags > li:after {
+	content: '×';
+	
+	margin-left: 5px;
+}
+
 body {
 	line-height: 1.5em;
 	text-align: justify;
