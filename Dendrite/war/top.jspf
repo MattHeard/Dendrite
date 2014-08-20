@@ -79,7 +79,7 @@ if (userTheme.equals("Light") == false && userTheme != null) {
               alt="Dendrite"
               title="Dendrite"
               height="70px"
-              src="logo/<%
+              src="/img/logo/2014-08-20-0/<%
           
 if (userTheme != null && userTheme.equals("Light") == false) {
           
