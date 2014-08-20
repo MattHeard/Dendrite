@@ -29,7 +29,8 @@ view.initialise();
 %><%@include file="top.jspf" %><%
 
 %>
-        <h2>${fn:escapeXml(bodyMainTitle)}</h2><%
+        <h2>${fn:escapeXml(bodyMainTitle)}</h2>
+        <ul id="contents"><%
 
 // Display the links to the stories which have already been written. Only ten
 // links are shown at one time.
@@ -38,16 +39,16 @@ for (final Link link : view.getLinks()) {
 	view.prepareLink(link);
 	
 	%>
-        <div class="item">
+        <li class="item">
           <div class="itemContent"><a
               href="${fn:escapeXml(link)}">${fn:escapeXml(title)}</a></div>
           <div class="itemNumber">${fn:escapeXml(pageNumber)}</div>
-          <div class="clear"></div>
-        </div><%
+        </li><%
         
 }
     
 %>
+        </ul>
         <p><%
     
 final boolean isFirstPage = view.isFirstPage();
