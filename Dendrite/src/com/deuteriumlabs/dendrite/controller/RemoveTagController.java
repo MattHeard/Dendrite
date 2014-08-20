@@ -4,24 +4,21 @@ import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 import com.deuteriumlabs.dendrite.model.User;
 
-public class AddTagController {
+public class RemoveTagController {
 
 	private PageId pgId;
 	private String tag;
 
-	public boolean addTag() {
+	public void removeTag() {
 		final StoryPage pg = this.getStoryPg();
 		final String tag = this.getTag();
-		final boolean isTagAdded = pg.addTag(tag);
-		if (isTagAdded) {
+		final boolean isTagRemoved = pg.removeTag(tag);
+		if (isTagRemoved) {
 			pg.update();
 			final boolean isPgAuthorCurrentUser = isPgAuthorCurrentUser();
 			if (isPgAuthorCurrentUser == false) {
 				this.notifyAuthor();
 			}
-			return true;
-		} else {
-			return false;
 		}
 	}
 

@@ -8,10 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.deuteriumlabs.dendrite.model.PageId;
 
-public class AddTagServlet extends DendriteServlet {
+public class RemoveTagServlet extends DendriteServlet {
     
+	private static final long serialVersionUID = 3945779238617014034L;
 	private static final String PG_ID_PARAMETER_NAME = "p";
-	private static final long serialVersionUID = 3295021739229957210L;
 	private static final String TAG_PARAMETER_NAME = "tag";
 	
 	private PageId pgId;
@@ -23,6 +23,7 @@ public class AddTagServlet extends DendriteServlet {
     protected void doPost(final HttpServletRequest req,
             final HttpServletResponse resp) throws ServletException,
             IOException {
+		System.out.println("Request received.");
 		this.setReq(req);
 		this.setResp(resp);
 		this.extractParameters();
@@ -35,15 +36,12 @@ public class AddTagServlet extends DendriteServlet {
 			if (isTagValid == false) {
 				this.returnFailure();
 			} else {
-				final AddTagController controller = new AddTagController();
+				final RemoveTagController controller;
+				controller = new RemoveTagController();
 				controller.setPgId(pgId);
 				controller.setTag(tag);
-				final boolean isAdded = controller.addTag();
-				if (isAdded) {
-					this.returnOk();
-				} else {
-					this.returnFailure();
-				}
+				controller.removeTag();
+				this.returnOk();
 			}
 		}
     }

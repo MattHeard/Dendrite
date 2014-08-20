@@ -186,25 +186,26 @@ ul.tags > li, ul.tagControls > li {
 	margin-left: 10px;
 }
 
+ul.tagControls > li.select {
+	color: transparent;
+	border: 0px;
+	margin-right: 10px;
+}
+
 ul.tagControls > li.select, ul.tagControls > li.ok, ul.tagControls > li.cancel {
 	display: none;
 }
 
-ul.tagControls > li.select {
-	height: 26px;
-	
-	margin-right: 5px;
-}
-
 ul.tagControls > li > select {
     border-color: #ccc;
+    -webkit-appearance: menulist-button;
+    line-height: 24px;
     
     background: transparent;
     height: 26px;
     width: 100%;
-    text-align: right;
     
-    margin-top: -1px;
+    margin-right: 10px;
 }
 
 ul.tagControls > li.add, ul.tagControls > li.cancel {
@@ -220,7 +221,7 @@ ul.tagControls > li.add, ul.tagControls > li.ok, ul.tagControls > li.cancel {
 	margin-left: 5px;
 }
 
-ul.tagControls > :hover {
+ul.tagControls > :not(.select):hover {
 	color: #333;
 	background-color: #ccc;
 	border-color: #999;
@@ -835,10 +836,6 @@ ul#notificationList, ul#followerList {
 #notifications.noNewNotifications {
 	background-color: #ccc;
 	color: #fff;
-}
-
-.notificationItem {
-	float: left;
 }
 
 .notificationDelete {

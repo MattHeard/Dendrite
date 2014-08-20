@@ -338,6 +338,9 @@ function initFollowButtons() {
   });
 }
 
+function handleRemoveTagClick() {
+}
+
 function initTagButtons() {
   $("ul.tagControls > li.add").click(function() {
     $("ul.tagControls > li.ok")
@@ -356,18 +359,19 @@ function initTagButtons() {
   });
   
   $("ul.tags > li")
-       .after()
+      .after()
       .click(function() {
+    var tagElement = $(this);
     var req = new XMLHttpRequest();
     req.onreadystatechange = function() {
       if (req.readyState == 4 && req.status == 200) {
+        tagElement.before().fadeOut();
       }
     };
     var tag = $(this).before().text();
     var uri = REMOVE_TAG_URL_WITHOUT_TAG + tag;
     req.open("POST", uri, true);
     req.send();
-    $(this).before().fadeOut();
   });
   
   $("ul.tagControls > li.ok").click(function() {
@@ -379,6 +383,20 @@ function initTagButtons() {
     	var tagName = tag.toUpperCase();
     	var tagElement = $('<li class="' + tagClass + '">' + tagName + '</li>');
     	tagElement.hide();
+    	
+    	tagElement.after().click(function() {
+    	  var req = new XMLHttpRequest();
+    	  req.onreadystatechange = function() {
+    	    if (req.readyState == 4 && req.status == 200) {
+	          tagElement.fadeOut();
+		    }
+		  };
+		  var tag = $(this).before().text();
+		  var uri = REMOVE_TAG_URL_WITHOUT_TAG + tag;
+		  req.open("POST", uri, true);
+		  req.send();
+    	});
+    	
         $("ul.tags")
             .append(tagElement);
         tagElement.fadeIn();
