@@ -96,5 +96,4 @@ public class StoryBeginningTest {
         final String message = "The changed story title was not correct.";
         assertEquals(message, expected, actual);
     }
-
 }

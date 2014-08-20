@@ -212,6 +212,10 @@ public class ContentsView extends View {
         pageContext.setAttribute("title", text);
         final String number = link.number;
         pageContext.setAttribute("pageNumber", number);
+        final StoryBeginning beginning = new StoryBeginning();
+        beginning.setPageNumber(Integer.parseInt(number));
+        final int size = beginning.getSize();
+        pageContext.setAttribute("size", size);
     }
 
     public void prepareNextPageNum() {

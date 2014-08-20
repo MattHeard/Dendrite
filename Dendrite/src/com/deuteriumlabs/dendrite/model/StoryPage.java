@@ -77,7 +77,7 @@ public class StoryPage extends Model {
      * @param less
      * @return
      */
-    private static int countSubtreeBetween(final String greater,
+    static int countSubtreeBetween(final String greater,
             final String less) {
         final Query query = new Query(KIND_NAME);
         final String propertyName = ANCESTRY_PROPERTY;

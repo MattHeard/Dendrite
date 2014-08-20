@@ -20,7 +20,8 @@ public class SubmitRewriteServlet extends SubmitServlet {
             final HttpServletResponse resp)
                     throws ServletException, IOException {
         this.setResponse(resp);
-        final SubmitRewriteController controller = new SubmitRewriteController();
+        final SubmitRewriteController controller;
+        controller = new SubmitRewriteController();
         final HttpSession session = req.getSession();
         controller.setSession(session);
         controller.startDraft();

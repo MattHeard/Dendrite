@@ -10,6 +10,12 @@ public class SubmitWriteController extends SubmitController {
     private int linkIndex;
 
     @Override
+	public void buildNewPage() {
+		super.buildNewPage();
+        this.recalculateStorySize();
+	}
+
+    @Override
     void buildStoryPage() {
         final StoryPage page = new StoryPage();
         this.addStoryPageValues(page);

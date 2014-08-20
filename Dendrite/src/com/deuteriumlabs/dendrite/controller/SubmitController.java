@@ -7,6 +7,7 @@ import java.util.Random;
 import javax.servlet.http.HttpSession;
 
 import com.deuteriumlabs.dendrite.model.PageId;
+import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryOption;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 
@@ -57,6 +58,19 @@ public abstract class SubmitController {
      */
     protected StoryPage getParent() {
         return this.parent;
+    }
+    
+    protected void recalculateStorySize() {
+    	final PageId pgId = this.getId();
+    	final StoryPage pg = new StoryPage();
+    	pg.setId(pgId);
+    	pg.read();
+    	final StoryBeginning beginning = new StoryBeginning();
+    	final PageId beginningId = pg.getBeginning();
+    	beginning.setPageNumber(beginningId.getNumber());
+    	beginning.read();
+    	beginning.recalculateSize();
+    	beginning.update();
     }
 
     public void buildNewPage() {

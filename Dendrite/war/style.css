@@ -786,7 +786,7 @@ input,textarea {
 
 .itemContent {
 	float: left;
-	max-width: 89%;
+	width: 89%;
 }
 
 .itemNumber {

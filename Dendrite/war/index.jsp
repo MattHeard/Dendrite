@@ -43,6 +43,8 @@ for (final Link link : view.getLinks()) {
           <div class="itemContent"><a
               href="${fn:escapeXml(link)}">${fn:escapeXml(title)}</a></div>
           <div class="itemNumber">${fn:escapeXml(pageNumber)}</div>
+          <div class="clear"></div>
+          <!-- ${size} -->
         </li><%
         
 }

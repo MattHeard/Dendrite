@@ -11,6 +11,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 /**
  * Represents the beginning of a story. <code>StoryBeginning</code> instances
@@ -21,6 +22,7 @@ public class StoryBeginning extends Model {
     private static final String KIND_NAME = "StoryBeginning";
     private static final String PAGE_NUMBER_PROPERTY = "pageNumber";
     private static final String TITLE_PROPERTY = "title";
+	private static final String SIZE_PROPERTY = "size";
 
     /**
      * Returns a subsection of the list of all beginnings. This is particularly
@@ -32,6 +34,7 @@ public class StoryBeginning extends Model {
     public static List<StoryBeginning> getBeginnings(final int start, 
             final int end) {
         final Query query = new Query(KIND_NAME);
+        query.addSort(SIZE_PROPERTY, SortDirection.DESCENDING);
         query.addSort(PAGE_NUMBER_PROPERTY);
         final DatastoreService store = getStore();
         final PreparedQuery preparedQuery = store.prepare(query);
@@ -92,6 +95,7 @@ public class StoryBeginning extends Model {
 
     private int pageNumber;
     private String title;
+	private int size;
 
     /**
      * Default constructor. Explicitly defined because of the other constructor.
@@ -158,9 +162,24 @@ public class StoryBeginning extends Model {
     void readPropertiesFromEntity(final Entity entity) {
         this.readPageNumberFromEntity(entity);
         this.readTitleFromEntity(entity);
+        this.readSizeFromEntity(entity);
     }
 
-    /**
+    private void readSizeFromEntity(final Entity entity) {
+    	final int size = getSizeFromEntity(entity);
+    	this.setSize(size);
+	}
+
+	private int getSizeFromEntity(final Entity entity) {
+        final Long size = (Long) entity.getProperty(SIZE_PROPERTY);
+        if (size != null) {
+        	return size.intValue();
+        } else {
+        	return 0;
+        }
+	}
+
+	/**
      * Reads the value from the entity corresponding to the title of this story.
      * @param entity The entity storing the title
      */
@@ -197,9 +216,22 @@ public class StoryBeginning extends Model {
     void setPropertiesInEntity(final Entity entity) {
         this.setPageNumberInEntity(entity);
         this.setTitleInEntity(entity);
+        this.setSizeInEntity(entity);
     }
 
-    /**
+    private void setSizeInEntity(final Entity entity) {
+    	final int size = this.getSize();
+    	entity.setProperty(SIZE_PROPERTY, size);
+	}
+
+	public int getSize() {
+		if (this.size == 0) {
+			this.recalculateSize();
+		}
+		return this.size;
+	}
+
+	/**
      * Sets the title of this story.
      * @param title The title of this story
      */
@@ -224,4 +256,16 @@ public class StoryBeginning extends Model {
         return preparedQuery.countEntities(fetchOptions);
     }
 
+    public void recalculateSize() {
+    	final int num = this.getPageNumber();
+		final String greaterThanOrEqual = num + "`";
+		final String lessThan = num + "{";
+		final int size;
+		size = StoryPage.countSubtreeBetween(greaterThanOrEqual, lessThan);
+    	this.setSize(size);
+    }
+
+	private void setSize(final int size) {
+		this.size = size;
+	}
 }

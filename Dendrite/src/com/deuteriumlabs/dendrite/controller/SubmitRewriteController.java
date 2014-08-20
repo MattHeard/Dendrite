@@ -13,6 +13,12 @@ public class SubmitRewriteController extends SubmitController {
     protected int pageNumber;
 
     @Override
+	public void buildNewPage() {
+		super.buildNewPage();
+        this.recalculateStorySize();
+	}
+
+	@Override
     void buildStoryPage() {
         final StoryPage page = new StoryPage();
         this.addStoryPageValues(page);

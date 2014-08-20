@@ -42,7 +42,6 @@ if (isPageInStore == true) {
             href="/rewrite?p=${fn:escapeXml(pageNumber)}">Rewrite</a></span>
       </div>
       <div class="clear"></div>
-      <!-- <%= view.getChance() %> -->
       <div id="text_body"><%
 
     	//final String text = view.getPageText();
