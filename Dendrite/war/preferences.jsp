@@ -71,10 +71,13 @@ if (isNewPenNameBlank == true) {
           <ul class="radio_list">
             <h4>Font type</h4><%
     
+    final String[] fontTypeStyles = { "Serif", "SansSerif", "Monospace",
+                    "Cursive", "Fantasy" };
     final String[] fontTypeOptions = { "Serif", "Sans-serif", "Monospace",
             "Cursive", "Fantasy" };
     
     for (int i = 0; i < fontTypeOptions.length; i++) {
+        pageContext.setAttribute("fontTypeStyle", fontTypeStyles[i]);
         pageContext.setAttribute("fontTypeOption", fontTypeOptions[i]);
         
     	%>
@@ -95,7 +98,7 @@ if (isNewPenNameBlank == true) {
         %> />
               <label
                   for="fontType${fn:escapeXml(fontTypeOption)}"
-                  class="fontType${fn:escapeXml(fontTypeOption)}"
+                  class="fontType${fn:escapeXml(fontTypeStyle)}"
                   >${fn:escapeXml(fontTypeOption)}</label>
             </li><%
     	
