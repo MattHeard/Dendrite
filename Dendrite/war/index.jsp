@@ -44,7 +44,19 @@ for (final Link link : view.getLinks()) {
               href="${fn:escapeXml(link)}">${fn:escapeXml(title)}</a></div>
           <div class="itemNumber">${fn:escapeXml(pageNumber)}</div>
           <div class="clear"></div>
-          <!-- ${size} -->
+          <ul class="contents tags"><%
+          
+    for (final String tag : ContentsView.getTags(link)) {
+    	view.prepareTag(tag);
+    	
+        %>
+            <li class="${fn:escapeXml(tagClass)}">${fn:escapeXml(tagName)}</li><%
+    	
+    }
+          
+          %>
+          </ul>
+          <div class="clear"></div>
         </li><%
         
 }

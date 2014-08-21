@@ -173,7 +173,7 @@ if (isPageInStore == true) {
         var REMOVE_TAG_URL_WITHOUT_TAG = "/removeTag?p=<%
             %><%= view.getPageId() %>&tag=";
         </script>
-      <ul class="tags"><%
+      <ul class="read tags"><%
       
         final List<String> tags = view.getTags();
         for (String tag : tags) {
@@ -196,7 +196,7 @@ if (isPageInStore == true) {
 final String[] tagNames = { "SCIFI", "WESTERN", "ROMANCE", "FANFIC", "ACTION",
     "ADVENTURE", "COMEDY", "CRIME", "DRAMA", "EROTIC", "FANTASY", "HISTORICAL",
     "HORROR", "INSPIRATIONAL", "MYSTERY", "POLITICAL", "RELIGIOUS",
-    "THRILLER" };
+    "THRILLER", "SPAM" };
 for (final String tag : tagNames) {
 	
 	%>

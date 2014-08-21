@@ -6,7 +6,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 
+import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
+import com.deuteriumlabs.dendrite.model.StoryPage;
 
 /**
  * Represents the table of contents from which the user can select a story to
@@ -18,6 +20,7 @@ public class ContentsView extends View {
         public String number;
         public String text;
         public String url;
+        public String version;
     }
 
     private static final String BODY_MAIN_TITLE = "Table of Contents";
@@ -25,8 +28,24 @@ public class ContentsView extends View {
     private static final int DEFAULT_CONTENTS_PAGE_NUMBER = 1;
     private static final int NUM_STORIES_DISPLAYED = 10;
 
+    private static String convertPgNumAndVersionToUrl(final String num,
+			final String version) {
+		return "/read?p=" + num + version;
+	}
+    
+    public static List<String> getTags(final Link link) {
+    	final String num = link.number;
+    	final String version = link.version;
+    	final PageId id = new PageId(num + version);
+    	final StoryPage pg = new StoryPage();
+    	pg.setId(id);
+    	pg.read();
+    	return pg.getTags();
+    }
     private List<StoryBeginning> beginnings;
+
     private int contentsPageNumber;
+
     private List<Link> links;
 
     /**
@@ -82,10 +101,11 @@ public class ContentsView extends View {
 
     public List<Link> getLinks() {
         if (this.links == null) {
-            final List<String> urls = this.getUrls();
-            final int length = urls.size();
             final List<String> texts = this.getTitles();
             final List<String> numbers = this.getPageNumbers();
+            final List<String> versions = this.getPageVersions();
+            final List<String> urls = this.getUrls(numbers, versions);
+            final int length = texts.size();
 
             final List<Link> links = new ArrayList<Link>();
             for (int i = 0; i < length; i++) {
@@ -93,6 +113,7 @@ public class ContentsView extends View {
                 link.url = urls.get(i);
                 link.text = texts.get(i);
                 link.number = numbers.get(i);
+                link.version = versions.get(i);
                 links.add(link);
             }
 
@@ -130,6 +151,16 @@ public class ContentsView extends View {
         return numbers;
     }
 
+    private List<String> getPageVersions() {
+		final List<String> versions = new ArrayList<String>();
+		List<String> numbers = this.getPageNumbers();
+		for (final String number : numbers) {
+			final String version = specifyVersion(number);
+			versions.add(version);
+		}
+		return versions;
+	}
+
     public String getPrevPageNumber() {
         final int curr = this.getContentsPageNumber();
         int prev = curr - 1;
@@ -138,7 +169,7 @@ public class ContentsView extends View {
         return Integer.toString(prev);
     }
 
-    /**
+	/**
      * Returns the list of titles of all beginnings on this page of contents.
      * 
      * @return The list of titles of all beginnings on this page of contents
@@ -153,7 +184,7 @@ public class ContentsView extends View {
         return titles;
     }
 
-    /*
+	/*
      * (non-Javadoc)
      * 
      * @see com.deuteriumlabs.dendrite.view.View#getUrl()
@@ -163,24 +194,23 @@ public class ContentsView extends View {
         return "/";
     }
 
-    /**
+	/**
      * Returns the list of links to all beginnings on this page of contents.
+	 * @param versions 
+	 * @param numbers 
      * 
      * @return The list of links to all beginnings on this page of contents
      */
-    public List<String> getUrls() {
-        final List<String> links = new ArrayList<String>();
-        List<String> numbers = this.getPageNumbers();
-        for (final String number : numbers) {
-            final String link = convertPgNumToLink(number);
-            links.add(link);
+    public List<String> getUrls(List<String> numbers, List<String> versions) {
+        final List<String> urls = new ArrayList<String>();
+        for (int i = 0; i < numbers.size(); i++) {
+        	final String number = numbers.get(i);
+        	final String version = versions.get(i);
+        	final String url = convertPgNumAndVersionToUrl(number, version);
+        	urls.add(url);
         }
-        return links;
+        return urls;
     }
-
-	private static String convertPgNumToLink(final String num) {
-		return "/read?p=" + num;
-	}
 
     @Override
     public void initialise() {
@@ -212,10 +242,6 @@ public class ContentsView extends View {
         pageContext.setAttribute("title", text);
         final String number = link.number;
         pageContext.setAttribute("pageNumber", number);
-        final StoryBeginning beginning = new StoryBeginning();
-        beginning.setPageNumber(Integer.parseInt(number));
-        final int size = beginning.getSize();
-        pageContext.setAttribute("size", size);
     }
 
     public void prepareNextPageNum() {
@@ -228,6 +254,14 @@ public class ContentsView extends View {
         final PageContext pageContext = this.getPageContext();
         final String prev = this.getPrevPageNumber();
         pageContext.setAttribute("prev", prev);
+    }
+
+    public void prepareTag(final String tag) {
+    	final PageContext pageContext = this.getPageContext();
+    	final String tagClass = tag.toLowerCase();
+    	pageContext.setAttribute("tagClass", tagClass);
+    	final String tagName = tag.toUpperCase();
+    	pageContext.setAttribute("tagName", tagName);
     }
 
     /**
@@ -279,8 +313,14 @@ public class ContentsView extends View {
         final int number = getContentsPageNumberFromParameter(parameter);
         this.setContentsPageNumber(number);
     }
-
+    
     private void setLinks(final List<Link> links) {
         this.links = links;
     }
+    
+    private String specifyVersion(final String number) {
+		final PageId id = new PageId(number);
+		final String version = StoryPage.getRandomVersion(id);
+		return version;
+	}
 }

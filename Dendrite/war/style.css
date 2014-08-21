@@ -160,7 +160,7 @@ input[type=radio]+label>img {
 	padding: 0px;
 }
 
-ul.tags {
+ul.read.tags {
 	margin-bottom: 0px;
 }
 
@@ -168,28 +168,57 @@ ul.tagControls {
 	margin-bottom: 30px;
 }
 
-ul.tags, ul.tagControls {
+ul.read.tags, ul.tagControls {
 	float: right;
 	
+    text-align: right;
+}
+
+ul.contents.tags {
+	opacity: 0.4;
+}
+
+ul.contents.tags > li {
+	font-size: 10px;
+	line-height: 14px;
+	
+	float: left;
+	
+	border-radius: 2px;
+	
+	margin-top: 5px;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+ul.tags, ul.tagControls {	
 	width: 100%;
 	
 	font-size: 12px;
 	list-style-type: none;
-	text-align: right;
 	
 	padding: 0px;
 }
 
-ul.tags > li, ul.tagControls > li {
+ul.read.tags > li, ul.tagControls > li {
 	float: right;
+}
+
+ul.read.tags > li, ul.tagControls > li {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+ul.contents.tags > li {
+	margin-right: 5px;
+}
 	
+ul.tags > li, ul.tagControls > li {
     color: #fff;
 	border: 1px solid;
 	border-radius: 5px;
 	
 	padding: 0px 5px;
-	margin-top: 10px;
-	margin-left: 10px;
 }
 
 ul.tagControls > li.select {
@@ -272,6 +301,13 @@ ul.tags > li.horror {
     border-color: #666;
 }
 
+ul.tags > li.spam {
+	font-weight: bold;
+	color: #000;
+    background-color: #cf9;
+    border-color: #cf6;
+}
+
 ul.tags > li.thriller {
     background-color: #666;
     border-color: #999;
@@ -331,7 +367,7 @@ ul.tags > li.fanfic {
     border-color: #0f9;
 }
 
-ul.tags > li:after {
+ul.read.tags > li:after {
 	content: '×';
 	
 	margin-left: 5px;
@@ -782,11 +818,17 @@ input,textarea {
 
 .item {
 	min-height: 1.5em;
+
+    border-bottom: 1px dashed #ccc;
+
+    padding-bottom: 5px;	
+	margin-bottom: 10px;
 }
 
 .itemContent {
+	font-weight: 500;
 	float: left;
-	width: 89%;
+	max-width: 89%;
 }
 
 .itemNumber {

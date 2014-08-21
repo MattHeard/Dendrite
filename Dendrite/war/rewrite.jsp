@@ -25,10 +25,8 @@ if (isExistingPage == true) {
     pageContext.setAttribute("pageNumber", pageNumber);
       
     %>
-      <h2>Rewrite this page</h2>
-      <p>The <i>rewrite</i> option allows you to completely rewrite the text of
-          this page. You will be credited as the only author.
-      </p><%
+      <h3>The <i>rewrite</i> option allows you to completely rewrite the text of
+          this page. You will be credited as the only author.</h3><%
     
     final boolean isBeginning = view.isBeginning();
     if (isBeginning == true) {

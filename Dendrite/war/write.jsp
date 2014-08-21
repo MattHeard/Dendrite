@@ -29,6 +29,9 @@ if (isValidOption == true) {
 		response.sendRedirect("/rewrite?p=" + target);
 	}
 	
+	%>
+      <h3>It looks like this page hasn't been written yet. Continue the story!</h3><%
+	
     final String optionText = view.getOptionText();
     pageContext.setAttribute("optionText", optionText);
       
