@@ -60,37 +60,47 @@ if (view.isAuthorPageOfUser() == true) {
           
 view.prepareFollowersPageUrl();
           
-          %>
+%>
             <a href="${followersPageUrl}">Followers</a>
             <a id="more">⋮</a>
           </div><%
 
-while (view.hasAnotherStoryPage() == true) {
-    view.prepareNextStoryPage();
-    if (view.isThisStoryPageInADifferentStory() == true) {
+final boolean hasAnotherStoryPage = view.hasAnotherStoryPage();
+if (hasAnotherStoryPage == false) {
+
+    %>
+          <p class="notice">Hmm. No stories here yet. Want to
+              <a href="/new">start one</a>?</p><%
+
+} else {
+
+    while (view.hasAnotherStoryPage() == true) {
+        view.prepareNextStoryPage();
+        if (view.isThisStoryPageInADifferentStory() == true) {
         
-        %>
+            %>
           <h3 class="do_not_clear">${fn:escapeXml(title)}</h3><%
           
-    }
+        }
     
-    %>
+        %>
           <div class="item">
             <div class="itemContent"><a
                 href="/read?p=${fn:escapeXml(pageId)}"
                 >${fn:escapeXml(summary)}</a><%
                 
-    if (view.isThisStoryPageCreditedDifferently() == true) {
+        if (view.isThisStoryPageCreditedDifferently() == true) {
         
-        %> (credited as <i>${fn:escapeXml(authorName)}</i>)<%
+            %> (credited as <i>${fn:escapeXml(authorName)}</i>)<%
         
-    }
+        }
                 
-%></div>
+        %></div>
             <div class="itemNumber">${fn:escapeXml(pageId)}</div>
           </div>
           <div class="clear"></div><%
         
+    }
 }
 
 if (view.isFirstPage() == false) {
