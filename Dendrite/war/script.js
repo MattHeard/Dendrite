@@ -408,11 +408,26 @@ function initTagButtons() {
   });
 }
 
+function fixInvisibleWebFont() {
+  $(function() {
+    $('body').css('zoom',1);
+  }); // HACK
+}
+
+function initFonts() {
+  $(function() {
+    var fonts = "<link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:300,400,700|Open+Sans:300italic,700italic,400,700|Merriweather:400,300,300italic,700,700italic|Kalam:400,300,700|Almendra:400,700,400italic,700italic' rel='stylesheet' type='text/css'>";
+    $('head').append(fonts);
+  });
+}
+
 function init() {
+  fixInvisibleWebFont();
   preventEnterFromSubmittingForms();
   initTextEntryFields();
   initLoveButton();
   initNotificationDeletion();
   initFollowButtons();
   initTagButtons();
+  initFonts();
 }

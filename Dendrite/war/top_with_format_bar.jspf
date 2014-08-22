@@ -5,7 +5,41 @@
 
 %><!DOCTYPE html>
 <html>
-  <head>
+  <head><%
+    
+final String font;
+if (View.isUserLoggedIn()) {
+    font = View.getUserFontType();
+} else {
+	font = "Sans-serif";
+}
+
+%>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300<%
+
+if ("Serif".equals(font)) {
+	
+	%>|Merriweather:400,300,300italic,700,700italic<%
+	
+} else if ("Monospace".equals(font)) {
+
+    %>|Source+Code+Pro:300,400,700<%
+
+} else if ("Cursive".equals(font)) {
+
+    %>|Kalam:400,300,700<%
+
+} else if ("Fantasy".equals(font)) {
+
+    %>|Almendra:400,700,400italic,700italic<%
+
+} else {
+
+    %>italic,600italic,300,600<%
+    
+}
+    
+%>' rel='stylesheet' type='text/css'>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes">

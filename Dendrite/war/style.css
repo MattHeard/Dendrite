@@ -197,10 +197,11 @@ ul.contents.tags > li {
 	padding-right: 2px;
 }
 
-ul.tags, ul.tagControls {	
+ul.tags, ul.tagControls {
 	width: 100%;
 	
 	font-size: 12px;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 	list-style-type: none;
 	
 	padding: 0px;
@@ -256,7 +257,7 @@ ul.tagControls > li.add, ul.tagControls > li.cancel {
 ul.tagControls > li.add, ul.tagControls > li.ok, ul.tagControls > li.cancel {
 	color: #000;
 	border-color: #ccc;
-	font-weight: 900;
+	font-weight: 700;
 	cursor: pointer;
 	
 	margin-left: 5px;
@@ -308,7 +309,6 @@ ul.tags > li.horror {
 }
 
 ul.tags > li.spam {
-	font-weight: bold;
 	color: #000;
     background-color: #cf9;
     border-color: #cf6;
@@ -383,8 +383,8 @@ body {
 	line-height: 1.5em;
 	text-align: justify;
 	margin: 0em;
-	font-family: Helvetica, Arial, sans-serif;
-	font-weight: 100;
+	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+	font-weight: 300;
 	color: #111;
 	background-color: #fefefe;
 	word-wrap: break-word;
@@ -410,7 +410,7 @@ body.themeLovely {
 }
 
 button, .button, .option {
-	font-weight: 100;
+	font-weight: 300;
 	font-family: inherit;
 	font-size: 1em;
 	line-height: 1.5em;
@@ -428,7 +428,7 @@ button, .button, .option {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	
+
 	-webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -543,23 +543,23 @@ button, .button, .option {
 }
 
 .fontTypeCursive {
-	font-family: "Brush Script MT", "MV Boli", cursive;
+	font-family: 'Kalam', "Brush Script MT", "MV Boli", cursive;
 }
 
 .fontTypeFantasy {
-	font-family: "Papyrus", fantasy;
+	font-family: 'Almendra', "Papyrus", fantasy;
 }
 
 .fontTypeMonospace {
-	font-family: "Lucida Console", Monaco, monospace;
+	font-family: 'Source Code Pro', "Lucida Console", Monaco, monospace;
 }
 
 .fontTypeSansSerif {
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
 
 .fontTypeSerif {
-	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	font-family: 'Merriweather', "Palatino Linotype", "Book Antiqua", Palatino, serif;
 }
 
 .footer {
@@ -794,7 +794,7 @@ hr.minor_separator {
 	height: 1px;
 }
 
-html,body {
+html, body {
 	height: 100%;
 }
 
@@ -803,7 +803,7 @@ input,textarea {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	font-weight: 100;
+	font-weight: 300;
 	font-family: inherit;
 	font-size: 1em;
 	line-height: 1.5em;
@@ -832,7 +832,7 @@ input,textarea {
 }
 
 .itemContent {
-	font-weight: 500;
+	font-weight: 400;
 	float: left;
 	max-width: 89%;
 }
@@ -879,7 +879,7 @@ ul#notificationList, ul#followerList {
 #notifications {
 	text-align: center;
 	float: right;
-	font-weight: bold;
+	font-weight: 700;
 	color: white;
 	background-color: #c00;
 	border-radius: 5px;
@@ -921,7 +921,7 @@ ul#notificationList, ul#followerList {
 }
 
 .prefLabel {
-	font-weight: bold;
+	font-weight: 700;
 	min-width:   30%;
 	float:       left;
 }
