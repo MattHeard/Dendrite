@@ -20,20 +20,11 @@ view.initialise();
 %><%@include file="top.jspf"
 
 %>
-    <h2>Contact us</h2>
-      <form
-          action="mailto:matt+dendrite@mattheard.net"
-          method="get"
-          enctype="text/plain">
-        <label for="subject">Subject</label>
-        <br />
-        <input id="subject" name="subject"></input>
-        <br />
-        <label for="body">Message</label>
-        <br />
-        <textarea id="body" name="body"></textarea>
-        <br />
-        <button type="reset">Reset</button>
-        <button type="submit">Send</button>
-      </form>
+    <iframe 
+        src="https://docs.google.com/forms/d/1PzcTCC29coKmdor4P4VtA_b-ptlwKlqsqWVbEhPgAdk/viewform?embedded=true"
+        width="800"
+        height="500"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0">Loading...</iframe>
 <%@include file="bottom.jspf" %>
