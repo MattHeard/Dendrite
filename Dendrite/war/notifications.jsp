@@ -17,25 +17,38 @@ view.setPageContext(pageContext);
 view.setRequest(request);
 view.initialise();
 
-%><%@include file="top.jspf"
+%><%@include file="top.jspf" %><%
 
-%>
+final boolean hasAnyNotifications = view.hasAnotherNotification();
+if (hasAnyNotifications == false) {
+
+	%>
+    <p class="notice">Oh, hello! It looks like you have no new
+        notifications.</p><%
+
+} else {
+
+    %>
     <ul id="notificationList"><%
 
-while (view.hasAnotherNotification() == true) {
-    long id = view.getCurrNotificationId();
-    String text = view.getCurrNotificationText();
-    view.prepareNextNotification();
-    
-    %>
+    while (view.hasAnotherNotification() == true) {
+        long id = view.getCurrNotificationId();
+        String text = view.getCurrNotificationText();
+        view.prepareNextNotification();
+
+        %>
       <li class="notificationItem"
           id="notification<%= id %>"><%= text %>
         <img id="notificationDelete<%= id %>"
             class="notificationDelete"
             src="/icons/close_notification.png" /></li><%
-    
-}
-    
+
+    }
+
     %>
-    </ul>
+    </ul><%
+
+}
+
+%>
 <%@include file="bottom.jspf" %>
