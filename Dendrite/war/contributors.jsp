@@ -54,7 +54,7 @@ view.initialise();
             </div>
           </li>
         </ul>
-        <h3>Significant help</h3>
+        <h3>Major contributors</h3>
         <ul class="contributors">
           <li>
             <b>Leah Hamilton</b>: assisted with the general creative direction

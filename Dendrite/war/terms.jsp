@@ -87,7 +87,7 @@ view.setPageContext(pageContext);
           Any person objecting to or having any issue or claim in relation to
           any Content should immediately contact us at
           <a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
-                  href="/contact">dendrite.mattheard.net/contact</a></p>
+                  href="/contact">dendritestories.co.nz/contact</a></p>
       <p>You agree to use this Website and its Content purely "as is".</p>
       <h3>Links to and from this Website</h3>
       <p>From time to time this Website may include links to other websites.
