@@ -1,5 +1,6 @@
 package com.deuteriumlabs.dendrite.controller;
 
+import com.deuteriumlabs.dendrite.model.AuthorTagNotification;
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 import com.deuteriumlabs.dendrite.model.User;
@@ -47,13 +48,39 @@ public class AddTagController {
 	}
 
 	private boolean isPgAuthorCurrentUser() {
-		final String myUserId = User.getMyUser().getId();
-		final String authorId = this.getAuthorId();
-		return myUserId.equals(authorId);
+		if (User.isMyUserLoggedIn()) {
+			final String myUserId = User.getMyUser().getId();
+			final String authorId = this.getAuthorId();
+			return myUserId.equals(authorId);
+		} else {
+			return false;
+		}
 	}
 
 	private void notifyAuthor() {
-		// TODO
+		final AuthorTagNotification notification = new AuthorTagNotification();
+		notification.setPgId(this.getPgId());
+		notification.setTaggerId(this.getTaggerId());
+		notification.setTaggerName(this.getTaggerName());
+		notification.setTag(this.getTag());
+		notification.setRecipientId(this.getAuthorId());
+		notification.create();
+	}
+
+	private String getTaggerName() {
+		if (User.isMyUserLoggedIn()) {
+			return User.getMyUser().getDefaultPenName();
+		} else {
+			return null;
+		}
+	}
+
+	private String getTaggerId() {
+		if (User.isMyUserLoggedIn()) {
+			return User.getMyUser().getId();
+		} else {
+			return null;
+		}
 	}
 
 	public void setPgId(final PageId pgId) {

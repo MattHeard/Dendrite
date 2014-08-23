@@ -114,6 +114,8 @@ public class Notification extends Model {
 				final String type = (String) entity.getProperty(TYPE_PROPERTY);
 				if (FolloweeNewNotification.getType().equals(type)) {
 					notification = new FolloweeNewNotification(entity);
+				} else if (AuthorTagNotification.getType().equals(type)) {
+					notification = new AuthorTagNotification(entity);
 				} else if (FollowerWriteNotification.getType().equals(type)) {
 					notification = new FollowerWriteNotification(entity);
 				} else if (FollowerRewriteNotification.getType().equals(type)) {
