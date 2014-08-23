@@ -30,7 +30,7 @@ public class Notification extends Model {
 	private static final String RECIPIENT_ID_PROPERTY = "recipient";
 	private static final String TIME_PROPERTY = "time";
 	private static final String TYPE_PROPERTY = "type";
-	private static final String TYPE = "FollowerWriteNotification";
+	private static final String TYPE = "FollowerRewriteNotification";
 
 	/**
 	 * @param id
@@ -116,6 +116,8 @@ public class Notification extends Model {
 					notification = new FolloweeNewNotification(entity);
 				} else if (FollowerWriteNotification.getType().equals(type)) {
 					notification = new FollowerWriteNotification(entity);
+				} else if (FollowerRewriteNotification.getType().equals(type)) {
+					notification = new FollowerRewriteNotification(entity);
 				} else if (FollowNotification.getType().equals(type)) {
 					notification = new FollowNotification(entity);
 				} else if (PgChildNotification.getType().equals(type)) {

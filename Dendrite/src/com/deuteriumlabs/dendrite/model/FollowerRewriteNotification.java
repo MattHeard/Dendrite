@@ -2,13 +2,13 @@ package com.deuteriumlabs.dendrite.model;
 
 import com.google.appengine.api.datastore.Entity;
 
-public class FollowerWriteNotification extends Notification {
+public class FollowerRewriteNotification extends Notification {
 
 	private static final String AUTHOR_ID_PROPERTY = "authorId";
 	private static final String AUTHOR_NAME_PROPERTY = "authorName";
 	private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
 	private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
-	private static final String TYPE = "FollowerWriteNotification";
+	private static final String TYPE = "FollowerRewriteNotification";
 
 	public static String getType() {
 		return TYPE;
@@ -39,10 +39,10 @@ public class FollowerWriteNotification extends Notification {
 	private String authorName;
 	private PageId pgId;
 
-	public FollowerWriteNotification() {
+	public FollowerRewriteNotification() {
 	}
 
-	public FollowerWriteNotification(final Entity entity) {
+	public FollowerRewriteNotification(final Entity entity) {
 		this.readPropertiesFromEntity(entity);
 	}
 
@@ -54,7 +54,7 @@ public class FollowerWriteNotification extends Notification {
 	public String getMsg() {
 		final String name = this.getAuthorName();
 		final PageId pgId = this.getPgId();
-		return name + " continued a story by writing page " + pgId + ".";
+		return name + " rewrote a page at page " + pgId + ".";
 	}
 
 	private PageId getPgId() {

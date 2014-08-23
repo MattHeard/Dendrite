@@ -3,47 +3,59 @@ package com.deuteriumlabs.dendrite.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.deuteriumlabs.dendrite.model.FollowerRewriteNotification;
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.PgRewriteNotification;
 import com.deuteriumlabs.dendrite.model.StoryPage;
-
+import com.deuteriumlabs.dendrite.model.User;
 
 public class SubmitRewriteController extends SubmitController {
 
-    protected int pageNumber;
+	protected int pageNumber;
 
-    @Override
+	@Override
 	public void buildNewPage() {
 		super.buildNewPage();
-        this.recalculateStorySize();
+		this.recalculateStorySize();
 	}
 
 	@Override
-    void buildStoryPage() {
-        final StoryPage page = new StoryPage();
-        this.addStoryPageValues(page);
-        final PageId beginning = this.getBeginning();
-        page.setBeginning(beginning);
-        page.setParent(this.getParent());
-        final boolean isInStore = page.isInStore();
-        if (isInStore == false) {
-            page.create();
-        }
-        this.notifyAboutExtension();
-    }
+	void buildStoryPage() {
+		final StoryPage page = new StoryPage();
+		this.addStoryPageValues(page);
+		final PageId beginning = this.getBeginning();
+		page.setBeginning(beginning);
+		page.setParent(this.getParent());
 
-    private void notifyAboutExtension() {
-    	List<String> recipientIds = this.getNotificationRecipients();
-    	for (final String recipientId : recipientIds) {
-    		final PgRewriteNotification notification;
-    		notification = new PgRewriteNotification();
-    		final PageId rewritePgId = this.getId();
-    		notification.setPgId(rewritePgId);
-    		final String rewriteAuthorId = this.getAuthorId();
-    		notification.setRewriteAuthorId(rewriteAuthorId);
-    		notification.setRecipientId(recipientId);
-    		notification.create();
-    	}
+		if (page.isInStore() == false) {
+			page.create();
+		}
+
+		this.notifyAboutExtension();
+		this.notifyFollowers();
+	}
+
+	private PageId getBeginning() {
+		final StoryPage alternative = new StoryPage();
+		final PageId id = new PageId();
+		final int number = this.getPageNumber();
+		id.setNumber(number);
+		id.setVersion("a");
+		alternative.setId(id);
+		alternative.read();
+		final PageId alternativeBeginning = alternative.getBeginning();
+		final int altBeginningNumber = alternativeBeginning.getNumber();
+		if (altBeginningNumber != number) {
+			return alternativeBeginning;
+		} else {
+			return this.getId();
+		}
+	}
+
+	private String getNextVersion() {
+		final int pageNumber = this.getPageNumber();
+		final int count = StoryPage.countVersions(pageNumber);
+		return StoryPage.convertNumberToVersion(count + 1);
 	}
 
 	private List<String> getNotificationRecipients() {
@@ -64,57 +76,62 @@ public class SubmitRewriteController extends SubmitController {
 		return authorIds;
 	}
 
-	private PageId getBeginning() {
-        final StoryPage alternative = new StoryPage();
-        final PageId id = new PageId();
-        final int number = this.getPageNumber();
-        id.setNumber(number);
-        id.setVersion("a");
-        alternative.setId(id);
-        alternative.read();
-        final PageId alternativeBeginning = alternative.getBeginning();
-        final int altBeginningNumber = alternativeBeginning.getNumber();
-        if (altBeginningNumber != number) {
-            return alternativeBeginning;
-        } else {
-            return this.getId();
-        }
-    }
+	private int getPageNumber() {
+		return this.pageNumber;
+	}
 
-    private String getNextVersion() {
-        final int pageNumber = this.getPageNumber();
-        final int count = StoryPage.countVersions(pageNumber);
-        return StoryPage.convertNumberToVersion(count + 1);
-    }
+	private void notifyAboutExtension() {
+		List<String> recipientIds = this.getNotificationRecipients();
+		for (final String recipientId : recipientIds) {
+			final PgRewriteNotification notification;
+			notification = new PgRewriteNotification();
+			final PageId rewritePgId = this.getId();
+			notification.setPgId(rewritePgId);
+			final String rewriteAuthorId = this.getAuthorId();
+			notification.setRewriteAuthorId(rewriteAuthorId);
+			notification.setRecipientId(recipientId);
+			notification.create();
+		}
+	}
 
-    private int getPageNumber() {
-        return this.pageNumber;
-    }
+	private void notifyFollowers() {
+		final User myUser = User.getMyUser();
+		List<String> followerIds = myUser.getFollowers();
+		for (final String followerId : followerIds) {
+			final FollowerRewriteNotification notification;
+			notification = new FollowerRewriteNotification();
+			notification.setPgId(this.getId());
+			notification.setAuthorId(this.getAuthorId());
+			notification.setAuthorName(this.getAuthorName());
+			notification.setRecipientId(followerId);
+			notification.create();
+		}
+	}
 
-    @Override
-    protected void setNewPageId() {
-        this.setNextPageId();
-    }
+	@Override
+	protected void setNewPageId() {
+		this.setNextPageId();
+	}
 
-    private void setNextPageId() {
-        final PageId id = new PageId();
-        final int number = this.getPageNumber();
-        id.setNumber(number);
-        final String version = this.getNextVersion();
-        id.setVersion(version);
-        this.setPageId(id);
-    }
+	private void setNextPageId() {
+		final PageId id = new PageId();
+		final int number = this.getPageNumber();
+		id.setNumber(number);
+		final String version = this.getNextVersion();
+		id.setVersion(version);
+		this.setPageId(id);
+	}
 
-    public void setPageNumber(final String pageNumber) {
-        int pageNumberValue;
-        try {
-            pageNumberValue = Integer.parseInt(pageNumber);
-        } catch (NumberFormatException e) {
-            pageNumberValue = 0;
-        }
-        if (pageNumberValue > 0)
-            this.pageNumber = pageNumberValue;
-        else
-            this.pageNumber = 0;
-    }
+	public void setPageNumber(final String pageNumber) {
+		int pageNumberValue;
+		try {
+			pageNumberValue = Integer.parseInt(pageNumber);
+		} catch (NumberFormatException e) {
+			pageNumberValue = 0;
+		}
+		if (pageNumberValue > 0)
+			this.pageNumber = pageNumberValue;
+		else
+			this.pageNumber = 0;
+	}
 }

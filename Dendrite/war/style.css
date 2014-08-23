@@ -437,6 +437,10 @@ button, .button, .option {
     user-select: none;
 }
 
+#follow, #unfollow {
+	width: 100%;
+}
+
 #follow {
 	background-color: #090;
 }

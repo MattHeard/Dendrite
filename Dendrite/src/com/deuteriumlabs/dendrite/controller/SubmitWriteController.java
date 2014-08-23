@@ -37,63 +37,6 @@ public class SubmitWriteController extends SubmitController {
 		this.notifyFollowers();
 	}
 
-	private void notifyFollowers() {
-		final User myUser = User.getMyUser();
-		List<String> followerIds = myUser.getFollowers();
-		for (final String followerId : followerIds) {
-			final FollowerWriteNotification notification;
-			notification = new FollowerWriteNotification();
-			notification.setPgId(this.getId());
-			notification.setAuthorId(this.getAuthorId());
-			notification.setAuthorName(this.getAuthorName());
-			notification.setRecipientId(followerId);
-			notification.create();
-		}
-	}
-
-	/**
-     * 
-     */
-	private void notifyAboutExtension() {
-		final PgChildNotification notification = new PgChildNotification();
-		final PageId childPgId = this.getId();
-		notification.setPgId(childPgId);
-		final String childAuthorId = this.getAuthorId();
-		notification.setChildAuthorId(childAuthorId);
-		final StoryPage parentPg = this.getParent();
-		final String parentAuthorId = parentPg.getAuthorId();
-		notification.setRecipientId(parentAuthorId);
-		notification.create();
-	}
-
-	/**
-	 * @return
-	 */
-	private boolean isAuthorNotificationNeeded() {
-		final boolean isAuthorNotifiable = this.isAuthorNotifiable();
-		final boolean isAuthorOfParentPage = this.isAuthorOfParentPage();
-		return (isAuthorNotifiable == true && isAuthorOfParentPage == false);
-	}
-
-	/**
-	 * @return
-	 */
-	private boolean isAuthorOfParentPage() {
-		final String childAuthorId = this.getAuthorId();
-		final StoryPage parentPg = this.getParent();
-		final String parentAuthorId = parentPg.getAuthorId();
-		return (parentAuthorId != null && parentAuthorId.equals(childAuthorId));
-	}
-
-	/**
-	 * @return
-	 */
-	private boolean isAuthorNotifiable() {
-		final StoryPage parentPg = this.getParent();
-		final String parentAuthorId = parentPg.getAuthorId();
-		return (parentAuthorId != null);
-	}
-
 	public void connectIncomingOption() {
 		final StoryOption incoming = new StoryOption();
 		final PageId from = this.getFrom();
@@ -121,6 +64,63 @@ public class SubmitWriteController extends SubmitController {
 
 	private int getLinkIndex() {
 		return this.linkIndex;
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean isAuthorNotifiable() {
+		final StoryPage parentPg = this.getParent();
+		final String parentAuthorId = parentPg.getAuthorId();
+		return (parentAuthorId != null);
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean isAuthorNotificationNeeded() {
+		final boolean isAuthorNotifiable = this.isAuthorNotifiable();
+		final boolean isAuthorOfParentPage = this.isAuthorOfParentPage();
+		return (isAuthorNotifiable == true && isAuthorOfParentPage == false);
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean isAuthorOfParentPage() {
+		final String childAuthorId = this.getAuthorId();
+		final StoryPage parentPg = this.getParent();
+		final String parentAuthorId = parentPg.getAuthorId();
+		return (parentAuthorId != null && parentAuthorId.equals(childAuthorId));
+	}
+
+	/**
+     * 
+     */
+	private void notifyAboutExtension() {
+		final PgChildNotification notification = new PgChildNotification();
+		final PageId childPgId = this.getId();
+		notification.setPgId(childPgId);
+		final String childAuthorId = this.getAuthorId();
+		notification.setChildAuthorId(childAuthorId);
+		final StoryPage parentPg = this.getParent();
+		final String parentAuthorId = parentPg.getAuthorId();
+		notification.setRecipientId(parentAuthorId);
+		notification.create();
+	}
+
+	private void notifyFollowers() {
+		final User myUser = User.getMyUser();
+		List<String> followerIds = myUser.getFollowers();
+		for (final String followerId : followerIds) {
+			final FollowerWriteNotification notification;
+			notification = new FollowerWriteNotification();
+			notification.setPgId(this.getId());
+			notification.setAuthorId(this.getAuthorId());
+			notification.setAuthorName(this.getAuthorName());
+			notification.setRecipientId(followerId);
+			notification.create();
+		}
 	}
 
 	public void setFrom(final String from) {

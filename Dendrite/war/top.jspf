@@ -15,7 +15,7 @@ if (View.isUserLoggedIn()) {
 }
 
 %>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300<%
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300<%
 
 if ("Serif".equals(font)) {
     
