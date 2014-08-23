@@ -1,9 +1,14 @@
 package com.deuteriumlabs.dendrite.controller;
 
+import java.util.List;
+
+import com.deuteriumlabs.dendrite.model.FolloweeNewNotification;
+import com.deuteriumlabs.dendrite.model.FollowerWriteNotification;
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.PgChildNotification;
 import com.deuteriumlabs.dendrite.model.StoryOption;
 import com.deuteriumlabs.dendrite.model.StoryPage;
+import com.deuteriumlabs.dendrite.model.User;
 
 public class SubmitWriteController extends SubmitController {
     private PageId from;
@@ -21,17 +26,33 @@ public class SubmitWriteController extends SubmitController {
         this.addStoryPageValues(page);
         final PageId beginning = this.getBeginning();
         page.setBeginning(beginning);
-        final boolean isInStore = page.isInStore();
-        if (isInStore == false) {
+        
+        if (page.isInStore() == false) {
             page.create();
         }
-        final boolean isNotificationNeeded = this.isNotificationNeeded();
-        if (isNotificationNeeded == true) {
+        
+        if (this.isAuthorNotificationNeeded() == true) {
             this.notifyAboutExtension();
         }
+        
+        this.notifyFollowers();
     }
 
-    /**
+    private void notifyFollowers() {
+    	final User myUser = User.getMyUser();
+    	List<String> followerIds = myUser.getFollowers();
+    	for (final String followerId : followerIds) {
+    		final FollowerWriteNotification notification;
+    		notification = new FollowerWriteNotification();
+    		notification.setPgId(this.getId());
+    		notification.setAuthorId(this.getAuthorId());
+    		notification.setAuthorName(this.getAuthorName());
+    		notification.setRecipientId(followerId);
+    		notification.create();
+    	}
+	}
+
+	/**
      * 
      */
     private void notifyAboutExtension() {
@@ -49,7 +70,7 @@ public class SubmitWriteController extends SubmitController {
     /**
      * @return
      */
-    private boolean isNotificationNeeded() {
+    private boolean isAuthorNotificationNeeded() {
         final boolean isAuthorNotifiable = this.isAuthorNotifiable();
         final boolean isAuthorOfParentPage = this.isAuthorOfParentPage();
         return (isAuthorNotifiable == true && isAuthorOfParentPage == false);
