@@ -66,11 +66,16 @@ public class SubmitRewriteController extends SubmitController {
 		final List<StoryPage> allVersions = StoryPage.getAllVersions(pageId);
 		for (final StoryPage version : allVersions) {
 			final String authorId = version.getAuthorId();
-			boolean isDuplicate = authorIds.contains(authorId);
-			String newAuthorId = this.getAuthorId();
-			boolean isNewAuthor = authorId.equals(newAuthorId);
-			if (isDuplicate == false && isNewAuthor == false) {
-				authorIds.add(authorId);
+
+			if (authorId == null) {
+				break;
+			} else {
+				boolean isDuplicate = authorIds.contains(authorId);
+				String newAuthorId = this.getAuthorId();
+				boolean isNewAuthor = authorId.equals(newAuthorId);
+				if (isDuplicate == false && isNewAuthor == false) {
+					authorIds.add(authorId);
+				}
 			}
 		}
 		return authorIds;
@@ -96,17 +101,19 @@ public class SubmitRewriteController extends SubmitController {
 
 	private void notifyFollowers() {
 		final User myUser = User.getMyUser();
-		List<String> followerIds = myUser.getFollowers();
-		List<String> altPgAuthorIds = this.getAuthorsOfAltPgs();
-		for (final String followerId : followerIds) {
-			if (altPgAuthorIds.contains(followerId) == false) {
-				final FollowerRewriteNotification notification;
-				notification = new FollowerRewriteNotification();
-				notification.setPgId(this.getId());
-				notification.setAuthorId(this.getAuthorId());
-				notification.setAuthorName(this.getAuthorName());
-				notification.setRecipientId(followerId);
-				notification.create();
+		if (myUser != null) {
+			List<String> followerIds = myUser.getFollowers();
+			List<String> altPgAuthorIds = this.getAuthorsOfAltPgs();
+			for (final String followerId : followerIds) {
+				if (altPgAuthorIds.contains(followerId) == false) {
+					final FollowerRewriteNotification notification;
+					notification = new FollowerRewriteNotification();
+					notification.setPgId(this.getId());
+					notification.setAuthorId(this.getAuthorId());
+					notification.setAuthorName(this.getAuthorName());
+					notification.setRecipientId(followerId);
+					notification.create();
+				}
 			}
 		}
 	}
