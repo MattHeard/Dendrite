@@ -67,10 +67,19 @@ view.prepareFollowersPageUrl();
 
 final boolean hasAnotherStoryPage = view.hasAnotherStoryPage();
 if (hasAnotherStoryPage == false) {
+	
+	if (view.isAuthorPageOfUser() == true) {
 
     %>
           <p class="notice">Hmm. No stories here yet. Want to
               <a href="/new">start one</a>?</p><%
+            		  
+	} else {
+		
+    %>
+        <p class="notice">Hmm. No stories here yet.</p><%
+		
+	}
 
 } else {
 
