@@ -736,7 +736,7 @@ button, .button, .option {
     margin-bottom: 0px;
 }
 
-h2,h3 {
+h2, h3 {
 	font-weight: 300;
 	clear: both;
 }
@@ -744,6 +744,10 @@ h2,h3 {
 h4 {
 	display: inline;
 	padding-right: 1em;
+}
+
+.intro {
+	margin-top: 20px;
 }
 
 #header {
@@ -1000,7 +1004,8 @@ select {
 }
 
 @media all and (min-width: 1420px) {
-    #main.hasToolbar, main.hasToolbar, .hasToolbar form, .hasToolbar h2 {
+    #main.hasToolbar, main.hasToolbar, .hasToolbar form, .hasToolbar h2,
+    .hasToolbar .intro {
         max-width: 1400px;
     }
     
@@ -1012,7 +1017,7 @@ select {
         float: left;
     }
 
-	.hasToolbar form > div, .hasToolbar h2 {
+	.hasToolbar form > div, .hasToolbar h2, .hasToolbar .intro {
 	    float: left;
         
         width: 1100px;

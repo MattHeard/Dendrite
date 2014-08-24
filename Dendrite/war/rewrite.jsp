@@ -16,7 +16,7 @@ view.setError(error);
 
 
 
-%><%@include file="top.jspf"
+%><%@include file="top_with_side_bar.jspf"
 
 %><%
   
@@ -25,8 +25,9 @@ if (isExistingPage == true) {
     pageContext.setAttribute("pageNumber", pageNumber);
       
     %>
-      <h3>The <i>rewrite</i> option allows you to completely rewrite the text of
-          this page. You will be credited as the only author.</h3><%
+      <div class="intro">The <i>rewrite</i> option allows you to completely
+          rewrite the text of this page. You will be credited as the only
+          author.</div><%
     
     final boolean isBeginning = view.isBeginning();
     if (isBeginning == true) {
@@ -35,7 +36,7 @@ if (isExistingPage == true) {
     	pageContext.setAttribute("title", storyTitle);
     	
     	%>
-      <h3>${fn:escapeXml(title)}</h3><%
+      <h2>${fn:escapeXml(title)}</h2><%
     	
     } else {
     
@@ -43,23 +44,26 @@ if (isExistingPage == true) {
         pageContext.setAttribute("option", incomingOptionText);
       
         %>
-      <h3>${fn:escapeXml(option)}</h3><%
+      <h2>${fn:escapeXml(option)}</h2><%
     
     }
     
     %>
       <form action="submitRewrite" method="post">
-        <div id="form_body">
         <input type="hidden" name="pageNumber"
             value="${fn:escapeXml(pageNumber)}" />
-        <label for="content">Story</label>
-        <span
-            id="contentCountNote"
-            class="countNote">(<span id="contentCount">5000</span>
-            characters remaining)
-        </span>
-        <br />
-        <textarea id="content" name="content"><%
+        <div>
+          <label for="content">Story</label>
+          <span
+              id="contentCountNote"
+              class="countNote">(<span id="contentCount">5000</span>
+              characters remaining)
+          </span>
+        </div>
+        <div class="clear"></div>
+        <div></div>
+        <div>
+          <textarea id="content" name="content"><%
 
 final boolean isDraftPending = view.isDraftPending();
 if (isDraftPending == true) {
@@ -68,25 +72,37 @@ if (isDraftPending == true) {
     %>${fn:escapeXml(draftContent)}<%
 }
             
-%></textarea><%
+%></textarea>
+          <aside class="formattingTips" id="contentFormattingTips">
+            <h3>Formatting</h3>
+            <ul>
+              <li>*i* → <i>i</i>
+              <li>**B** → <b>B</b>
+              <li>***B & i*** → <b><i>B & i</i></b>
+            </ul>
+          </aside>
+        </div>
+        <div class="clear"></div><%
 
     final boolean isContentBlank = view.isContentBlank();
     final boolean isContentTooLong = view.isContentTooLong();
     if (isContentBlank == true) {
 			
         %>
-        <i>Must not be blank</i><%
+        <div><i>Must not be blank</i></div>
+        <div class="clear"></div><%
 		
     } else if (isContentTooLong == true) {
 	
         %>
-        <i>Must not be longer than 5000 characters</i><%
+        <div><i>Must not be longer than 5000 characters</i></div>
+        <div class="clear"></div><%
 		
     }
 
     %>
-        <br />
-        <label for="option0">Options</label><%
+        <div>
+          <label for="option0">Options</label><%
 
     final boolean isAnOptionTooLong = view.isAnOptionTooLong();
     if (isAnOptionTooLong == true) {
@@ -97,12 +113,15 @@ if (isDraftPending == true) {
 		}
   	
     %>
-        <span
-            id="optionCountNote"
-            class="countNote">(<span id="optionCount">80</span>
-            characters remaining)
-        </span>
-        <br /><%
+          <span
+              id="optionCountNote"
+              class="countNote">(<span id="optionCount">80</span>
+              characters remaining)
+          </span>
+        </div>
+        <div class="clear"></div>
+        <div>
+          <div id="optionSet"><%
       
     for (int i = 0; i < 5; i++) {
         pageContext.setAttribute("optionNumber", i);
@@ -112,30 +131,46 @@ if (isDraftPending == true) {
         }
         	
         %>
-        <input id="option${fn:escapeXml(optionNumber)}"
-            name="option${fn:escapeXml(optionNumber)}"
-            type="text" value="${fn:escapeXml(draftOption)}"></input>
-        <br /><%
+            <input id="option${fn:escapeXml(optionNumber)}"
+                name="option${fn:escapeXml(optionNumber)}"
+                type="text" value="${fn:escapeXml(draftOption)}"></input><%
         	
     }
+        
+    %>
+          </div>
+          <aside class="formattingTips" id="optionsFormattingTips">
+            <h3>Formatting</h3>
+            <ul>
+              <li>*i* → <i>i</i>
+              <li>**B** → <b>B</b>
+              <li>***B & i*** → <b><i>B & i</i></b>
+            </ul>
+          </aside>
+        </div>
+        <div class="clear"></div><%
+        
     if (isUserLoggedIn == true) {
         final String authorId = RewriteView.getMyUserId();
         pageContext.setAttribute("authorId", authorId);
         
         %>
-          <input name="authorId" type="hidden"
-              value="${fn:escapeXml(authorId)}" /><%
+        <input name="authorId" type="hidden"
+            value="${fn:escapeXml(authorId)}" /><%
         
     }
       
     %>
+        <div>
           <label for="authorName">Author</label>
           <span
               id="authorNameCountNote"
               class="countNote">(<span id="authorNameCount">100</span>
               characters remaining)
           </span>
-          <br />
+        </div>
+        <div class="clear"></div>
+        <div>
           <input id="authorName" name="authorName" type="text"<%
         
     if (isUserLoggedIn == true) {
@@ -147,7 +182,7 @@ if (isDraftPending == true) {
         %> value="???"<%
 			
     }
-        
+
     %>></input><%
 
     final boolean isAuthorNameBlank = view.isAuthorNameBlank();
@@ -155,19 +190,22 @@ if (isDraftPending == true) {
     if (isAuthorNameBlank == true) {
 
         %>
-          <i>Must not be blank</i><%
-    		
+          <div><i>Must not be blank</i></div><%
+
     } else if (isAuthorNameTooLong == true) {
-    		
+
         %>
-          <i>Must not be longer than 100 characters</i><%
-    		
+          <div><i>Must not be longer than 100 characters</i></div><%
+
     }
       
     %>
-          <br />
-          </div>
+        </div>
+        <div class="clear"></div>
+        <div>
           <button type="submit">Submit</button>
+        </div>
+        <div class="clear"></div>
       </form><%
     	
 } else {
