@@ -31,7 +31,7 @@ public class SubmitRewriteController extends SubmitController {
 			page.create();
 		}
 
-		this.notifyAboutExtension();
+		this.notifyAuthorsOfAltPgs();
 		this.notifyFollowers();
 	}
 
@@ -58,7 +58,7 @@ public class SubmitRewriteController extends SubmitController {
 		return StoryPage.convertNumberToVersion(count + 1);
 	}
 
-	private List<String> getNotificationRecipients() {
+	private List<String> getAuthorsOfAltPgs() {
 		final List<String> authorIds = new ArrayList<String>();
 		final PageId pageId = new PageId();
 		final int num = this.getPageNumber();
@@ -80,16 +80,16 @@ public class SubmitRewriteController extends SubmitController {
 		return this.pageNumber;
 	}
 
-	private void notifyAboutExtension() {
-		List<String> recipientIds = this.getNotificationRecipients();
-		for (final String recipientId : recipientIds) {
+	private void notifyAuthorsOfAltPgs() {
+		List<String> altPgAuthorIds = this.getAuthorsOfAltPgs();
+		for (final String altPgAuthorId : altPgAuthorIds) {
 			final PgRewriteNotification notification;
 			notification = new PgRewriteNotification();
 			final PageId rewritePgId = this.getId();
 			notification.setPgId(rewritePgId);
 			final String rewriteAuthorId = this.getAuthorId();
 			notification.setRewriteAuthorId(rewriteAuthorId);
-			notification.setRecipientId(recipientId);
+			notification.setRecipientId(altPgAuthorId);
 			notification.create();
 		}
 	}
@@ -97,14 +97,17 @@ public class SubmitRewriteController extends SubmitController {
 	private void notifyFollowers() {
 		final User myUser = User.getMyUser();
 		List<String> followerIds = myUser.getFollowers();
+		List<String> altPgAuthorIds = this.getAuthorsOfAltPgs();
 		for (final String followerId : followerIds) {
-			final FollowerRewriteNotification notification;
-			notification = new FollowerRewriteNotification();
-			notification.setPgId(this.getId());
-			notification.setAuthorId(this.getAuthorId());
-			notification.setAuthorName(this.getAuthorName());
-			notification.setRecipientId(followerId);
-			notification.create();
+			if (altPgAuthorIds.contains(followerId) == false) {
+				final FollowerRewriteNotification notification;
+				notification = new FollowerRewriteNotification();
+				notification.setPgId(this.getId());
+				notification.setAuthorId(this.getAuthorId());
+				notification.setAuthorName(this.getAuthorName());
+				notification.setRecipientId(followerId);
+				notification.create();
+			}
 		}
 	}
 
