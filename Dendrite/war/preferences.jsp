@@ -12,6 +12,10 @@ view.initialise();
 
 %><%@include file="top.jspf"
 
+%><%
+
+if (PreferencesView.isUserLoggedIn()) {
+
 %>
         <h2>My Preferences</h2>
         <form action="updatePreferences" method="post">
@@ -280,5 +284,15 @@ if (isNewPenNameBlank == true) {
           <button type="submit">Update</button>
           <a href="/resetPreferences"><div class="button">Reset to
               defaults</div></a>
-        </form>
+        </form><%
+        
+} else {
+	
+	%>
+        <p class="notice">For now, you need to be logged in to change your
+            preferences.</p><%
+	
+}
+        
+        %>
 <%@include file="bottom.jspf" %>
