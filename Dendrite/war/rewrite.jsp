@@ -61,7 +61,6 @@ if (isExistingPage == true) {
           </span>
         </div>
         <div class="clear"></div>
-        <div></div>
         <div>
           <textarea id="content" name="content"><%
 
@@ -108,15 +107,15 @@ if (isDraftPending == true) {
     if (isAnOptionTooLong == true) {
       		
     %>
-        <i>Must not be longer than 80 characters</i><%
+          <i>Must not be longer than 80 characters</i><%
   		
 		}
   	
     %>
           <span
               id="optionCountNote"
-              class="countNote">(<span id="optionCount">80</span>
-              characters remaining)
+              class="countNote">(<span id="optionCount">80</span> characters
+              remaining)
           </span>
         </div>
         <div class="clear"></div>
@@ -155,8 +154,8 @@ if (isDraftPending == true) {
         pageContext.setAttribute("authorId", authorId);
         
         %>
-        <input name="authorId" type="hidden"
-            value="${fn:escapeXml(authorId)}" /><%
+        <input name="authorId" type="hidden" value="${fn:escapeXml(authorId)}"
+            /><%
         
     }
       
