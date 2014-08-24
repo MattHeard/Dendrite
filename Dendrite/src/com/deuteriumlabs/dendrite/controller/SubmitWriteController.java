@@ -30,8 +30,8 @@ public class SubmitWriteController extends SubmitController {
 			page.create();
 		}
 
-		if (this.isAuthorNotificationNeeded() == true) {
-			this.notifyAboutExtension();
+		if (this.isParentNotificationNeeded()) {
+			this.notifyParent();
 		}
 
 		this.notifyFollowers();
@@ -70,15 +70,14 @@ public class SubmitWriteController extends SubmitController {
 	 * @return
 	 */
 	private boolean isAuthorNotifiable() {
-		final StoryPage parentPg = this.getParent();
-		final String parentAuthorId = parentPg.getAuthorId();
+		final String parentAuthorId = getParentAuthorId();
 		return (parentAuthorId != null);
 	}
 
 	/**
 	 * @return
 	 */
-	private boolean isAuthorNotificationNeeded() {
+	private boolean isParentNotificationNeeded() {
 		final boolean isAuthorNotifiable = this.isAuthorNotifiable();
 		final boolean isAuthorOfParentPage = this.isAuthorOfParentPage();
 		return (isAuthorNotifiable == true && isAuthorOfParentPage == false);
@@ -89,37 +88,41 @@ public class SubmitWriteController extends SubmitController {
 	 */
 	private boolean isAuthorOfParentPage() {
 		final String childAuthorId = this.getAuthorId();
-		final StoryPage parentPg = this.getParent();
-		final String parentAuthorId = parentPg.getAuthorId();
+		final String parentAuthorId = getParentAuthorId();
 		return (parentAuthorId != null && parentAuthorId.equals(childAuthorId));
 	}
 
 	/**
      * 
      */
-	private void notifyAboutExtension() {
+	private void notifyParent() {
 		final PgChildNotification notification = new PgChildNotification();
 		final PageId childPgId = this.getId();
 		notification.setPgId(childPgId);
 		final String childAuthorId = this.getAuthorId();
 		notification.setChildAuthorId(childAuthorId);
-		final StoryPage parentPg = this.getParent();
-		final String parentAuthorId = parentPg.getAuthorId();
+		final String parentAuthorId = getParentAuthorId();
 		notification.setRecipientId(parentAuthorId);
 		notification.create();
+	}
+
+	private String getParentAuthorId() {
+		return this.getParent().getAuthorId();
 	}
 
 	private void notifyFollowers() {
 		final User myUser = User.getMyUser();
 		List<String> followerIds = myUser.getFollowers();
 		for (final String followerId : followerIds) {
-			final FollowerWriteNotification notification;
-			notification = new FollowerWriteNotification();
-			notification.setPgId(this.getId());
-			notification.setAuthorId(this.getAuthorId());
-			notification.setAuthorName(this.getAuthorName());
-			notification.setRecipientId(followerId);
-			notification.create();
+			if (this.getParentAuthorId().equals(followerId) == false) {
+				final FollowerWriteNotification notification;
+				notification = new FollowerWriteNotification();
+				notification.setPgId(this.getId());
+				notification.setAuthorId(this.getAuthorId());
+				notification.setAuthorName(this.getAuthorName());
+				notification.setRecipientId(followerId);
+				notification.create();
+			}
 		}
 	}
 
