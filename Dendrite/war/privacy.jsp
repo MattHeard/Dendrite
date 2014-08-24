@@ -8,7 +8,7 @@ pageContext.setAttribute("webPageTitle", "Dendrite - My Preferences");
 final PrivacyView view = new PrivacyView();
 view.setPageContext(pageContext);
 
-%><%@include file="top.jspf"
+%><%@include file="top_simplified_theming.jspf"
 
 %>
     <h2>Privacy Policy</h2>
@@ -87,10 +87,8 @@ view.setPageContext(pageContext);
         we hold about you by contacting us as follows:</p>
     <ul>
       <li><b>Contact:</b>
-        <a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
-            href="/contact">dendritestories.co.nz/contact</a></li>
-      <li><b>E-mail:</b> <a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
-          href="mailto:matt+dendrite+privacy@mattheard.net" 
+        <a href="/contact">dendritestories.co.nz/contact</a></li>
+      <li><b>E-mail:</b> <a href="mailto:matt+dendrite+privacy@mattheard.net" 
           >matt+dendrite+privacy@mattheard.net</a></li>
     </ul>
     <h3>Changes to our policy</h3>

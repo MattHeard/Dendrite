@@ -19,7 +19,7 @@ view.initialise();
 
 // `top.jspf` contains the JSP code starting the HTML page and displaying the
 // header bar which is common to all Dendrite web pages.
-%><%@include file="top.jspf" %>
+%><%@include file="top_simplified_theming.jspf" %>
         <div id="author_side_bar">
           <img id="author_avatar" src="avatars/${fn:escapeXml(avatarId)}.png" />
           <h1>${fn:escapeXml(penName)}</h1><%
@@ -48,15 +48,14 @@ if (view.isAuthorPageOfUser() == true) {
 %>
         </div>
         <div id="author_body">
-          <div id="tabs"><%
+          <ul class="tabs"><%
           
 view.prepareAuthorPageUrl();
           
           %>
-            <a href="${authorPageUrl}">Pages Written</a>
-            <!-- <a>Statistics</a> -->
-            <a class="selected_tab">Followers</a>
-            <a id="more">⋮</a>
+            <li><a href="${authorPageUrl}">Pages Written</a></li>
+            <li class="selected">Followers</li>
+            <li id="more"><a>⋮</a></li>
           </div>
           <ul id="followerList"><%
           

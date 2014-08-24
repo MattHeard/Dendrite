@@ -9,10 +9,16 @@
  */%><%@ page import="com.deuteriumlabs.dendrite.model.Notification"
 %><%@ page import="com.deuteriumlabs.dendrite.view.HyperlinkedStr"
 %><%@ page import="com.deuteriumlabs.dendrite.view.NotificationsView"
-%><%final NotificationsView view = new NotificationsView();
+%><%
+
+final NotificationsView view = new NotificationsView();
 view.setPageContext(pageContext);
 view.setRequest(request);
-view.initialise();%><%@include file="top.jspf" %><%final boolean hasAnyNotifications = view.hasAnotherNotification();
+view.initialise();
+
+%><%@include file="top_simplified_theming.jspf" %><%
+
+final boolean hasAnyNotifications = view.hasAnotherNotification();
 if (hasAnyNotifications == false) {%>
     <p class="notice">Oh, hello! It looks like you have no new
         notifications.</p><%

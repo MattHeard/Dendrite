@@ -7,14 +7,13 @@ pageContext.setAttribute("webPageTitle", "Dendrite - Terms of Use");
 final TermsView view = new TermsView();
 view.setPageContext(pageContext);
 
-%><%@include file="top.jspf"
+%><%@include file="top_simplified_theming.jspf"
 
 %>
       <h2>Terms of use</h2>
       <h3>General</h3>
-      <p>Welcome to our website <a
-          class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
-          href="/">dendritestories.co.nz</a> (<b>Website</b>).</p>
+      <p>Welcome to our website <a href="/">dendritestories.co.nz</a>
+          (<b>Website</b>).</p>
       <p>You have found one of the most amazing places on the Web where you can
           share your ideas, stories and dreams with millions of other people
           around the world. You are now part of the "Dendrite Community."</p>
@@ -86,8 +85,7 @@ view.setPageContext(pageContext);
       <p>We have no responsibility or liability for any Content on this Website.
           Any person objecting to or having any issue or claim in relation to
           any Content should immediately contact us at
-          <a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}"
-                  href="/contact">dendritestories.co.nz/contact</a></p>
+          <a href="/contact">dendritestories.co.nz/contact</a></p>
       <p>You agree to use this Website and its Content purely "as is".</p>
       <h3>Links to and from this Website</h3>
       <p>From time to time this Website may include links to other websites.
@@ -101,8 +99,7 @@ view.setPageContext(pageContext);
           your use of this Website. Personal information may also be collected
           through the use of cookies to record your visit. All information
           collected will be held by us in accordance with our
-          <a class="${fn:escapeXml(fontColourClassName)} ${fn:escapeXml(themeClassName)}" href="/privacy">Privacy
-          Policy</a>.</p>
+          <a href="/privacy">Privacy Policy</a>.</p>
       <h3>Intellectual property of the Website</h3>
       <p>We are the owners, or are licensed users, of all intellectual property
           rights used on or in connection with this Website, including (but not

@@ -17,14 +17,14 @@ view.setPageContext(pageContext);
 view.setRequest(request);
 view.initialise();
 
-%><%@include file="top.jspf"
+%><%@include file="top_simplified_theming.jspf"
 
 %>
-        <div id="tabs">
-          <a href="about">About</a>
-          <a class="selected_tab">Contributors</a>
-          <a id="more" href="about_more">⋮</a>
-        </div>
+        <ul class="tabs">
+          <li><a href="about">About</a></li>
+          <li class="selected">Contributors</li>
+          <li id="more"><a href="about_more">⋮</a></li>
+        </ul>
         <div class="clear"></div>
         <h3>Developer</h3>
         <ul class="contributors">

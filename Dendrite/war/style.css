@@ -1,15 +1,309 @@
 @CHARSET "UTF-8";
 
+/* THEMES */
+
+/* Size */
+
+.hugeSize #main {
+    font-size: 32px;
+    line-height: 48px;
+}
+
+.largeSize #main {
+    font-size: 24px;
+    line-height: 32px;
+}
+
+.mediumSize #main {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.smallSize #main {
+    font-size: 12px;
+    line-height: 18px;
+}
+
+/* Typeface */
+
+.serifTypeface #main {
+    font-family: 'Merriweather', "Palatino Linotype", "Book Antiqua", Palatino,
+            serif;
+}
+
+.sansSerifTypeface #main {
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+.monospaceTypeface #main {
+    font-family: 'Source Code Pro', "Lucida Console", Monaco, monospace;
+}
+
+.cursiveTypeface #main {
+    font-family: 'Kalam', "Brush Script MT", "MV Boli", cursive;
+}
+
+.fantasyTypeface #main {
+    font-family: 'Almendra', "Papyrus", fantasy;
+}
+
+/* Colour */
+
+.defaultColour #main { }
+
+.defaultColour #main a { }
+
+.charcoalColour #main {
+    color: #333;
+}
+
+.charcoalColour #main a {
+    color: #888;
+}
+
+.blackColour #main {
+    color: #000;
+}
+
+.blackColour #main a {
+    color: #555;
+}
+
+.greyColour #main {
+    color: #999;
+}
+
+.greyColour #main a {
+    color: #bbb;
+}
+
+.blueColour #main {
+    color: #009;
+}
+
+.blueColour #main a {
+    color: #55d;
+}
+
+.greenColour #main {
+    color: #090;
+}
+
+.greenColour #main a {
+    color: #5d5;
+}
+
+.redColour #main {
+    color: #900;
+}
+
+.redColour #main a {
+    color: #d55;
+}
+
+/* Spacing */
+
+.hugeSpacing #main {
+    line-height: 3em;
+}
+
+.largeSpacing #main {
+    line-height: 2em;
+}
+
+.mediumSpacing #main {
+    line-height: 1.5em;
+}
+
+.smallSpacing #main {
+    line-height: 1em;
+}
+
+/* Alignment */
+
+.leftAlignment #main {
+    text-align: left;
+}
+
+.rightAlignment #main {
+    text-align: right;
+}
+
+.centreAlignment #main {
+    text-align: center;
+}
+
+.justifyAlignment #main {
+    text-align: justify;
+}
+
+/* Theme */
+
+.lightTheme {
+    color: #111;
+    background-color: #fefefe;
+}
+
+.darkTheme {
+    color: #c2bebe;
+    background-color: #000000;
+}
+
+.sepiaTheme {
+    color: #120f09;
+    background-color: #fcfcf0;
+}
+
+.lovelyTheme {
+    color: #910034;
+    background-color: #fff1f6;
+}
+
+/* Links */
+
+.lightTheme a {
+    color: #666;
+}
+
+.darkTheme a {
+    color: #ccc;
+}
+
+.sepiaTheme a {
+    color: #6e5c41;
+}
+
+.lovelyTheme a {
+    color: #c20045;
+}
+
+/* Header and footer */
+
+.lightTheme #headerBar, .lightTheme #footerBar {
+    background-color: #f0f0f0;
+    border-color: #e0e0e0;
+}
+
+.darkTheme #headerBar, .darkTheme #footerBar {
+    background-color: #131313;
+    border-color: #181818;
+}
+
+.sepiaTheme #headerBar, .sepiaTheme #footerBar {
+    background-color: #f2edd8;
+    border-color: #e2ddc8;
+}
+
+.lovelyTheme #headerBar, .lovelyTheme #footerBar {
+    background-color: #ffd6e4;
+    border-color: #ffc8d8;
+}
+
+/* Notifications */
+
+.lightTheme #notifications { 
+    color: #fff;
+    background-color: #c00;
+}
+
+#notifications.noNewNotifications {
+    background-color: #ccc;
+}
+
+.darkTheme #notifications { 
+    color: #fff;
+    background-color: #c00;
+}
+
+#notifications.noNewNotifications {
+    background-color: #ccc;
+}
+
+.sepiaTheme #notifications { 
+    color: #fff;
+    background-color: #c00;
+}
+
+#notifications.noNewNotifications {
+    background-color: #ccc;
+}
+
+.lovelyTheme #notifications { 
+    color: #fff;
+    background-color: #c00;
+}
+
+#notifications.noNewNotifications {
+    background-color: #ccc;
+}
+
+/* Tabs */
+
+ul.tabs {
+	width: 100%;
+    border-bottom: 1px solid #bbb;
+    
+    margin: 0px;
+    margin-top: 20px;
+    padding: 0px;
+}
+
+ul.tabs a:hover {
+    text-decoration: none;
+}
+
+.tabs li {
+	position: relative;
+	top: 1px;
+	
+	display: inline-block;
+	
+	margin-right: 0.5em;
+	padding: 0.5em;
+}
+
+.tabs li.selected {
+	border: 1px solid #bbb;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.tabs li:not (.selected) {
+	pointer: cursor;
+}
+
+.tabs li.more {
+    float: right;
+}
+
+.lightTheme #main .tabs > .selected {
+    border-bottom: 1px solid #fefefe;
+}
+
+.darkTheme #main .tabs > .selected {
+    border-bottom: 1px solid #000000;
+}
+
+.sepiaTheme #main .tabs > .selected {
+    border-bottom: 1px solid #fcfcf0;
+}
+
+.lovelyTheme #main .tabs > .selected {
+    border-bottom: 1px solid #fff1f6;
+}
+
+/* Other */
+
+.notice {
+    margin-top: 50px;
+    font-size: 1.5em;
+    line-height: 1em;
+    text-align: center;
+}
+
 ul#contents {
 	list-style-type: none;
 	
 	padding: 0px;
-}
-
-.notice {
-	margin-top: 50px;
-	font-size: 24px;
-	text-align: center;
 }
 
 ::selection {
@@ -380,7 +674,8 @@ ul.read.tags > li:after {
 }
 
 body {
-	line-height: 1.5em;
+	font-size: 16px;
+	line-height: 24px;
 	text-align: justify;
 	margin: 0em;
 	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
@@ -893,7 +1188,7 @@ ul#notificationList, ul#followerList {
 	text-align: center;
 	float: right;
 	font-weight: 300;
-	color: white;
+ 	color: #fff;
 	background-color: #c00;
 	border-radius: 5px;
 	min-width: 22px;
@@ -902,7 +1197,6 @@ ul#notificationList, ul#followerList {
 
 #notifications.noNewNotifications {
 	background-color: #ccc;
-	color: #fff;
 }
 
 .notificationDelete {
@@ -1093,7 +1387,7 @@ select {
 }
 
 #tabs a.selected_tab {
-	color: initial;
+	color: inherit;
 	border: 1px solid #bbb;
 	border-bottom: 1px solid #fefefe;
 	border-radius: 5px 5px 0px 0px;
@@ -1102,7 +1396,6 @@ select {
 #tabs a {
 	padding: 15px;
 	padding-bottom: 8px;
-	color: #666;
 	border: 1px solid transparent;
 	text-decoration: none;
 }
@@ -1114,7 +1407,6 @@ select {
 #tabs #more {
 	display: inherit;
 	float: right;
-	padding: 0px 10px;
 	cursor: pointer;
 }
 
@@ -1163,13 +1455,20 @@ textarea {
 		display: inline;
 		padding-right: 1em;
 	}
+	
 	#tabs a:not (.selected_tab ) {
 		display: initial;
 		cursor: pointer;
 	}
-	#tabs #more {
+	
+	.tabs #more, #tabs #more {
 		display: none;
 	}
+	
+	.tabs li:not (.selected) {
+	    display: initial;
+	}
+	
 	.formatIcon {
 		margin: 5px 10px 5px 0px;
 		padding: 0px;
