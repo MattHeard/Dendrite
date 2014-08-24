@@ -3,85 +3,112 @@
  */
 package com.deuteriumlabs.dendrite.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 import com.google.appengine.api.datastore.Entity;
 
-
-/**
- * 
- */
 public class PgRewriteNotification extends Notification {
 
-    private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
+	private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
 	private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
 	public static final String REWRITE_AUTHOR_ID_PROPERTY = "rewriteAuthorId";
 	private static final String TYPE = "PgRewriteNotification";
-	
+
 	private static int getPgIdNumFromEntity(final Entity entity) {
-        final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
-        return num.intValue();
+		final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
+		return num.intValue();
 	}
-	
-    private static String getPgIdVersionFromEntity(final Entity entity) {
-        return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
+
+	private static String getPgIdVersionFromEntity(final Entity entity) {
+		return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
 	}
-    
-    private static String getRewriteAuthorIdFromEntity(final Entity entity) {
+
+	private static String getRewriteAuthorIdFromEntity(final Entity entity) {
 		String propertyName = REWRITE_AUTHOR_ID_PROPERTY;
 		final String id = (String) entity.getProperty(propertyName);
 		return id;
 	}
-    
-    private PageId pgId;
+
+	private PageId pgId;
 	private String rewriteAuthorId;
 
-    public PgRewriteNotification() {}
-
-    public PgRewriteNotification(final Entity entity) {
-    	this.readPropertiesFromEntity(entity);
+	public PgRewriteNotification() {
 	}
 
-    @Override
-    public String getMsg() {
-        final String name = this.getRewriteAuthorName();
-        final PageId pgId = this.getPgId();
-        final String msg;
-        msg = name + " rewrote one of your pages and wrote page " + pgId + ".";
+	public PgRewriteNotification(final Entity entity) {
+		this.readPropertiesFromEntity(entity);
+	}
+
+	@Override
+	public String getMsg() {
+		final String name = this.getRewriteAuthorName();
+		final PageId pgId = this.getPgId();
+		final String msg;
+		msg = name + " rewrote one of your pages and wrote page " + pgId + ".";
 		return msg;
-    }
+	}
 
-    /**
-     * @return
-     */
-    private PageId getPgId() {
-        return this.pgId;
-    }
+	@Override
+	public List<HyperlinkedStr> getHyperlinkedMsg() {
+		final List<HyperlinkedStr> msg = new ArrayList<HyperlinkedStr>();
 
-    /**
-     * @return
-     */
-    private String getRewriteAuthorId() {
-        return this.rewriteAuthorId;
-    }
+		final HyperlinkedStr nameChunk = new HyperlinkedStr();
+		nameChunk.str = this.getRewriteAuthorName();
+		nameChunk.url = "/author?id=" + this.getRewriteAuthorId();
+		msg.add(nameChunk);
+
+		HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
+		unlinkedChunk.str = " rewrote one of your pages and wrote page ";
+		msg.add(unlinkedChunk);
+
+		final HyperlinkedStr pgIdChunk = new HyperlinkedStr();
+		final PageId pgId = this.getPgId();
+		pgIdChunk.str = pgId.toString();
+		pgIdChunk.url = "/read?p=" + pgId;
+		msg.add(pgIdChunk);
+
+		unlinkedChunk = new HyperlinkedStr();
+		unlinkedChunk.str = ".";
+		msg.add(unlinkedChunk);
+
+		return msg;
+	}
 
 	/**
-     * @return
-     */
-    private String getRewriteAuthorName() {
-        final String id = this.getRewriteAuthorId();
-        final User author = new User();
-        author.setId(id);
-        author.read();
-        final String name = author.getDefaultPenName();
-        return name;
-    }
+	 * @return
+	 */
+	private PageId getPgId() {
+		return this.pgId;
+	}
+
+	/**
+	 * @return
+	 */
+	private String getRewriteAuthorId() {
+		return this.rewriteAuthorId;
+	}
+
+	/**
+	 * @return
+	 */
+	private String getRewriteAuthorName() {
+		final String id = this.getRewriteAuthorId();
+		final User author = new User();
+		author.setId(id);
+		author.read();
+		final String name = author.getDefaultPenName();
+		return name;
+	}
 
 	private void readPgIdFromEntity(final Entity entity) {
-        final PageId id = new PageId();
-        final int number = getPgIdNumFromEntity(entity);
-        id.setNumber(number);
-        final String version = getPgIdVersionFromEntity(entity);
-        id.setVersion(version);
-        this.setPgId(id);
+		final PageId id = new PageId();
+		final int number = getPgIdNumFromEntity(entity);
+		id.setNumber(number);
+		final String version = getPgIdVersionFromEntity(entity);
+		id.setVersion(version);
+		this.setPgId(id);
 	}
 
 	@Override
@@ -97,22 +124,22 @@ public class PgRewriteNotification extends Notification {
 	}
 
 	/**
-     * @param id
-     */
-    public void setPgId(final PageId id) {
-        this.pgId = id;
-    }
+	 * @param id
+	 */
+	public void setPgId(final PageId id) {
+		this.pgId = id;
+	}
 
 	/**
-     * @param entity
-     */
-    private void setPgIdInEntity(final Entity entity) {
-        final PageId id = this.getPgId();
-        final int num = id.getNumber();
-        entity.setProperty(PG_ID_NUM_PROPERTY, num);
-        final String version = id.getVersion();
-        entity.setProperty(PG_ID_VERSION_PROPERTY, version);
-    }
+	 * @param entity
+	 */
+	private void setPgIdInEntity(final Entity entity) {
+		final PageId id = this.getPgId();
+		final int num = id.getNumber();
+		entity.setProperty(PG_ID_NUM_PROPERTY, num);
+		final String version = id.getVersion();
+		entity.setProperty(PG_ID_VERSION_PROPERTY, version);
+	}
 
 	@Override
 	void setPropertiesInEntity(Entity entity) {
@@ -122,25 +149,25 @@ public class PgRewriteNotification extends Notification {
 		setTypeInEntity(entity);
 	}
 
-    private static void setTypeInEntity(final Entity entity) {
-    	final String type = getType();
-    	String propertyName = Notification.getTypePropertyName();
+	private static void setTypeInEntity(final Entity entity) {
+		final String type = getType();
+		String propertyName = Notification.getTypePropertyName();
 		entity.setProperty(propertyName, type);
 	}
 
-    /**
-     * @param id
-     */
-    public void setRewriteAuthorId(final String id) {
-        this.rewriteAuthorId = id;
-    }
+	/**
+	 * @param id
+	 */
+	public void setRewriteAuthorId(final String id) {
+		this.rewriteAuthorId = id;
+	}
 
 	private void setRewriteAuthorIdInEntity(final Entity entity) {
-    	final String id = this.getRewriteAuthorId();
-    	entity.setProperty(REWRITE_AUTHOR_ID_PROPERTY, id);
+		final String id = this.getRewriteAuthorId();
+		entity.setProperty(REWRITE_AUTHOR_ID_PROPERTY, id);
 	}
-    
-    public static String getType() {
-    	return TYPE;
-    }
+
+	public static String getType() {
+		return TYPE;
+	}
 }

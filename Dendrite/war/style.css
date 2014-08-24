@@ -881,9 +881,13 @@ ul#notificationList, ul#followerList {
 }
 
 #notifications {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    
 	text-align: center;
 	float: right;
-	font-weight: 700;
+	font-weight: 300;
 	color: white;
 	background-color: #c00;
 	border-radius: 5px;

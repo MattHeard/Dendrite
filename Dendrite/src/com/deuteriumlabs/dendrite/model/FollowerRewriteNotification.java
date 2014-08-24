@@ -1,5 +1,9 @@
 package com.deuteriumlabs.dendrite.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 import com.google.appengine.api.datastore.Entity;
 
 public class FollowerRewriteNotification extends Notification {
@@ -55,6 +59,32 @@ public class FollowerRewriteNotification extends Notification {
 		final String name = this.getAuthorName();
 		final PageId pgId = this.getPgId();
 		return name + " rewrote a page at page " + pgId + ".";
+	}
+
+	@Override
+	public List<HyperlinkedStr> getHyperlinkedMsg() {
+		final List<HyperlinkedStr> msg = new ArrayList<HyperlinkedStr>();
+
+		final HyperlinkedStr nameChunk = new HyperlinkedStr();
+		nameChunk.str = this.getAuthorName();
+		nameChunk.url = "/author?id=" + this.getAuthorId();
+		msg.add(nameChunk);
+
+		HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
+		unlinkedChunk.str = " rewrote a page at page ";
+		msg.add(unlinkedChunk);
+
+		final HyperlinkedStr pgIdChunk = new HyperlinkedStr();
+		final PageId pgId = this.getPgId();
+		pgIdChunk.str = pgId.toString();
+		pgIdChunk.url = "/read?p=" + pgId;
+		msg.add(pgIdChunk);
+
+		unlinkedChunk = new HyperlinkedStr();
+		unlinkedChunk.str = ".";
+		msg.add(unlinkedChunk);
+
+		return msg;
 	}
 
 	private PageId getPgId() {

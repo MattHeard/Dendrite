@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
@@ -422,4 +423,12 @@ public class Notification extends Model {
 		return TYPE_PROPERTY;
 	}
 
+	public List<HyperlinkedStr> getHyperlinkedMsg() {
+		final HyperlinkedStr onlyStr = new HyperlinkedStr();
+		onlyStr.str = "Something happened. (Unknown notification.)";
+		onlyStr.url = null;
+		final List<HyperlinkedStr> msg = new ArrayList<HyperlinkedStr>();
+		msg.add(onlyStr);
+		return msg;
+	}
 }

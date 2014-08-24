@@ -1,5 +1,9 @@
 package com.deuteriumlabs.dendrite.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 import com.google.appengine.api.datastore.Entity;
 
 public class AuthorTagNotification extends Notification {
@@ -43,6 +47,49 @@ public class AuthorTagNotification extends Notification {
 		} else {
 			msg = "Someone tagged your page " + pgId + " as " + tag + ".";
 		}
+		return msg;
+	}
+
+	@Override
+	public List<HyperlinkedStr> getHyperlinkedMsg() {
+		final PageId pgId = this.getPgId();
+		final String tag = this.getTag();
+		final String taggerId = this.getTaggerId();
+		final List<HyperlinkedStr> msg = new ArrayList<HyperlinkedStr>();
+
+		if (taggerId != null) {
+			final HyperlinkedStr nameChunk = new HyperlinkedStr();
+			nameChunk.str = this.getTaggerName();
+			nameChunk.url = "/author?id=" + taggerId;
+			msg.add(nameChunk);
+
+			HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
+			unlinkedChunk.str = " tagged your page ";
+			msg.add(unlinkedChunk);
+
+			final HyperlinkedStr pgIdChunk = new HyperlinkedStr();
+			pgIdChunk.str = pgId.toString();
+			pgIdChunk.url = "/read?p=" + pgId;
+			msg.add(pgIdChunk);
+
+			unlinkedChunk = new HyperlinkedStr();
+			unlinkedChunk.str = " as " + tag + ".";
+			msg.add(unlinkedChunk);
+		} else {
+			HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
+			unlinkedChunk.str = "Someone tagged your page ";
+			msg.add(unlinkedChunk);
+
+			final HyperlinkedStr pgIdChunk = new HyperlinkedStr();
+			pgIdChunk.str = pgId.toString();
+			pgIdChunk.url = "/read?p=" + pgId;
+			msg.add(pgIdChunk);
+
+			unlinkedChunk = new HyperlinkedStr();
+			unlinkedChunk.str = " as " + tag + ".";
+			msg.add(unlinkedChunk);
+		}
+
 		return msg;
 	}
 

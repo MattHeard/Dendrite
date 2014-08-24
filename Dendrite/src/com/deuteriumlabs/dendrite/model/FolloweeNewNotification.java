@@ -1,5 +1,9 @@
 package com.deuteriumlabs.dendrite.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 import com.google.appengine.api.datastore.Entity;
 
 public class FolloweeNewNotification extends Notification {
@@ -76,6 +80,33 @@ public class FolloweeNewNotification extends Notification {
 		final PageId pgId = this.getPgId();
 		final String msg;
 		msg = name + " started the story '" + title + "' at page " + pgId + ".";
+		return msg;
+	}
+
+	@Override
+	public List<HyperlinkedStr> getHyperlinkedMsg() {
+		final List<HyperlinkedStr> msg = new ArrayList<HyperlinkedStr>();
+
+		final HyperlinkedStr nameChunk = new HyperlinkedStr();
+		nameChunk.str = this.getAuthorName();
+		nameChunk.url = "/author?id=" + this.getAuthorId();
+		msg.add(nameChunk);
+
+		HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
+		final String title = this.getTitle();
+		unlinkedChunk.str = " started the story '" + title + "' at page ";
+		msg.add(unlinkedChunk);
+
+		final HyperlinkedStr pgIdChunk = new HyperlinkedStr();
+		final PageId pgId = this.getPgId();
+		pgIdChunk.str = pgId.toString();
+		pgIdChunk.url = "/read?p=" + pgId;
+		msg.add(pgIdChunk);
+
+		unlinkedChunk = new HyperlinkedStr();
+		unlinkedChunk.str = ".";
+		msg.add(unlinkedChunk);
+
 		return msg;
 	}
 
