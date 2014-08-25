@@ -421,6 +421,17 @@ function initFonts() {
   });
 }
 
+function resizeContactForm() {
+  var mainWidth = $("#main").width();
+  $("iframe").width(mainWidth);
+}
+
+function initResizeContactForm() {
+  $(window).resize(resizeContactForm);
+  
+  resizeContactForm();
+}
+
 function init() {
   fixInvisibleWebFont();
   preventEnterFromSubmittingForms();
@@ -430,4 +441,5 @@ function init() {
   initFollowButtons();
   initTagButtons();
   initFonts();
+  initResizeContactForm();
 }
