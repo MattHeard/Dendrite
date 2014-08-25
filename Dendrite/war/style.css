@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 
-/* THEMES */
+/* SITE-WIDE */
 
 /* Size */
 
@@ -26,24 +26,24 @@
 
 /* Typeface */
 
-.serifTypeface #main {
+.serifTypeface #main, label.serifTypeface {
     font-family: 'Merriweather', "Palatino Linotype", "Book Antiqua", Palatino,
             serif;
 }
 
-.sansSerifTypeface #main {
+.sansSerifTypeface #main, label.sansSerifTypeface {
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
 
-.monospaceTypeface #main {
+.monospaceTypeface #main, label.monospaceTypeface {
     font-family: 'Source Code Pro', "Lucida Console", Monaco, monospace;
 }
 
-.cursiveTypeface #main {
+.cursiveTypeface #main, label.cursiveTypeface {
     font-family: 'Kalam', "Brush Script MT", "MV Boli", cursive;
 }
 
-.fantasyTypeface #main {
+.fantasyTypeface #main, label.fantasyTypeface {
     font-family: 'Almendra', "Papyrus", fantasy;
 }
 
@@ -206,7 +206,7 @@
     background-color: #c00;
 }
 
-#notifications.noNewNotifications {
+.lightTheme #notifications.noNewNotifications {
     background-color: #ccc;
 }
 
@@ -215,8 +215,8 @@
     background-color: #c00;
 }
 
-#notifications.noNewNotifications {
-    background-color: #ccc;
+.darkTheme #notifications.noNewNotifications {
+    background-color: #666;
 }
 
 .sepiaTheme #notifications { 
@@ -224,8 +224,8 @@
     background-color: #c00;
 }
 
-#notifications.noNewNotifications {
-    background-color: #ccc;
+.sepiaTheme #notifications.noNewNotifications {
+    background-color: #cb9;
 }
 
 .lovelyTheme #notifications { 
@@ -233,8 +233,8 @@
     background-color: #c00;
 }
 
-#notifications.noNewNotifications {
-    background-color: #ccc;
+.lovelyTheme #notifications.noNewNotifications {
+    background-color: #fbc;
 }
 
 /* Tabs */
@@ -1190,9 +1190,10 @@ ul#notificationList, ul#followerList {
 	font-weight: 300;
  	color: #fff;
 	background-color: #c00;
-	border-radius: 5px;
+	border-radius: 3px;
 	min-width: 22px;
 	margin-left: 10px;
+	padding: 2px;
 }
 
 #notifications.noNewNotifications {

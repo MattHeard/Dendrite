@@ -10,7 +10,7 @@ view.setPageContext(pageContext);
 view.setRequest(request);
 view.initialise();
 
-%><%@include file="top.jspf"
+%><%@include file="top_simplified_theming.jspf"
 
 %><%
 
@@ -54,7 +54,7 @@ if (isNewPenNameBlank == true) {
                   value="${fn:escapeXml(fontSizeOption)}"
                   id="fontSize${fn:escapeXml(fontSizeOption)}"<%
                   
-        if (fontSizeValues[i] == userFontSize) {
+        if (fontSizeValues[i] == PreferencesView.getUserFontSize()) {
         	
             %>
         	      checked="checked"<%
@@ -75,8 +75,8 @@ if (isNewPenNameBlank == true) {
           <ul class="radio_list">
             <h4>Font type</h4><%
     
-    final String[] fontTypeStyles = { "Serif", "SansSerif", "Monospace",
-                    "Cursive", "Fantasy" };
+    final String[] fontTypeStyles = { "serifTypeface", "sansSerifTypeface",
+            		"monospaceTypeface", "cursiveTypeface", "fantasyTypeface" };
     final String[] fontTypeOptions = { "Serif", "Sans-serif", "Monospace",
             "Cursive", "Fantasy" };
     
@@ -92,7 +92,7 @@ if (isNewPenNameBlank == true) {
                   value="${fn:escapeXml(fontTypeOption)}"
                   id="fontType${fn:escapeXml(fontTypeOption)}"<%
                   
-        if (fontTypeOptions[i].equals(userFontType)) {
+        if (fontTypeOptions[i].equals(PreferencesView.getUserFontType())) {
         	
             %>
                   checked="checked"<%
@@ -102,7 +102,7 @@ if (isNewPenNameBlank == true) {
         %> />
               <label
                   for="fontType${fn:escapeXml(fontTypeOption)}"
-                  class="fontType${fn:escapeXml(fontTypeStyle)}"
+                  class="${fn:escapeXml(fontTypeStyle)}"
                   >${fn:escapeXml(fontTypeOption)}</label>
             </li><%
     	
@@ -128,7 +128,7 @@ if (isNewPenNameBlank == true) {
                  value="${fn:escapeXml(fontColourOption)}"
                  id="fontColour${fn:escapeXml(fontColourOption)}"<%
                  
-        if (fontColourOptions[i].equals(userFontColour)) {
+        if (fontColourOptions[i].equals(PreferencesView.getUserFontColour())) {
         
             %>
                  checked="checked"<%
@@ -162,7 +162,7 @@ if (isNewPenNameBlank == true) {
                   value="${fn:escapeXml(spacingOption)}"
                   id="spacing${fn:escapeXml(spacingOption)}"<%
                   
-        if (spacingValues[i] == userSpacing) {
+        if (spacingValues[i] == PreferencesView.getUserSpacing()) {
         	
         	%>
                   checked="checked"<%
@@ -195,7 +195,7 @@ if (isNewPenNameBlank == true) {
     	          value="${fn:escapeXml(alignmentOption)}"
     	          id="alignment${fn:escapeXml(alignmentOption)}"<%
     	
-        if (alignmentOptions[i].equals(userAlignment)) {
+        if (alignmentOptions[i].equals(PreferencesView.getUserAlignment())) {
         	
         	%>
         	      checked="checked"<%
@@ -229,7 +229,7 @@ if (isNewPenNameBlank == true) {
     	          value="${fn:escapeXml(themeOption)}"
     	          id="theme${fn:escapeXml(themeOption)}"<%
     	          
-    	if (themeOptions[i].equals(userTheme)) {
+    	if (themeOptions[i].equals(PreferencesView.getUserTheme())) {
     	
     		%>
                   checked="checked"<%
