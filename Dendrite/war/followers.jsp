@@ -65,7 +65,7 @@ for (final String id : view.getFollowerIds()) {
 	%>
             <li>
               <img
-                  class="followerAvatar"
+                  class="smallAvatar"
                   src="avatars/${fn:escapeXml(followerAvatarId)}.png" />
               <a href="${followerProfileUrl}">${followerName}</a>
             </li><%

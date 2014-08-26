@@ -37,10 +37,12 @@ if (isPageInStore == true) {
     	pageContext.setAttribute("pageNumber", pageNumber);
 
     	%>
-      <div id="modifyMenu">
-        <span id="rewriteLink"><a
-            href="/rewrite?p=${fn:escapeXml(pageNumber)}">Rewrite</a></span>
-      </div>
+      <ul id="modifyMenu">
+        <li id="rewriteLink"><a title="Rewrite this page"
+            href="/rewrite?p=${fn:escapeXml(pageNumber)}">REWRITE</a></li>
+        <li><a title="Alternative versions of this page"
+            href="/alt?p=${fn:escapeXml(pageNumber)}">ALTERNATIVES</a></li>
+      </ul>
       <div class="clear"></div>
       <div id="text_body"><%
 

@@ -34,7 +34,7 @@ public class Notification extends Model {
 	private static final String TYPE = "FollowerRewriteNotification";
 
 	/**
-	 * @param id
+	 * @param pgId
 	 * @return
 	 */
 	public static int countNewNotificationsForRecipient(final String recipientId) {

@@ -412,9 +412,9 @@ a.fontColourRed,.fontColourRed a {
 	padding-top: 20px;
 }
 
-#avatar, .avatar_radio_button, .followerAvatar {
-	height: 3em;
-	width: 3em;
+#avatar, .avatar_radio_button, .followerAvatar, .smallAvatar {
+	height: 48px;
+	width: 48px;
 	border: 2px solid #333;
 	background-color: #333;
 	border-radius: 2em;
@@ -460,6 +460,44 @@ input[type=radio]+label>img {
 	padding: 0px;
 }
 
+ul.alt {
+	list-style-type: none;
+	padding: 0px;
+}
+
+.alt .pgId {
+	float: left;
+	font-size: 1.5em;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+.alt .authorAndLove {
+	width: 100%;
+}
+
+.alt .love {
+	line-height: 48px;
+	vertical-align: middle;
+	height: 48px;
+	padding: 5px;
+}
+
+.alt .author {
+	float: right;
+	margin-bottom: 5px;
+}
+
+.alt .smallAvatar {
+	vertical-align: middle;
+	margin: 5px;
+}
+
+.alt > li {
+    border-bottom: 1px dashed #ccc;
+	margin-bottom: 10px;
+}
+
 ul.read.tags {
 	margin-bottom: 0px;
 }
@@ -474,11 +512,11 @@ ul.read.tags, ul.tagControls {
     text-align: right;
 }
 
-ul.contents.tags {
+ul.contents.tags, .alt ul.tags {
 	opacity: 0.4;
 }
 
-ul.contents.tags > li {
+ul.contents.tags > li, .alt ul.tags > li {
 	font-size: 10px;
 	line-height: 14px;
 	
@@ -487,6 +525,7 @@ ul.contents.tags > li {
 	border-radius: 2px;
 	
 	margin-top: 5px;
+    margin-right: 5px;
 	padding-left: 2px;
 	padding-right: 2px;
 }
@@ -508,10 +547,6 @@ ul.read.tags > li, ul.tagControls > li {
 ul.read.tags > li, ul.tagControls > li {
     margin-top: 10px;
     margin-left: 10px;
-}
-
-ul.contents.tags > li {
-	margin-right: 5px;
 }
 	
 ul.tags > li, ul.tagControls > li {
@@ -551,7 +586,6 @@ ul.tagControls > li.add, ul.tagControls > li.cancel {
 ul.tagControls > li.add, ul.tagControls > li.ok, ul.tagControls > li.cancel {
 	color: #000;
 	border-color: #ccc;
-	font-weight: 700;
 	cursor: pointer;
 	
 	margin-left: 5px;
@@ -1243,9 +1277,23 @@ ul.radio_list {
 	margin-bottom: 1em;
 }
 
-#modifyMenu {
+ul#modifyMenu {
 	float: right;
-	padding-top: 1em;
+	padding: 0px;
+	list-style-type: none;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+ul#modifyMenu > li {
+	text-align: center;
+    font-size: 12px;
+    line-height: 14px;
+    border: 1px solid;
+    border-radius: 5px;
+    color: #000;
+    border-color: #ccc;
+    margin-bottom: 5px;
+    padding: 5px;
 }
 
 #love {
@@ -1263,9 +1311,22 @@ ul.radio_list {
     padding-right: 5px;
 }
 
-#heartIcon {
+#heartIcon, .heartIcon {
 	height: 20px;
 	width: 21px;
+}
+
+.heartIcon {
+	vertical-align: middle;
+}
+
+/* .heartIcon {
+	height: 10px;
+	width: 10px;
+} */
+
+.heartIcon.faded {
+	opacity: 0.3;
 }
 
 select {
