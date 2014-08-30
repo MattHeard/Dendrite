@@ -245,6 +245,9 @@ if (isNewPenNameBlank == true) {
             
     %>
           </ul>
+          <p id="darkWarning" 
+              class="warning"><b>WARNING</b>: Black font will be almost
+            impossible to read on the dark theme.</p>
           <hr />
           <h3>Avatar</h3>
           <div id="avatar_selection"><%
