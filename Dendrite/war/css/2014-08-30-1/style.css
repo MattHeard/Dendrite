@@ -547,14 +547,14 @@ ul.read.tags > li, ul.tagControls > li {
 ul.read.tags > li, ul.tagControls > li {
     margin-top: 10px;
     margin-left: 10px;
+    line-height: 24px;
+    height: 24px;
 }
 	
 ul.tags > li, ul.tagControls > li {
     color: #fff;
 	border: 1px solid;
 	border-radius: 5px;
-    height: 24px;
-    line-height: 24px;
 	
 	padding: 0px 5px;
 }
