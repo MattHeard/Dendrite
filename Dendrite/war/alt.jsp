@@ -20,22 +20,24 @@ view.initialise();
 
 final List<Alt> alts = view.getAlts();
 for (final Alt alt : alts) {
+	view.prepareAlt(alt);
 	
     %>
           <li>
             <div class="pgId">
-              <a href="/read?p=<%= alt.pgId %>"><%= alt.pgId %></a>
+              <a href="/read?p=${fn:escapeXml(pgId)}">${fn:escapeXml(pgId)}</a>
             </div>
             <div class="altBody">
-            <div class="summary">"<%= alt.summary %>"</div>
+            <div class="summary">"${fn:escapeXml(summary)}"</div>
             <ul class="tags"><%
               
     final List<String> tags = alt.tags;
     for (final String tag : tags) {
+    	view.prepareTag(tag);
     	
     	%>
-              <li class="<%= tag.toLowerCase() %>">
-                <%= tag.toUpperCase() %>
+              <li class="${fn:escapeXml(tagClass)}">
+                ${fn:escapeXml(tagName)}
               </li><%
     	
     }
@@ -44,16 +46,32 @@ for (final Alt alt : alts) {
             </ul>
             <div class="clear"></div>
             <div class="authorAndLove">
-              <div class="author">
-                <a href="/author?id=<%= alt.authorId %>">
-                  <%= alt.authorName %>
-                </a>
+              <div class="author"><%
+              
+if (alt.authorId != null) {
+              
+              %>
+                <a href="/author?id=${fn:escapeXml(authorId)}">
+                  <%
+                  
+}
+                  
+                  %>${fn:escapeXml(authorName)}<% 
+                  
+if (alt.authorId != null) {
+                  
+                  %>
+                </a><%
+                
+}
+                
+                %>
                 <img class="smallAvatar"
-                    src="/img/avatar/2014-08-20-0/<%= alt.authorAvatarId %>.png"
+                    src="/img/avatar/2014-08-20-0/${fn:escapeXml(authorAvatarId)}.png"
                     />
               </div>
               <div class="love">
-                <%= alt.numLovers %>
+                ${fn:escapeXml(numLovers)}
                 <img class="heartIcon<%
               
     if (alt.numLovers < 1) {

@@ -84,12 +84,28 @@ public class AltView extends View {
 		alt.summary = pg.getLongSummary();
 		alt.tags = pg.getTags();
 		alt.authorId = pg.getAuthorId();
+		alt.authorName = pg.getAuthorName();
 
 		final User author = new User();
 		author.setId(alt.authorId);
 		author.read();
-		alt.authorName = author.getDefaultPenName();
 		alt.authorAvatarId = author.getAvatarId();
 		return alt;
+	}
+
+	public void prepareAlt(final Alt alt) {
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("pgId", alt.pgId);
+		pageContext.setAttribute("numLovers", alt.numLovers);
+		pageContext.setAttribute("summary", alt.summary);
+		pageContext.setAttribute("authorId", alt.authorId);
+		pageContext.setAttribute("authorName", alt.authorName);
+		pageContext.setAttribute("authorAvatarId", alt.authorAvatarId);
+	}
+
+	public void prepareTag(final String tag) {
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("tagClass", tag.toLowerCase());
+		pageContext.setAttribute("tagName", tag.toUpperCase());
 	}
 }

@@ -19,7 +19,7 @@ if (isPageInStore == true) {
 	pageContext.setAttribute("webPageTitle", "Dendrite");
 }
 
-%><%@include file="top_with_format_bar.jspf"
+%><%@include file="top_simplified_format.jspf"
 
 %><%
 
@@ -96,7 +96,7 @@ if (isPageInStore == true) {
           href="${fn:escapeXml(optionLink)}"><div class="option"><%
     
                 List<FormattedText> formattedTextChunks
-                         = FormattedText.extractFormattedText(optionText);
+                        = FormattedText.extractFormattedText(optionText);
   	            for (final FormattedText chunk : formattedTextChunks) {
   		            pageContext.setAttribute("chunk", chunk.getText());
   		            Format format = chunk.getFormat();
