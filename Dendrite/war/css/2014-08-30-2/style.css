@@ -922,6 +922,8 @@ button, .button, .option {
 }
 
 #formatBar {
+    padding-left: 8px;
+    padding-right: 8px;
 	min-height: 40px;
 	background-color: #999;
 	color: #DDD;
@@ -1044,12 +1046,17 @@ ul#formatMenu {
 
 #formatMenu > li.select > button {
     height: 30px;
-    width: 115px;
+    width: 39px;
+    
+    text-indent: -9000px;
+    
+    /* Hack for hiding button text in IE7. */
+    text-transform: capitalize;
+    
+    background-size: 39px 30px;
     background-repeat: no-repeat;
-    margin: 5px 10px 5px 0px;
+    margin: 5px 5px 5px 0px;
     padding-top: 4px;
-    padding-left: 30px;
-    padding-right: 14px;
 }
 
 #formatMenu > li.select > button.pressed {
@@ -1058,10 +1065,9 @@ ul#formatMenu {
 
 #formatMenu > li.menu > ul {
 	list-style-type: none;
-    width: 111px;
 	padding: 2px;
 	position: absolute;
-	top: 124px;
+	top: 154px;
 	display: none;
 	border-radius: 0px 0px 5px 5px;
 	cursor: pointer;
@@ -1069,9 +1075,6 @@ ul#formatMenu {
 
 #formatMenu > li.menu > ul > li:hover {
 	background-color: #ddd;
-}
-
-#formatMenu > li.select > ul#sizeMenu {
 }
 
 #formatMenu > li.save {
@@ -1093,27 +1096,94 @@ ul#formatMenu {
 }
 
 #formatMenu #sizeBtn {
-    background-image: url("/img/icons/2014-08-29-0/size.png");
+    background-image: url("/img/icons/2014-08-29-0/narrow/size.png");
+    text-indent: -9000px;
+    
+    /* Hack for hiding button text in IE7. */
+    text-transform: capitalize;
 }
 
 #formatMenu #typeBtn {
-    background-image: url("/img/icons/2014-08-29-0/type.png");
+    background-image: url("/img/icons/2014-08-29-0/narrow/type.png");
+    text-indent: -9000px;
+    
+    /* Hack for hiding button text in IE7. */
+    text-transform: capitalize;
 }
 
 #formatMenu #colourBtn {
-    background-image: url("/img/icons/2014-08-29-0/colour.png");
+    background-image: url("/img/icons/2014-08-29-0/narrow/colour.png");
+    text-indent: -9000px;
+    
+    /* Hack for hiding button text in IE7. */
+    text-transform: capitalize;
 }
 
 #formatMenu #alignBtn {
-    background-image: url("/img/icons/2014-08-29-0/align.png");
+    background-image: url("/img/icons/2014-08-29-0/narrow/align.png");
+    text-indent: -9000px;
+    
+    /* Hack for hiding button text in IE7. */
+    text-transform: capitalize;
 }
 
 #formatMenu #spacingBtn {
-    background-image: url("/img/icons/2014-08-29-0/spacing.png");
+    background-image: url("/img/icons/2014-08-29-0/narrow/spacing.png");
 }
 
 #formatMenu #themeBtn {
-    background-image: url("/img/icons/2014-08-29-0/theme.png");
+    background-image: url("/img/icons/2014-08-29-0/narrow/theme.png");
+    text-indent: -9000px;
+    
+    /* Hack for hiding button text in IE7. */
+    text-transform: capitalize;
+}
+
+@media all and (min-width: 800px) {
+
+    #formatBar {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+	#formatMenu > li.select > button {
+	    width: 115px;
+        background-size: 115px 30px;
+		padding-left: 30px;
+		padding-right: 14px;
+		margin-right: 13px;
+        text-indent: 0px;
+	}
+	
+	
+	#formatMenu #sizeBtn {
+	    background-image: url("/img/icons/2014-08-29-0/wide/size.png");
+	}
+	
+	#formatMenu #typeBtn {
+	    background-image: url("/img/icons/2014-08-29-0/wide/type.png");
+	}
+	
+	#formatMenu #colourBtn {
+	    background-image: url("/img/icons/2014-08-29-0/wide/colour.png");
+	}
+	
+	#formatMenu #alignBtn {
+	    background-image: url("/img/icons/2014-08-29-0/wide/align.png");
+	}
+	
+	#formatMenu #spacingBtn {
+	    background-image: url("/img/icons/2014-08-29-0/wide/spacing.png");
+	}
+	
+	#formatMenu #themeBtn {
+	    background-image: url("/img/icons/2014-08-29-0/wide/theme.png");
+	}
+	
+    #formatMenu > li.menu > ul {
+	    top: 124px;
+	    width: 111px;
+	}
 }
 
 .format2014-08-18-0 .dropdownButton, .format2014-08-18-0 .saveButton {

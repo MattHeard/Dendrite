@@ -334,16 +334,18 @@ function initFormatMenu() {
 }
 
 function checkBlackTextOnDarkTheme() {
-  var colour = $(".radio_list input[name='fontColour']:radio:checked")
-      .val()
-      .toLowerCase();
-  var theme = $(".radio_list input[name='theme']:radio:checked")
-      .val()
-      .toLowerCase();
-  if (colour === "black" && theme === "dark") {
-    $("#darkWarning").show();
-  } else {
-    $("#darkWarning").hide();
+  if ($(".radio_list").length > 0) {
+    var colour = $(".radio_list input[name='fontColour']:radio:checked")
+        .val()
+        .toLowerCase();
+    var theme = $(".radio_list input[name='theme']:radio:checked")
+        .val()
+        .toLowerCase();
+    if (colour === "black" && theme === "dark") {
+      $("#darkWarning").show();
+    } else {
+      $("#darkWarning").hide();
+    }
   }
 }
 
