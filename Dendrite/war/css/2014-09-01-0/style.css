@@ -690,9 +690,19 @@ button, .button, .option {
     user-select: none;
 }
 
+.darkTheme button, .darkTheme .button, .darkTheme .option {
+    color: #fff;
+    background-color: #666;
+}
+
 .sepiaTheme button, .sepiaTheme .button, .sepiaTheme .option {
-	color: #fff;
-	background-color: #cb9;
+    color: #fff;
+    background-color: #a98;
+}
+
+.lovelyTheme button, .lovelyTheme .button, .lovelyTheme .option {
+    color: #111;
+    background-color: #ffaad5;
 }
 
 #follow, #unfollow {
