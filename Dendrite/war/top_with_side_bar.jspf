@@ -15,7 +15,7 @@ if (View.isUserLoggedIn()) {
 }
 
 %>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300<%
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300<%
 
 if ("Serif".equals(font)) {
     
@@ -61,54 +61,12 @@ ga('send', 'pageview');
 
     </script>
     <title>${fn:escapeXml(webPageTitle)}</title>
-  </head>
-  <body<%
+  </head><%
+
+view.prepareThemeClasses();
   
-// Set up default display settings.
-double userFontSize = 1.0;
-String userFontType = "Sans-serif";
-String userFontColour = "Default";
-double userSpacing = 1.5;
-String userAlignment = "Justify";
-String userTheme = "Light";
-
-final boolean isUserLoggedIn = View.isUserLoggedIn();
-
-if (isUserLoggedIn == true) {
-
-    // Replace default display settings with user preferences.
-    final String authorLink = View.getAuthorLink();
-    pageContext.setAttribute("authorLink", authorLink);
-    final String userName = View.getMyUserName();
-    pageContext.setAttribute("userName", userName);
-    final String logoutLink = view.getLogoutLink();
-    pageContext.setAttribute("logoutLink", logoutLink);
-    userFontSize = View.getUserFontSize();
-    userFontType = View.getUserFontType();
-    userFontColour = View.getUserFontColour();
-    userSpacing = View.getUserSpacing();
-    userAlignment = View.getUserAlignment();
-    userTheme = View.getUserTheme();
-}
-
-if (userTheme.equals("Light") == false && userTheme != null) {
-    String className = "theme";
-    final String[] options = { "Light", "Dark", "Sepia", "Lovely" };
-    final List<String> list = Arrays.asList(options);
-    if (list.contains(userTheme)) {
-        className += userTheme;
-    } else {
-        className += "Light";
-    }
-    pageContext.setAttribute("themeClassName", className);
-
-    %> class="${fn:escapeXml(themeClassName)}"<%
-
-} else {
-    pageContext.setAttribute("themeClassName", "");
-}
-  
-%> onLoad="init();">
+%>
+  <body onLoad="init();" class="${themeClasses}">
     <div id="nonFooter">
       <div id="headerBar">
         <div id="header">
@@ -116,17 +74,11 @@ if (userTheme.equals("Light") == false && userTheme != null) {
               alt="Dendrite"
               title="Dendrite"
               height="70px"
-              src="/img/logo/2014-08-20-0/<%
-          
-if (userTheme != null && userTheme.equals("Light") == false) {
-          
-    %>${fn:escapeXml(themeClassName)}/<%
-          
-}
-          
-%>logo.png" /></a></div><%
+              src="/img/logo/2014-08-20-0/logo.png" /></a></div><%
 
+final boolean isUserLoggedIn = View.isUserLoggedIn();
 if (isUserLoggedIn == true) {
+    view.prepareUserHeader();
     
     %>
           
@@ -156,4 +108,4 @@ if (isUserLoggedIn == true) {
 %>
         </div>
       </div>
-      <div id="main" class="hasToolbar">
+      <div id="main" class="modifiableText hasToolbar">
