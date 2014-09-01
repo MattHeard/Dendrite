@@ -1028,51 +1028,51 @@ ul#formatMenu {
 	}
     
     #formatMenu #sizeBtn {
-        background-image: url("/img/icons/2014-09-01-0/wide/light/size.png");
+        background-image: url("/img/icons/2014-09-01-0/light/wide/size.png");
     }
     
     #formatMenu #typeBtn {
-        background-image: url("/img/icons/2014-09-01-0/wide/light/type.png");
+        background-image: url("/img/icons/2014-09-01-0/light/wide/type.png");
     }
     
     #formatMenu #colourBtn {
-        background-image: url("/img/icons/2014-09-01-0/wide/light/colour.png");
+        background-image: url("/img/icons/2014-09-01-0/light/wide/colour.png");
     }
     
     #formatMenu #alignBtn {
-        background-image: url("/img/icons/2014-09-01-0/wide/light/align.png");
+        background-image: url("/img/icons/2014-09-01-0/light/wide/align.png");
     }
     
     #formatMenu #spacingBtn {
-        background-image: url("/img/icons/2014-09-01-0/wide/light/spacing.png");
+        background-image: url("/img/icons/2014-09-01-0/light/wide/spacing.png");
     }
     
     #formatMenu #themeBtn {
-        background-image: url("/img/icons/2014-09-01-0/wide/light/theme.png");
+        background-image: url("/img/icons/2014-09-01-0/light/wide/theme.png");
     }
     
     .darkTheme #formatMenu #sizeBtn {
-        background-image: url("/img/icons/2014-09-01-0/wide/dark/size.png");
+        background-image: url("/img/icons/2014-09-01-0/dark/wide/size.png");
     }
     
     .darkTheme #formatMenu #typeBtn {
-        background-image: url("/img/icons/2014-09-01-0/wide/dark/type.png");
+        background-image: url("/img/icons/2014-09-01-0/dark/wide/type.png");
     }
     
     .darkTheme #formatMenu #colourBtn {
-        background-image: url("/img/icons/2014-09-01-0/wide/dark/colour.png");
+        background-image: url("/img/icons/2014-09-01-0/dark/wide/colour.png");
     }
     
     .darkTheme #formatMenu #alignBtn {
-        background-image: url("/img/icons/2014-09-01-0/wide/dark/align.png");
+        background-image: url("/img/icons/2014-09-01-0/dark/wide/align.png");
     }
     
     .darkTheme #formatMenu #spacingBtn {
-        background-image: url("/img/icons/2014-09-01-0/wide/dark/spacing.png");
+        background-image: url("/img/icons/2014-09-01-0/dark/wide/spacing.png");
     }
     
     .darkTheme #formatMenu #themeBtn {
-        background-image: url("/img/icons/2014-09-01-0/wide/dark/theme.png");
+        background-image: url("/img/icons/2014-09-01-0/dark/wide/theme.png");
     }
 	
     #formatMenu > li.menu > ul {
@@ -1397,6 +1397,21 @@ select {
     
     margin-bottom: 5px;
     padding: 20px;
+}
+
+.darkTheme .formattingTips {
+    background-color: #131313;
+    border-color: #181818;
+}
+
+.sepiaTheme .formattingTips {
+    background-color: #f2edd8;
+    border-color: #e2ddc8;
+}
+
+.lovelyTheme .formattingTips {
+	background-color: #ffd6e4;
+	border-color: #ffc8d8;
 }
 
 .formattingTips h3 {
