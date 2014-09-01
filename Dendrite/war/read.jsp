@@ -223,7 +223,7 @@ for (final String tag : tagNames) {
             
         }
       
-      %>><img id="heartIcon" src="icons/heart.png" /></div>
+      %>><img id="heartIcon" src="/img/icons/2014-09-01-0/heart.png" /></div>
       <script type="text/javascript" lang="javascript">
         var IS_NOT_CURRENTLY_LOVED = <%= view.isNotLoved() %>;
         var LOVE_URI_WITHOUT_VAL = "/love?<%

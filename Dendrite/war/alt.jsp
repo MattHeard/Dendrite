@@ -81,7 +81,7 @@ if (alt.authorId != null) {
         
     }
               
-    %>" src="icons/heart.png" />
+    %>" src="/img/icons/2014-09-01-0/heart.png" />
               </div>
             </div>
             </div>
