@@ -48,13 +48,16 @@ if ("Serif".equals(font)) {
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="/js/2014-08-30-2/script.js"></script>
     <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    
+// Google Analytics
+    
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-53889088-1', 'auto');
-  ga('send', 'pageview');
+ga('create', 'UA-53889088-1', 'auto');
+ga('send', 'pageview');
 
     </script>
     <title>${fn:escapeXml(webPageTitle)}</title>
@@ -153,91 +156,4 @@ if (isUserLoggedIn == true) {
 %>
         </div>
       </div>
-      <div id="main" class="hasToolbar modifiableText<%
-      
-if (userFontSize != 1.0) {
-    String sizeClassName = "size";
-    if (userFontSize == 2) {
-        sizeClassName += "Huge";
-    } else if (userFontSize == 1.5) {
-        sizeClassName += "Large";
-    } else if (userFontSize == 0.8) {
-        sizeClassName += "Small";
-    } else {
-        sizeClassName += "Medium";
-    }
-    pageContext.setAttribute("sizeClassName", sizeClassName);
-          
-    %> ${fn:escapeXml(sizeClassName)}<%
-          
-}
-    
-if ("Sans-serif".equals(userFontType) == false) {
-    String fontTypeClassName = "fontType";
-    if ("Serif".equals(userFontType)) {
-        fontTypeClassName += "Serif";
-    } else if ("Monospace".equals(userFontType)) {
-        fontTypeClassName += "Monospace";
-    } else if ("Cursive".equals(userFontType)) {
-        fontTypeClassName += "Cursive";
-    } else if ("Fantasy".equals(userFontType)) {
-        fontTypeClassName += "Fantasy";
-    }
-    pageContext.setAttribute("fontTypeClassName", fontTypeClassName);
-            
-    %> ${fn:escapeXml(fontTypeClassName)}<%
-            
-}
-        
-if ("Default".equals(userFontColour) == false) {
-    String fontColourClassName = "fontColour";
-    final String[] fontColourOptions = { "Default", "Charcoal", "Black",
-            "Grey", "Blue", "Green", "Red" };
-    final List<String> list = Arrays.asList(fontColourOptions);
-    if (list.contains(userFontColour)) {
-        fontColourClassName += userFontColour;
-    } else {
-        fontColourClassName += "Default";
-    }
-    pageContext.setAttribute("fontColourClassName", fontColourClassName);
-          
-    %> ${fn:escapeXml(fontColourClassName)}<%
-    
-    } else {
-        pageContext.setAttribute("fontColourClassName", "");
-    }
-        
-    if (userSpacing != 1.5) {
-        String spacingClassName = "spacing";
-        if (userSpacing == 3.0) {
-            spacingClassName += "Huge";
-        } else if (userSpacing == 2.0) {
-            spacingClassName += "Large";
-        } else if (userSpacing == 1.0) {
-            spacingClassName += "Small";
-        } else {
-            spacingClassName += "Medium";
-        }
-        pageContext.setAttribute("spacingClassName", spacingClassName);
-          
-        %> ${fn:escapeXml(spacingClassName)}<%
-            
-    }
-        
-    if ("Justify".equals(userAlignment) == false) {
-        String alignmentClassName = "alignment";
-        final String[] alignmentOptions = { "Left", "Right", "Center",
-                "Justify" };
-        final List<String> list = Arrays.asList(alignmentOptions);
-        if (list.contains(userAlignment)) {
-            alignmentClassName += userAlignment;
-        } else {
-            alignmentClassName += "Default";
-        }
-        pageContext.setAttribute("alignmentClassName", alignmentClassName);
-          
-        %> ${fn:escapeXml(alignmentClassName)}<%
-          
-    }
-      
-    %>">
+      <div id="main">
