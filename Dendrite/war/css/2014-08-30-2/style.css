@@ -323,66 +323,6 @@ a:hover {
 	text-decoration: underline;
 }
 
-a.themeLight,.themeLight a {
-	color: #666;
-}
-
-a.themeDark,.themeDark a {
-	color: #949191;
-}
-
-a.themeSepia,.themeSepia a {
-	color: #6e5c41;
-}
-
-a.themeLovely,.themeLovely a {
-	color: #c20045;
-}
-
-a.fontColourBlack,.fontColourBlack a {
-	color: #555;
-}
-
-a.fontColourBlue,.fontColourBlue a {
-	color: #55d;
-}
-
-a.fontColourCharcoal,.fontColourCharcoal a {
-	color: #888;
-}
-
-a.fontColourDefault,.fontColourDefault a {
-	
-}
-
-a.fontColourGrey,.fontColourGrey a {
-	color: #bbb;
-}
-
-a.fontColourGreen,.fontColourGreen a {
-	color: #5d5;
-}
-
-a.fontColourRed,.fontColourRed a {
-	color: #d55;
-}
-
-.alignmentCenter {
-	text-align: center;
-}
-
-.alignmentJustify {
-	text-align: justify;
-}
-
-.alignmentLeft {
-	text-align: left;
-}
-
-.alignmentRight {
-	text-align: right;
-}
-
 #author_avatar {
 	max-width: 50vw;
 	max-height: 50vw;
@@ -391,11 +331,6 @@ a.fontColourRed,.fontColourRed a {
 	border: 3px solid #333;
 	background-color: #333;
 	border-radius: 100px;
-}
-
-.themeDark #author_avatar {
-	border-color: #949191;
-	background-color: #949191;
 }
 
 #author_body {
@@ -727,21 +662,6 @@ body {
 	hyphens: auto;
 }
 
-body.themeDark {
-	color: #c2bebe;
-	background-color: #000000;
-}
-
-body.themeSepia {
-	color: #120f09;
-	background-color: #fcfcf0;
-}
-
-body.themeLovely {
-	color: #910034;
-	background-color: #fff1f6;
-}
-
 button, .button, .option {
 	font-weight: 300;
 	font-family: inherit;
@@ -822,11 +742,6 @@ button, .button, .option {
 	background-color: #eee;
 }
 
-.themeDark .dropdown {
-	color: #000000;
-	background-color: #949191;
-}
-
 .visible {
 	display: initial;
 }
@@ -840,7 +755,7 @@ button, .button, .option {
 	background-color: #ddd;
 }
 
-#spacingDropdown,#themeDropdown {
+#spacingDropdown, #themeDropdown {
 	margin-left: -58px;
 }
 
@@ -854,54 +769,6 @@ button, .button, .option {
 	#themeDropdown {
 		margin-left: 5px;
 	}
-}
-
-.fontColourBlack {
-	color: #000;
-}
-
-.fontColourBlue {
-	color: #009;
-}
-
-.fontColourCharcoal {
-	color: #333;
-}
-
-.fontColourDefault {
-	
-}
-
-.fontColourGrey {
-	color: #999;
-}
-
-.fontColourGreen {
-	color: #090;
-}
-
-.fontColourRed {
-	color: #900;
-}
-
-.fontTypeCursive {
-	font-family: 'Kalam', "Brush Script MT", "MV Boli", cursive;
-}
-
-.fontTypeFantasy {
-	font-family: 'Almendra', "Papyrus", fantasy;
-}
-
-.fontTypeMonospace {
-	font-family: 'Source Code Pro', "Lucida Console", Monaco, monospace;
-}
-
-.fontTypeSansSerif {
-	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-}
-
-.fontTypeSerif {
-	font-family: 'Merriweather', "Palatino Linotype", "Book Antiqua", Palatino, serif;
 }
 
 .footer {
@@ -935,26 +802,6 @@ button, .button, .option {
 	border: 1px #888;
 	border-style: solid none;
 	display: none;
-}
-
-#formatBar.themeLight,.themeLight #formatBar {
-	background-color: #999;
-	border-color: #888;
-}
-
-#formatBar.themeDark,.themeDark #formatBar {
-	background-color: #494949;
-	border-color: #5c5c5c;
-}
-
-#formatBar.themeSepia,.themeSepia #formatBar {
-	background-color: #977B5F;
-	border-color: #715941;
-}
-
-#formatBar.themeLovely,.themeLovely #formatBar {
-	background-color: #f7669a;
-	border-color: #f64d89;
 }
 
 .formatPickerBar {
@@ -1000,30 +847,6 @@ button, .button, .option {
 	padding-right: 5px;
 	padding-top: 17px;
 	padding-bottom: 17px;
-}
-
-.themeDark .formatIcon,.themeDark .formatIcon img,.themeDark .option,.themeDark button
-	{
-	background-color: #949191;
-	border-color: #747674;
-	color: #000000;
-}
-
-.themeSepia .formatIcon,.themeSepia .formatIcon img,.themeSepia .dropdown
-	{
-	background-color: #f2edd8;
-	border-color: #e2ddc8;
-	color: #604412;
-}
-
-.themeSepia .dropdown .selected {
-	background-color: #E7DFBF;
-}
-
-.themeSepia .option,.themeSepia button {
-	background-color: #977B5F;
-	border-color: #715941;
-	color: #f2edd8;
 }
 
 ul#formatMenu {
@@ -1242,38 +1065,14 @@ h4 {
 	min-height: 70px;
 }
 
-#headerBar.themeLight,#footerBar.themeLight,.themeLight #headerBar,.themeLight #footerBar
-	{
-	background-color: #f0f0f0;
-	border-color: #e0e0e0;
-}
-
-#headerBar.themeDark,#footerBar.themeDark,.themeDark #headerBar,.themeDark #footerBar
-	{
-	background-color: #131313;
-	border-color: #181818;
-}
-
-#headerBar.themeSepia,#footerBar.themeSepia,.themeSepia #headerBar,.themeSepia #footerBar
-	{
-	background-color: #f2edd8;
-	border-color: #e2ddc8;
-}
-
-#headerBar.themeLovely,#footerBar.themeLovely,.themeLovely #headerBar,.themeLovely #footerBar
-	{
-	background-color: #ffd6e4;
-	border-color: #ffc8d8;
-}
-
-.themeDark hr {
-	background-color: #5c5c5c;
-}
-
 hr {
 	background-color: #ddd;
 	height: 2px;
 	border: none;
+}
+
+.darkTheme hr {
+    background-color: #222;
 }
 
 hr.minor_separator {
@@ -1300,12 +1099,6 @@ input,textarea {
 	color: #333;
 	border: 1px solid #ddd;
 	border-radius: 10px;
-}
-
-.themeDark input,.themeDark textarea {
-	background-color: #494949;
-	border-color: #5c5c5c;
-	color: #c2bebe;
 }
 
 .item {
@@ -1473,11 +1266,6 @@ ul#modifyMenu > li {
 	vertical-align: middle;
 }
 
-/* .heartIcon {
-	height: 10px;
-	width: 10px;
-} */
-
 .heartIcon.faded {
 	opacity: 0.3;
 }
@@ -1486,26 +1274,6 @@ select {
 	font-size: 1em;
 	margin-left: 1em;
 	height: 30px;
-}
-
-.sizeHuge {
-	font-size: 2em;
-	line-height: 1.5em;
-}
-
-.sizeLarge {
-	font-size: 1.5em;
-	line-height: 1.5em;
-}
-
-.sizeMedium {
-	font-size: 1em;
-	line-height: 1.5em;
-}
-
-.sizeSmall {
-	font-size: 0.8em;
-	line-height: 1.5em;
 }
 
 .small {
@@ -1573,22 +1341,6 @@ select {
 	
 	margin: 0px;
 	padding: 0px;
-}
-
-.spacingHuge {
-	line-height: 3em;
-}
-
-.spacingLarge {
-	line-height: 2em;
-}
-
-.spacingMedium {
-	line-height: 1.5em;
-}
-
-.spacingSmall {
-	line-height: 1em;
 }
 
 #storyTitle {
@@ -1693,12 +1445,14 @@ textarea {
 		margin: 5px 10px 5px 0px;
 		padding: 0px;
 	}
+	
 	.formatIcon img {
 		margin: 0px;
 		padding: 10px;
 		border-radius: 5px 0px 0px 5px;
 		border-right: 1px solid #ccc;
 	}
+	
 	.formatIcon span {
 		font-size: 16px;
 		color: #111;
@@ -1710,14 +1464,17 @@ textarea {
 		border-radius: 0px 5px 5px 0px;
 		padding-right: 5px;
 	}
+	
 	.formatIcon #arrow {
 		border-right: none;
 		padding-left: 0px;
 	}
+	
 	.dropdown,#spacingDropdown {
 		margin-left: 0px;
 		width: 150px;
 	}
+	
 	#themeDropdown {
 		margin-left: -35px;
 	}
