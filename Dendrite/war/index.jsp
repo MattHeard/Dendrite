@@ -85,5 +85,5 @@ if (isLastPage == false) {
 	
 %>
         </p>
-        <p id="newStory"><a href="/new">Start a new story</a></p>
+        <h3 id="newStory"><a href="/new">Start a new story</a></h3>
 <%@include file="bottom.jspf" %>
