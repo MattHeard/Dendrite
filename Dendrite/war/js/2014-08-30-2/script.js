@@ -318,6 +318,8 @@ function initFormatMenu() {
       $(this).removeClass("pressed");
       $(menu).hide();
 	} else {
+      $("ul#formatMenu > li.select > button").removeClass("pressed");
+      $("ul#formatMenu > li.menu > ul").hide();
 	  $(this).addClass("pressed");
       $(menu).show();
 	}
