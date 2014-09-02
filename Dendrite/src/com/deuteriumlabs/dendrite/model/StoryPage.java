@@ -10,6 +10,8 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Projection;
+import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -43,6 +45,8 @@ public class StoryPage extends Model {
 	private static final String LOVING_USERS_PROPERTY = "lovingUsers";
 	private static final String TAGS_PROPERTY = "tags";
 	private static final String TEXT_PROPERTY = "text";
+	private static final int SIZE_INFLUENCE = 1;
+	private static final int LOVE_INFLUENCE = 1;
 
 	public static String convertNumberToVersion(final int num) {
 		final int lowNum = ((num - 1) % LEN_ALPHABET) + 1;
@@ -244,17 +248,23 @@ public class StoryPage extends Model {
 		pg.setId(id);
 		pg.read();
 		if (pg.isInStore() == true) {
-			final int denominator = pg.calculateChanceDenominator();
+			final long denominator = pg.calculateChanceDenominator();
+			System.out.println("denominator: " + denominator);
 			Random generator = new Random();
-			int randomNum = generator.nextInt(denominator);
+			int randomNum = generator.nextInt((int) denominator) + 1;
+			System.out.println("randomNum: " + randomNum);
 			while (randomNum >= 0) {
-				final int numerator = pg.calculateChanceNumerator();
+				System.out.println("version: " + pg.getId().getVersion());
+				final long numerator = pg.calculateChanceNumerator();
+				System.out.println("numerator: " + numerator);
 				randomNum -= numerator;
+				System.out.println("randomNum: " + randomNum);
 				if (randomNum >= 0) {
 					pg.incrementVersion();
 				}
 			}
 			final String version = pg.getId().getVersion();
+			System.out.println();
 			return version;
 		} else {
 			return "a";
@@ -282,18 +292,52 @@ public class StoryPage extends Model {
 	}
 
 	/**
-     * 
-     */
+	 * The chance of a page being displayed is determined by two factors:
+	 * 
+	 * (1) the size of its subtree, which is measured by counting all of its
+	 * descendants, and
+	 * 
+	 * (2) its number of lovers.
+	 * 
+	 * Each factor is calculated as a fraction of two integers and are each
+	 * multiplied by a constant representing how influential each factor is upon
+	 * the total weight.
+	 * 
+	 * For example, a page has 3 children while all alternatives have 8
+	 * children. This produces a chance of 3/8 from the size of its subtree. The
+	 * page also has 10 lovers while all alternatives have 15 lovers. This
+	 * produces a chance of 10/15 from the lovers. In this example, the subtree
+	 * size accounts for 6/10 of the total weight, while the lovers accounts for
+	 * 4/10 of the total weight. The total weight can then be calculated by
+	 * summing the product of each factor by how influential it is:
+	 * 
+	 * (3/8 * 600/1000) + (10/15 * 400/1000)
+	 * 
+	 * = ((3 * 600 * 15) + (10 * 400 * 8) ) / (8 * 15 * 1000)
+	 * 
+	 * = 0.49166666666
+	 * 
+	 * This example page would have a 49% chance of being displayed.
+	 */
 	private void calculateChance() {
-		final int numerator = this.calculateChanceNumerator();
-		final int denominator = this.calculateChanceDenominator();
+		final long numerator = this.calculateChanceNumerator();
+		final long denominator = this.calculateChanceDenominator();
 		this.setChance(numerator + "/" + denominator);
 	}
 
 	/**
 	 * @return
 	 */
-	private int calculateChanceDenominator() {
+	private long calculateChanceDenominator() {
+		final int sizeDenominator = this.getSizeDenominator();
+		final int sizeInfluence = this.getSizeInfluence();
+		final int loveDenominator = this.getLoveDenominator();
+		final int loveInfluence = this.getLoveInfluence();
+		return (sizeDenominator * sizeInfluence)
+				+ (loveDenominator * loveInfluence);
+	}
+
+	private int getSizeDenominator() {
 		if (this.isTheFirstPage()) {
 			/*
 			 * For example, the first page of the story is 1a. Find the number
@@ -302,7 +346,7 @@ public class StoryPage extends Model {
 			 * and add 1 to each size and then add them together. This is O(n)
 			 * where n is the number of versions. Is there an O(1) solution?
 			 * We're looking for all nodes with subtrees which match the
-			 * following regex: "1[a-z]+". From this, we know that the string
+			 * following regex: "1[a-z]+.*". From this, we know that the string
 			 * must be greater than "1\`" and less than "1\{".
 			 */
 			return this.getSizeOfBeginningSubtree();
@@ -315,6 +359,61 @@ public class StoryPage extends Model {
 	 * @return
 	 */
 	private int calculateChanceNumerator() {
+		final int sizeNumerator = this.getSizeNumerator();
+		final int sizeInfluence = this.getSizeInfluence();
+		final int loveNumerator = this.getLoveNumerator();
+		final int loveInfluence = this.getLoveInfluence();
+		return (sizeNumerator * sizeInfluence)
+				+ (loveNumerator + loveInfluence);
+	}
+
+	private int getLoveDenominator() {
+		final int numLoversOfAllVersions = this.getNumLoversOfAllVersions();
+		return numLoversOfAllVersions;
+	}
+
+	private int getNumLoversOfAllVersions() {
+		final PageId id = this.getId();
+		final int pgNum = id.getNumber();
+		final int numLovers = StoryPage.countLoversOfAllVersions(pgNum);
+		return numLovers;
+	}
+
+	private static int countLoversOfAllVersions(final int pgNum) {
+		final Query query = new Query(KIND_NAME);
+		Projection loversProjection;
+		String propertyName = LOVING_USERS_PROPERTY;
+		loversProjection = new PropertyProjection(propertyName, String.class);
+		query.addProjection(loversProjection);
+		FilterPredicate filter;
+		filter = Query.FilterOperator.EQUAL.of(ID_NUMBER_PROPERTY, pgNum);
+		query.setFilter(filter);
+		final DatastoreService store = getStore();
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		final List<Entity> entities = store.prepare(query).asList(fetchOptions);
+		int count = 0;
+		for (final Entity entity : entities) {
+			if (entity.getProperty(LOVING_USERS_PROPERTY) != null) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	private int getLoveNumerator() {
+		final int numLoversOfThisPg = this.getNumLovingUsers();
+		return numLoversOfThisPg;
+	}
+
+	private int getLoveInfluence() {
+		return LOVE_INFLUENCE;
+	}
+
+	private int getSizeInfluence() {
+		return SIZE_INFLUENCE;
+	}
+
+	private int getSizeNumerator() {
 		return this.getSizeOfSubtree() + 1;
 	}
 
@@ -568,6 +667,7 @@ public class StoryPage extends Model {
 	 */
 	private void incrementVersion() {
 		this.getId().incrementVersion();
+		this.read();
 	}
 
 	/**
