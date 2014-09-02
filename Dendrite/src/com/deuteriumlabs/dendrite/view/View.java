@@ -379,4 +379,10 @@ public abstract class View {
 	public final void setRequest(final HttpServletRequest request) {
 		this.request = request;
 	}
+
+	public void prepareThemeClass() {
+		final String themeClass = getThemeClass();
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("themeClass", themeClass);
+	}
 }

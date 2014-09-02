@@ -73,8 +73,12 @@ view.prepareThemeClasses();
           <div id="logo"><a href="/"><img id="logoImage"
               alt="Dendrite"
               title="Dendrite"
-              height="70px"
-              src="/img/logo/2014-08-20-0/logo.png" /></a></div><%
+              height="70px"<%
+              
+view.prepareThemeClass();
+              
+%>
+              src="/img/logo/2014-08-20-0/${themeClass}/logo.png" /></a></div><%
 
 final boolean isUserLoggedIn = View.isUserLoggedIn();
 if (isUserLoggedIn == true) {
