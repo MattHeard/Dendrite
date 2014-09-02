@@ -21,7 +21,7 @@ view.initialise();
 // header bar which is common to all Dendrite web pages.
 %><%@include file="top_simplified_theming.jspf" %>
         <div id="author_side_bar">
-          <img id="author_avatar" src="avatars/${fn:escapeXml(avatarId)}.png" />
+          <img id="author_avatar" src="/img/avatar/2014-09-02-0/large/${fn:escapeXml(avatarId)}.png" />
           <h1>${fn:escapeXml(penName)}</h1><%
 
 if (view.isAuthorPageOfUser() == true) {
@@ -66,7 +66,7 @@ for (final String id : view.getFollowerIds()) {
             <li>
               <img
                   class="smallAvatar"
-                  src="avatars/${fn:escapeXml(followerAvatarId)}.png" />
+                  src="/img/avatar/2014-09-02-0/small/${fn:escapeXml(followerAvatarId)}.png" />
               <a href="${followerProfileUrl}">${followerName}</a>
             </li><%
 	
