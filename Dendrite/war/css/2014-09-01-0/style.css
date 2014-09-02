@@ -707,6 +707,7 @@ button, .button, .option {
 }
 
 #follow, #unfollow {
+	color: #fff;
 	width: 100%;
 }
 
