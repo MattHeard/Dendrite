@@ -1176,6 +1176,10 @@ hr.minor_separator {
 	height: 1px;
 }
 
+#author_body .clear {
+	border-top: 1px dashed #ccc;
+}
+
 html, body {
 	height: 100%;
 }
@@ -1200,17 +1204,15 @@ input,textarea {
 
 .item {
 	min-height: 1.5em;
-
-    border-bottom: 1px dashed #ccc;
-
+	
     padding-bottom: 5px;	
-	margin-bottom: 10px;
+	margin-top: 10px;
 }
 
 .itemContent {
 	font-weight: 400;
 	float: left;
-	max-width: 89%;
+	max-width: 80%;
 }
 
 .itemNumber {

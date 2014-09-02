@@ -93,6 +93,7 @@ if (hasAnotherStoryPage == false) {
     
         %>
           <div class="item">
+            <div class="itemNumber">${fn:escapeXml(pageId)}</div>
             <div class="itemContent"><a
                 href="/read?p=${fn:escapeXml(pageId)}"
                 >${fn:escapeXml(summary)}</a><%
@@ -104,7 +105,6 @@ if (hasAnotherStoryPage == false) {
         }
                 
         %></div>
-            <div class="itemNumber">${fn:escapeXml(pageId)}</div>
           </div>
           <div class="clear"></div><%
         
