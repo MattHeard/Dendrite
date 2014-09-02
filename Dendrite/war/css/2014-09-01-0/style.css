@@ -1297,9 +1297,11 @@ ul.radio_list {
 
 ul#modifyMenu {
 	float: right;
-	padding: 0px;
 	list-style-type: none;
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    
+    padding: 0px;
+    margin-left: 20px;
 }
 
 ul#modifyMenu > li {
@@ -1432,6 +1434,7 @@ select {
 
 #storyTitle {
 	float: left;
+	max-width: 100%;
 }
 
 #tabs {
