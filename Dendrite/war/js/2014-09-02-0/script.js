@@ -251,6 +251,11 @@ function initResizeContactForm() {
   resizeContactForm();
 }
 
+function changeLogoTheme(theme) {
+  var url = "/img/logo/2014-08-20-0/" + theme + "Theme/logo.png";
+  $("#logoImage").attr("src", url);
+}
+
 function changeFormat(select, val) {
   if (val != "") {
     if (select === "size") {
@@ -302,6 +307,7 @@ function changeFormat(select, val) {
           .removeClass("sepiaTheme")
           .removeClass("lovelyTheme")
           .addClass(val.toLowerCase() + "Theme");
+      changeLogoTheme(val);
     }
   }
 }
