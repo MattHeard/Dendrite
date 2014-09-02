@@ -46,7 +46,7 @@ if ("Serif".equals(font)) {
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="stylesheet" type="text/css" href="/css/2014-09-01-0/style.css">
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="/js/2014-08-30-2/script.js"></script>
+    <script type="text/javascript" src="/js/2014-09-02-0/script.js"></script>
     <script>
     
 // Google Analytics
