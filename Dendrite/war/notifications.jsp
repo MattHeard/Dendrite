@@ -52,7 +52,7 @@ if (hasAnyNotifications == false) {%>
         %>
         <img id="notificationDelete${fn:escapeXml(id)}"
             class="notificationDelete"
-            src="/icons/close_notification.png" /></li><%
+            src="/img/icons/2014-09-01-0/close_notification.png" /></li><%
     	
     }
 
