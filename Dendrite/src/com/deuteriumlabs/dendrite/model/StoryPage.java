@@ -249,22 +249,16 @@ public class StoryPage extends Model {
 		pg.read();
 		if (pg.isInStore() == true) {
 			final long denominator = pg.calculateChanceDenominator();
-			System.out.println("denominator: " + denominator);
 			Random generator = new Random();
 			int randomNum = generator.nextInt((int) denominator) + 1;
-			System.out.println("randomNum: " + randomNum);
 			while (randomNum >= 0) {
-				System.out.println("version: " + pg.getId().getVersion());
 				final long numerator = pg.calculateChanceNumerator();
-				System.out.println("numerator: " + numerator);
 				randomNum -= numerator;
-				System.out.println("randomNum: " + randomNum);
 				if (randomNum >= 0) {
 					pg.incrementVersion();
 				}
 			}
 			final String version = pg.getId().getVersion();
-			System.out.println();
 			return version;
 		} else {
 			return "a";
@@ -1064,5 +1058,39 @@ public class StoryPage extends Model {
 			final String cropped = full.substring(0, (len - 1));
 			return cropped + ELLIPSIS;
 		}
+	}
+
+	public static int countLoversBetween(final String greater, final String less) {
+		final Query query = new Query(KIND_NAME);
+		Class<String> type = String.class;
+		String projectionProperty = LOVING_USERS_PROPERTY;
+		final PropertyProjection projection;
+		projection = new PropertyProjection(projectionProperty, type);
+		query.addProjection(projection);
+		final String propertyName = ANCESTRY_PROPERTY;
+		FilterOperator operator = FilterOperator.GREATER_THAN;
+		String value = greater;
+		final Filter greaterFilter;
+		greaterFilter = new FilterPredicate(propertyName, operator, value);
+		operator = FilterOperator.LESS_THAN;
+		value = less;
+		final Filter lessFilter;
+		lessFilter = new FilterPredicate(propertyName, operator, value);
+		final Filter filter;
+		filter = CompositeFilterOperator.and(greaterFilter, lessFilter);
+		query.setFilter(filter);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		final List<Entity> entities = preparedQuery.asList(fetchOptions);
+		int count = 0;
+		for (final Entity entity : entities) {
+			final String loverId;
+			loverId = (String) entity.getProperty(projectionProperty);
+			if (loverId != null && loverId.equals("") == false) {
+				count++;
+			}
+		}
+		return count;
 	}
 }

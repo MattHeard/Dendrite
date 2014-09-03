@@ -18,7 +18,7 @@ public class SubmitNewController extends SubmitController {
 	public void buildNewStory() {
 		this.buildNewPage();
 		this.buildStoryBeginning();
-		this.recalculateStorySize();
+		this.recalculateStoryQuality();
 		this.notifyFollowers();
 	}
 

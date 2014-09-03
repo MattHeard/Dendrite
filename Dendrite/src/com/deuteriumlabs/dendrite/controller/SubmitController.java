@@ -60,7 +60,7 @@ public abstract class SubmitController {
         return this.parent;
     }
     
-    protected void recalculateStorySize() {
+    protected void recalculateStoryQuality() {
     	final PageId pgId = this.getId();
     	final StoryPage pg = new StoryPage();
     	pg.setId(pgId);
@@ -69,7 +69,7 @@ public abstract class SubmitController {
     	final PageId beginningId = pg.getBeginning();
     	beginning.setPageNumber(beginningId.getNumber());
     	beginning.read();
-    	beginning.recalculateSize();
+    	beginning.recalculateQuality();
     	beginning.update();
     }
 

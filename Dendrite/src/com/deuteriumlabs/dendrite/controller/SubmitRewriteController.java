@@ -16,7 +16,7 @@ public class SubmitRewriteController extends SubmitController {
 	@Override
 	public void buildNewPage() {
 		super.buildNewPage();
-		this.recalculateStorySize();
+		this.recalculateStoryQuality();
 	}
 
 	@Override

@@ -27,7 +27,7 @@ public class BeginningSizeRecalculator extends HttpServlet {
 		int count = 0;
 		for (final StoryBeginning b : allBeginnings) {
 			resp.getWriter().println("p" + b.getPageNumber());
-			b.recalculateSize();
+			b.recalculateQuality();
 			b.update();
 			resp.getWriter().println("size: " + b.getSize());
 			resp.getWriter().println();
