@@ -310,7 +310,7 @@ public class StoryBeginning extends Model {
 		entity.setProperty(QUALITY_PROPERTY, quality);
 	}
 
-	private int getQuality() {
+	public int getQuality() {
 		if (this.quality == 0) {
 			this.recalculateQuality();
 		}

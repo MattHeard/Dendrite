@@ -56,7 +56,7 @@ view.prepareAuthorPageUrl();
             <li><a href="${authorPageUrl}">Pages Written</a></li>
             <li class="selected">Followers</li>
             <li id="more"><a>⋮</a></li>
-          </div>
+          </ul>
           <ul id="followerList"><%
           
 for (final String id : view.getFollowerIds()) {

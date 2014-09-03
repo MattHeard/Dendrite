@@ -356,6 +356,10 @@ a:hover {
 	border-radius: 2em;
 }
 
+#followerList .smallAvatar {
+	vertical-align: middle;
+}
+
 .followerAvatar {
 	vertical-align: middle;
 	margin-right: 10px;
