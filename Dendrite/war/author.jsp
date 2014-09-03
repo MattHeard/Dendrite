@@ -47,8 +47,10 @@ if (view.isAuthorPageOfUser() == true) {
 	    		
 	}
 	
+	view.prepareAuthorId();
+	
 	%>
-          <script>var AUTHOR_ID = "<%= view.getAuthorId() %>";</script><%
+          <script>var AUTHOR_ID = "${fn:escapeXml(authorId)}";</script><%
 }
     
 %>

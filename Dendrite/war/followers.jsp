@@ -40,9 +40,11 @@ if (view.isAuthorPageOfUser() == true) {
 	    %><div id="follow" class="button">Follow</div><%
 	    		
 	}
-	
-	%>
-          <script>var AUTHOR_ID = "<%= view.getAuthorId() %>";</script><%
+    
+    view.prepareAuthorId();
+    
+    %>
+          <script>var AUTHOR_ID = "${fn:escapeXml(authorId)}";</script><%
 }
     
 %>
