@@ -667,6 +667,10 @@ body {
 	hyphens: auto;
 }
 
+button, .button {
+    float: left;
+}
+
 button, .button, .option {
 	font-weight: 300;
 	font-family: inherit;
@@ -680,7 +684,6 @@ button, .button, .option {
 	border: 1px solid transparent;
 	border-radius: 5px;
 	text-align: center;
-	float: left;
 	cursor: pointer;
 	width: 100%;
 	-webkit-box-sizing: border-box;
@@ -1290,6 +1293,27 @@ ul#notificationList, ul#followerList {
 	margin-top: -5px;
 }
 
+ul.optionPair {
+	display: flex;
+	overflow: auto;
+	
+	list-style-type: none;
+	
+	padding: 0px;
+	margin: 0px;
+}
+
+ul.optionPair > li {
+	display: flex;
+	float: left;
+	width: 100%;
+}
+
+ul.optionPair > li > a {
+	display: flex;
+	width: 100%;
+}
+
 .optionLink {
 	color: #eee;
 }
@@ -1533,10 +1557,22 @@ textarea {
 	}
 	
 	button, .button, .option {
-		width: 49%;
         max-width: 400px;
-		margin-right: 1%;
 	}
+
+	ul.optionPair > li {
+	    float: left;
+	    width: 50%;
+	}
+	
+	ul.optionPair > li:nth-child(1) > a > div {
+	    margin-right: 5px;
+	}
+    
+    ul.optionPair > li:nth-child(2) > a > div {
+        margin-left: 5px;
+   
+    }
 }
 
 @media all and (min-width: 800px) {

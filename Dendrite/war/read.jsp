@@ -85,14 +85,22 @@ if (isPageInStore == true) {
 
     	final int numberOfOptions = view.getNumberOfOptions();
     	int numSkipped = 0;
+    	int numDisplayed = 0;
+    	boolean isOptionPairOpen = false;
     	for (int i = 0; i < numberOfOptions + numSkipped; i++) {
     		final String optionLink = view.getOptionLink(i);
     		pageContext.setAttribute("optionLink", optionLink);
     		final String optionText = view.getOptionText(i);
     		if (optionText != null && optionText.length() > 0) {
-    		
+    		    if (numDisplayed % 2 == 0) {
+    		    	
+    		    	%>
+      <ul class="optionPair"><%
+      
+                    isOptionPairOpen = true;
+    		    }
     		%>
-      <a class="optionLink"
+        <li><a class="optionLink"
           href="${fn:escapeXml(optionLink)}"><div class="option"><%
     
                 List<FormattedText> formattedTextChunks
@@ -124,12 +132,32 @@ if (isPageInStore == true) {
   		            }
   	            }
   
-    %></div></a><%
+    %></div></a></li><%
     
+                numDisplayed++;
+    
+                if (numDisplayed % 2 == 0) {
+                    
+                	%>
+      </ul>
+      <div class="clear"></div><%
+      
+                    isOptionPairOpen = false;
+                	
+                }
             } else {
             	numSkipped++;
             }
     	}
+    	
+    	if (isOptionPairOpen == true) {
+            
+            %>
+      </ul>
+      <div class="clear"></div><%
+    		
+    	}
+    	
     	String authorName = view.getAuthorName();
     	if (authorName == null || authorName == "") {
     		authorName = "???";
