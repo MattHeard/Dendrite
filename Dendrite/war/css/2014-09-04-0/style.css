@@ -1556,10 +1556,12 @@ textarea {
 		text-align: left;
 	}
 	
-	button, .button, .option {
-        max-width: 400px;
+	button, .button {
+        max-width: 395px;
+        margin: 0px;
+        margin-right: 5px;
 	}
-
+	
 	ul.optionPair > li {
 	    float: left;
 	    width: 50%;

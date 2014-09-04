@@ -73,6 +73,7 @@ view.prepareThemeClasses();
           <div id="logo"><a href="/"><img id="logoImage"
               alt="Dendrite"
               title="Dendrite"
+              width="283px"
               height="70px"<%
               
 view.prepareThemeClass();
