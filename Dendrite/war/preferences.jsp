@@ -48,23 +48,23 @@ if (isNewPenNameBlank == true) {
           
         %>
             <li>
-              <input
-                  type="radio"
-                  name="fontSize"
-                  value="${fn:escapeXml(fontSizeOption)}"
-                  id="fontSize${fn:escapeXml(fontSizeOption)}"<%
-                  
-        if (fontSizeValues[i] == PreferencesView.getUserFontSize()) {
-        	
-            %>
-        	      checked="checked"<%
-        	
-        }
-                  
-        %> />
               <label
                   for="fontSize${fn:escapeXml(fontSizeOption)}"
-                  >${fn:escapeXml(fontSizeOption)}</label>
+                  >
+                <input
+                    type="radio"
+                    name="fontSize"
+                    value="${fn:escapeXml(fontSizeOption)}"
+                    id="fontSize${fn:escapeXml(fontSizeOption)}"<%
+                  
+        if (fontSizeValues[i] == PreferencesView.getUserFontSize()) {
+            
+            %>
+                    checked="checked"<%
+            
+        }
+                  
+        %> /><span>${fn:escapeXml(fontSizeOption)}</span></label>
             </li><%
             
     }
@@ -86,24 +86,23 @@ if (isNewPenNameBlank == true) {
         
     	%>
             <li>
-              <input
-                  type="radio"
-                  name="fontType"
-                  value="${fn:escapeXml(fontTypeOption)}"
-                  id="fontType${fn:escapeXml(fontTypeOption)}"<%
-                  
-        if (fontTypeOptions[i].equals(PreferencesView.getUserFontType())) {
-        	
-            %>
-                  checked="checked"<%
-                	  
-        }
-                  
-        %> />
               <label
                   for="fontType${fn:escapeXml(fontTypeOption)}"
-                  class="${fn:escapeXml(fontTypeStyle)}"
-                  >${fn:escapeXml(fontTypeOption)}</label>
+                  class="${fn:escapeXml(fontTypeStyle)}" >
+                <input
+                    type="radio"
+                    name="fontType"
+                    value="${fn:escapeXml(fontTypeOption)}"
+                    id="fontType${fn:escapeXml(fontTypeOption)}"<%
+                  
+        if (fontTypeOptions[i].equals(PreferencesView.getUserFontType())) {
+            
+            %>
+                    checked="checked"<%
+                      
+        }
+                  
+        %> /><span>${fn:escapeXml(fontTypeOption)}</span></label>
             </li><%
     	
     }
@@ -122,23 +121,22 @@ if (isNewPenNameBlank == true) {
         
         %>
            <li>
-             <input
-                 type="radio"
-                 name="fontColour"
-                 value="${fn:escapeXml(fontColourOption)}"
-                 id="fontColour${fn:escapeXml(fontColourOption)}"<%
+             <label
+                 for="fontColour${fn:escapeXml(fontColourOption)}" >
+               <input
+                   type="radio"
+                   name="fontColour"
+                   value="${fn:escapeXml(fontColourOption)}"
+                   id="fontColour${fn:escapeXml(fontColourOption)}"<%
                  
         if (fontColourOptions[i].equals(PreferencesView.getUserFontColour())) {
         
             %>
-                 checked="checked"<%
+                   checked="checked"<%
             
         }
                  
-        %> />
-             <label
-                 for="fontColour${fn:escapeXml(fontColourOption)}"
-                 >${fn:escapeXml(fontColourOption)}</label>
+        %> /><span>${fn:escapeXml(fontColourOption)}</span></label>
            </li><%
     }
     
@@ -156,23 +154,21 @@ if (isNewPenNameBlank == true) {
     	
     	%>
             <li>
-              <input
-                  type="radio"
-                  name="spacing"
-                  value="${fn:escapeXml(spacingOption)}"
-                  id="spacing${fn:escapeXml(spacingOption)}"<%
+              <label for="spacing${fn:escapeXml(spacingOption)}" >
+                <input
+                    type="radio"
+                    name="spacing"
+                    value="${fn:escapeXml(spacingOption)}"
+                    id="spacing${fn:escapeXml(spacingOption)}"<%
                   
         if (spacingValues[i] == PreferencesView.getUserSpacing()) {
-        	
-        	%>
-                  checked="checked"<%
-        			 
+            
+            %>
+                    checked="checked"<%
+                     
         }
                   
-        %> />
-              <label
-                  for="spacing${fn:escapeXml(spacingOption)}"
-                  >${fn:escapeXml(spacingOption)}</label>
+        %> /><span>${fn:escapeXml(spacingOption)}</span></label>
             </li><%
     }
             
@@ -189,23 +185,19 @@ if (isNewPenNameBlank == true) {
     	
     	%>
     	    <li>
-    	      <input
-    	          type="radio"
-    	          name="alignment"
-    	          value="${fn:escapeXml(alignmentOption)}"
-    	          id="alignment${fn:escapeXml(alignmentOption)}"<%
-    	
+    	      <label for="alignment${fn:escapeXml(alignmentOption)}" >
+                <input type="radio" name="alignment"
+                    value="${fn:escapeXml(alignmentOption)}"
+                    id="alignment${fn:escapeXml(alignmentOption)}"<%
+        
         if (alignmentOptions[i].equals(PreferencesView.getUserAlignment())) {
-        	
-        	%>
-        	      checked="checked"<%
+            
+            %>
+                    checked="checked"<%
        
         }
-    	          
-    	%> />
-    	      <label
-    	          for="alignment${fn:escapeXml(alignmentOption)}"
-    	          >${fn:escapeXml(alignmentOption)}</label>
+                  
+        %> /><span>${fn:escapeXml(alignmentOption)}</span></label>
     	    </li><%
     	
     }
@@ -223,23 +215,19 @@ if (isNewPenNameBlank == true) {
     	
     	%>
     	    <li>
-    	      <input
-    	          type="radio"
-    	          name="theme"
-    	          value="${fn:escapeXml(themeOption)}"
-    	          id="theme${fn:escapeXml(themeOption)}"<%
-    	          
-    	if (themeOptions[i].equals(PreferencesView.getUserTheme())) {
-    	
-    		%>
-                  checked="checked"<%
+    	      <label for="theme${fn:escapeXml(themeOption)}">
+                <input type="radio" name="theme"
+                    value="${fn:escapeXml(themeOption)}"
+                    id="theme${fn:escapeXml(themeOption)}"<%
                   
-    	}
-    	
-    	%> />
-    	      <label
-    	          for="theme${fn:escapeXml(themeOption)}"
-    	          >${fn:escapeXml(themeOption)}</label>
+        if (themeOptions[i].equals(PreferencesView.getUserTheme())) {
+        
+            %>
+                    checked="checked"<%
+                  
+        }
+        
+        %> /><span>${fn:escapeXml(themeOption)}</span></label>
     	    </li><%
     }
             
@@ -254,7 +242,7 @@ if (isNewPenNameBlank == true) {
           
     // See http://stackoverflow.com/questions/3896156/how-do-i-style-radio-buttons-with-images-laughing-smiley-for-good-sad-smiley
     
-    final int NUM_AVATAR_OPTIONS = 31;
+    final int NUM_AVATAR_OPTIONS = 30;
     for (int i = 0; i < NUM_AVATAR_OPTIONS; i++) {
     	pageContext.setAttribute("avatarNum", i);
     	
