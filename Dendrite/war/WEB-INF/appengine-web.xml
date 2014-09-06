@@ -31,11 +31,7 @@
   -->
   
 <static-files>
-    <include path="/**.png" expiration="7d" />
-    <include path="/**.jpg" expiration="7d" />
-    <include path="/**.ico" expiration="7d" />
-    <include path="/**.css" />
-    <include path="img/avatar/2014-09-02-0/small/0.png" expiration="7d" />
+    <include path="/**" expiration="365d" />
 </static-files>
   
 </appengine-web-app>
