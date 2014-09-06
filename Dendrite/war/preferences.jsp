@@ -264,7 +264,7 @@ if (isNewPenNameBlank == true) {
                 
         %> />
             <label for="avatar_radio_${avatarNum}">
-              <img src="/img/avatar/2014-09-02-0/small/${avatarNum}.png"
+              <img src="/img/avatar/2014-09-06-0/small/${avatarNum}.png"
                   class="avatar_radio_button" />
             </label><%
     	

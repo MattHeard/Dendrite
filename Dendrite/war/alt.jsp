@@ -67,7 +67,7 @@ if (alt.authorId != null) {
                 
                 %>
                 <img class="smallAvatar"
-                    src="/img/avatar/2014-09-02-0/small/${fn:escapeXml(authorAvatarId)}.png"
+                    src="/img/avatar/2014-09-06-0/small/${fn:escapeXml(authorAvatarId)}.png"
                     />
               </div>
               <div class="love">

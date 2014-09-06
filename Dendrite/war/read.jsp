@@ -196,7 +196,7 @@ if (isPageInStore == true) {
         pageContext.setAttribute("avatarId", avatarId);
         
         %>
-      <img id="avatar" src="/img/avatar/2014-09-02-0/small/${avatarId}.png" />
+      <img id="avatar" src="/img/avatar/2014-09-06-0/small/${avatarId}.png" />
       <div class="clear"></div>
       <script>
         var ADD_TAG_URL_WITHOUT_TAG = "/addTag?p=<%= view.getPageId() %>&tag=";
