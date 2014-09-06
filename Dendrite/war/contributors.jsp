@@ -23,6 +23,8 @@ view.initialise();
         <ul class="tabs">
           <li><a href="about">About</a></li>
           <li class="selected">Contributors</li>
+          <li><a href="faq">FAQ</a></li>
+          <li><a href="patches">Patches</a></li>
           <li id="more"><a href="about_more">⋮</a></li>
         </ul>
         <div class="clear"></div>

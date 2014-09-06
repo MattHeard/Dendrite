@@ -364,6 +364,58 @@ function initBlackTextOnDarkThemeWarning() {
   checkBlackTextOnDarkTheme();
 }
 
+var selectedAboutTab = "about";
+
+function showAccordion() {
+  $("div.accordion > ul.tabs").hide();
+  $("div.accordion > section").show();
+  $("div.accordion > section > h2").show();
+  $("div.accordion > section > div").hide();
+  $("div.accordion > section." + selectedAboutTab + " > div").show();
+}
+
+function hideAccordion() {
+  $("div.accordion > ul.tabs > li").removeClass("selected");
+  $("div.accordion > ul.tabs > li." + selectedAboutTab).addClass("selected");
+  $("div.accordion > ul.tabs").show();
+  $("div.accordion > section").hide();
+  $("div.accordion > section > div").show();
+  $("div.accordion > section." + selectedAboutTab + " h2").hide();
+  $("div.accordion > section." + selectedAboutTab).show();
+}
+
+function initAccordionTabs() {
+  $(window).resize(function() {
+    var width = $("#main").width();
+    if (width < 800) {
+      showAccordion();
+    } else {
+      hideAccordion();
+    }
+  }).resize();
+  
+  $("div.accordion > section > h2").click(function() {
+    var prevSelected = selectedAboutTab;
+    selectedAboutTab = $(this).text().toLowerCase();
+    var section = "div.accordion > section." + selectedAboutTab;
+    $(section + " > div").toggle();
+    $("div.accordion > section:not(." + selectedAboutTab + ") > div").hide();
+    $('html, body').animate({scrollTop:$(section).offset().top - 20}, 'slow');
+    if (prevSelected === selectedAboutTab) {
+      selectedAboutTab = "";
+    }
+  });
+  
+  $("div.accordion > ul.tabs > li").click(function() {
+    selectedAboutTab = $(this).text().toLowerCase();
+    $("div.accordion > ul.tabs > li.selected").removeClass("selected");
+    $("div.accordion > ul.tabs > li." + selectedAboutTab).addClass("selected");
+    $("div.accordion > section").hide();
+    $("div.accordion > section > h2").hide();
+    $("div.accordion > section." + selectedAboutTab).show();
+  });
+}
+
 function init() {
   fixInvisibleWebFont();
   preventEnterFromSubmittingForms();
@@ -376,4 +428,5 @@ function init() {
   initResizeContactForm();
   initFormatMenu();
   initBlackTextOnDarkThemeWarning();
+  initAccordionTabs();
 }

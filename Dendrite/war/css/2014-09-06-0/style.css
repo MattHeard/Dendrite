@@ -240,7 +240,7 @@
 /* Tabs */
 
 ul.tabs {
-	width: 100%;
+    width: 100%;
     border-bottom: 1px solid #bbb;
     
     margin: 0px;
@@ -254,13 +254,13 @@ ul.tabs a:hover {
 }
 
 .tabs li {
-	position: relative;
-	top: 1px;
-	
-	display: inline-block;
-	
-	margin-right: 0.5em;
-	padding: 0.5em;
+    position: relative;
+    top: 1px;
+    
+    display: inline-block;
+    
+    margin-right: 0.5em;
+    padding: 0.5em;
 }
 
 .tabs li.selected {
@@ -290,6 +290,12 @@ ul.tabs a:hover {
 
 .lovelyTheme #main .tabs > .selected {
     border-bottom: 1px solid #fff1f6;
+}
+
+/* Accordion tabs */
+
+div.accordion > ul.tabs {
+    display: none;
 }
 
 /* Other */
@@ -1161,7 +1167,7 @@ h2, h3 {
 	clear: both;
 }
 
-h4 {
+.radio_list h4 {
 	display: inline;
 	padding-right: 1em;
 }

@@ -9,10 +9,10 @@
  * merely call functions from the AboutView. This ensures that the HTML and the
  * Java components are cleanly separated.
  */
-%><%@ page import="com.deuteriumlabs.dendrite.view.AboutView"
+%><%@ page import="com.deuteriumlabs.dendrite.view.FaqView"
 %><%
 
-final AboutView view = new AboutView();
+final FaqView view = new FaqView();
 view.setPageContext(pageContext);
 view.setRequest(request);
 view.initialise();
@@ -20,107 +20,14 @@ view.initialise();
 %><%@include file="top_simplified_theming.jspf"
 
 %>
-        <div class="accordion">
         <ul class="tabs">
-          <li class="about selected">About</li>
-          <li class="contributors">Contributors</li>
-          <li class="faq">FAQ</li>
-          <li class="patches">Patches</li>
+          <li><a href="about">About</a></li>
+          <li><a href="contributors">Contributors</a></li>
+          <li class="selected">FAQ</li>
+          <li><a href="patches">Patches</a></li>
+          <li id="more"><a href="about_more">⋮</a></li>
         </ul>
         <div class="clear"></div>
-        <section class="about">
-          <h2>About</h2>
-          <div>
-            <p><i>Dendrite</i> is an online, choose-your-own-adventure book that
-              you can both read, and write. This allows you, the reader and author, to
-          participate in the story however you see fit. The stories branch
-          through various pathways, with endless potential to read, write,
-          re-write, edit, and change the story to make it truly your own. Find
-          your way through other authors' stories, and pick up where they left
-          off, creating your own thrilling plot lines to pique your
-          interest.</p>
-        <p>Dendrites, from the Greek <i>δένδρον</i> (meaning <i>tree</i>), are
-          spindly tentacles which connect the nucleus of one brain cell to
-          another, very similar to the way that links on <i>Dendrite</i> connect
-          the pages of each story. The dendrites form a significant part in
-          growth and learning in the brain, and slowly extend to connect to
-          other brain cells, forming new thoughts and memories in the
-          process.</p>
-        <p>You, the reader and author, can take on a role as a part of the
-          adventure—you can be a spy, a princess, a pirate, a rockstar, a ninja,
-          a space cowboy, an explorer, a chef, a supermodel, a scientist, or
-          write the story and watch it unfold for any and all of these
-          characters.</p>
-        <p><i>Dendrite</i> is a creation of <i>Deuterium Labs</i>.</p></div>
-        </section>
-        <section class="contributors">
-          <h2>Contributors</h2>
-          <div>
-        <h3>Developer</h3>
-        <ul class="contributors">
-          <li>
-            <div>
-              <b>Matthew Heard</b>: software developer behind Dendrite. He began
-                  working on Dendrite in 2013. Matthew's primary motivation for
-                  Dendrite is to build a creative environment which gets better
-                  when more people create stories, as he wants to explore how
-                  network effects and organic user contributions can combine to
-                  bloom new communities.
-            </div>
-            <div>
-              Matthew has optimised Dendrite to run well on multiple platforms
-                  and browsers, as he considers that accessibility is pivotal to
-                  obtaining collaboration from a wide variety of users.
-            </div>
-            <div>
-              Matthew is a sustaining software developer for Oracle in New
-                  Zealand. He primarily works with C++, Java, and SQL to find
-                  bugs and provide software patches for the telecommunication
-                  networks of Oracle customers.
-            </div>
-            <div>
-              Matthew writes a blog at <a
-                  href="http://mattheard.net">MattHeard.net</a>.
-            </div>
-          </li>
-        </ul>
-        <h3>Major contributors</h3>
-        <ul class="contributors">
-          <li>
-            <b>Leah Hamilton</b>: assisted with the general creative direction
-            of Dendrite, and provided significant amounts of feedback when
-            testing early releases of Dendrite. She also wrote the <i>About</i>
-            and <i>Contributors</i> pages, and drafted the <i>Terms</i> and
-            <i>Privacy</i> pages. Leah is a solicitor at Minter Ellison Rudd
-            Watts, as well as an editor, writer, and tutor.
-          </li>
-          <li>
-            <b>Ryan Hamilton</b>: provided creative direction and web design
-            assistance, as well as logo design and feedback from testing early
-            releases of Dendrite. Ryan is a service designer for the Inland
-            Revenue Department of New Zealand.
-          </li>
-        </ul>
-        <h3>Beta testing and bug reporting</h3>
-        <ul class="testers">
-          <li>Calum Barrett</li>
-          <li>Neil Dudley</li>
-          <li>Duncan Hamilton</li>
-          <li>Sean Hamilton</li>
-          <li>John Heard</li>
-          <li>Nic Henwood</li>
-          <li>Jack Li</li>
-          <li>Bayard Randel</li>
-          <li>Isaac Randel</li>
-          <li>Chris Youngson</li>
-        </ul>
-        <i>If you would like to contact the developer or either of the major
-        contributors, please send a message via the
-        <a href="/contact">Contact</a> form.</i></div>
-        </section>
-        <section class="faq">
-          <h2>FAQ</h2>
-          <div>
         <h3>How Dendrite works</h3>
         <h4>How does the <i>Rewrite</i> function work?</h4>
         <p>The rewrite function allows you to completely rewrite the text of the
@@ -258,16 +165,5 @@ view.initialise();
           know of any features or changes that you would like to see. If you 
           want to help with web design or discuss any software development 
           changes, please send a submission through <a href="/contact">the
-          contact form</a>.</p></div>
-        </section>
-        <section class="patches">
-          <h2>Patches</h2>
-          <div>
-        <p>Welcome, you adventurous devil! Anything and everything could (and
-          probably will) change at any second. We're moving too fast to know
-          what's going on, but once we're more stable, we're going to publish
-          descriptions of all of our updates here. Bug fixes, new features,
-          minor tweaks. We'll put a little notice here so you can see what's
-          new. But not yet. Soon...</p></div>
-        </section></div>
+          contact form</a>.</p>
 <%@include file="bottom.jspf" %>
