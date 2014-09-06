@@ -23,7 +23,7 @@ view.initialise();
     <iframe 
         src="https://docs.google.com/forms/d/1PzcTCC29coKmdor4P4VtA_b-ptlwKlqsqWVbEhPgAdk/viewform?embedded=true"
         width="800"
-        height="500"
+        height="710"
         frameborder="0"
         marginheight="0"
         marginwidth="0">Loading...</iframe>
