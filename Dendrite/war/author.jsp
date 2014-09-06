@@ -117,7 +117,7 @@ if (view.isFirstPage() == false) {
     view.preparePrevAuthorPageLink();
         
     %>
-          <div><a
+          <div class="prev"><a
               href="/author?id=${fn:escapeXml(id)}&p=${fn:escapeXml(prev)}"
               >Previous</a></div><%
         
@@ -127,7 +127,7 @@ if (view.isLastPage() == false) {
     view.prepareNextAuthorPageLink();
         
     %>
-          <div><a
+          <div class="next"><a
               href="/author?id=${fn:escapeXml(id)}&p=${fn:escapeXml(next)}"
               >Next</a></div><%
         

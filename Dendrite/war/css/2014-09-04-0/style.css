@@ -342,6 +342,10 @@ a:hover {
 	float: right;
 }
 
+#author_body .prev, #author_body .next {
+	padding-top: 20px;
+}
+
 #author_side_bar {
 	float: left;
 	padding-right: 40px;
