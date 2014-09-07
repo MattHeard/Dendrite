@@ -344,8 +344,6 @@ a:hover {
 	padding-top: 1em;
 	min-width: 300px;
 	width: 100%;
-	max-width: 554px;
-	float: right;
 }
 
 #author_body .prev, #author_body .next {
@@ -353,9 +351,20 @@ a:hover {
 }
 
 #author_side_bar {
-	float: left;
+	overflow: auto;
 	padding-right: 40px;
 	padding-top: 20px;
+}
+
+@media all and (min-width: 850px) {
+	#author_side_bar {
+        float: left;
+    }
+    
+    #author_body {
+        float: right;
+        max-width: 554px;
+    }
 }
 
 #avatar, .avatar_radio_button, .followerAvatar, .smallAvatar {
@@ -737,7 +746,7 @@ button, .button, .option {
 
 #follow, #unfollow {
 	color: #fff;
-	width: 100%;
+	width: 200px;
 }
 
 #follow {
