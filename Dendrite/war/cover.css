@@ -1,115 +1,54 @@
-html, body {
-    height:     100%;
-    text-align: center;
-}
-
 body {
-    background-color: #f0f0f0;
-    font-family:      Helvetica, Arial, sans-serif;
-    font-size:        20px;
+	background-color: #fefefe;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
 
-a {
-    text-decoration: none;
+body > img {
+	max-width: 100%;
+	max-height: 38vh;
 }
 
-#logo {
-    height:     150px;
-    max-height: 30vh;
+body > p {
+	text-align: center;
 }
 
-h1 {
-    font-weight: 100;
-}
-
-#main {
-    font-weight:  100;
-    padding:      5px;
-    max-width:    1000px;
-    margin-left:  auto;
-    margin-right: auto;
-}
-
-#actions, #stories {
-    margin-top: 20px;
-}
-
-#explanation {
-    clear:       both;
-    padding-top: 10px;
-    display:     none;
-}
-
-.option, .story {
-    cursor:  pointer;
-    padding: 10px;
-    margin:  8px;
-}
-
-.story {
+select, button {
     color: #eee;
-    height: 150px;
-    width: 260px;
-    color: white;
-    background-repeat: no-repeat;
-    background-size: 100%;
-}
-
-h2 {
-    font-weight:   100;
-}
-
-.story h2 {
-    margin: 20px 0px;
-}
-
-.story p {
-    display: none;
-}
-
-.first {
-    background-image: url("mangrey.png");
-}
-
-.second {
-    background-image: url("WOLFGREY.png");
-}
-
-.third {
-    background-image: url("grey1.png");
-}
-
-.option {
-    background-color:  #999;
-    color:             #eee;
-}
-
-@media all and (min-width: 800px) {
+    background-color: #999;
+    line-height: 1.5em;
+    font-family: inherit;
+    font-size: 2em;
     
-    #main {
-        padding:        20px;
-    }
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
 
-    .option {
-        width:             410px;
-        font-size:         40px;
-        padding:           20px;
-        margin:            20px;
-        border-radius:     5px;
-        float:             left;
-    }
-    
-    .story {
-        width:             260px;
-        font-size:         20px;
-        padding:           20px;
-        margin-left:       20px;
-        border-radius:     5px;
-        float:             left;
-        cursor:            pointer;
-    }
-    
-    .story p {
-        display: initial;
-    }
+button.link {
+	float: left;
+	
+	width: 100%;
+	
+    outline: none;
+}
+
+ul {
+	overflow: auto;
+	
+	list-style-type: none;
+	
+	padding: 0px;
+}
+
+li {
+	width: 100%;
+}
+
+.filter {
+	text-align: center;
+}
+
+.filter > select, .filter > button {
+	height: 2em;
+	font-size: 1.5em;
+    vertical-align: bottom;
 }

@@ -12,49 +12,47 @@ view.setPageContext(pageContext);
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="cover.css">
+    <link
+        href='http://fonts.googleapis.com/css?family=Open+Sans:300'
+        rel='stylesheet'
+        type='text/css'>
     <meta name="viewport" content="width=device-width">
     <title>Dendrite</title>
+    <script>
+    
+// Google Analytics
+    
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-53889088-1', 'auto');
+ga('send', 'pageview');
+
+    </script>
   </head>
   <body>
-    <div id="main">
-      <div id="welcome">
-        <a href="index"><img id="logo" src="logo/head.png"/></a>
-        <h1>Dendrite</h1>
-        <p>Read or write your own adventure.</p>
-      </div>
-      <div id="actions">
-        <a href="index"><h2 class="option">READ</h2></a>
-        <a href="new"><h2 class="option">WRITE</h2></a>
-      </div>
-      <div id="explanation">
-        <p>Click the "Read" button above to go to the table of contents.</p>
-        <p>Click the "Write" button to start your own story.</p>
-        <p>Or select one of the three stories below!</p>
-      </div><%
-
-view.findThreeStories();
-
-%>
-      <div id="stories">
-        <a href="read?p=16">
-          <div class="story first">
-            <h2>${fn:escapeXml(firstStoryTitle)}</h2>
-            <p>${fn:escapeXml(firstStorySummary)}</p>
-          </div>
-        </a>
-        <a href="read?p=16">
-          <div class="story second">
-            <h2>${fn:escapeXml(secondStoryTitle)}</h2>
-            <p>${fn:escapeXml(secondStorySummary)}</p>
-          </div>
-        </a>
-        <a href="read?p=16">
-          <div class="story third">
-            <h2>${fn:escapeXml(thirdStoryTitle)}</h2>
-            <p>${fn:escapeXml(thirdStorySummary)}</p>
-          </div>
-        </a>
-      </div>
-    </div>
+    <img src="/img/logo/2014-08-20-0/cover.png">
+    <p>Read or write your own adventure!</p>
+    <ul>
+      <li>
+        <form action="/contents">
+          <button class="link" type="submit">READ</button>
+        </form>
+      </li>
+      <li>
+        <form action="/new">
+          <button class="link" type="submit">WRITE</button>
+        </form>
+      </li>
+    </ul>
+    <p>Filter stories by genre</p>
+    <form action="/filterGenre" class="filter">
+      <select>
+        <option>CRIME</option>
+      </select>
+      <button type="submit">OK</button>
+    </form>
   </body>
 </html>
