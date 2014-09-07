@@ -258,18 +258,17 @@ ul.tabs a:hover {
     top: 1px;
     
     display: inline-block;
+    cursor: pointer;
     
     margin-right: 0.5em;
     padding: 0.5em;
 }
 
 .tabs li.selected {
+	cursor: default;
+	
 	border: 1px solid #bbb;
     border-radius: 5px 5px 0px 0px;
-}
-
-.tabs li:not (.selected) {
-	pointer: cursor;
 }
 
 .tabs li.more {
@@ -352,11 +351,12 @@ a:hover {
 
 #author_side_bar {
 	overflow: auto;
+	
 	padding-right: 40px;
 	padding-top: 20px;
 }
 
-@media all and (min-width: 850px) {
+@media all and (min-width: 800px) {
 	#author_side_bar {
         float: left;
     }

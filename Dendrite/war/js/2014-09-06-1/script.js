@@ -365,6 +365,7 @@ function initBlackTextOnDarkThemeWarning() {
 }
 
 var selectedAboutTab = "about";
+var selectedAuthorTab = "pages_written";
 
 function showAccordion() {
   $("div.accordion > ul.tabs").hide();
@@ -372,16 +373,20 @@ function showAccordion() {
   $("div.accordion > section > h2").show();
   $("div.accordion > section > div").hide();
   $("div.accordion > section." + selectedAboutTab + " > div").show();
+  $("div.accordion > section." + selectedAuthorTab + " > div").show();
 }
 
 function hideAccordion() {
   $("div.accordion > ul.tabs > li").removeClass("selected");
   $("div.accordion > ul.tabs > li." + selectedAboutTab).addClass("selected");
+  $("div.accordion > ul.tabs > li." + selectedAuthorTab).addClass("selected");
   $("div.accordion > ul.tabs").show();
   $("div.accordion > section").hide();
   $("div.accordion > section > div").show();
   $("div.accordion > section." + selectedAboutTab + " h2").hide();
   $("div.accordion > section." + selectedAboutTab).show();
+  $("div.accordion > section." + selectedAuthorTab + " h2").hide();
+  $("div.accordion > section." + selectedAuthorTab).show();
 }
 
 function initAccordionTabs() {
@@ -394,25 +399,56 @@ function initAccordionTabs() {
     }
   }).resize();
   
-  $("div.accordion > section > h2").click(function() {
+  $("div.about.accordion > section > h2").click(function() {
     var prevSelected = selectedAboutTab;
     selectedAboutTab = $(this).text().toLowerCase();
-    var section = "div.accordion > section." + selectedAboutTab;
+    var section = "div.about.accordion > section." + selectedAboutTab;
     $(section + " > div").toggle();
-    $("div.accordion > section:not(." + selectedAboutTab + ") > div").hide();
+    $("div.about.accordion > section:not(." + selectedAboutTab + ") > div")
+        .hide();
     $('html, body').animate({scrollTop:$(section).offset().top - 20}, 'slow');
     if (prevSelected === selectedAboutTab) {
       selectedAboutTab = "";
     }
   });
   
-  $("div.accordion > ul.tabs > li").click(function() {
+  $("div.about.accordion > ul.tabs > li").click(function() {
     selectedAboutTab = $(this).text().toLowerCase();
-    $("div.accordion > ul.tabs > li.selected").removeClass("selected");
-    $("div.accordion > ul.tabs > li." + selectedAboutTab).addClass("selected");
-    $("div.accordion > section").hide();
-    $("div.accordion > section > h2").hide();
-    $("div.accordion > section." + selectedAboutTab).show();
+    $("div.about.accordion > ul.tabs > li.selected").removeClass("selected");
+    $("div.about.accordion > ul.tabs > li." + selectedAboutTab)
+        .addClass("selected");
+    $("div.about.accordion > section").hide();
+    $("div.about.accordion > section > h2").hide();
+    $("div.about.accordion > section." + selectedAboutTab).show();
+  });
+  
+  $("div.author.accordion > section > h2").click(function() {
+    var prevSelected = selectedAuthorTab;
+    selectedAuthorTab = $(this).text().toLowerCase();
+    if (selectedAuthorTab === "pages written") {
+      selectedAuthorTab = "pages_written";
+    }
+    var section = "div.author.accordion > section." + selectedAuthorTab;
+    $(section + " > div").toggle();
+    $("div.author.accordion > section:not(." + selectedAuthorTab + ") > div")
+        .hide();
+    $('html, body').animate({scrollTop:$(section).offset().top - 20}, 'slow');
+    if (prevSelected === selectedAuthorTab) {
+      selectedAuthorTab = "";
+    }
+  });
+  
+  $("div.author.accordion > ul.tabs > li").click(function() {
+    selectedAuthorTab = $(this).text().toLowerCase();
+    if (selectedAuthorTab === "pages written") {
+      selectedAuthorTab = "pages_written";
+    }
+    $("div.author.accordion > ul.tabs > li.selected").removeClass("selected");
+    $("div.author.accordion > ul.tabs > li." + selectedAuthorTab)
+        .addClass("selected");
+    $("div.author.accordion > section").hide();
+    $("div.author.accordion > section > h2").hide();
+    $("div.author.accordion > section." + selectedAuthorTab).show();
   });
 }
 

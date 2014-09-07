@@ -20,7 +20,7 @@ view.initialise();
 %><%@include file="top_simplified_theming.jspf"
 
 %>
-        <div class="accordion">
+        <div class="about accordion">
         <ul class="tabs">
           <li class="about selected">About</li>
           <li class="contributors">Contributors</li>

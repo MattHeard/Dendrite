@@ -10,6 +10,7 @@
  * Java components are cleanly separated.
  */
 %><%@ page import="com.deuteriumlabs.dendrite.view.AuthorView" %><%
+%><%@ page import="com.deuteriumlabs.dendrite.view.FollowersView" %><%
 
 /*
  * The JSTL functions provide `escapeXml(...)`. Currently, all
@@ -56,70 +57,67 @@ if (view.isAuthorPageOfUser() == true) {
 %>
         </div>
         <div id="author_body">
-          <ul class="tabs">
-            <li class="selected">Pages Written</li><%
-          
-view.prepareFollowersPageUrl();
-          
-%>
-            <li><a href="${followersPageUrl}">Followers</a></li>
-            <li id="more"><a>⋮</a></li>
-          </ul><%
+          <div class="author accordion">
+            <ul class="tabs">
+              <li class="pages_written selected">Pages Written</li>
+              <li class="followers">Followers</li>
+            </ul>
+            <section class="pages_written">
+              <h2>Pages Written</h2>
+              <div><%
 
 final boolean hasAnotherStoryPage = view.hasAnotherStoryPage();
 if (hasAnotherStoryPage == false) {
-	
 	if (view.isAuthorPageOfUser() == true) {
 
     %>
-          <p class="notice">Hmm. No stories here yet. Want to
-              <a href="/new">start one</a>?</p><%
-            		  
-	} else {
+                <p class="notice">Hmm. No stories here yet.
+                  Want to <a href="/new">start one</a>?
+                </p><%
 		
-    %>
-        <p class="notice">Hmm. No stories here yet.</p><%
+	} else {
+	
+	%>
+                <p class="notice">Hmm. No stories here yet.</p><%
 		
 	}
-
 } else {
-
-    while (view.hasAnotherStoryPage() == true) {
-        view.prepareNextStoryPage();
+	while (view.hasAnotherStoryPage() == true) {
+		view.prepareNextStoryPage();
         if (view.isThisStoryPageInADifferentStory() == true) {
-        
-            %>
-          <h3 class="do_not_clear">${fn:escapeXml(title)}</h3><%
-          
+        	
+        	%>
+                <h3 class="do_not_clear">${fn:escapeXml(title)}</h3><%
         }
-    
+        
         %>
-          <div class="item">
-            <div class="itemNumber">${fn:escapeXml(pageId)}</div>
-            <div class="itemContent"><a
-                href="/read?p=${fn:escapeXml(pageId)}"
-                >${fn:escapeXml(summary)}</a><%
-                
+                <div class="item">
+                  <div class="itemNumber">${fn:escapeXml(pageId)}</div>
+                  <div class="itemContent">
+                    <a href="/read?p=${fn:escapeXml(pageId)}"
+                        >${fn:escapeXml(summary)}</a><%
+                      
         if (view.isThisStoryPageCreditedDifferently() == true) {
-        
+                          
             %> (credited as <i>${fn:escapeXml(authorName)}</i>)<%
-        
+                      
         }
-                
+                              
         %></div>
-          </div>
-          <div class="clear"></div><%
+                </div>
+                <div class="clear"></div><%
         
-    }
+	}
 }
 
 if (view.isFirstPage() == false) {
     view.preparePrevAuthorPageLink();
         
     %>
-          <div class="prev"><a
-              href="/author?id=${fn:escapeXml(id)}&p=${fn:escapeXml(prev)}"
-              >Previous</a></div><%
+                <div class="prev">
+                  <a href="/author?id=${fn:escapeXml(id)}&p=${fn:escapeXml(prev)}"
+                      >Previous</a>
+                </div><%
         
 }
 
@@ -127,12 +125,44 @@ if (view.isLastPage() == false) {
     view.prepareNextAuthorPageLink();
         
     %>
-          <div class="next"><a
-              href="/author?id=${fn:escapeXml(id)}&p=${fn:escapeXml(next)}"
-              >Next</a></div><%
+                <div class="next">
+                  <a href="/author?id=${fn:escapeXml(id)}&p=${fn:escapeXml(next)}"
+                      >Next</a>
+                </div><%
         
 }
 
 %>
+              </div>
+            </section>
+            <section class="followers">
+              <h2>Followers</h2>
+              <div>
+                <ul id="followerList"><%
+
+final FollowersView followersView = new FollowersView();
+followersView.setPageContext(pageContext);
+followersView.setRequest(request);
+followersView.initialise();
+          
+for (final String id : followersView.getFollowerIds()) {
+    followersView.prepareFollower(id);
+    
+    %>
+                  <li>
+                    <img
+                        class="smallAvatar"
+                        src="/img/avatar/2014-09-06-0/small/${fn:escapeXml(followerAvatarId)}.png"
+                        />
+                    <a href="${followerProfileUrl}">${followerName}</a>
+                  </li><%
+    
+}
+          
+%>
+                </ul>
+              </div>
+            </section>
+          </div>
         </div>
 <%@include file="bottom.jspf" %>
