@@ -1093,4 +1093,46 @@ public class StoryPage extends Model {
 		}
 		return count;
 	}
+
+	public static List<String> getUniqueTagsOfFirstPgsExcept(final PageId id) {
+		final Query query = new Query(KIND_NAME);
+		String projectionProperty = TAGS_PROPERTY;
+		Class<String> type = String.class;
+		final PropertyProjection projection;
+		projection = new PropertyProjection(projectionProperty, type);
+		query.addProjection(projection);
+		final String numProperty = ID_NUMBER_PROPERTY;
+		FilterOperator operator = FilterOperator.EQUAL;
+		final int numVal = id.getNumber();
+		final Filter numFilter;
+		numFilter = new FilterPredicate(numProperty, operator, numVal);
+		final String versionProperty = ID_VERSION_PROPERTY;
+		operator = FilterOperator.NOT_EQUAL;
+		final String versionVal = id.getVersion();
+		final Filter versionFilter;
+		versionFilter = new FilterPredicate(versionProperty, operator,
+				versionVal);
+		final Filter filter;
+		filter = CompositeFilterOperator.and(numFilter, versionFilter);
+		query.setFilter(filter);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		final List<Entity> entities = preparedQuery.asList(fetchOptions);
+		System.out.println(entities);
+		final List<String> tags = new ArrayList<String>();
+		for (final Entity entity : entities) {
+			final String tag = (String) entity.getProperty(projectionProperty);
+			if (tags.contains(tag) == false) {
+				tags.add(tag);
+			}
+		}
+		return tags;
+	}
+
+	public boolean isFirstPgInStory() {
+		final int beginningNum = this.getBeginning().getNumber();
+		final int pgNum = this.getId().getNumber();
+		return beginningNum == pgNum;
+	}
 }

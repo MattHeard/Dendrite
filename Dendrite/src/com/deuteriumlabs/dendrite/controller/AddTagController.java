@@ -2,6 +2,7 @@ package com.deuteriumlabs.dendrite.controller;
 
 import com.deuteriumlabs.dendrite.model.AuthorTagNotification;
 import com.deuteriumlabs.dendrite.model.PageId;
+import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 import com.deuteriumlabs.dendrite.model.User;
 
@@ -16,6 +17,9 @@ public class AddTagController {
 		final boolean isTagAdded = pg.addTag(tag);
 		if (isTagAdded) {
 			pg.update();
+			if (pg.isFirstPgInStory() == true) {
+				addTagToBeginning();
+			}
 			final boolean isPgAuthorCurrentUser = isPgAuthorCurrentUser();
 			if (isPgAuthorCurrentUser == false) {
 				this.notifyAuthor();
@@ -24,6 +28,16 @@ public class AddTagController {
 		} else {
 			return false;
 		}
+	}
+
+	private void addTagToBeginning() {
+		final StoryBeginning beginning = new StoryBeginning();
+		final int num = this.getPgId().getNumber();
+		beginning.setPageNumber(num);
+		beginning.read();
+		final String tag = this.getTag();
+		beginning.addTag(tag);
+		beginning.update();
 	}
 
 	private String getAuthorId() {

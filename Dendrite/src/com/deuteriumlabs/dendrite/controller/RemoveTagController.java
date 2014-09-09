@@ -1,6 +1,7 @@
 package com.deuteriumlabs.dendrite.controller;
 
 import com.deuteriumlabs.dendrite.model.PageId;
+import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 import com.deuteriumlabs.dendrite.model.User;
 
@@ -15,11 +16,26 @@ public class RemoveTagController {
 		final boolean isTagRemoved = pg.removeTag(tag);
 		if (isTagRemoved) {
 			pg.update();
+			if (pg.isFirstPgInStory() == true) {
+				removeTagFromBeginning();
+			}
 			final boolean isPgAuthorCurrentUser = isPgAuthorCurrentUser();
 			if (isPgAuthorCurrentUser == false) {
 				this.notifyAuthor();
 			}
 		}
+	}
+
+	private void removeTagFromBeginning() {
+		final StoryBeginning beginning = new StoryBeginning();
+		PageId id = this.getPgId();
+		int num = id.getNumber();
+		beginning.setPageNumber(num);
+		beginning.read();
+		final String tag = this.getTag();
+		final String version = id.getVersion();
+		beginning.removeTag(tag, version);
+		beginning.update();
 	}
 
 	private String getAuthorId() {
