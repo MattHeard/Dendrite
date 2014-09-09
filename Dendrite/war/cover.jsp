@@ -49,8 +49,20 @@ ga('send', 'pageview');
     </ul>
     <p>Filter stories by genre</p>
     <form action="/contents" method="get" class="filter">
-      <select name="filter">
-        <option>CRIME</option>
+      <select name="filter"><%
+          
+final String[] tagNames = { "SCIFI", "WESTERN", "ROMANCE", "FANFIC", "ACTION",
+    "ADVENTURE", "COMEDY", "CRIME", "DRAMA", "EROTIC", "FANTASY", "HISTORICAL",
+    "HORROR", "INSPIRATIONAL", "MYSTERY", "POLITICAL", "RELIGIOUS",
+    "THRILLER", "SPAM" };
+for (final String tag : tagNames) {
+    
+    %>
+            <option><%= tag %></option><%
+    
+}
+          
+          %>
       </select>
       <button type="submit">OK</button>
     </form>
