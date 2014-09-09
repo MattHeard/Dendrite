@@ -22,7 +22,7 @@ public class BeginningQualityRecalculator extends HttpServlet {
 		resp.getWriter().println();
 
 		final List<StoryBeginning> allBeginnings;
-		allBeginnings = StoryBeginning.getBeginnings(0, 1000);
+		allBeginnings = StoryBeginning.getBeginnings(0, 1000, null);
 
 		int count = 0;
 		for (final StoryBeginning b : allBeginnings) {

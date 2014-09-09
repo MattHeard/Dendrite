@@ -48,8 +48,8 @@ ga('send', 'pageview');
       </li>
     </ul>
     <p>Filter stories by genre</p>
-    <form action="/filterGenre" class="filter">
-      <select>
+    <form action="/contents" method="get" class="filter">
+      <select name="filter">
         <option>CRIME</option>
       </select>
       <button type="submit">OK</button>

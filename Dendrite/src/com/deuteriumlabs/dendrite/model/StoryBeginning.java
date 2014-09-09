@@ -43,13 +43,22 @@ public class StoryBeginning extends Model {
 	 *            The first index for retrieval
 	 * @param end
 	 *            The off-the-end index for retrieval
+	 * @param tag
 	 * @return The list of beginnings between start and end, not including end
 	 */
 	public static List<StoryBeginning> getBeginnings(final int start,
-			final int end) {
+			final int end, final String tag) {
 		final Query query = new Query(KIND_NAME);
 		query.addSort(QUALITY_PROPERTY, SortDirection.DESCENDING);
 		query.addSort(PAGE_NUMBER_PROPERTY);
+		if (tag != null && tag.equals("") == false) {
+			final String propertyName = TAGS_PROPERTY;
+			final FilterOperator operator = FilterOperator.EQUAL;
+			final String value = tag;
+			final FilterPredicate filter;
+			filter = new FilterPredicate(propertyName, operator, value);
+			query.setFilter(filter);
+		}
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final int limit = end - start;
@@ -440,7 +449,6 @@ public class StoryBeginning extends Model {
 		if (tags.contains(tag) == false) {
 			tags.add(tag);
 			this.setTags(tags);
-			System.out.println(tags);
 		}
 	}
 
@@ -451,7 +459,6 @@ public class StoryBeginning extends Model {
 			if (hasAnAltGotTag == false) {
 				tags.remove(tag);
 				this.setTags(tags);
-				System.out.println(tags);
 			}
 		}
 	}
