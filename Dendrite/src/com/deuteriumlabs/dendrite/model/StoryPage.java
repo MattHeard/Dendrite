@@ -47,6 +47,7 @@ public class StoryPage extends Model {
 	private static final String TEXT_PROPERTY = "text";
 	private static final int SIZE_INFLUENCE = 1;
 	private static final int LOVE_INFLUENCE = 1;
+	private static final String IS_FIRST_PG_PROPERTY = "isFirstPg";
 
 	public static String convertNumberToVersion(final int num) {
 		final int lowNum = ((num - 1) % LEN_ALPHABET) + 1;
@@ -276,6 +277,7 @@ public class StoryPage extends Model {
 	private StoryPage parent;
 	private List<String> tags;
 	private Text text;
+	private boolean isFirstPg;
 
 	public StoryPage() {
 		this.setBeginning(null);
@@ -414,7 +416,19 @@ public class StoryPage extends Model {
 	@Override
 	public void create() {
 		this.generateAncestry();
+		this.determineWhetherFirstPg();
 		super.create();
+	}
+
+	public void determineWhetherFirstPg() {
+		final PageId beginningId = this.getBeginning();
+		final int beginningNum = beginningId.getNumber();
+
+		final PageId pgId = this.getId();
+		final int pgNum = pgId.getNumber();
+
+		final boolean isFirstPg = (beginningNum == pgNum);
+		this.setFirstPg(isFirstPg);
 	}
 
 	/**
@@ -784,6 +798,26 @@ public class StoryPage extends Model {
 		this.readLovingUsersFromEntity(entity);
 		this.readFormerlyLovingUsersFromEntity(entity);
 		this.readTagsFromEntity(entity);
+		this.readIsFirstPgFromEntity(entity);
+	}
+
+	private void readIsFirstPgFromEntity(final Entity entity) {
+		final boolean isFirstPg = getIsFirstPgFromEntity(entity);
+		this.setFirstPg(isFirstPg);
+	}
+
+	private void setFirstPg(final boolean isFirstPg) {
+		this.isFirstPg = isFirstPg;
+	}
+
+	private boolean getIsFirstPgFromEntity(final Entity entity) {
+		final String propertyName = IS_FIRST_PG_PROPERTY;
+		final Boolean property = (Boolean) entity.getProperty(propertyName);
+		if (property != null) {
+			return property.booleanValue();
+		} else {
+			return false;
+		}
 	}
 
 	private void readTagsFromEntity(final Entity entity) {
@@ -966,6 +1000,16 @@ public class StoryPage extends Model {
 		this.setLovingUsersInEntity(entity);
 		this.setFormerlyLovingUsersInEntity(entity);
 		this.setTagsInEntity(entity);
+		this.setIsFirstPgInEntity(entity);
+	}
+
+	private void setIsFirstPgInEntity(final Entity entity) {
+		final boolean isFirstPg = this.isFirstPg();
+		entity.setProperty(IS_FIRST_PG_PROPERTY, isFirstPg);
+	}
+
+	public boolean isFirstPg() {
+		return this.isFirstPg;
 	}
 
 	private void setTags(final List<String> tags) {
