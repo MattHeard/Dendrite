@@ -20,20 +20,11 @@ import com.google.appengine.api.datastore.Query.SortDirection;
  */
 public class StoryBeginning extends Model {
 	private static final String KIND_NAME = "StoryBeginning";
-	private static final String LOVE_PROPERTY = "love";
 	private static final String PAGE_NUMBER_PROPERTY = "pageNumber";
-	private static final String QUALITY_PROPERTY = "quality";
-	private static final String SIZE_PROPERTY = "size";
-	private static final String TAGS_PROPERTY = "tags";
 	private static final String TITLE_PROPERTY = "title";
-
-	public static int countAllBeginnings() {
-		final Query query = new Query(KIND_NAME);
-		final DatastoreService store = getStore();
-		final PreparedQuery preparedQuery = store.prepare(query);
-		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		return preparedQuery.countEntities(fetchOptions);
-	}
+	private static final String SIZE_PROPERTY = "size";
+	private static final String QUALITY_PROPERTY = "quality";
+	private static final String LOVE_PROPERTY = "love";
 
 	/**
 	 * Returns a subsection of the list of all beginnings. This is particularly
@@ -115,13 +106,11 @@ public class StoryBeginning extends Model {
 		return (String) entity.getProperty(TITLE_PROPERTY);
 	}
 
-	private int love;
-
 	private int pageNumber;
-	private int quality;
-	private int size;
-	private List<String> tags;
 	private String title;
+	private int size;
+	private int love;
+	private int quality;
 
 	/**
 	 * Default constructor. Explicitly defined because of the other constructor.
@@ -149,22 +138,6 @@ public class StoryBeginning extends Model {
 		return KIND_NAME;
 	}
 
-	private int getLove() {
-		if (this.love == -1) {
-			this.recalculateLove();
-		}
-		return this.love;
-	}
-
-	private int getLoveFromEntity(final Entity entity) {
-		final Long love = (Long) entity.getProperty(LOVE_PROPERTY);
-		if (love != null) {
-			return love.intValue();
-		} else {
-			return -1;
-		}
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -187,52 +160,6 @@ public class StoryBeginning extends Model {
 		return this.pageNumber;
 	}
 
-	public int getQuality() {
-		if (this.quality == 0) {
-			this.recalculateQuality();
-		}
-		return this.quality;
-	}
-
-	private int getQualityFromEntity(final Entity entity) {
-		final Long quality = (Long) entity.getProperty(QUALITY_PROPERTY);
-		if (quality != null) {
-			return quality.intValue();
-		} else {
-			return 0;
-		}
-	}
-
-	public int getSize() {
-		if (this.size == 0) {
-			this.recalculateSize();
-		}
-		return this.size;
-	}
-
-	private int getSizeFromEntity(final Entity entity) {
-		final Long size = (Long) entity.getProperty(SIZE_PROPERTY);
-		if (size != null) {
-			return size.intValue();
-		} else {
-			return 0;
-		}
-	}
-
-	public List<String> getTags() {
-		return this.tags;
-	}
-
-	@SuppressWarnings("unchecked")
-	private List<String> getTagsFromEntity(final Entity entity) {
-		List<String> tags;
-		tags = (List<String>) entity.getProperty(TAGS_PROPERTY);
-		if (tags == null || tags.size() == 0) {
-			tags = new ArrayList<String>();
-		}
-		return tags;
-	}
-
 	/**
 	 * Returns the title of this story.
 	 * 
@@ -240,11 +167,6 @@ public class StoryBeginning extends Model {
 	 */
 	public String getTitle() {
 		return this.title;
-	}
-
-	private void readLoveFromEntity(final Entity entity) {
-		final int love = getLoveFromEntity(entity);
-		this.setLove(love);
 	}
 
 	/**
@@ -273,7 +195,6 @@ public class StoryBeginning extends Model {
 		this.readSizeFromEntity(entity);
 		this.readLoveFromEntity(entity);
 		this.readQualityFromEntity(entity);
-		this.readTagsFromEntity(entity);
 	}
 
 	private void readQualityFromEntity(final Entity entity) {
@@ -281,14 +202,41 @@ public class StoryBeginning extends Model {
 		this.setQuality(quality);
 	}
 
+	private int getQualityFromEntity(final Entity entity) {
+		final Long quality = (Long) entity.getProperty(QUALITY_PROPERTY);
+		if (quality != null) {
+			return quality.intValue();
+		} else {
+			return 0;
+		}
+	}
+
+	private void readLoveFromEntity(final Entity entity) {
+		final int love = getLoveFromEntity(entity);
+		this.setLove(love);
+	}
+
+	private int getLoveFromEntity(final Entity entity) {
+		final Long love = (Long) entity.getProperty(LOVE_PROPERTY);
+		if (love != null) {
+			return love.intValue();
+		} else {
+			return -1;
+		}
+	}
+
 	private void readSizeFromEntity(final Entity entity) {
 		final int size = getSizeFromEntity(entity);
 		this.setSize(size);
 	}
 
-	private void readTagsFromEntity(final Entity entity) {
-		final List<String> tags = getTagsFromEntity(entity);
-		this.setTags(tags);
+	private int getSizeFromEntity(final Entity entity) {
+		final Long size = (Long) entity.getProperty(SIZE_PROPERTY);
+		if (size != null) {
+			return size.intValue();
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -304,45 +252,6 @@ public class StoryBeginning extends Model {
 		} else {
 			this.setTitle(title);
 		}
-	}
-
-	private void recalculateLove() {
-		final int num = this.getPageNumber();
-		final String greaterThanOrEqual = num + "`";
-		final String lessThan = num + "{";
-		final int love;
-		love = StoryPage.countLoversBetween(greaterThanOrEqual, lessThan);
-		this.setLove(love);
-	}
-
-	public void recalculateQuality() {
-		this.recalculateSize();
-		this.recalculateLove();
-		final int size = this.getSize();
-		final int love = this.getLove();
-		final int quality = size + love;
-		this.setQuality(quality);
-	}
-
-	private void recalculateSize() {
-		final int num = this.getPageNumber();
-		final String greaterThanOrEqual = num + "`";
-		final String lessThan = num + "{";
-		final int size;
-		size = StoryPage.countSubtreeBetween(greaterThanOrEqual, lessThan);
-		this.setSize(size);
-	}
-
-	public void recalculateTags() {
-	}
-
-	private void setLove(final int love) {
-		this.love = love;
-	}
-
-	private void setLoveInEntity(final Entity entity) {
-		final int love = this.getLove();
-		entity.setProperty(LOVE_PROPERTY, love);
 	}
 
 	/**
@@ -384,20 +293,6 @@ public class StoryBeginning extends Model {
 		this.setSizeInEntity(entity);
 		this.setLoveInEntity(entity);
 		this.setQualityInEntity(entity);
-		this.setTagsInEntity(entity);
-	}
-
-	private void setQuality(final int quality) {
-		this.quality = quality;
-	}
-
-	private void setQualityInEntity(final Entity entity) {
-		final int quality = this.getQuality();
-		entity.setProperty(QUALITY_PROPERTY, quality);
-	}
-
-	private void setSize(final int size) {
-		this.size = size;
 	}
 
 	private void setSizeInEntity(final Entity entity) {
@@ -405,13 +300,28 @@ public class StoryBeginning extends Model {
 		entity.setProperty(SIZE_PROPERTY, size);
 	}
 
-	private void setTags(final List<String> tags) {
-		this.tags = tags;
+	private void setLoveInEntity(final Entity entity) {
+		final int love = this.getLove();
+		entity.setProperty(LOVE_PROPERTY, love);
 	}
 
-	private void setTagsInEntity(final Entity entity) {
-		final List<String> tags = this.getTags();
-		entity.setProperty(TAGS_PROPERTY, tags);
+	private void setQualityInEntity(final Entity entity) {
+		final int quality = this.getQuality();
+		entity.setProperty(QUALITY_PROPERTY, quality);
+	}
+
+	public int getQuality() {
+		if (this.quality == 0) {
+			this.recalculateQuality();
+		}
+		return this.quality;
+	}
+
+	public int getSize() {
+		if (this.size == 0) {
+			this.recalculateSize();
+		}
+		return this.size;
 	}
 
 	/**
@@ -435,33 +345,57 @@ public class StoryBeginning extends Model {
 		entity.setProperty(TITLE_PROPERTY, title);
 	}
 
-	public void addTag(final String tag) {
-		final List<String> tags = this.getTags();
-		if (tags.contains(tag) == false) {
-			tags.add(tag);
-			this.setTags(tags);
-			System.out.println(tags);
-		}
+	public static int countAllBeginnings() {
+		final Query query = new Query(KIND_NAME);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		return preparedQuery.countEntities(fetchOptions);
 	}
 
-	public void removeTag(final String tag, final String version) {
-		final List<String> tags = this.getTags();
-		if (tags.contains(tag) == true) {
-			final boolean hasAnAltGotTag = hasAnAltGotTag(version, tag);
-			if (hasAnAltGotTag == false) {
-				tags.remove(tag);
-				this.setTags(tags);
-				System.out.println(tags);
-			}
-		}
+	public void recalculateQuality() {
+		this.recalculateSize();
+		this.recalculateLove();
+		final int size = this.getSize();
+		final int love = this.getLove();
+		final int quality = size + love;
+		this.setQuality(quality);
 	}
 
-	private boolean hasAnAltGotTag(final String version, final String tag) {
+	private void setQuality(final int quality) {
+		this.quality = quality;
+	}
+
+	private int getLove() {
+		if (this.love == -1) {
+			this.recalculateLove();
+		}
+		return this.love;
+	}
+
+	private void recalculateLove() {
 		final int num = this.getPageNumber();
-		final PageId id = new PageId();
-		id.setNumber(num);
-		id.setVersion(version);
-		final List<String> tags = StoryPage.getUniqueTagsOfFirstPgsExcept(id);
-		return tags.contains(tag);
+		final String greaterThanOrEqual = num + "`";
+		final String lessThan = num + "{";
+		final int love;
+		love = StoryPage.countLoversBetween(greaterThanOrEqual, lessThan);
+		this.setLove(love);
+	}
+
+	private void setLove(final int love) {
+		this.love = love;
+	}
+
+	private void recalculateSize() {
+		final int num = this.getPageNumber();
+		final String greaterThanOrEqual = num + "`";
+		final String lessThan = num + "{";
+		final int size;
+		size = StoryPage.countSubtreeBetween(greaterThanOrEqual, lessThan);
+		this.setSize(size);
+	}
+
+	private void setSize(final int size) {
+		this.size = size;
 	}
 }
