@@ -28,7 +28,6 @@ public class ContentsView extends View {
 	private static final String CONTENTS_PAGE_NUMBER_PARAMETER_NAME = "p";
 	private static final int DEFAULT_CONTENTS_PAGE_NUMBER = 1;
 	private static final int NUM_STORIES_DISPLAYED = 10;
-	private static final String TAG_FILTER_PARAMETER_NAME = "filter";
 
 	private static String convertPgNumAndVersionToUrl(final String num,
 			final String version) {
@@ -42,7 +41,6 @@ public class ContentsView extends View {
 	private List<StoryBeginning> beginnings;
 	private int contentsPageNumber;
 	private List<Link> links;
-	private String tagFilter;
 
 	/**
 	 * Default constructor. Sets the default page number to 1, which displays
@@ -228,18 +226,8 @@ public class ContentsView extends View {
 		pageContext.setAttribute("webPageTitle", webPageTitle);
 		final HttpServletRequest request = this.getRequest();
 		this.setContentsPageNumberFromRequest(request);
-		this.setTagFilterFromRequest(request);
 		final String bodyMainTitle = this.getBodyMainTitle();
 		pageContext.setAttribute("bodyMainTitle", bodyMainTitle);
-	}
-
-	private void setTagFilterFromRequest(final HttpServletRequest req) {
-		final String tag = req.getParameter(TAG_FILTER_PARAMETER_NAME);
-		this.setTagFilter(tag.toLowerCase());
-	}
-
-	private void setTagFilter(final String tag) {
-		this.tagFilter = tag;
 	}
 
 	public boolean isFirstPage() {
@@ -290,16 +278,11 @@ public class ContentsView extends View {
 	 */
 	private void readBeginnings() {
 		final int contentsPageNumber = this.getContentsPageNumber();
-		final int first = (contentsPageNumber - 1) * NUM_STORIES_DISPLAYED;
-		final int last = first + NUM_STORIES_DISPLAYED;
-		final String tag = this.getTagFilter();
+		final int firstIndex = (contentsPageNumber - 1) * NUM_STORIES_DISPLAYED;
+		final int lastIndex = firstIndex + NUM_STORIES_DISPLAYED;
 		final List<StoryBeginning> beginnings;
-		beginnings = StoryBeginning.getBeginnings(first, last, tag);
+		beginnings = StoryBeginning.getBeginnings(firstIndex, lastIndex);
 		this.setBeginnings(beginnings);
-	}
-
-	private String getTagFilter() {
-		return this.tagFilter;
 	}
 
 	/**
