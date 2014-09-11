@@ -1156,8 +1156,7 @@ public class StoryPage extends Model {
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
 		final List<Entity> entities = preparedQuery.asList(fetchOptions);
-		System.out.println(entities);
-		System.out.println();
+
 		final List<StoryPage> pgs = new ArrayList<StoryPage>();
 		for (final Entity entity : entities) {
 			final StoryPage pg = new StoryPage(entity);

@@ -3,6 +3,7 @@ package com.deuteriumlabs.dendrite.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +51,7 @@ public class ContentsView extends View {
 	private int contentsPageNumber;
 	private List<Link> links;
 	private String filter;
+	private Map<Integer, List<StoryPage>> pgsMap;
 
 	/**
 	 * Default constructor. Sets the default page number to 1, which displays
@@ -309,20 +311,12 @@ public class ContentsView extends View {
 	private List<StoryBeginning> getFilteredBeginnings() {
 		final String tag = this.getFilter();
 		final List<StoryPage> pgs = StoryPage.getFirstPgsMatchingTag(tag);
-
-		System.out.println(pgs);
-		System.out.println();
+		this.setFirstPgsMatchingTag(pgs);
 
 		final Map<Integer, List<Integer>> storyMap = buildStoryMap(pgs);
 
-		System.out.println(storyMap);
-		System.out.println();
-
 		final List<Integer> storyBeginningNums;
 		storyBeginningNums = buildContentsPgBeginningNums(storyMap);
-
-		System.out.println(storyBeginningNums);
-		System.out.println();
 
 		final List<StoryBeginning> beginnings = new ArrayList<StoryBeginning>();
 		for (final int num : storyBeginningNums) {
@@ -332,10 +326,28 @@ public class ContentsView extends View {
 			beginnings.add(beginning);
 		}
 
-		System.out.println(beginnings);
-		System.out.println();
-
 		return beginnings;
+	}
+
+	private void setFirstPgsMatchingTag(final List<StoryPage> pgs) {
+		final Map<Integer, List<StoryPage>> map;
+		map = new TreeMap<Integer, List<StoryPage>>();
+
+		for (final StoryPage pg : pgs) {
+			final int idNum = pg.getId().getNumber();
+			List<StoryPage> alts = map.remove(idNum);
+			if (alts == null) {
+				alts = new ArrayList<StoryPage>();
+			}
+			alts.add(pg);
+			map.put(idNum, alts);
+		}
+
+		this.setPgsMap(map);
+	}
+
+	private void setPgsMap(final Map<Integer, List<StoryPage>> map) {
+		this.pgsMap = map;
 	}
 
 	private List<Integer> buildContentsPgBeginningNums(
@@ -434,8 +446,65 @@ public class ContentsView extends View {
 	}
 
 	private String specifyVersion(final String number) {
-		final PageId id = new PageId(number);
-		final String version = StoryPage.getRandomVersion(id);
-		return version;
+		final boolean isFiltered = this.isFiltered();
+		if (isFiltered == false) {
+			final PageId id = new PageId(number);
+			final String version = StoryPage.getRandomVersion(id);
+			return version;
+		} else {
+			final int num = Integer.parseInt(number);
+			final List<StoryPage> pgs = this.getPgsList(num);
+			final String version = selectByWeight(pgs);
+			System.out.println(version);
+			System.out.println();
+			return version;
+		}
+	}
+
+	private String selectByWeight(final List<StoryPage> pgs) {
+		int totalWeight = 0;
+		for (final StoryPage pg : pgs) {
+			totalWeight += pg.getNumLovingUsers();
+		}
+		totalWeight += pgs.size();
+
+		System.out.println("totalWeight: " + totalWeight);
+
+		Random generator = new Random();
+		int randomNum = generator.nextInt(totalWeight) + 1;
+		int i = 0;
+		while (randomNum > 0 && i < pgs.size()) {
+			System.out.println("randomNum: " + randomNum);
+			System.out.println("i: " + i);
+
+			final StoryPage pg = pgs.get(i);
+			final int weight = pg.getNumLovingUsers() + 1;
+
+			System.out.println("version: " + pg.getId().getVersion());
+			System.out.println("weight: " + weight);
+			System.out.println();
+
+			randomNum -= weight;
+			if (randomNum <= 0) {
+				return pg.getId().getVersion();
+			}
+			i++;
+		}
+
+		if (pgs.size() > 0) {
+			return pgs.get(0).getId().getVersion();
+		} else {
+			return "a";
+		}
+	}
+
+	private List<StoryPage> getPgsList(final int number) {
+		final Map<Integer, List<StoryPage>> map = this.getPgsMap();
+		final List<StoryPage> list = map.get(number);
+		return list;
+	}
+
+	private Map<Integer, List<StoryPage>> getPgsMap() {
+		return this.pgsMap;
 	}
 }
