@@ -1137,4 +1137,32 @@ public class StoryPage extends Model {
 		}
 		return count;
 	}
+
+	public static List<StoryPage> getFirstPgsMatchingTag(final String tag) {
+		final Query query = new Query(KIND_NAME);
+		String propertyName = IS_FIRST_PG_PROPERTY;
+		FilterOperator operator = FilterOperator.EQUAL;
+		final Filter isFirstPgFilter;
+		isFirstPgFilter = new FilterPredicate(propertyName, operator, true);
+		propertyName = TAGS_PROPERTY;
+		final String propertyVal = tag;
+		final Filter tagFilter;
+		tagFilter = new FilterPredicate(propertyName, operator, propertyVal);
+		final Filter filter;
+		filter = CompositeFilterOperator.and(isFirstPgFilter, tagFilter);
+		query.setFilter(filter);
+		query.addSort(ID_NUMBER_PROPERTY);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		final List<Entity> entities = preparedQuery.asList(fetchOptions);
+		System.out.println(entities);
+		System.out.println();
+		final List<StoryPage> pgs = new ArrayList<StoryPage>();
+		for (final Entity entity : entities) {
+			final StoryPage pg = new StoryPage(entity);
+			pgs.add(pg);
+		}
+		return pgs;
+	}
 }
