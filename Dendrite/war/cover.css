@@ -3,12 +3,24 @@ body {
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 }
 
+@media all and (min-width: 800px) {
+    body {
+	    max-width: 800px;
+	    margin-left: auto;
+	    margin-right: auto;
+    }
+}
+
 body > img {
 	max-width: 100%;
 	max-height: 38vh;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 
 body > p {
+	font-size: 20px;
 	text-align: center;
 }
 
@@ -29,6 +41,20 @@ button.link {
 	width: 100%;
 	
     outline: none;
+}
+
+@media all and (min-width: 600px) {
+	button.link {
+	   width: 49%;
+	}
+    
+    ul > li:nth-child(1) > form > button {
+       float: left;
+    }
+    
+    ul > li:nth-child(2) > form > button {
+       float: right;
+    }
 }
 
 ul {
