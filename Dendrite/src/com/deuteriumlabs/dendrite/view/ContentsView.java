@@ -52,6 +52,7 @@ public class ContentsView extends View {
 	private List<Link> links;
 	private String filter;
 	private Map<Integer, List<StoryPage>> pgsMap;
+	private int numFilteredBeginnings;
 
 	/**
 	 * Default constructor. Sets the default page number to 1, which displays
@@ -98,10 +99,11 @@ public class ContentsView extends View {
 
 	private int getLastPageNumber() {
 		final int numberOfStories = this.getNumberOfStories();
-		if (numberOfStories == 0)
+		if (numberOfStories == 0) {
 			return 1;
-		else
+		} else {
 			return ((numberOfStories - 1) / NUM_STORIES_DISPLAYED) + 1;
+		}
 	}
 
 	public List<Link> getLinks() {
@@ -135,7 +137,17 @@ public class ContentsView extends View {
 	}
 
 	private int getNumberOfStories() {
-		return StoryBeginning.countAllBeginnings();
+		final boolean isFiltered = this.isFiltered();
+		if (isFiltered) {
+			int size = this.getNumFilteredBeginnings();
+			return size;
+		} else {
+			return StoryBeginning.countAllBeginnings();
+		}
+	}
+
+	private int getNumFilteredBeginnings() {
+		return this.numFilteredBeginnings;
 	}
 
 	/**
@@ -196,7 +208,7 @@ public class ContentsView extends View {
 	 */
 	@Override
 	String getUrl() {
-		return "/";
+		return "/contents";
 	}
 
 	/**
@@ -267,14 +279,22 @@ public class ContentsView extends View {
 
 	public void prepareNextPageNum() {
 		final PageContext pageContext = this.getPageContext();
-		final String next = this.getNextPageNumber();
-		pageContext.setAttribute("next", next);
+		final String nextNum = this.getNextPageNumber();
+		String link = "/contents?p=" + nextNum;
+		if (this.isFiltered()) {
+			link += "&filter=" + this.getFilter();
+		}
+		pageContext.setAttribute("nextLink", link);
 	}
 
-	public void preparePrevPageNum() {
+	public void preparePrevPageLink() {
 		final PageContext pageContext = this.getPageContext();
-		final String prev = this.getPrevPageNumber();
-		pageContext.setAttribute("prev", prev);
+		final String prevNum = this.getPrevPageNumber();
+		String link = "/contents?p=" + prevNum;
+		if (this.isFiltered()) {
+			link += "&filter=" + this.getFilter();
+		}
+		pageContext.setAttribute("prevLink", link);
 	}
 
 	public void prepareTag(final String tag) {
@@ -325,7 +345,6 @@ public class ContentsView extends View {
 			beginning.read();
 			beginnings.add(beginning);
 		}
-
 		return beginnings;
 	}
 
@@ -359,12 +378,19 @@ public class ContentsView extends View {
 				flattenedNums.add(0, idNum);
 			}
 		}
+
+		this.setNumFilteredBeginnings(flattenedNums.size());
+
 		final int first = this.getFirstIndex();
 		int last = first + NUM_STORIES_DISPLAYED;
 		if (last > flattenedNums.size()) {
 			last = flattenedNums.size();
 		}
 		return flattenedNums.subList(first, last);
+	}
+
+	private void setNumFilteredBeginnings(final int size) {
+		this.numFilteredBeginnings = size;
 	}
 
 	private Map<Integer, List<Integer>> buildStoryMap(final List<StoryPage> pgs) {
@@ -455,8 +481,6 @@ public class ContentsView extends View {
 			final int num = Integer.parseInt(number);
 			final List<StoryPage> pgs = this.getPgsList(num);
 			final String version = selectByWeight(pgs);
-			System.out.println(version);
-			System.out.println();
 			return version;
 		}
 	}
@@ -468,21 +492,12 @@ public class ContentsView extends View {
 		}
 		totalWeight += pgs.size();
 
-		System.out.println("totalWeight: " + totalWeight);
-
 		Random generator = new Random();
 		int randomNum = generator.nextInt(totalWeight) + 1;
 		int i = 0;
 		while (randomNum > 0 && i < pgs.size()) {
-			System.out.println("randomNum: " + randomNum);
-			System.out.println("i: " + i);
-
 			final StoryPage pg = pgs.get(i);
 			final int weight = pg.getNumLovingUsers() + 1;
-
-			System.out.println("version: " + pg.getId().getVersion());
-			System.out.println("weight: " + weight);
-			System.out.println();
 
 			randomNum -= weight;
 			if (randomNum <= 0) {
