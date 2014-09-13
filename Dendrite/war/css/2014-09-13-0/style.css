@@ -1287,6 +1287,12 @@ ul#notificationList, ul#followerList {
 	padding-left: 0px;
 }
 
+li.notificationItem {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-bottom: 1px dashed #ccc;
+}
+
 #followerList li {
 	padding: 5px;
 	padding-left: 0px;
