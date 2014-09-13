@@ -518,8 +518,8 @@ ul.read.tags > li, ul.tagControls > li {
 ul.read.tags > li, ul.tagControls > li {
     margin-top: 10px;
     margin-left: 10px;
-    line-height: 24px;
-    height: 24px;
+    line-height: 40px;
+    height: 40px;
 }
 
 ul.tags > li {
@@ -527,16 +527,21 @@ ul.tags > li {
 }
 	
 ul.tags > li, ul.tagControls > li {
+    font-size: 14px;
+    
 	border: 1px solid;
 	border-radius: 5px;
 	
-	padding: 0px 5px;
+	padding: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 ul.tagControls > li.select {
 	color: transparent;
 	border: 0px;
 	margin-right: 10px;
+	padding: 0px;
 }
 
 ul.tagControls > li.select, ul.tagControls > li.ok, ul.tagControls > li.cancel {
@@ -549,10 +554,9 @@ ul.tagControls > li > select {
     line-height: 24px;
     
     background: transparent;
-    height: 26px;
-    width: 100%;
-    
-    margin-right: 10px;
+    height: 42px;
+    width: 150px;
+    margin: 0px;
 }
 
 ul.tagControls > li.add, ul.tagControls > li.cancel {
@@ -1298,6 +1302,14 @@ li.notificationItem {
 	padding-left: 0px;
 }
 
+#notificationLink {
+	display: inline-block;
+	vertical-align: middle;
+	
+    margin-left: 10px;
+	padding: 10px;
+}
+
 #notifications {
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -1310,7 +1322,6 @@ li.notificationItem {
 	background-color: #c00;
 	border-radius: 3px;
 	min-width: 22px;
-	margin-left: 10px;
 	padding: 2px;
 }
 
@@ -1324,10 +1335,11 @@ li.notificationItem {
     vertical-align: middle;
 	
 	cursor: pointer;
-	height: 15px;
-	width: 15px;
+	height: 20px;
+	width: 20px;
 	
 	margin-top: -5px;
+	padding: 12px;
 }
 
 ul.optionPair {
@@ -1688,7 +1700,7 @@ textarea {
         -moz-columns: 3;
 	}
 	
-	#notifications {
+	#notificationLink {
         margin-right: -5px;
     }
 }
