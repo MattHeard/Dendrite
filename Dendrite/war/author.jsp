@@ -154,7 +154,7 @@ for (final String id : followersView.getFollowerIds()) {
                         class="smallAvatar"
                         src="/img/avatar/2014-09-06-0/small/${fn:escapeXml(followerAvatarId)}.png"
                         />
-                    <a href="${followerProfileUrl}">${followerName}</a>
+                    <a href="${fn:escapeXml(followerProfileUrl)}">${fn:escapeXml(followerName)}</a>
                   </li><%
     
 }

@@ -55,7 +55,7 @@ if (view.isAuthorPageOfUser() == true) {
 view.prepareAuthorPageUrl();
           
           %>
-            <li><a href="${authorPageUrl}">Pages Written</a></li>
+            <li><a href="${fn:escapeXml(authorPageUrl)}">Pages Written</a></li>
             <li class="selected">Followers</li>
             <li id="more"><a>⋮</a></li>
           </ul>
@@ -69,7 +69,7 @@ for (final String id : view.getFollowerIds()) {
               <img
                   class="smallAvatar"
                   src="/img/avatar/2014-09-06-0/small/${fn:escapeXml(followerAvatarId)}.png" />
-              <a href="${followerProfileUrl}">${followerName}</a>
+              <a href="${fn:escapeXml(followerProfileUrl)}">${fn:escapeXml(followerName)}</a>
             </li><%
 	
 }

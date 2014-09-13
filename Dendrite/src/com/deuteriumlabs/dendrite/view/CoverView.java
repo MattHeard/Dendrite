@@ -14,4 +14,9 @@ public class CoverView extends View {
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute("webPageTitle", "Dendrite");
 	}
+
+	public void prepareTagName(final String tag) {
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("tagName", tag);
+	}
 }

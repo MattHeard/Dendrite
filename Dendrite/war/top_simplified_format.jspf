@@ -66,7 +66,7 @@ ga('send', 'pageview');
 view.prepareThemeClasses();
   
 %>
-  <body onLoad="init();" class="${themeClasses}">
+  <body onLoad="init();" class="${fn:escapeXml(themeClasses)}">
     <div id="nonFooter">
       <div id="headerBar">
         <div id="header">
@@ -79,7 +79,7 @@ view.prepareThemeClasses();
 view.prepareThemeClass();
               
 %>
-              src="/img/logo/2014-08-20-0/${themeClass}/logo.png" /></a></div><%
+              src="/img/logo/2014-08-20-0/${fn:escapeXml(themeClass)}/logo.png" /></a></div><%
 
 final boolean isUserLoggedIn = View.isUserLoggedIn();
 if (isUserLoggedIn == true) {
@@ -100,9 +100,10 @@ if (isUserLoggedIn == true) {
         %> class="noNewNotifications"<%
         
     }
+    
+    view.prepareNumNotifications();
 
-            %> title="Notifications"><%= view.countNewNotifications() %>
-              </span>
+    %> title="Notifications">${fn:escapeXml(numNotifications)}</span>
             </a>
           </div><%
     
@@ -135,16 +136,20 @@ final String[][] fmtValSets = {
 for (int i = 0; i < fmtDimensions.length; i++) {
 	final String fmtDimension = fmtDimensions[i];
 	final String[] fmtVals = fmtValSets[i];
+
+    view.prepareFmtDimension(fmtDimension);
 	
 	%>
           <li class="menu">
-            <ul id="<%= fmtDimension.toLowerCase() %>Menu"><%
+            <ul id="${fn:escapeXml(lowerFmtDimension)}Menu"><%
             
     for (int j = 0; j < fmtVals.length; j++) {
     	final String fmtVal = fmtVals[j];
+    	
+    	view.prepareUpperCaseFmtVal(fmtVal);
         
     	%>
-              <li><%= fmtVal.toUpperCase() %></li><%
+              <li>${fn:escapeXml(upperFmtVal)}</li><%
     	
     }
 
@@ -153,7 +158,7 @@ for (int i = 0; i < fmtDimensions.length; i++) {
           </li>
           <li class="select">
             <button
-                id="<%= fmtDimension.toLowerCase() %>Btn"><%= fmtDimension.toUpperCase() %></button>
+                id="${fn:escapeXml(lowerFmtDimension)}Btn">${fn:escapeXml(upperFmtDimension)}</button>
           </li><%
 }
 

@@ -385,4 +385,21 @@ public abstract class View {
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute("themeClass", themeClass);
 	}
+
+	public void prepareNumNotifications() {
+		final int num = this.countNewNotifications();
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("numNotifications", num);
+	}
+
+	public void prepareFmtDimension(final String dimension) {
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("lowerFmtDimension", dimension.toLowerCase());
+		pageContext.setAttribute("upperFmtDimension", dimension.toUpperCase());
+	}
+
+	public void prepareUpperCaseFmtVal(final String val) {
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("upperFmtVal", val.toUpperCase());
+	}
 }

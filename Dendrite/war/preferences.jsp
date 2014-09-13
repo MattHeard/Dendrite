@@ -249,8 +249,8 @@ if (isNewPenNameBlank == true) {
     	%>
             <input type="radio"
                 name="avatar"
-                id="avatar_radio_${avatarNum}"
-                value="${avatarNum}"
+                id="avatar_radio_${fn:escapeXml(avatarNum)}"
+                value="${fn:escapeXml(avatarNum)}"
                 class="avatar_input_hidden"<%
                 
         final int userAvatarId = view.getAvatarId();
@@ -263,8 +263,8 @@ if (isNewPenNameBlank == true) {
         }
                 
         %> />
-            <label for="avatar_radio_${avatarNum}">
-              <img src="/img/avatar/2014-09-06-0/small/${avatarNum}.png"
+            <label for="avatar_radio_${fn:escapeXml(avatarNum)}">
+              <img src="/img/avatar/2014-09-06-0/small/${fn:escapeXml(avatarNum)}.png"
                   class="avatar_radio_button" />
             </label><%
     	

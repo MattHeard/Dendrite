@@ -173,11 +173,11 @@ if (isPageInStore == true) {
     		final String authorId = view.getAuthorId();
     		pageContext.setAttribute("authorId", authorId);
     		
-    		%><a href="/author?id=${authorId}"><%
+    		%><a href="/author?id=${fn:escapeXml(authorId)}"><%
     		
     	}
     
-        %>${authorName}<%
+        %>${fn:escapeXml(authorName)}<%
     
     	if (isAuthorAnonymous == false) {
     		
@@ -196,12 +196,15 @@ if (isPageInStore == true) {
         pageContext.setAttribute("avatarId", avatarId);
         
         %>
-      <img id="avatar" src="/img/avatar/2014-09-06-0/small/${avatarId}.png" />
+      <img id="avatar" src="/img/avatar/2014-09-06-0/small/${fn:escapeXml(avatarId)}.png" />
       <div class="clear"></div>
-      <script>
-        var ADD_TAG_URL_WITHOUT_TAG = "/addTag?p=<%= view.getPageId() %>&tag=";
-        var REMOVE_TAG_URL_WITHOUT_TAG = "/removeTag?p=<%
-            %><%= view.getPageId() %>&tag=";
+      <script><%
+
+        view.preparePgId();
+      
+        %>
+        var ADD_TAG_URL_WITHOUT_TAG = "/addTag?p=${fn:escapeXml(pgId)}&tag=";
+        var REMOVE_TAG_URL_WITHOUT_TAG = "/removeTag?p=${fn:escapeXml(pgId)}&tag=";
         </script>
       <ul class="read tags"><%
       
@@ -210,7 +213,7 @@ if (isPageInStore == true) {
         	view.prepareTag(tag);
         	
         	%>
-        <li class="${tagClass}">${tagName}</li><%
+        <li class="${fn:escapeXml(tagClass)}">${fn:escapeXml(tagName)}</li><%
         	
         }
       
@@ -228,9 +231,10 @@ final String[] tagNames = { "SCIFI", "WESTERN", "ROMANCE", "FANFIC", "ACTION",
     "HORROR", "INSPIRATIONAL", "MYSTERY", "POLITICAL", "RELIGIOUS",
     "THRILLER", "SPAM" };
 for (final String tag : tagNames) {
+	view.prepareTagName(tag);
 	
 	%>
-            <option><%= tag %></option><%
+            <option>${fn:escapeXml(tagName)}</option><%
 	
 }
           
@@ -252,15 +256,24 @@ for (final String tag : tagNames) {
         }
       
       %>><img id="heartIcon" src="/img/icons/2014-09-01-0/heart.png" /></div>
-      <script type="text/javascript" lang="javascript">
-        var IS_NOT_CURRENTLY_LOVED = <%= view.isNotLoved() %>;
+      <script type="text/javascript" lang="javascript"><%
+
+      view.prepareIsNotLoved();
+      view.prepareMyUserId();
+      
+      %>
+        var IS_NOT_CURRENTLY_LOVED = ${fn:escapeXml(isNotLoved)};
         var LOVE_URI_WITHOUT_VAL = "/love?<%
-            %>p=<%= view.getPageId() %><%
-            %>&user=<%= View.getMyUserId() %><%
+            %>p=${fn:escapeXml(pgId)}<%
+            %>&user=${fn:escapeXml(myUserId)}<%
             %>&isAdded=";
         var love_uri = LOVE_URI_WITHOUT_VAL + IS_NOT_CURRENTLY_LOVED;
-      </script>
-      <div id="loveCount"><%= view.getNumLovingUsersString() %></div><%
+      </script><%
+      
+      view.prepareNumLovers();
+      
+      %>
+      <div id="loveCount">${fn:escapeXml(numLovers)}</div><%
       
       }
       
@@ -270,11 +283,13 @@ for (final String tag : tagNames) {
         if (isBeginning == false) {
         	final String first = view.getFirstUrl();
         	pageContext.setAttribute("first", first);
+        	
+        	view.prepareParentId();
 
         	%>
-      <p><a href="/read?p=<%= view.getParentId() %>">Return to the previous
+      <p><a href="/read?p=${fn:escapeXml(parentId)}">Return to the previous
           page.</a></p>
-      <p><a href="${first}">Return to the first page of this story.</a></p><%
+      <p><a href="${fn:escapeXml(first)}">Return to the first page of this story.</a></p><%
     
         }
 	
@@ -291,7 +306,7 @@ for (final String tag : tagNames) {
 		%>
       <span
           class="pageArrow"
-          id="prevPage"><a href="/read?p=${prevPageNum}">←</a></span><%
+          id="prevPage"><a href="/read?p=${fn:escapeXml(prevPageNum)}">←</a></span><%
 		
 	}
 	
@@ -299,5 +314,5 @@ for (final String tag : tagNames) {
 	%>
       <span
           class="pageArrow"
-          id="nextPage"><a href="/read?p=${nextPageNum}">→</a></span>
+          id="nextPage"><a href="/read?p=${fn:escapeXml(nextPageNum)}">→</a></span>
 <%@include file="bottom.jspf" %>

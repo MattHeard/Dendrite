@@ -171,7 +171,7 @@ if (isDraftPending == true) {
         
     if (isUserLoggedIn == true) {
         
-        %> value="${userName}"<%
+        %> value="${fn:escapeXml(userName)}"<%
         
     } else {
 			

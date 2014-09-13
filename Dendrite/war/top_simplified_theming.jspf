@@ -66,7 +66,7 @@ ga('send', 'pageview');
 view.prepareThemeClasses();
   
 %>
-  <body onLoad="init();" class="${themeClasses}">
+  <body onLoad="init();" class="${fn:escapeXml(themeClasses)}">
     <div id="nonFooter">
       <div id="headerBar">
         <div id="header">
@@ -79,7 +79,7 @@ view.prepareThemeClasses();
 view.prepareThemeClass();
               
 %>
-              src="/img/logo/2014-08-20-0/${themeClass}/logo.png" /></a></div><%
+              src="/img/logo/2014-08-20-0/${fn:escapeXml(themeClass)}/logo.png" /></a></div><%
 
 final boolean isUserLoggedIn = View.isUserLoggedIn();
 if (isUserLoggedIn == true) {
@@ -95,10 +95,12 @@ if (isUserLoggedIn == true) {
     if (areThereNewNotifications == false) {
         
         %> class="noNewNotifications"<%
-        
+                
     }
+            
+    view.prepareNumNotifications();
 
-            %> title="Notifications"><%= view.countNewNotifications() %></span></a>
+    %> title="Notifications">${fn:escapeXml(numNotifications)}</span></a>
           </div><%
     
 } else {

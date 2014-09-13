@@ -56,9 +56,10 @@ final String[] tagNames = { "SCIFI", "WESTERN", "ROMANCE", "FANFIC", "ACTION",
     "HORROR", "INSPIRATIONAL", "MYSTERY", "POLITICAL", "RELIGIOUS",
     "THRILLER", "SPAM" };
 for (final String tag : tagNames) {
+	view.prepareTagName(tag);
     
     %>
-        <option><%= tag %></option><%
+        <option>${fn:escapeXml(tagName)}</option><%
     
 }
           
