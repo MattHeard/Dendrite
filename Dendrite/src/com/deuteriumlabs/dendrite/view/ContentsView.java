@@ -277,7 +277,7 @@ public class ContentsView extends View {
 		pageContext.setAttribute("pageNumber", number);
 	}
 
-	public void prepareNextPageNum() {
+	public void prepareNextPageLink() {
 		final PageContext pageContext = this.getPageContext();
 		final String nextNum = this.getNextPageNumber();
 		String link = "/contents?p=" + nextNum;

@@ -76,7 +76,7 @@ if (isFirstPage == false) {
 
 final boolean isLastPage = view.isLastPage();
 if (isLastPage == false) {
-	view.prepareNextPageNum();
+	view.prepareNextPageLink();
     	
     %>
           <div><a href="${fn:escapeXml(nextLink)}">Next</a></div><%
