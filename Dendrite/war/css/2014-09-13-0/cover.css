@@ -1,6 +1,8 @@
 body {
 	background-color: #fefefe;
     font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    
+    padding-top: 20px;
 }
 
 @media all and (min-width: 800px) {
