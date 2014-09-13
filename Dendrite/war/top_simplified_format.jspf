@@ -91,7 +91,7 @@ if (isUserLoggedIn == true) {
             Welcome back,
             <a href="${fn:escapeXml(authorLink)}">${fn:escapeXml(userName)}</a>.
             (<a href="${fn:escapeXml(logoutLink)}">Logout</a>)
-            <a href="/notifications">
+            <a id="notificationLink" href="/notifications">
               <span id="notifications"<%
 
     final boolean areThereNewNotifications = view.areThereNewNotifications();
