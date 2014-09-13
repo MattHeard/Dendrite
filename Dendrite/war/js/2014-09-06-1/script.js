@@ -366,36 +366,52 @@ function initBlackTextOnDarkThemeWarning() {
 
 var selectedAboutTab = "about";
 var selectedAuthorTab = "pages_written";
+var selectedTab = "";
 
 function showAccordion() {
   $("div.accordion > ul.tabs").hide();
   $("div.accordion > section").show();
   $("div.accordion > section > h2").show();
   $("div.accordion > section > div").hide();
-  $("div.accordion > section." + selectedAboutTab + " > div").show();
-  $("div.accordion > section." + selectedAuthorTab + " > div").show();
+  if (selectedTab !== "") {
+    $("div.accordion > section." + selectedTab + " > div").show();
+  }
 }
 
 function hideAccordion() {
   $("div.accordion > ul.tabs > li").removeClass("selected");
-  $("div.accordion > ul.tabs > li." + selectedAboutTab).addClass("selected");
-  $("div.accordion > ul.tabs > li." + selectedAuthorTab).addClass("selected");
+  $("div.accordion > ul.tabs > li." + selectedTab).addClass("selected");
+  console.log(selectedTab);
   $("div.accordion > ul.tabs").show();
   $("div.accordion > section").hide();
   $("div.accordion > section > div").show();
-  $("div.accordion > section." + selectedAboutTab + " h2").hide();
-  $("div.accordion > section." + selectedAboutTab).show();
-  $("div.accordion > section." + selectedAuthorTab + " h2").hide();
-  $("div.accordion > section." + selectedAuthorTab).show();
+  $("div.accordion > section." + selectedTab + " h2").hide();
+  $("div.accordion > section." + selectedTab).show();
 }
 
-function initAccordionTabs() {
+function showAboutAccordion() {
+  selectedTab = selectedAboutTab;
+  showAccordion();
+}
+
+function hideAboutAccordion() {
+  if (selectedAboutTab === "") {
+    selectedTab = "about";
+  } else {
+    selectedTab = selectedAboutTab;
+  }
+  hideAccordion();
+}
+
+function initAboutAccordionTabs() {
   $(window).resize(function() {
-    var width = $("#main").width();
-    if (width < 800) {
-      showAccordion();
-    } else {
-      hideAccordion();
+    if ($(".accordion").hasClass("about")) {
+      var width = $("#main").width();
+      if (width < 800) {
+        showAboutAccordion();
+      } else {
+        hideAboutAccordion();
+      }
     }
   }).resize();
   
@@ -421,6 +437,33 @@ function initAccordionTabs() {
     $("div.about.accordion > section > h2").hide();
     $("div.about.accordion > section." + selectedAboutTab).show();
   });
+}
+
+function showAuthorAccordion() {
+  selectedTab = selectedAuthorTab;
+  showAccordion();
+}
+
+function hideAuthorAccordion() {
+  if (selectedAuthorTab === "") {
+	selectedTab = "pages_written";
+  } else {
+	selectedTab = selectedAuthorTab;
+  }
+  hideAccordion();
+}
+
+function initAuthorAccordionTabs() {
+  $(window).resize(function() {
+    if ($(".accordion").hasClass("author")) {
+      var width = $("#main").width();
+      if (width < 800) {
+        showAuthorAccordion();
+      } else {
+        hideAuthorAccordion();
+      }
+    }
+  }).resize();
   
   $("div.author.accordion > section > h2").click(function() {
     var prevSelected = selectedAuthorTab;
@@ -464,5 +507,6 @@ function init() {
   initResizeContactForm();
   initFormatMenu();
   initBlackTextOnDarkThemeWarning();
-  initAccordionTabs();
+  initAboutAccordionTabs();
+  initAuthorAccordionTabs();
 }
