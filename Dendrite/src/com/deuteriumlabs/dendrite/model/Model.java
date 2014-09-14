@@ -24,6 +24,7 @@ public abstract class Model {
 	 */
 	protected static Entity getSingleEntity(final PreparedQuery preparedQuery) {
 		try {
+			Model.logQuery(15);
 			return preparedQuery.asSingleEntity();
 		} catch (TooManyResultsException e) {
 			return null;
@@ -47,6 +48,7 @@ public abstract class Model {
 	public void create() {
 		final String kindName = this.getKindName();
 		final Entity entity = new Entity(kindName);
+		Model.logCreate(1);
 		putEntityInStore(entity);
 	}
 
@@ -57,6 +59,7 @@ public abstract class Model {
 	public void delete() {
 		final Entity entity = this.getMatchingEntity();
 		if (entity != null) {
+			Model.logDelete(1);
 			deleteEntityByKey(entity);
 		}
 	}
@@ -106,16 +109,13 @@ public abstract class Model {
 	 *         otherwise.
 	 */
 	public boolean isInStore() {
-		final int count = countMatchingEntities();
-		return (count > 0);
-	}
-
-	private int countMatchingEntities() {
 		final Query query = this.getMatchingQuery();
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		return preparedQuery.countEntities(fetchOptions);
+		Model.logQuery(5);
+		final int count = preparedQuery.countEntities(fetchOptions);
+		return (count > 0);
 	}
 
 	/**
@@ -124,8 +124,10 @@ public abstract class Model {
 	 */
 	public void read() {
 		final Entity entity = this.getMatchingEntity();
-		if (entity != null)
+		if (entity != null) {
+			Model.logRead(1);
 			this.readPropertiesFromEntity(entity);
+		}
 	}
 
 	/**
@@ -153,6 +155,7 @@ public abstract class Model {
 	public void update() {
 		final Entity entity = this.getMatchingEntity();
 		if (entity != null) {
+			Model.logUpdate(1);
 			putEntityInStore(entity);
 		}
 	}
@@ -161,6 +164,57 @@ public abstract class Model {
 		this.setPropertiesInEntity(entity);
 		final DatastoreService store = getStore();
 		store.put(entity);
+	}
+
+	static int[] queryArrCount = new int[1000];
+	static int[] createArrCount = new int[1000];
+	static int[] readArrCount = new int[1000];
+	static int[] updateArrCount = new int[1000];
+	static int[] deleteArrCount = new int[1000];
+	static int queryTotalCount = 1;
+	static int createTotalCount = 1;
+	static int readTotalCount = 1;
+	static int updateTotalCount = 1;
+	static int deleteTotalCount = 1;
+
+	public static void logQuery(final int logNum) {
+		int count = queryArrCount[logNum] + 1;
+		int total = queryTotalCount;
+		System.out.println("query (" + logNum + ") " + count + "/" + total);
+		queryArrCount[logNum]++;
+		queryTotalCount++;
+	}
+
+	public static void logCreate(final int logNum) {
+		int count = createArrCount[logNum] + 1;
+		int total = createTotalCount;
+		System.out.println("create (" + logNum + ") " + count + "/" + total);
+		createArrCount[logNum]++;
+		createTotalCount++;
+	}
+
+	public static void logRead(final int logNum) {
+		int count = readArrCount[logNum] + 1;
+		int total = readTotalCount;
+		System.out.println("read (" + logNum + ") " + count + "/" + total);
+		readArrCount[logNum]++;
+		readTotalCount++;
+	}
+
+	public static void logUpdate(final int logNum) {
+		int count = updateArrCount[logNum] + 1;
+		int total = updateTotalCount;
+		System.out.println("update (" + logNum + ") " + count + "/" + total);
+		updateArrCount[logNum]++;
+		updateTotalCount++;
+	}
+
+	public static void logDelete(final int logNum) {
+		int count = deleteArrCount[logNum] + 1;
+		int total = deleteTotalCount;
+		System.out.println("delete (" + logNum + ") " + count + "/" + total);
+		deleteArrCount[logNum]++;
+		deleteTotalCount++;
 	}
 
 }
