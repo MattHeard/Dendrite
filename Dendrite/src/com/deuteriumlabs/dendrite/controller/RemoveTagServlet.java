@@ -9,21 +9,20 @@ import javax.servlet.http.HttpServletResponse;
 import com.deuteriumlabs.dendrite.model.PageId;
 
 public class RemoveTagServlet extends DendriteServlet {
-    
+
 	private static final long serialVersionUID = 3945779238617014034L;
 	private static final String PG_ID_PARAMETER_NAME = "p";
 	private static final String TAG_PARAMETER_NAME = "tag";
-	
+
 	private PageId pgId;
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
 	private String tag;
 
 	@Override
-    protected void doPost(final HttpServletRequest req,
-            final HttpServletResponse resp) throws ServletException,
-            IOException {
-		System.out.println("Request received.");
+	protected void doPost(final HttpServletRequest req,
+			final HttpServletResponse resp) throws ServletException,
+			IOException {
 		this.setReq(req);
 		this.setResp(resp);
 		this.extractParameters();
@@ -44,7 +43,7 @@ public class RemoveTagServlet extends DendriteServlet {
 				this.returnOk();
 			}
 		}
-    }
+	}
 
 	private static boolean isTagValid(final String tag) {
 		return (tag != null) && (tag.equals("") == false);
@@ -52,7 +51,7 @@ public class RemoveTagServlet extends DendriteServlet {
 
 	private void returnFailure() {
 		final HttpServletResponse resp = this.getResp();
-        resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 	}
 
 	private String getTag() {
