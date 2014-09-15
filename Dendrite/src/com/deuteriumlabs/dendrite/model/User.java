@@ -149,7 +149,7 @@ public class User extends Model {
 	 * 
 	 * @return the Google App Engine user ID representing the logged-in visitor
 	 */
-	private static String getMyUserId() {
+	public static String getMyUserId() {
 		final UserService userService = UserServiceFactory.getUserService();
 		final com.google.appengine.api.users.User appEngineUser;
 		appEngineUser = userService.getCurrentUser();

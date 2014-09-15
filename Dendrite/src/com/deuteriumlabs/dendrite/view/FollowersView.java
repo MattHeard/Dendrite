@@ -1,5 +1,6 @@
 package com.deuteriumlabs.dendrite.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -121,6 +122,9 @@ public class FollowersView extends View {
 	public List<String> getFollowerIds() {
 		final User author = this.getAuthor();
 		final List<String> ids = author.getFollowers();
+		if (ids == null) {
+			return new ArrayList<String>();
+		}
 		return ids;
 	}
 

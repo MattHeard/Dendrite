@@ -66,7 +66,12 @@ public class AuthorView extends View {
 	public void initialise() {
 		final HttpServletRequest request = this.getRequest();
 		final String id = request.getParameter("id");
-		this.setId(id);
+		if (id != null) {
+			this.setId(id);
+		} else {
+			final String myUserId = User.getMyUserId();
+			this.setId(myUserId);
+		}
 		final String pParameter = request.getParameter("p");
 		int authorPageNumber;
 		try {

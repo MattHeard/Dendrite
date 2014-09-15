@@ -144,7 +144,7 @@ final FollowersView followersView = new FollowersView();
 followersView.setPageContext(pageContext);
 followersView.setRequest(request);
 followersView.initialise();
-          
+
 for (final String id : followersView.getFollowerIds()) {
     followersView.prepareFollower(id);
     
