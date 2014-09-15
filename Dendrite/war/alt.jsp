@@ -60,8 +60,7 @@ if (alt.authorId != null) {
                   
 if (alt.authorId != null) {
                   
-                  %>
-                </a><%
+                  %></a><%
                 
 }
                 
