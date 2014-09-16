@@ -53,14 +53,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/about</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>AboutMore</servlet-name>
-		<jsp-file>/about_more.jsp</jsp-file>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>AboutMore</servlet-name>
-		<url-pattern>/about_more</url-pattern>
-	</servlet-mapping>
-	<servlet>
 		<servlet-name>Author</servlet-name>
 		<jsp-file>/author.jsp</jsp-file>
 	</servlet>
@@ -84,14 +76,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>Contents</servlet-name>
         <url-pattern>/contents</url-pattern>
     </servlet-mapping>
-	<servlet>
-		<servlet-name>Contributors</servlet-name>
-		<jsp-file>/contributors.jsp</jsp-file>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Contributors</servlet-name>
-		<url-pattern>/contributors</url-pattern>
-	</servlet-mapping>
 	<servlet>
 		<servlet-name>Cover</servlet-name>
 		<jsp-file>/cover.jsp</jsp-file>
@@ -165,14 +149,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/notifications</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>Followers</servlet-name>
-        <jsp-file>/followers.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Followers</servlet-name>
-        <url-pattern>/followers</url-pattern>
-    </servlet-mapping>
-    <servlet>
         <servlet-name>Alt</servlet-name>
         <jsp-file>/alt.jsp</jsp-file>
     </servlet>
@@ -227,22 +203,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     <servlet-mapping>
         <servlet-name>RemoveTag</servlet-name>
         <url-pattern>/removeTag</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>FAQ</servlet-name>
-        <jsp-file>/faq.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FAQ</servlet-name>
-        <url-pattern>/faq</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>Patches</servlet-name>
-        <jsp-file>/patches.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Patches</servlet-name>
-        <url-pattern>/patches</url-pattern>
     </servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>cover.jsp</welcome-file>
