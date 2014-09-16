@@ -226,10 +226,26 @@ if (isPageInStore == true) {
         <li class="select">
           <select><%
           
-final String[] tagNames = { "SCIFI", "WESTERN", "ROMANCE", "FANFIC", "ACTION",
-    "ADVENTURE", "COMEDY", "CRIME", "DRAMA", "EROTIC", "FANTASY", "HISTORICAL",
-    "HORROR", "INSPIRATIONAL", "MYSTERY", "POLITICAL", "RELIGIOUS",
-    "THRILLER", "SPAM" };
+final String[] tagNames = { 
+		"ACTION",
+		"ADVENTURE",
+		"COMEDY",
+		"CRIME",
+		"DRAMA",
+		"EROTIC",
+		"FANFIC",
+		"FANTASY",
+		"HISTORICAL",
+		"HORROR",
+		"INSPIRATIONAL",
+		"MYSTERY",
+		"POLITICAL",
+		"RELIGIOUS",
+		"ROMANCE",
+		"SCIFI",
+		"SPAM",
+		"THRILLER",
+		"WESTERN" };
 for (final String tag : tagNames) {
 	view.prepareTagName(tag);
 	
