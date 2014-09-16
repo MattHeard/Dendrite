@@ -520,6 +520,8 @@ ul.read.tags > li, ul.tagControls > li {
     margin-left: 10px;
     line-height: 40px;
     height: 40px;
+    
+    cursor: pointer;
 }
 
 ul.tags > li {
@@ -565,7 +567,6 @@ ul.tagControls > li.add, ul.tagControls > li.cancel {
 
 ul.tagControls > li.add, ul.tagControls > li.ok, ul.tagControls > li.cancel {
 	border-color: #ccc;
-	cursor: pointer;
 	
 	margin-left: 5px;
 }
