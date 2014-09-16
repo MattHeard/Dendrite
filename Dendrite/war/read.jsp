@@ -259,14 +259,10 @@ for (final String tag : tagNames) {
       <script type="text/javascript" lang="javascript"><%
 
       view.prepareIsNotLoved();
-      view.prepareMyUserId();
       
       %>
         var IS_NOT_CURRENTLY_LOVED = ${fn:escapeXml(isNotLoved)};
-        var LOVE_URI_WITHOUT_VAL = "/love?<%
-            %>p=${fn:escapeXml(pgId)}<%
-            %>&user=${fn:escapeXml(myUserId)}<%
-            %>&isAdded=";
+        var LOVE_URI_WITHOUT_VAL = "/love?p=${fn:escapeXml(pgId)}&isAdded=";
         var love_uri = LOVE_URI_WITHOUT_VAL + IS_NOT_CURRENTLY_LOVED;
       </script><%
       
