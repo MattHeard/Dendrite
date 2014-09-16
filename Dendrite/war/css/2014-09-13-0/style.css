@@ -1410,8 +1410,9 @@ ul#modifyMenu {
     margin-left: 20px;
 }
 
-ul#modifyMenu > li {
-	text-align: center;
+ul#modifyMenu > li > a {
+	display: block;
+    text-align: center;
     font-size: 12px;
     line-height: 14px;
     border: 1px solid;
