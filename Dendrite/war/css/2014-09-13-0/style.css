@@ -1360,6 +1360,11 @@ ul.optionPair > li > a {
 	width: 100%;
 }
 
+ul#modifyMenu > li > a:hover,
+ul.optionPair > li > a:hover {
+	text-decoration: none;
+}
+
 .optionLink {
 	color: #eee;
 }
