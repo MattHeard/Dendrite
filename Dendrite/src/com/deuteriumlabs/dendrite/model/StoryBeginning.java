@@ -47,7 +47,6 @@ public class StoryBeginning extends Model {
 		final FetchOptions fetchOptions = FetchOptions.Builder.withLimit(limit);
 		final int offset = start;
 		fetchOptions.offset(offset);
-		Model.logQuery(11);
 		List<Entity> entities = preparedQuery.asList(fetchOptions);
 		List<StoryBeginning> beginnings = getBeginningsFromEntities(entities);
 		return beginnings;
@@ -351,7 +350,6 @@ public class StoryBeginning extends Model {
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		Model.logQuery(1);
 		return preparedQuery.countEntities(fetchOptions);
 	}
 

@@ -45,7 +45,6 @@ public class StoryOption extends Model {
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		Model.logQuery(7);
 		return preparedQuery.countEntities(fetchOptions);
 	}
 

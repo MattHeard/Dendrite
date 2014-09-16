@@ -75,7 +75,6 @@ public class StoryPage extends Model {
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		Model.logQuery(2);
 		return preparedQuery.countEntities(fetchOptions);
 	}
 
@@ -101,7 +100,6 @@ public class StoryPage extends Model {
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		Model.logQuery(8);
 		return preparedQuery.countEntities(fetchOptions);
 	}
 
@@ -112,7 +110,6 @@ public class StoryPage extends Model {
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		Model.logQuery(9);
 		return preparedQuery.countEntities(fetchOptions);
 	}
 
@@ -124,7 +121,6 @@ public class StoryPage extends Model {
 		DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		Model.logQuery(10);
 		final List<Entity> entities = preparedQuery.asList(fetchOptions);
 		final List<StoryPage> pages = getPgsFromEntities(entities);
 		return pages;
@@ -220,7 +216,6 @@ public class StoryPage extends Model {
 		final FetchOptions fetchOptions = FetchOptions.Builder.withLimit(limit);
 		final int offset = start;
 		fetchOptions.offset(offset);
-		Model.logQuery(14);
 		List<Entity> entities = preparedQuery.asList(fetchOptions);
 		List<StoryPage> pgs = getPgsFromEntities(entities);
 		return pgs;
@@ -391,7 +386,6 @@ public class StoryPage extends Model {
 		query.setFilter(filter);
 		final DatastoreService store = getStore();
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		Model.logQuery(4);
 		final List<Entity> entities = store.prepare(query).asList(fetchOptions);
 		int count = 0;
 		for (final Entity entity : entities) {
@@ -1132,7 +1126,6 @@ public class StoryPage extends Model {
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		Model.logQuery(3);
 		final List<Entity> entities = preparedQuery.asList(fetchOptions);
 		int count = 0;
 		for (final Entity entity : entities) {
@@ -1162,7 +1155,6 @@ public class StoryPage extends Model {
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		Model.logQuery(12);
 		final List<Entity> entities = preparedQuery.asList(fetchOptions);
 
 		final List<StoryPage> pgs = new ArrayList<StoryPage>();

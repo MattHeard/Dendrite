@@ -48,7 +48,6 @@ public class Notification extends Model {
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		Model.logQuery(6);
 		return preparedQuery.countEntities(fetchOptions);
 	}
 
@@ -93,7 +92,6 @@ public class Notification extends Model {
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		Model.logQuery(13);
 		final List<Entity> entities = preparedQuery.asList(fetchOptions);
 		final List<Notification> notifications;
 		notifications = getNotificationsFromEntities(entities);
@@ -418,7 +416,6 @@ public class Notification extends Model {
 		final long id = this.getEntityId();
 		final Key key = KeyFactory.createKey(KIND_NAME, id);
 		final DatastoreService store = getStore();
-		Model.logDelete(2);
 		store.delete(key);
 	}
 
