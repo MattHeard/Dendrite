@@ -228,6 +228,20 @@ public class Notification extends Model {
 	 */
 	@Override
 	Query getMatchingQuery() {
+		final boolean isIdDefined = this.isIdDefined();
+		if (isIdDefined == true) {
+			return this.getQueryById();
+		} else {
+			return this.getQueryByRecipientAndTime();
+		}
+	}
+
+	private boolean isIdDefined() {
+		final long id = this.getId();
+		return (id > 0);
+	}
+
+	private Query getQueryByRecipientAndTime() {
 		final Query query = new Query(KIND_NAME);
 		final String recipientId = this.getRecipientId();
 		final Filter recipientFilter = getRecipientFilter(recipientId);
@@ -235,6 +249,16 @@ public class Notification extends Model {
 		final Filter timeFilter = getTimeFilter(time);
 		final Filter filter;
 		filter = CompositeFilterOperator.and(recipientFilter, timeFilter);
+		return query.setFilter(filter);
+	}
+
+	private Query getQueryById() {
+		final Query query = new Query(KIND_NAME);
+		String propertyName = Entity.KEY_RESERVED_PROPERTY;
+		FilterOperator operator = FilterOperator.EQUAL;
+		final long id = this.getId();
+		final Key key = KeyFactory.createKey(KIND_NAME, id);
+		Filter filter = new FilterPredicate(propertyName, operator, key);
 		return query.setFilter(filter);
 	}
 
@@ -248,7 +272,7 @@ public class Notification extends Model {
 	/**
 	 * @return
 	 */
-	private String getRecipientId() {
+	public String getRecipientId() {
 		return this.recipientId;
 	}
 
