@@ -72,14 +72,9 @@ public class AuthorView extends View {
 			final String myUserId = User.getMyUserId();
 			this.setId(myUserId);
 		}
-		final String pParameter = request.getParameter("p");
-		int authorPageNumber;
-		try {
-			authorPageNumber = Integer.parseInt(pParameter);
-		} catch (NumberFormatException e) {
-			authorPageNumber = 1;
-		}
-		this.setAuthorPageNumber(authorPageNumber);
+
+		this.extractAuthorPgNum();
+
 		final String penName = this.getPenName();
 
 		final PageContext pageContext = this.getPageContext();
@@ -87,6 +82,26 @@ public class AuthorView extends View {
 		pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
 
 		this.prepareAvatarId();
+	}
+
+	private void extractAuthorPgNum() {
+		final HttpServletRequest req = this.getRequest();
+		final String pParameter = req.getParameter("p");
+		int authorPageNumber;
+		try {
+			authorPageNumber = Integer.parseInt(pParameter);
+		} catch (NumberFormatException e) {
+			authorPageNumber = 1;
+		}
+		final int lastPgNum = this.getLastPgNum();
+		if (authorPageNumber > lastPgNum) {
+			authorPageNumber = 1;
+		}
+		this.setAuthorPageNumber(authorPageNumber);
+	}
+
+	private int getLastPgNum() {
+		return bibliographyView.getLastPageNumber();
 	}
 
 	private void initialiseBibilographyView() {
