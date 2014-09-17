@@ -28,7 +28,11 @@ public class AltView extends View {
 
 	@Override
 	String getUrl() {
-		return URL;
+		if (pgNum > 0) {
+			return URL + "?p=" + pgNum;
+		} else {
+			return URL;
+		}
 	}
 
 	@Override
