@@ -112,4 +112,8 @@ public class AltView extends View {
 		pageContext.setAttribute("tagClass", tag.toLowerCase());
 		pageContext.setAttribute("tagName", tag.toUpperCase());
 	}
+
+	public boolean isPgNumInvalid() {
+		return (pgNum == 0);
+	}
 }

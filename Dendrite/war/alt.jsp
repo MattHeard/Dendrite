@@ -15,6 +15,17 @@ view.initialise();
 
 %><%@include file="top_simplified_theming.jspf"
 
+%><%
+
+if (view.isPgNumInvalid()) {
+	
+	%>
+        <p class="notice">Uh oh. This isn't the right page. To view the
+          alternative versions of a page, click the "Alternatives" button on
+          that page.</p><%
+	
+} else {
+
 %>
         <ul class="alt"><%
 
@@ -91,4 +102,8 @@ if (alt.authorId != null) {
 
 %>
         </ul>
-<%@include file="bottom.jspf" %>
+<%
+
+}
+
+%><%@include file="bottom.jspf" %>
