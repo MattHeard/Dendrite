@@ -19,6 +19,8 @@ public class AuthorView extends View {
 	private BibliographyView bibliographyView;
 	private String id;
 
+	private boolean isInvalidPgNum;
+
 	public AuthorView() {
 		this.initialiseBibilographyView();
 		this.setAuthorPageNumber(DEF_AUTHOR_PG_NUM);
@@ -95,9 +97,21 @@ public class AuthorView extends View {
 		}
 		final int lastPgNum = this.getLastPgNum();
 		if (authorPageNumber > lastPgNum) {
-			authorPageNumber = 1;
+			this.isInvalidPgNum = true;
+		} else {
+			this.isInvalidPgNum = false;
 		}
 		this.setAuthorPageNumber(authorPageNumber);
+	}
+
+	public boolean isInvalidPgNum() {
+		return this.isInvalidPgNum;
+	}
+
+	public void preparePg1Url() {
+		final PageContext pageContext = this.getPageContext();
+		final String url = this.getUrl();
+		pageContext.setAttribute("pg1Url", url);
 	}
 
 	private int getLastPgNum() {

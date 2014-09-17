@@ -65,6 +65,16 @@ if (view.isAuthorPageOfUser() == true) {
             <section class="pages_written">
               <h2>Pages Written</h2>
               <div><%
+              
+if (view.isInvalidPgNum()) {
+	view.preparePg1Url();
+	
+	%>
+                <p class="notice">Are you lost? There are no stories on this
+                  page. <a href="${fn:escapeXml(pg1Url)}">Go to page
+                  1.</a></p><%
+	
+} else {
 
 final boolean hasAnotherStoryPage = view.hasAnotherStoryPage();
 if (hasAnotherStoryPage == false) {
@@ -130,6 +140,8 @@ if (view.isLastPage() == false) {
                       >Next</a>
                 </div><%
         
+}
+
 }
 
 %>
