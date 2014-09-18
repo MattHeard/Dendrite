@@ -28,6 +28,14 @@ view.initialise();
 // header bar which is common to all Dendrite web pages.
 %><%@include file="top_simplified_theming.jspf" %><%
 
+if (view.isPastTheLastPg()) {
+	
+	%>
+        <p class="notice">You have stumbled off the trail. Turn around and go
+          back to <a href="/contents">the table of contents</a>.</p><%
+	
+} else {
+
 %>
         <h2>${fn:escapeXml(bodyMainTitle)}</h2>
         <ul id="contents"><%
@@ -85,5 +93,9 @@ if (isLastPage == false) {
 	
 %>
         </p>
-        <h3 id="newStory"><a href="/new">Start a new story</a></h3>
+        <h3 id="newStory"><a href="/new">Start a new story</a></h3><%
+        
+}
+
+%>
 <%@include file="bottom.jspf" %>

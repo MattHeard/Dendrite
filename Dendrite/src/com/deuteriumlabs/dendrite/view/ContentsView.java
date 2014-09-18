@@ -106,6 +106,12 @@ public class ContentsView extends View {
 		}
 	}
 
+	public boolean isPastTheLastPg() {
+		final int curr = this.getContentsPageNumber();
+		final int last = this.getLastPageNumber();
+		return (curr > last);
+	}
+
 	public List<Link> getLinks() {
 		if (this.links == null) {
 			final List<String> texts = this.getTitles();
