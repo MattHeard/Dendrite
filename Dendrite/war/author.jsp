@@ -26,7 +26,11 @@ view.initialise();
 
 // `top.jspf` contains the JSP code starting the HTML page and displaying the
 // header bar which is common to all Dendrite web pages.
-%><%@include file="top_simplified_theming.jspf" %>
+%><%@include file="top_simplified_theming.jspf" %><%
+
+if (view.isAuthorValid()) {
+
+%>
         <div id="author_side_bar">
           <img id="author_avatar" src="/img/avatar/2014-09-06-0/large/${fn:escapeXml(avatarId)}.png" />
           <h1>${fn:escapeXml(penName)}</h1><%
@@ -176,5 +180,16 @@ for (final String id : followersView.getFollowerIds()) {
               </div>
             </section>
           </div>
-        </div>
+        </div><%
+        
+} else {
+	
+	%>
+	    <p class="notice">This author has mysteriously disappeared. Or maybe
+	      they never existed in the first place.</p>
+	    <p class="notice">Actually, it's just an invalid author page.</p><%
+	
+}
+        
+%>
 <%@include file="bottom.jspf" %>

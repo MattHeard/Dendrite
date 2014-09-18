@@ -21,6 +21,8 @@ public class AuthorView extends View {
 
 	private boolean isInvalidPgNum;
 
+	private boolean isAuthorValid;
+
 	public AuthorView() {
 		this.initialiseBibilographyView();
 		this.setAuthorPageNumber(DEF_AUTHOR_PG_NUM);
@@ -233,14 +235,22 @@ public class AuthorView extends View {
 
 	public void setId(final String id) {
 		this.id = id;
-		final User user = new User();
-		user.setId(id);
-		user.read();
-		this.setAuthor(user);
+		final User author = new User();
+		author.setId(id);
+
+		final boolean isInStore = author.isInStore();
+		this.isAuthorValid = isInStore;
+
+		author.read();
+		this.setAuthor(author);
 		final BibliographyView bibliographyView = this.getBibiliographyView();
 		if (bibliographyView != null) {
 			bibliographyView.setAuthorId(id);
 		}
+	}
+
+	public boolean isAuthorValid() {
+		return isAuthorValid;
 	}
 
 	@Override
