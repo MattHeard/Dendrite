@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.deuteriumlabs.dendrite.model.User;
 
 public class UnfollowServlet extends DendriteServlet {
-	
+
 	/**
 	 * 
 	 */
@@ -28,6 +28,8 @@ public class UnfollowServlet extends DendriteServlet {
 			controller.setSourceId(sourceId);
 			controller.enableUnfollow();
 			resp.setStatus(HttpServletResponse.SC_OK);
+		} else {
+			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}
 
