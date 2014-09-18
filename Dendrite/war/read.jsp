@@ -308,7 +308,8 @@ for (final String tag : tagNames) {
     } else {
 	
 	    %>
-      <div><p>This page doesn't appear to be written yet.</p></div><%
+      <p class="notice">This page doesn't appear to be written yet.</p>
+      <p class="notice">Why don't you <a href="/new">start a new story?</a></p><%
 	
     }
 	
@@ -318,7 +319,7 @@ for (final String tag : tagNames) {
 		%>
       <span
           class="pageArrow"
-          id="prevPage"><a href="/read?p=${fn:escapeXml(prevPageNum)}">←</a></span><%
+          id="prevPage"><a href="/read?p=${fn:escapeXml(prevPageNum)}">◀</a></span><%
 		
 	}
 	
@@ -326,5 +327,5 @@ for (final String tag : tagNames) {
 	%>
       <span
           class="pageArrow"
-          id="nextPage"><a href="/read?p=${fn:escapeXml(nextPageNum)}">→</a></span>
+          id="nextPage"><a href="/read?p=${fn:escapeXml(nextPageNum)}">▶</a></span>
 <%@include file="bottom.jspf" %>
