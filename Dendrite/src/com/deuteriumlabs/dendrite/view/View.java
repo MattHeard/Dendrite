@@ -348,6 +348,7 @@ public abstract class View {
 	}
 
 	public void initialise() {
+		this.prepareMetaDesc();
 	}
 
 	public final void prepareNextFooterLink() {
@@ -401,5 +402,19 @@ public abstract class View {
 	public void prepareUpperCaseFmtVal(final String val) {
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute("upperFmtVal", val.toUpperCase());
+	}
+
+	public void prepareMetaDesc() {
+		final PageContext pageContext = this.getPageContext();
+		final String attrName = "metaDesc";
+		final String metaDesc = this.getMetaDesc();
+		final String attrVal = metaDesc;
+		pageContext.setAttribute(attrName, attrVal);
+	}
+
+	protected String getMetaDesc() {
+		return "Dendrite is an online adventure game book where you can "
+				+ "choose the story path, or write your own. Be a spy, a "
+				+ "princess, a pirate, a rockstar, a ninja...";
 	}
 }

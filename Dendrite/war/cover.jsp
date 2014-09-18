@@ -16,7 +16,11 @@ view.setPageContext(pageContext);
         href='http://fonts.googleapis.com/css?family=Open+Sans:300'
         rel='stylesheet'
         type='text/css'>
+    <meta name="title" content="Dendrite">
     <meta name="viewport" content="width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="Dendrite is an online adventure game book where you can choose the story path, or write your own. Be a spy, a princess, a pirate, a rockstar, a ninja...">
     <title>Dendrite</title>
     <script>
     

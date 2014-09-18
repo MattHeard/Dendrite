@@ -10,6 +10,7 @@ final ReadView view = new ReadView();
 view.setPageContext(pageContext);
 final String pageId = request.getParameter("p");
 view.setPageId(pageId);
+view.initialise();
 
 final boolean isPageInStore = view.isPageInStore();
 if (isPageInStore == true) {

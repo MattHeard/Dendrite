@@ -40,6 +40,7 @@ public class AltView extends View {
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute(WEB_PG_TITLE_ATTR_NAME, WEB_PG_TITLE_ATTR_VAL);
 		this.extractPgNumFromRequest();
+		super.initialise();
 	}
 
 	private void setPgNum(final int num) {
@@ -115,5 +116,16 @@ public class AltView extends View {
 
 	public boolean isPgNumInvalid() {
 		return (pgNum == 0);
+	}
+
+	@Override
+	protected String getMetaDesc() {
+		if (isPgNumInvalid()) {
+			return "Select from all of the alternative versions of a page.";
+		} else {
+			final int pgNum = this.pgNum;
+			return "Select from all of the alternative versions of page "
+					+ pgNum + ".";
+		}
 	}
 }

@@ -14,8 +14,6 @@ view.setPageNumber(pageNumber);
 final String error = request.getParameter("error");
 view.setError(error);
 
-
-
 %><%@include file="top_with_side_bar.jspf"
 
 %><%

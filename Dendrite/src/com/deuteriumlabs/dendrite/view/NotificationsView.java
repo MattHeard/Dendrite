@@ -21,6 +21,8 @@ public class NotificationsView extends View {
 	public void initialise() {
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute("webPageTitle", "Dendrite - Notifications");
+
+		super.initialise();
 	}
 
 	public boolean hasAnotherNotification() {
@@ -142,5 +144,11 @@ public class NotificationsView extends View {
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute("str", h.str);
 		pageContext.setAttribute("url", h.url);
+	}
+
+	@Override
+	protected String getMetaDesc() {
+		return "Get alerts about authors you are following and changes to your"
+				+ " pages.";
 	}
 }

@@ -324,4 +324,10 @@ public class ReadView extends View {
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute("parentId", id);
 	}
+
+	@Override
+	protected String getMetaDesc() {
+		final StoryPage pg = this.getPage();
+		return pg.getLongSummary();
+	}
 }

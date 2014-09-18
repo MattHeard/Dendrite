@@ -12,7 +12,6 @@ view.setPageContext(pageContext);
 view.setRequest(request);
 view.initialise();
 
-
 %><%@include file="top_simplified_theming.jspf"
 
 %><%

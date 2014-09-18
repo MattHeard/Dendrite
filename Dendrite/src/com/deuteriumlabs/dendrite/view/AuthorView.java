@@ -86,6 +86,8 @@ public class AuthorView extends View {
 		pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
 
 		this.prepareAvatarId();
+
+		super.initialise();
 	}
 
 	private void extractAuthorPgNum() {
@@ -280,4 +282,11 @@ public class AuthorView extends View {
 		final String id = this.getAuthorId();
 		pageContext.setAttribute("authorId", id);
 	}
+
+	@Override
+	protected String getMetaDesc() {
+		final String name = this.getPenName();
+		return name + " is an author on Dendrite.";
+	}
+
 }
