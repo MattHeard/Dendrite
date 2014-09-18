@@ -161,9 +161,13 @@ public class AuthorView extends View {
 	public boolean isUserFollowingAuthor() {
 		final User author = this.getAuthor();
 		final List<String> followers = author.getFollowers();
-		final User myUser = User.getMyUser();
-		final String myUserId = myUser.getId();
-		return followers.contains(myUserId);
+		if (followers != null) {
+			final User myUser = User.getMyUser();
+			final String myUserId = myUser.getId();
+			return followers.contains(myUserId);
+		} else {
+			return false;
+		}
 	}
 
 	public void prepareFollowersPageUrl() {
