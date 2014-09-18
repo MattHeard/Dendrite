@@ -210,7 +210,10 @@ if (isDraftPending == true) {
 } else {
     	
     %>
-    Oh. What happened? This doesn't seem to be the right page.<%
+    <div class="intro">
+      <p class="notice">Oh. What happened?</p>
+      <p class="notice">This doesn't seem to be the right page.</p>
+    </div><%
     	
 }
     
