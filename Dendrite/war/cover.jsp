@@ -40,16 +40,12 @@ ga('send', 'pageview');
     <img src="/img/logo/2014-08-20-0/cover.png"
         alt="The Dendrite logo: a brown deer head with leaves on its antlers." />
     <p>Read or write your own adventure!</p>
-    <ul>
+    <ul class="links">
       <li>
-        <form action="/contents">
-          <button class="link" type="submit">READ</button>
-        </form>
+        <a href="/contents">READ</a>
       </li>
       <li>
-        <form action="/new">
-          <button class="link" type="submit">WRITE</button>
-        </form>
+        <a href="/new">WRITE</a>
       </li>
     </ul>
     <p>Filter stories by genre</p>
@@ -76,6 +72,7 @@ final String[] tagNames = {
         "SPAM",
         "THRILLER",
         "WESTERN" };
+      
 for (final String tag : tagNames) {
 	view.prepareTagName(tag);
     

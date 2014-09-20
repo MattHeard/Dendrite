@@ -727,8 +727,6 @@ button, .button, .option {
 	text-align: center;
 	cursor: pointer;
 	width: 100%;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 
 	-webkit-touch-callout: none;
@@ -1238,8 +1236,6 @@ html, body {
 
 input,textarea {
 	width: 100%;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	font-weight: 300;
 	font-family: inherit;
