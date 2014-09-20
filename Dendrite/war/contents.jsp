@@ -37,7 +37,7 @@ if (view.isPastTheLastPg()) {
 } else {
 
 %>
-        <h2>${fn:escapeXml(bodyMainTitle)}</h2>
+        <h1>${fn:escapeXml(bodyMainTitle)}</h1>
         <ul id="contents"><%
 
 // Display the links to the stories which have already been written. Only ten

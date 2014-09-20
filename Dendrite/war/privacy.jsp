@@ -12,7 +12,7 @@ view.initialise();
 %><%@include file="top_simplified_theming.jspf"
 
 %>
-    <h2>Privacy Policy</h2>
+    <h1>Privacy Policy</h1>
     <h3>General</h3>
     <p>In this policy, the terms <b>we</b>, <b>us</b>, and <b>our</b> refer to
       <b>Deuterium Labs Limited</b>.</p>

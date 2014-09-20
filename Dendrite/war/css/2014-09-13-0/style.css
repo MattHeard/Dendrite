@@ -356,6 +356,11 @@ a:hover {
 	padding-top: 20px;
 }
 
+#author_name {
+	font-weight: bold;
+	font-size: 2em;
+}
+
 @media all and (min-width: 800px) {
 	#author_side_bar {
         float: left;
@@ -1176,7 +1181,11 @@ ul#formatMenu {
     margin-bottom: 0px;
 }
 
-h2, h3 {
+h1 {
+	font-size: 1.5em;
+}
+
+h1, h2, h3 {
 	font-weight: 300;
 	clear: both;
 }
@@ -1463,7 +1472,7 @@ select {
 }
 
 @media all and (min-width: 1420px) {
-    #main.hasToolbar, main.hasToolbar, .hasToolbar form, .hasToolbar h2 {
+    #main.hasToolbar, main.hasToolbar, .hasToolbar form, .hasToolbar h1 {
         max-width: 1400px;
     }
     
@@ -1475,7 +1484,7 @@ select {
         float: left;
     }
 
-	.hasToolbar form > div, .hasToolbar h2, .hasToolbar .intro {
+	.hasToolbar form > div, .hasToolbar h1, .hasToolbar .intro {
 	    float: left;
         
         width: 1100px;

@@ -37,7 +37,7 @@ if (isValidOption == true) {
     pageContext.setAttribute("optionText", optionText);
       
     %>
-      <h2>${fn:escapeXml(optionText)}</h2>
+      <h1>${fn:escapeXml(optionText)}</h1>
       <form action="submitWrite" method="post"><%
     
 	    pageContext.setAttribute("from", from);

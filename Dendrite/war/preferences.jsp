@@ -17,7 +17,7 @@ view.initialise();
 if (PreferencesView.isUserLoggedIn()) {
 
 %>
-        <h2>My Preferences</h2>
+        <h1>My Preferences</h1>
         <form action="updatePreferences" method="post">
           <h3>Details</h3>
       	  <p>

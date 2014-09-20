@@ -34,7 +34,7 @@ if (isExistingPage == true) {
     	pageContext.setAttribute("title", storyTitle);
     	
     	%>
-      <h2>${fn:escapeXml(title)}</h2><%
+      <h1>${fn:escapeXml(title)}</h1><%
     	
     } else {
     
@@ -42,7 +42,7 @@ if (isExistingPage == true) {
         pageContext.setAttribute("option", incomingOptionText);
       
         %>
-      <h2>${fn:escapeXml(option)}</h2><%
+      <h1>${fn:escapeXml(option)}</h1><%
     
     }
     

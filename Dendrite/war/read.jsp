@@ -31,7 +31,7 @@ if (isPageInStore == true) {
     		pageContext.setAttribute("title", title);
 
     		%>
-      <div id="storyTitle"><h2>${fn:escapeXml(title)}</h2></div><%
+      <div id="storyTitle"><h1>${fn:escapeXml(title)}</h1></div><%
 
     	}
     	final String pageNumber = view.getPageNumber();

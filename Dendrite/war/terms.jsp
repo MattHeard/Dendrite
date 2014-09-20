@@ -10,7 +10,7 @@ view.setPageContext(pageContext);
 %><%@include file="top_simplified_theming.jspf"
 
 %>
-      <h2>Terms of use</h2>
+      <h1>Terms of use</h1>
       <h3>General</h3>
       <p>Welcome to our website <a href="/">dendritestories.co.nz</a>
           (<b>Website</b>).</p>

@@ -28,7 +28,7 @@ view.initialise();
 %><%@include file="top_with_side_bar.jspf"
 
 %>
-        <h2>Start a new story</h2>
+        <h1>Start a new story</h1>
         <div class="clear"></div>
         <form action="submitNewStory" method="post">
           <div>

@@ -33,8 +33,10 @@
 <static-files>
   <include path="/**" expiration="365d" />
 </static-files>
+
 <static-error-handlers>
   <handler file="error.html" />
   <handler file="over_quota.html" error-code="over_quota" />
 </static-error-handlers>
+
 </appengine-web-app>
