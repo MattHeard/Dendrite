@@ -209,17 +209,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<welcome-file>cover.jsp</welcome-file>
 	</welcome-file-list>
 	
-    <servlet>
-        <servlet-name>Error404</servlet-name>
-        <jsp-file>/404.html</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Error404</servlet-name>
-        <url-pattern>/*</url-pattern>
-    </servlet-mapping>
-	
-	<error-page>
+    <error-page>
         <error-code>500</error-code>
         <location>/error.html</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.html</location>
     </error-page>
 </web-app>

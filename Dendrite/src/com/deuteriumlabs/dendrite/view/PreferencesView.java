@@ -15,7 +15,7 @@ public class PreferencesView extends View {
 		return "/preferences";
 	}
 
-	public String getAvatarDesc(final int id) {
+	public static String getAvatarDesc(final int id) {
 		return User.getAvatarDesc(id);
 	}
 
