@@ -21,7 +21,7 @@ public class ReadView extends View {
 		BOLD, BOLD_ITALIC, ITALIC, NONE
 	}
 
-	public String getAvatarDesc(final int id) {
+	public static String getAvatarDesc(final int id) {
 		return User.getAvatarDesc(id);
 	}
 
