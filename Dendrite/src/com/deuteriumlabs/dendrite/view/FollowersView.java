@@ -142,6 +142,9 @@ public class FollowersView extends View {
 
 		final int avatarId = follower.getAvatarId();
 		pageContext.setAttribute("followerAvatarId", avatarId);
+
+		final String avatarDesc = User.getAvatarDesc(avatarId);
+		pageContext.setAttribute("followerAvatarDesc", avatarDesc);
 	}
 
 	public void prepareAuthorId() {

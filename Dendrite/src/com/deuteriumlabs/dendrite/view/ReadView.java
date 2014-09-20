@@ -21,6 +21,10 @@ public class ReadView extends View {
 		BOLD, BOLD_ITALIC, ITALIC, NONE
 	}
 
+	public String getAvatarDesc(final int id) {
+		return User.getAvatarDesc(id);
+	}
+
 	private User author;
 	private StoryBeginning beginning;
 	private StoryPage page;

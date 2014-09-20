@@ -196,8 +196,13 @@ if (isPageInStore == true) {
         }
         pageContext.setAttribute("avatarId", avatarId);
         
+        final String avatarDesc = ReadView.getAvatarDesc(avatarId);
+        pageContext.setAttribute("avatarDesc", avatarDesc);
+        
         %>
-      <img id="avatar" src="/img/avatar/2014-09-06-0/small/${fn:escapeXml(avatarId)}.png" />
+      <img id="avatar"
+          alt="${fn:escapeXml(avatarDesc)}"
+          src="/img/avatar/2014-09-06-0/small/${fn:escapeXml(avatarId)}.png" />
       <div class="clear"></div>
       <script><%
 
@@ -272,7 +277,9 @@ for (final String tag : tagNames) {
             
         }
       
-      %>><img id="heartIcon" src="/img/icons/2014-09-01-0/heart.png" /></div>
+      %>><img id="heartIcon"
+        alt="A small heart."
+        src="/img/icons/2014-09-01-0/heart.png" /></div>
       <script type="text/javascript" lang="javascript"><%
 
       view.prepareIsNotLoved();

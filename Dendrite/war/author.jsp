@@ -32,7 +32,9 @@ if (view.isAuthorValid()) {
 
 %>
         <div id="author_side_bar">
-          <img id="author_avatar" src="/img/avatar/2014-09-06-0/large/${fn:escapeXml(avatarId)}.png" />
+          <img id="author_avatar"
+              src="/img/avatar/2014-09-06-0/large/${fn:escapeXml(avatarId)}.png"
+              alt="${fn:escapeXml(avatarDesc)}" />
           <h1 id="author_name">${fn:escapeXml(penName)}</h1><%
 
 if (view.isAuthorPageOfUser() == true) {
@@ -168,6 +170,7 @@ for (final String id : followersView.getFollowerIds()) {
                   <li>
                     <img
                         class="smallAvatar"
+                        alt="${fn:escapeXml(followerAvatarDesc)}"
                         src="/img/avatar/2014-09-06-0/small/${fn:escapeXml(followerAvatarId)}.png"
                         />
                     <a href="${fn:escapeXml(followerProfileUrl)}">${fn:escapeXml(followerName)}</a>

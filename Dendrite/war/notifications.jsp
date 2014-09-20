@@ -51,6 +51,7 @@ if (hasAnyNotifications == false) {%>
           
         %>
         <img id="notificationDelete${fn:escapeXml(id)}"
+            alt="An X mark inside a circle."
             class="notificationDelete"
             src="/img/icons/2014-09-01-0/close_notification.png" /></li><%
     	

@@ -59,6 +59,7 @@ public class AltView extends View {
 		public String authorId;
 		public String authorName;
 		public int authorAvatarId;
+		public String authorAvatarDesc;
 	}
 
 	public List<Alt> getAlts() {
@@ -95,6 +96,7 @@ public class AltView extends View {
 		author.setId(alt.authorId);
 		author.read();
 		alt.authorAvatarId = author.getAvatarId();
+		alt.authorAvatarDesc = User.getAvatarDesc(alt.authorAvatarId);
 		return alt;
 	}
 
@@ -106,6 +108,7 @@ public class AltView extends View {
 		pageContext.setAttribute("authorId", alt.authorId);
 		pageContext.setAttribute("authorName", alt.authorName);
 		pageContext.setAttribute("authorAvatarId", alt.authorAvatarId);
+		pageContext.setAttribute("authorAvatarDesc", alt.authorAvatarDesc);
 	}
 
 	public void prepareTag(final String tag) {

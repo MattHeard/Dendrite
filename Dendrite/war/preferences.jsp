@@ -261,10 +261,14 @@ if (isNewPenNameBlank == true) {
                 checked="checked"<%
                 
         }
+        
+        final String avatarDesc = PreferencesView.getAvatarDesc(i);
+        pageContext.setAttribute("avatarDesc", avatarDesc);
                 
         %> />
             <label for="avatar_radio_${fn:escapeXml(avatarNum)}">
               <img src="/img/avatar/2014-09-06-0/small/${fn:escapeXml(avatarNum)}.png"
+                  alt="${fn:escapeXml(avatarDesc)}"
                   class="avatar_radio_button" />
             </label><%
     	

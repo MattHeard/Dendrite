@@ -73,7 +73,7 @@ view.prepareThemeClasses();
       <div id="headerBar">
         <div id="header">
           <div id="logo"><a href="/"><img id="logoImage"
-              alt="Dendrite"
+              alt="The Dendrite logo: a brown deer head with leaves on its antlers."
               title="Dendrite"
               width="283px"
               height="70px"<%

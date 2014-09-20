@@ -1,7 +1,10 @@
 package com.deuteriumlabs.dendrite.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
@@ -41,6 +44,43 @@ public class User extends Model {
 	private static final String AVATAR_ID_PROPERTY = "avatarId";
 	private static final String FOLLOWERS_PROPERTY = "followers";
 	private static final String FORMER_FOLLOWERS_PROPERTY = "formerFollowers";
+	private static final Map<Integer, String> avatarDescs;
+
+	static {
+		Map<Integer, String> map = new HashMap<Integer, String>();
+		map.put(0, "A silhouette of a man.");
+		map.put(1, "A brunette woman smiling confidently.");
+		map.put(2, "A green male superhero with a black mask.");
+		map.put(3, "A golden lion roaring.");
+		map.put(4, "A smiling blonde woman with coiffed hair.");
+		map.put(5, "A person wearing a blue fighter pilot cap.");
+		map.put(6, "A golden mountain lion roaring.");
+		map.put(7, "A woman with black hair and a red hat.");
+		map.put(8, "A blonde-haired male superhero with a black eye mask.");
+		map.put(9, "A black panther.");
+		map.put(10, "A blonde woman in a red dress looking surprised.");
+		map.put(11, "A detective with a black trench coat and black eye mask.");
+		map.put(12, "A wolf howling in front of the moon.");
+		map.put(13, "A blonde woman with short hair in western-style clothing.");
+		map.put(14, "An older man with black hair and glasses looking shocked.");
+		map.put(15, "A green reptilian monster.");
+		map.put(16, "A blonde woman looking afraid.");
+		map.put(17, "A small goblin-like man in a green hat.");
+		map.put(18, "A black-haired male superhero looking determined.");
+		map.put(19, "A blonde woman with a red hair bow looking shocked.");
+		map.put(20,
+				"A male superhero with a red face mask and a small moustache.");
+		map.put(21, "A blonde haired boy in a red sweater.");
+		map.put(22, "A policeman.");
+		map.put(23, "A female superhero in a red hood and face mask.");
+		map.put(24, "A man in a green hood and cape.");
+		map.put(25, "A male superhero with a star on his forehead.");
+		map.put(26, "A brunette woman in a blue and yellow shirt.");
+		map.put(27, "A blonde person in a yellow shirt.");
+		map.put(28, "A grinning man in a red cape and tall red hat.");
+		map.put(29, "A black-haired, elegant woman.");
+		avatarDescs = Collections.unmodifiableMap(map);
+	}
 
 	private static String getAlignmentFromEntity(final Entity entity) {
 		String alignment = (String) entity.getProperty(ALIGNMENT_PROPERTY);
@@ -597,5 +637,14 @@ public class User extends Model {
 
 	public void setFollowers(final List<String> followers) {
 		this.followers = followers;
+	}
+
+	public static String getAvatarDesc(final int id) {
+		final String desc = avatarDescs.get(id);
+		if (desc != null) {
+			return desc;
+		} else {
+			return "A small picture of a person.";
+		}
 	}
 }

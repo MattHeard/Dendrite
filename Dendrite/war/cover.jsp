@@ -37,7 +37,8 @@ ga('send', 'pageview');
     </script>
   </head>
   <body>
-    <img src="/img/logo/2014-08-20-0/cover.png">
+    <img src="/img/logo/2014-08-20-0/cover.png"
+        alt="The Dendrite logo: a brown deer head with leaves on its antlers." />
     <p>Read or write your own adventure!</p>
     <ul>
       <li>
