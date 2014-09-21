@@ -1378,6 +1378,10 @@ ul.optionPair > li > a:hover {
 	opacity: 0.2;
 }
 
+#prevPage {
+	float: left;
+}
+
 #nextPage {
 	float: right;
 }
