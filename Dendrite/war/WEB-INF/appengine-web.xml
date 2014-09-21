@@ -31,7 +31,9 @@
   -->
   
 <static-files>
-  <include path="/**" expiration="365d" />
+  <include path="/static/**">
+    <http-header name="Cache-Control" value="public, max-age=31536000" />
+  </include>
 </static-files>
 
 <static-error-handlers>

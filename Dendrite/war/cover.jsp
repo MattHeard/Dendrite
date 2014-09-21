@@ -11,7 +11,8 @@ view.setPageContext(pageContext);
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="/css/2014-09-21-0/cover.css">
+    <link rel="stylesheet" type="text/css"
+        href="/static/css/2014-09-21-0/cover.css">
     <link
         href='http://fonts.googleapis.com/css?family=Open+Sans:300'
         rel='stylesheet'
@@ -37,7 +38,7 @@ ga('send', 'pageview');
     </script>
   </head>
   <body>
-    <img src="/img/logo/2014-08-20-0/cover.png"
+    <img src="/static/img/logo/2014-08-20-0/cover.png"
         alt="The Dendrite logo: a brown deer head with leaves on its antlers." />
     <p>Read or write your own adventure!</p>
     <ul class="links">

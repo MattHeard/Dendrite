@@ -1020,7 +1020,7 @@ ul#formatMenu {
     height: 30px;
     width: 30px;
     margin: 5px 0px 5px 0px;
-    background: url("/img/icons/2014-09-01-0/light/save.png") no-repeat;
+    background: url("/static/static/img/icons/2014-09-01-0/light/save.png") no-repeat;
     background-size: 30px 30px;
     background-origin: border-box;
     background-color: #eee;
@@ -1029,58 +1029,58 @@ ul#formatMenu {
 }
 
 .darkTheme #formatMenu > li.save > button {
-    background: url("/img/icons/2014-09-01-0/dark/save.png") no-repeat;
+    background: url("/static/img/icons/2014-09-01-0/dark/save.png") no-repeat;
     background-size: 30px 30px;
     background-origin: border-box;
     background-color: #111;
 }
 
 #formatMenu #sizeBtn {
-    background-image: url("/img/icons/2014-09-01-0/light/narrow/size.png");
+    background-image: url("/static/img/icons/2014-09-01-0/light/narrow/size.png");
 }
 
 #formatMenu #typeBtn {
-    background-image: url("/img/icons/2014-09-01-0/light/narrow/type.png");
+    background-image: url("/static/img/icons/2014-09-01-0/light/narrow/type.png");
 }
 
 #formatMenu #colourBtn {
-    background-image: url("/img/icons/2014-09-01-0/light/narrow/colour.png");
+    background-image: url("/static/img/icons/2014-09-01-0/light/narrow/colour.png");
 }
 
 #formatMenu #alignBtn {
-    background-image: url("/img/icons/2014-09-01-0/light/narrow/align.png");
+    background-image: url("/static/img/icons/2014-09-01-0/light/narrow/align.png");
 }
 
 #formatMenu #spacingBtn {
-    background-image: url("/img/icons/2014-09-01-0/light/narrow/spacing.png");
+    background-image: url("/static/img/icons/2014-09-01-0/light/narrow/spacing.png");
 }
 
 #formatMenu #themeBtn {
-    background-image: url("/img/icons/2014-09-01-0/light/narrow/theme.png");
+    background-image: url("/static/img/icons/2014-09-01-0/light/narrow/theme.png");
 }
 
 .darkTheme #formatMenu #sizeBtn {
-    background-image: url("/img/icons/2014-09-01-0/dark/narrow/size.png");
+    background-image: url("/static/img/icons/2014-09-01-0/dark/narrow/size.png");
 }
 
 .darkTheme #formatMenu #typeBtn {
-    background-image: url("/img/icons/2014-09-01-0/dark/narrow/type.png");
+    background-image: url("/static/img/icons/2014-09-01-0/dark/narrow/type.png");
 }
 
 .darkTheme #formatMenu #colourBtn {
-    background-image: url("/img/icons/2014-09-01-0/dark/narrow/colour.png");
+    background-image: url("/static/img/icons/2014-09-01-0/dark/narrow/colour.png");
 }
 
 .darkTheme #formatMenu #alignBtn {
-    background-image: url("/img/icons/2014-09-01-0/dark/narrow/align.png");
+    background-image: url("/static/img/icons/2014-09-01-0/dark/narrow/align.png");
 }
 
 .darkTheme #formatMenu #spacingBtn {
-    background-image: url("/img/icons/2014-09-01-0/dark/narrow/spacing.png");
+    background-image: url("/static/img/icons/2014-09-01-0/dark/narrow/spacing.png");
 }
 
 .darkTheme #formatMenu #themeBtn {
-    background-image: url("/img/icons/2014-09-01-0/dark/narrow/theme.png");
+    background-image: url("/static/img/icons/2014-09-01-0/dark/narrow/theme.png");
 }
 
 @media all and (min-width: 800px) {
@@ -1100,51 +1100,51 @@ ul#formatMenu {
 	}
     
     #formatMenu #sizeBtn {
-        background-image: url("/img/icons/2014-09-01-0/light/wide/size.png");
+        background-image: url("/static/img/icons/2014-09-01-0/light/wide/size.png");
     }
     
     #formatMenu #typeBtn {
-        background-image: url("/img/icons/2014-09-01-0/light/wide/type.png");
+        background-image: url("/static/img/icons/2014-09-01-0/light/wide/type.png");
     }
     
     #formatMenu #colourBtn {
-        background-image: url("/img/icons/2014-09-01-0/light/wide/colour.png");
+        background-image: url("/static/img/icons/2014-09-01-0/light/wide/colour.png");
     }
     
     #formatMenu #alignBtn {
-        background-image: url("/img/icons/2014-09-01-0/light/wide/align.png");
+        background-image: url("/static/img/icons/2014-09-01-0/light/wide/align.png");
     }
     
     #formatMenu #spacingBtn {
-        background-image: url("/img/icons/2014-09-01-0/light/wide/spacing.png");
+        background-image: url("/static/img/icons/2014-09-01-0/light/wide/spacing.png");
     }
     
     #formatMenu #themeBtn {
-        background-image: url("/img/icons/2014-09-01-0/light/wide/theme.png");
+        background-image: url("/static/img/icons/2014-09-01-0/light/wide/theme.png");
     }
     
     .darkTheme #formatMenu #sizeBtn {
-        background-image: url("/img/icons/2014-09-01-0/dark/wide/size.png");
+        background-image: url("/static/img/icons/2014-09-01-0/dark/wide/size.png");
     }
     
     .darkTheme #formatMenu #typeBtn {
-        background-image: url("/img/icons/2014-09-01-0/dark/wide/type.png");
+        background-image: url("/static/img/icons/2014-09-01-0/dark/wide/type.png");
     }
     
     .darkTheme #formatMenu #colourBtn {
-        background-image: url("/img/icons/2014-09-01-0/dark/wide/colour.png");
+        background-image: url("/static/img/icons/2014-09-01-0/dark/wide/colour.png");
     }
     
     .darkTheme #formatMenu #alignBtn {
-        background-image: url("/img/icons/2014-09-01-0/dark/wide/align.png");
+        background-image: url("/static/img/icons/2014-09-01-0/dark/wide/align.png");
     }
     
     .darkTheme #formatMenu #spacingBtn {
-        background-image: url("/img/icons/2014-09-01-0/dark/wide/spacing.png");
+        background-image: url("/static/img/icons/2014-09-01-0/dark/wide/spacing.png");
     }
     
     .darkTheme #formatMenu #themeBtn {
-        background-image: url("/img/icons/2014-09-01-0/dark/wide/theme.png");
+        background-image: url("/static/img/icons/2014-09-01-0/dark/wide/theme.png");
     }
 	
     #formatMenu > li.menu > ul {
