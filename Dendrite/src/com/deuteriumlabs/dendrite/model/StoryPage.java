@@ -1090,8 +1090,12 @@ public class StoryPage extends Model {
 
 	public String getLongSummary() {
 		final Text text = this.getText();
-		final String full = text.getValue();
-		return sumarise(full, 100);
+		if (text != null) {
+			final String full = text.getValue();
+			return sumarise(full, 100);
+		} else {
+			return "This page has not been written yet.";
+		}
 	}
 
 	private String sumarise(final String full, final int len) {
