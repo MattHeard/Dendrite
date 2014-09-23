@@ -1085,20 +1085,20 @@ public class StoryPage extends Model {
 	public String getSummary() {
 		final Text text = this.getText();
 		final String full = text.getValue();
-		return sumarise(full, MAX_SUMMARY_LEN);
+		return summarise(full, MAX_SUMMARY_LEN);
 	}
 
 	public String getLongSummary() {
 		final Text text = this.getText();
 		if (text != null) {
 			final String full = text.getValue();
-			return sumarise(full, 100);
+			return summarise(full, 100);
 		} else {
 			return "This page has not been written yet.";
 		}
 	}
 
-	private String sumarise(final String full, final int len) {
+	private String summarise(final String full, final int len) {
 		final int fullSize = full.length();
 		if (fullSize < (len - 1))
 			return full;
