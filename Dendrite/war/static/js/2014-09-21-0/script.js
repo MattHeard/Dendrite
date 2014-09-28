@@ -252,7 +252,7 @@ function initResizeContactForm() {
 }
 
 function changeLogoTheme(theme) {
-  var url = "/img/logo/2014-08-20-0/" + theme + "Theme/logo.png";
+  var url = "/static/img/logo/2014-08-20-0/" + theme + "Theme/logo.png";
   $("#logoImage").attr("src", url);
 }
 
