@@ -1426,7 +1426,7 @@ ul#modifyMenu > li > a {
     line-height: 14px;
     border: 1px solid;
     border-radius: 5px;
-    color: #000;
+    color: inherit;
     border-color: #ccc;
     margin-bottom: 5px;
     padding: 5px;
