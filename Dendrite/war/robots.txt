@@ -1,2 +1,15 @@
 User-agent: *
-Disallow:
+Disallow: /*.jsp
+Disallow: /submit*
+Disallow: /updatePreferences
+Disallow: /resetPreferences
+Disallow: /new
+Disallow: /rewrite
+Disallow: /write
+Disallow: /notifications
+Disallow: /love
+Disallow: /deleteNotification
+Disallow: /follow
+Disallow: /unfollow
+Disallow: /addTag
+Disallow: /removeTag
