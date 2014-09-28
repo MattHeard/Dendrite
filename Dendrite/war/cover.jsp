@@ -17,6 +17,16 @@ view.setPageContext(pageContext);
         href='http://fonts.googleapis.com/css?family=Open+Sans:300'
         rel='stylesheet'
         type='text/css'>
+        
+    <link rel="apple-touch-icon"
+        href="/static/img/apple/2014-09-28-0/touch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="76x76"
+        href="/static/img/apple/2014-09-28-0/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120"
+        href="/static/img/apple/2014-09-28-0/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152"
+        href="/static/img/apple/2014-09-28-0/touch-icon-ipad-retina.png">
+        
     <meta name="title" content="Dendrite">
     <meta name="viewport" content="width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes">
