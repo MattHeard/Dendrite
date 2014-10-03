@@ -115,7 +115,7 @@ public class SubmitWriteController extends SubmitController {
 		if (myUser != null) {
 			List<String> followerIds = myUser.getFollowers();
 			for (final String followerId : followerIds) {
-				if (this.getParentAuthorId().equals(followerId) == false) {
+				if (isFollowerNeedingNotification(followerId)) {
 					final FollowerWriteNotification notification;
 					notification = new FollowerWriteNotification();
 					notification.setPgId(this.getId());
@@ -125,6 +125,19 @@ public class SubmitWriteController extends SubmitController {
 					notification.create();
 				}
 			}
+		}
+	}
+
+	private boolean isFollowerNeedingNotification(final String followerId) {
+		if (followerId == null) {
+			return false;
+		}
+
+		String parentAuthorId = this.getParentAuthorId();
+		if (parentAuthorId == null) {
+			return true;
+		} else {
+			return followerId.equals(parentAuthorId);
 		}
 	}
 
