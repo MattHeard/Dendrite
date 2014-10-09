@@ -26,15 +26,18 @@ public class SubmitNewController extends SubmitController {
 		final User myUser = User.getMyUser();
 		if (myUser != null) {
 			List<String> followerIds = myUser.getFollowers();
-			for (final String followerId : followerIds) {
-				final FolloweeNewNotification notification;
-				notification = new FolloweeNewNotification();
-				notification.setPgId(this.getId());
-				notification.setAuthorId(this.getAuthorId());
-				notification.setAuthorName(this.getAuthorName());
-				notification.setTitle(this.getTitle());
-				notification.setRecipientId(followerId);
-				notification.create();
+			System.out.println(followerIds);
+			if (followerIds != null) {
+				for (final String followerId : followerIds) {
+					final FolloweeNewNotification notification;
+					notification = new FolloweeNewNotification();
+					notification.setPgId(this.getId());
+					notification.setAuthorId(this.getAuthorId());
+					notification.setAuthorName(this.getAuthorName());
+					notification.setTitle(this.getTitle());
+					notification.setRecipientId(followerId);
+					notification.create();
+				}
 			}
 		}
 	}

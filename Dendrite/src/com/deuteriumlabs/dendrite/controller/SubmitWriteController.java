@@ -114,15 +114,17 @@ public class SubmitWriteController extends SubmitController {
 		final User myUser = User.getMyUser();
 		if (myUser != null) {
 			List<String> followerIds = myUser.getFollowers();
-			for (final String followerId : followerIds) {
-				if (isFollowerNeedingNotification(followerId)) {
-					final FollowerWriteNotification notification;
-					notification = new FollowerWriteNotification();
-					notification.setPgId(this.getId());
-					notification.setAuthorId(this.getAuthorId());
-					notification.setAuthorName(this.getAuthorName());
-					notification.setRecipientId(followerId);
-					notification.create();
+			if (followerIds != null) {
+				for (final String followerId : followerIds) {
+					if (isFollowerNeedingNotification(followerId)) {
+						final FollowerWriteNotification notification;
+						notification = new FollowerWriteNotification();
+						notification.setPgId(this.getId());
+						notification.setAuthorId(this.getAuthorId());
+						notification.setAuthorName(this.getAuthorName());
+						notification.setRecipientId(followerId);
+						notification.create();
+					}
 				}
 			}
 		}

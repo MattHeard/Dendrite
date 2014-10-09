@@ -104,15 +104,17 @@ public class SubmitRewriteController extends SubmitController {
 		if (myUser != null) {
 			List<String> followerIds = myUser.getFollowers();
 			List<String> altPgAuthorIds = this.getAuthorsOfAltPgs();
-			for (final String followerId : followerIds) {
-				if (altPgAuthorIds.contains(followerId) == false) {
-					final FollowerRewriteNotification notification;
-					notification = new FollowerRewriteNotification();
-					notification.setPgId(this.getId());
-					notification.setAuthorId(this.getAuthorId());
-					notification.setAuthorName(this.getAuthorName());
-					notification.setRecipientId(followerId);
-					notification.create();
+			if (followerIds != null) {
+				for (final String followerId : followerIds) {
+					if (altPgAuthorIds.contains(followerId) == false) {
+						final FollowerRewriteNotification notification;
+						notification = new FollowerRewriteNotification();
+						notification.setPgId(this.getId());
+						notification.setAuthorId(this.getAuthorId());
+						notification.setAuthorName(this.getAuthorName());
+						notification.setRecipientId(followerId);
+						notification.create();
+					}
 				}
 			}
 		}
