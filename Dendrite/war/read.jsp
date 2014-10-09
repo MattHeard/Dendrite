@@ -314,6 +314,7 @@ for (final String tag : tagNames) {
         }
 	
     } else {
+    	response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 	
 	    %>
       <p class="notice">This page doesn't appear to be written yet.</p>
