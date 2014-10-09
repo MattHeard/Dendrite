@@ -268,6 +268,16 @@ view.initialise();
           what's going on, but once we're more stable, we're going to publish
           descriptions of all of our updates here. Bug fixes, new features,
           minor tweaks. We'll put a little notice here so you can see what's
-          new. But not yet. Soon...</p></div>
+          new. But not yet. Soon...</p>
+            <ul>
+              <li>1.0.5: Fixed another NullPointerException in
+                  notifications.</li>
+              <li>1.0.4: Fixed NullPointerException in notifications.</li>
+              <li>1.0.3: More minor CSS tweaks.</li>
+              <li>1.0.2: Minor CSS tweaks.</li>
+              <li>1.0.1: Fixed NullPointerException in meta descriptions.</li>
+              <li>1.0.0: Lift-off!</li>
+            </ul>
+          </div>
         </section></div>
 <%@include file="bottom.jspf" %>
