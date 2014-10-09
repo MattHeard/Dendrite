@@ -26,7 +26,6 @@ public class SubmitNewController extends SubmitController {
 		final User myUser = User.getMyUser();
 		if (myUser != null) {
 			List<String> followerIds = myUser.getFollowers();
-			System.out.println(followerIds);
 			if (followerIds != null) {
 				for (final String followerId : followerIds) {
 					final FolloweeNewNotification notification;
