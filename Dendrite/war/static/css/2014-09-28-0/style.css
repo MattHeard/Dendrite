@@ -591,6 +591,12 @@ ul.tags > li.western {
 	border-color: #960;
 }
 
+ul.tags > li.young-adult {
+	color: #000;
+	background-color: #3ff;
+	border-color: #3cf;
+}
+
 ul.tags > li.scifi {
     background-color: #369;
     border-color: #36c;

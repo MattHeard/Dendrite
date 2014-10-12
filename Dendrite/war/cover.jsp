@@ -83,7 +83,8 @@ final String[] tagNames = {
         "SCIFI",
         "SPAM",
         "THRILLER",
-        "WESTERN" };
+        "WESTERN",
+        "YOUNG-ADULT" };
       
 for (final String tag : tagNames) {
 	view.prepareTagName(tag);
