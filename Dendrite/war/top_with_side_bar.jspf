@@ -47,7 +47,7 @@ if ("Serif".equals(font)) {
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="description" content="${fn:escapeXml(metaDesc)}">
     <link rel="stylesheet" type="text/css"
-        href="/static/css/2014-09-28-0/style.css">
+        href="/static/css/2014-10-12-0/style.css">
         
     <link rel="apple-touch-icon"
         href="/static/img/apple/2014-09-28-0/touch-icon-iphone.png">
