@@ -267,9 +267,9 @@ view.initialise();
           probably will) change at any second. We're moving too fast to know
           what's going on, but once we're more stable, we're going to publish
           descriptions of all of our updates here. Bug fixes, new features,
-          minor tweaks. We'll put a little notice here so you can see what's
-          new. But not yet. Soon...</p>
+          minor tweaks.</p>
             <ul>
+              <li>1.0.6: Added 'Young-Adult' genre tag.</li>
               <li>1.0.5: Fixed another NullPointerException in
                   notifications.</li>
               <li>1.0.4: Fixed NullPointerException in notifications.</li>
