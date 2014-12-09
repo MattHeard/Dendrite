@@ -52,6 +52,13 @@ view.initialise();
           write the story and watch it unfold for any and all of these
           characters.</p>
         <p><i>Dendrite</i> is a creation of <i>Deuterium Labs</i>.</p></div>
+          <p>Discuss Dendrite with us at:
+            <ul>
+              <li><a href="http://www.reddit.com/r/dendritestories">reddit.com/r/DendriteStories</a></li>
+              <li><a href="https://twitter.com/DendriteStories">twitter.com/DendriteStories</a></li>
+              <li><a href="https://www.facebook.com/dendritestories">facebook.com/DendriteStories</a></li>
+            </ul>
+          </p>
         </section>
         <section class="contributors">
           <h2>Contributors</h2>
@@ -269,6 +276,7 @@ view.initialise();
           descriptions of all of our updates here. Bug fixes, new features,
           minor tweaks.</p>
             <ul>
+              <li>1.0.7: Added links to social media at <a href="/about">About</a>.</li>
               <li>1.0.6: Added 'Young-Adult' genre tag.</li>
               <li>1.0.5: Fixed another NullPointerException in
                   notifications.</li>
