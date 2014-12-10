@@ -313,6 +313,9 @@ for (final String tag : tagNames) {
       <p><a href="${fn:escapeXml(first)}">Return to the first page of this story.</a></p><%
     
         }
+      
+      %>
+      <p><a href="/contents">Return to the table of contents.</a></p><%
 	
     } else {
     	response.setStatus(HttpServletResponse.SC_NOT_FOUND);
