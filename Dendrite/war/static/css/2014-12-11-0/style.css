@@ -312,6 +312,18 @@ ul#contents {
 	padding: 0px;
 }
 
+p#contentsNav {
+	text-align: center;
+}
+
+p#contentsNav > span {
+	padding: 20px;
+}
+
+span#contentsPgNum {
+	font-style: italic;
+}
+
 ::selection {
 	background: #bbb;
 }

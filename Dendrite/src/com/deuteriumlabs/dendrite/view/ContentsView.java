@@ -528,4 +528,35 @@ public class ContentsView extends View {
 	private Map<Integer, List<StoryPage>> getPgsMap() {
 		return this.pgsMap;
 	}
+	
+	public void prepareRomanPgNum() {
+		final int arabicPgNum = this.getContentsPageNumber();
+		final String romanPgNum;
+		if (arabicPgNum > 0) {
+			romanPgNum = this.convertArabicNumToRoman(arabicPgNum);
+		} else {
+			romanPgNum = "?";
+		}
+		final PageContext pageContext = this.getPageContext();
+		pageContext.setAttribute("romanPgNum", romanPgNum);
+	}
+
+	private String convertArabicNumToRoman(int arabicPgNum) {
+		if (arabicPgNum < 1) {
+			final String msg = "Input must be greater than 0.";
+			throw new IllegalArgumentException(msg);
+		}
+		int[] keys = 	{1000,  900, 500,  400, 100,   90,  50,   40,  10,
+		           9,   5,    4,   1};
+		String[] vals =	{ "m", "cm", "d", "cd", "c", "xc", "l", "xl", "x",
+		        "ix", "v", "iv", "i"};
+		String romanPgNum = "";
+		for (int i = 0; i < keys.length; i++) {
+			while (arabicPgNum / keys[i] > 0) {
+				romanPgNum += vals[i];
+				arabicPgNum -= keys[i];
+			}
+		}
+		return romanPgNum;
+	}
 }

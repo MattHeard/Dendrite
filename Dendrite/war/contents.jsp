@@ -71,23 +71,32 @@ for (final Link link : view.getLinks()) {
     
 %>
         </ul>
-        <p><%
+        <p id="contentsNav"><%
     
 final boolean isFirstPage = view.isFirstPage();
 if (isFirstPage == false) {
     view.preparePrevPageLink();
     	
     %>
-          <div><a href="${fn:escapeXml(prevLink)}">Previous</a></div><%
+          <span><a title="Previous page of contents" href="${fn:escapeXml(prevLink)}">◀</a></span><%
     	
+} else {
+	
+	%>
+          <span>&nbsp;</span><!-- Hacky center balancing --><%
 }
+
+view.prepareRomanPgNum();
+
+%>
+          <span id="contentsPgNum">${fn:escapeXml(romanPgNum)}</span><%
 
 final boolean isLastPage = view.isLastPage();
 if (isLastPage == false) {
 	view.prepareNextPageLink();
     	
     %>
-          <div><a href="${fn:escapeXml(nextLink)}">Next</a></div><%
+          <span><a title="Next page of contents" href="${fn:escapeXml(nextLink)}">▶</a></span><%
     	
 }
 	

@@ -12,7 +12,7 @@ view.setPageContext(pageContext);
 <html>
   <head>
     <link rel="stylesheet" type="text/css"
-        href="/static/css/2014-10-12-0/cover.css">
+        href="/static/css/2014-12-11-0/cover.css">
     <link
         href='http://fonts.googleapis.com/css?family=Open+Sans:300'
         rel='stylesheet'
