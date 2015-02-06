@@ -11,7 +11,7 @@ A website where users write [interactive adventure stories](https://en.wikipedia
 Where can it be found?
 ----------------------
 
-The public site is not yet live, but I do some online testing at [http://1-dot-write-mattheard-dev.appspot.com/](http://1-dot-write-mattheard-dev.appspot.com/), so you can have a play with it there. Keep in mind that that site is a test version which is subject to be modified or destroyed in any conceivable way for the sake of development.
+The public site can be found at [http://dendritestories.co.nz/](http://dendritestories.co.nz/), so you can have a play with it there. Keep in mind that further developments may still be made in future.
 
 
 What is it made with?
@@ -31,10 +31,10 @@ See `LICENCE.md`.
 Where can I find documentation on how it works?
 -----------------------------------------------
 
-* For information about how to use the website, see [the help page on the 
-  website](http://write-mattheard.appspot.com/help.jsp).
+* For information about how to use the website, see [the FAQ tab on the 
+  About page of Dendrite](http://dendritestories.co.nz/about).
 * For information about how the software works, there should be descriptive
-  comments in the source code. As of January 2014, there have been no efforts to
+  comments in the source code. As of February 2015, there have been no efforts to
   write documentation outside of the source code.
 * For specific questions not answered elsewhere, contact me at matt at mattheard
   dot net.
