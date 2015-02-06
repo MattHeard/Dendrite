@@ -11,7 +11,7 @@ A website where users write [interactive adventure stories](https://en.wikipedia
 Where can it be found?
 ----------------------
 
-The public site can be found at [http://dendritestories.co.nz/](http://dendritestories.co.nz/), so you can have a play with it there. Keep in mind that further developments may still be made in future.
+The public site can be found at [http://dendritestories.co.nz/](http://dendritestories.co.nz/) so you can have a play with it there. Keep in mind that further developments may still be made in future.
 
 
 What is it made with?
