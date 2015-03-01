@@ -156,6 +156,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>Alt</servlet-name>
         <url-pattern>/alt</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Stats</servlet-name>
+        <jsp-file>/stats.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Stats</servlet-name>
+        <url-pattern>/stats</url-pattern>
+    </servlet-mapping>
 	<servlet>
 		<servlet-name>Love</servlet-name>
 		<servlet-class>com.deuteriumlabs.dendrite.controller.LoveServlet</servlet-class>
