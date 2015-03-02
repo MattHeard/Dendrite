@@ -25,5 +25,15 @@ view.initialise();
 view.prepareNumPgs();
 
 %>
-<p>Number of pages: ${fn:escapeXml(numPgs)}</p>
+<p>Number of pages: ${fn:escapeXml(numPgs)}</p><%
+
+view.prepareNumStories();
+
+%>
+<p>Number of stories: ${fn:escapeXml(numStories)}</p><%
+
+view.prepareNumPgsPerStory();
+
+%>
+<p>Average number of pages per story: ${fn:escapeXml(numPgsPerStory)}</p>
 <%@include file="bottom.jspf" %>
