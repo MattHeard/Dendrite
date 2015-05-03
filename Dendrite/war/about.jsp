@@ -276,6 +276,7 @@ view.initialise();
           descriptions of all of our updates here. Bug fixes, new features,
           minor tweaks.</p>
             <ul>
+              <li>1.0.10: Fixed a bug on the second page of filtered contents.</li>
               <li>1.0.9: Improved contents page numbering.</li>
               <li>1.0.8: Added link to contents page on each read page.</li>
               <li>1.0.7: Added links to social media at <a href="/about">About</a>.</li>
