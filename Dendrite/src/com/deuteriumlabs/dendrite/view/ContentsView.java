@@ -98,11 +98,11 @@ public class ContentsView extends View {
 	}
 
 	private int getLastPageNumber() {
-		final int numberOfStories = this.getNumberOfStories();
-		if (numberOfStories == 0) {
+		final int numStories = this.getNumberOfStories();
+		if (numStories == 0) {
 			return 1;
 		} else {
-			return ((numberOfStories - 1) / NUM_STORIES_DISPLAYED) + 1;
+			return ((numStories - 1) / NUM_STORIES_DISPLAYED) + 1;
 		}
 	}
 
