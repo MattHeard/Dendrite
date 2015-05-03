@@ -98,7 +98,7 @@ public class ContentsView extends View {
 	}
 
 	private int getLastPageNumber() {
-		final int numStories = this.getNumberOfStories();
+		final int numStories = this.getNumStories();
 		if (numStories == 0) {
 			return 1;
 		} else {
@@ -142,7 +142,7 @@ public class ContentsView extends View {
 		return Integer.toString(next);
 	}
 
-	private int getNumberOfStories() {
+	private int getNumStories() {
 		final boolean isFiltered = this.isFiltered();
 		if (isFiltered) {
 			int size = this.getNumFilteredBeginnings();
