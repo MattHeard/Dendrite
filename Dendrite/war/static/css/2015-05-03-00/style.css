@@ -755,6 +755,18 @@ button, .button, .option {
     user-select: none;
 }
 
+.option.unwritten {
+	filter: brightness(80%);
+	-webkit-filter: brightness(80%);
+	-moz-filter: brightness(80%);
+	-ms-filter: brightness(80%);
+	-o-filter: brightness(80%);
+}
+
+.option.unwritten::after {
+	content: " ✎"
+}
+
 .darkTheme button, .darkTheme .button, .darkTheme .option {
     color: #fff;
     background-color: #666;
