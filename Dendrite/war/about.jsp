@@ -160,11 +160,11 @@ view.initialise();
           become co-authors).</p>
         <h4>How can I make my story appear on the first page of the table of 
           contents?</h4>
-        <p>The ranking of stories in the <a href="/">table of contents</a> is
-          based on two factors: first, the length of the story tree; and second,
-          the number of "Loves" your story has. If you want your story to go
-          further up in the ranking, try adding more pages to your story, or
-          writing things that everyone will "Love"!</p>
+        <p>The ranking of stories in the <a href="/contents">table of
+          contents</a> is based on two factors: first, the length of the story
+          tree; and second, the number of "Loves" your story has. If you want
+          your story to go further up in the ranking, try adding more pages to
+          your story, or writing things that everyone will "Love"!</p>
         <h4>What are tags for?</h4>
         <p>Tags are for displaying the genre of a particular page. Dendrite has 
           a set list of genre tags that you can choose from - in future, we hope 
@@ -276,6 +276,7 @@ view.initialise();
           descriptions of all of our updates here. Bug fixes, new features,
           minor tweaks.</p>
             <ul>
+              <li>1.0.12: Fixed a link in the FAQ.</li>
               <li>1.0.11: Added indications about which options have been written.</li>
               <li>1.0.10: Fixed a bug on the second page of filtered contents.</li>
               <li>1.0.9: Improved contents page numbering.</li>
