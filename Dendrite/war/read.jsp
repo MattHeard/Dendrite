@@ -102,16 +102,7 @@ if (isPageInStore == true) {
     		    }
     		%>
         <li><a class="optionLink"
-          href="${fn:escapeXml(optionLink)}"><div class="option<%
-          
-				boolean isWritten = view.isOptionWritten(i);
-				if (isWritten == false) {
-					
-					%> unwritten<%
-					
-				}
-				
-				%>"><%
+          href="${fn:escapeXml(optionLink)}"><div class="option"><%
     
                 List<FormattedText> formattedTextChunks
                         = FormattedText.extractFormattedText(optionText);

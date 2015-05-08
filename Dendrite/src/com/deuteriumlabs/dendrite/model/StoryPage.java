@@ -1143,21 +1143,6 @@ public class StoryPage extends Model {
 	}
 
 	public static List<StoryPage> getFirstPgsMatchingTag(final String tag) {
-		final PreparedQuery preparedQuery =
-				getPreparedQueryForFirstPgsMatchingTag(tag);
-		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		final List<Entity> entities = preparedQuery.asList(fetchOptions);
-
-		final List<StoryPage> pgs = new ArrayList<StoryPage>();
-		for (final Entity entity : entities) {
-			final StoryPage pg = new StoryPage(entity);
-			pgs.add(pg);
-		}
-		return pgs;
-	}
-
-	private static PreparedQuery getPreparedQueryForFirstPgsMatchingTag(
-			final String tag) {
 		final Query query = new Query(KIND_NAME);
 		String propertyName = IS_FIRST_PG_PROPERTY;
 		FilterOperator operator = FilterOperator.EQUAL;
@@ -1173,20 +1158,21 @@ public class StoryPage extends Model {
 		query.addSort(ID_NUMBER_PROPERTY);
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
-		return preparedQuery;
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		final List<Entity> entities = preparedQuery.asList(fetchOptions);
+
+		final List<StoryPage> pgs = new ArrayList<StoryPage>();
+		for (final Entity entity : entities) {
+			final StoryPage pg = new StoryPage(entity);
+			pgs.add(pg);
+		}
+		return pgs;
 	}
 
 	public static int countAllPgs() {
 		final Query query = new Query(KIND_NAME);
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
-		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		return preparedQuery.countEntities(fetchOptions);
-	}
-
-	public static int countFirstPgsMatchingTag(final String tag) {
-		final PreparedQuery preparedQuery =
-				getPreparedQueryForFirstPgsMatchingTag(tag);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
 		return preparedQuery.countEntities(fetchOptions);
 	}

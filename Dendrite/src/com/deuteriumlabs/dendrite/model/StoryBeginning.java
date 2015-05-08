@@ -353,10 +353,6 @@ public class StoryBeginning extends Model {
 		return preparedQuery.countEntities(fetchOptions);
 	}
 
-	public static int countAllStories() {
-		return StoryBeginning.countAllBeginnings();
-	}
-
 	public void recalculateQuality() {
 		this.recalculateSize();
 		this.recalculateLove();

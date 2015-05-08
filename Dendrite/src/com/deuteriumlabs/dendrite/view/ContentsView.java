@@ -98,11 +98,11 @@ public class ContentsView extends View {
 	}
 
 	private int getLastPageNumber() {
-		final int numStories = this.getNumStories();
-		if (numStories == 0) {
+		final int numberOfStories = this.getNumberOfStories();
+		if (numberOfStories == 0) {
 			return 1;
 		} else {
-			return ((numStories - 1) / NUM_STORIES_DISPLAYED) + 1;
+			return ((numberOfStories - 1) / NUM_STORIES_DISPLAYED) + 1;
 		}
 	}
 
@@ -142,7 +142,7 @@ public class ContentsView extends View {
 		return Integer.toString(next);
 	}
 
-	private int getNumStories() {
+	private int getNumberOfStories() {
 		final boolean isFiltered = this.isFiltered();
 		if (isFiltered) {
 			int size = this.getNumFilteredBeginnings();
@@ -153,15 +153,7 @@ public class ContentsView extends View {
 	}
 
 	private int getNumFilteredBeginnings() {
-		if (this.numFilteredBeginnings < 0) {
-			this.numFilteredBeginnings = countFilteredBeginnings();
-		}
 		return this.numFilteredBeginnings;
-	}
-
-	private int countFilteredBeginnings() {
-		final String tag = this.getFilter();
-		return StoryPage.countFirstPgsMatchingTag(tag);
 	}
 
 	/**
@@ -254,7 +246,6 @@ public class ContentsView extends View {
 		this.setFilterFromRequest(req);
 		final String bodyMainTitle = this.getBodyMainTitle();
 		pageContext.setAttribute("bodyMainTitle", bodyMainTitle);
-		this.numFilteredBeginnings = -1;
 	}
 
 	private void setFilterFromRequest(HttpServletRequest req) {
