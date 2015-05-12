@@ -1,3 +1,4 @@
+<% /* © 2013-2015 Deuterium Labs Limited */ %>
 <%@ page
         language="java"
         contentType="text/html; charset=UTF-8"

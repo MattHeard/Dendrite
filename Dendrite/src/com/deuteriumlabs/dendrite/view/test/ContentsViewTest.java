@@ -1,3 +1,4 @@
+/* © 2013-2015 Deuterium Labs Limited */
 package com.deuteriumlabs.dendrite.view.test;
 
 import static org.junit.Assert.assertEquals;

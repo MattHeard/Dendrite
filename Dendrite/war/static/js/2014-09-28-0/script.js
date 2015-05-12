@@ -1,3 +1,4 @@
+/* © 2013-2015 Deuterium Labs Limited */
 function preventEnterFromSubmittingForms() {
   $("input").not("textarea").bind("keyup keypress", function(e) {
     var code = e.keyCode || e.which;

@@ -1,3 +1,4 @@
+<% /* © 2013-2015 Deuterium Labs Limited */ %>
 <%@ page import="com.deuteriumlabs.dendrite.view.View"
 %><%@ page import="java.util.Arrays"
 %><%@ page import="java.util.List"
@@ -5,7 +6,8 @@
 
 %><!DOCTYPE html>
 <html>
-  <head><%
+  <head>
+  <!-- © 2013-2015 Deuterium Labs Limited --><%
     
 final String font;
 if (View.isUserLoggedIn()) {
