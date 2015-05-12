@@ -31,7 +31,7 @@ public class AddTagController {
 		return pg.getAuthorId();
 	}
 
-	private PageId getPgId() {
+	public PageId getPgId() {
 		return this.pgId;
 	}
 

@@ -1,5 +1,6 @@
 package com.deuteriumlabs.dendrite.unittest;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -21,22 +22,10 @@ public class AddTagControllerTest {
     @Before
     public void setUp() {
         helper.setUp();
-        final PageId pgId = new PageId();
-        pgId.setNumber(1);
-        pgId.setVersion("a");
-        final StoryPage pg = new StoryPage();
-        pg.setId(pgId);
-        pg.create();
     }
 
     @After
     public void tearDown() {
-        final PageId pgId = new PageId();
-        pgId.setNumber(1);
-        pgId.setVersion("a");
-        final StoryPage pg = new StoryPage();
-        pg.setId(pgId);
-        pg.delete();
         helper.tearDown();
     }
 
@@ -46,15 +35,26 @@ public class AddTagControllerTest {
 		final PageId pgId = new PageId();
 		pgId.setNumber(1);
 		pgId.setVersion("a");
+        final StoryPage pg = new StoryPage();
+        pg.setId(pgId);
+        pg.create();
 		controller.setPgId(pgId);
 		controller.setTag("test");
 		boolean isAdded = controller.addTag();
 		assertTrue(isAdded);
+        pg.delete();
 	}
 
 	@Test
 	public final void testSetPgId() {
-		fail("Not yet implemented"); // TODO
+		final AddTagController controller = new AddTagController();
+		final PageId pgId = new PageId();
+		pgId.setNumber(1);
+		pgId.setVersion("a");
+		controller.setPgId(pgId);
+		final PageId expected = pgId;
+		final PageId actual = controller.getPgId();
+		assertEquals(expected, actual);
 	}
 
 	@Test
