@@ -80,10 +80,10 @@ view.initialise();
                   obtaining collaboration from a wide variety of users.
             </div>
             <div>
-              Matthew is a sustaining software developer for Oracle in New
-                  Zealand. He primarily works with C++, Java, and SQL to find
-                  bugs and provide software patches for the telecommunication
-                  networks of Oracle customers.
+              Matthew is a software developer for Oracle in New Zealand. He
+                  primarily works with C++, Java, and SQL to fix bugs and build
+                  new features for the IN software used in the
+                  telecommunication networks of Oracle customers.
             </div>
             <div>
               Matthew writes a blog at <a
@@ -94,12 +94,18 @@ view.initialise();
         <h3>Major contributors</h3>
         <ul class="contributors">
           <li>
-            <b>Leah Hamilton</b>: assisted with the general creative direction
-            of Dendrite, and provided significant amounts of feedback when
-            testing early releases of Dendrite. She also wrote the <i>About</i>
-            and <i>Contributors</i> pages, and drafted the <i>Terms</i> and
-            <i>Privacy</i> pages. Leah is a solicitor at Minter Ellison Rudd
-            Watts, as well as an editor, writer, and tutor.
+            <div>
+              <b>Leah Hamilton</b>: assisted with the general creative
+                  direction of Dendrite, and provided significant amounts of
+                  feedback when testing early releases of Dendrite. She also
+                  wrote the <i>About</i> and <i>Contributors</i> pages, and
+                  drafted the <i>Terms</i> and <i>Privacy</i> pages. Leah is a
+                  freelance writer and editor.
+            </div>
+            <div>
+              Leah writes a blog at <a
+                  href="http://leahalexandrahamilton.tumblr.com">LeahAlexandraHamilton.tumblr.com</a>.
+            </div>
           </li>
           <li>
             <b>Ryan Hamilton</b>: provided creative direction and web design
@@ -276,6 +282,7 @@ view.initialise();
           descriptions of all of our updates here. Bug fixes, new features,
           minor tweaks.</p>
             <ul>
+              <li>1.0.10: Updated bio for Matthew and Leah.</li>
               <li>1.0.9: Improved contents page numbering.</li>
               <li>1.0.8: Added link to contents page on each read page.</li>
               <li>1.0.7: Added links to social media at <a href="/about">About</a>.</li>
