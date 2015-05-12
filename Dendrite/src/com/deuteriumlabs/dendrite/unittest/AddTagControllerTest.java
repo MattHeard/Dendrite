@@ -1,6 +1,7 @@
 package com.deuteriumlabs.dendrite.unittest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -42,6 +43,10 @@ public class AddTagControllerTest {
 		controller.setTag("test");
 		boolean isAdded = controller.addTag();
 		assertTrue(isAdded);
+		
+		isAdded = controller.addTag();
+		assertFalse(isAdded);
+		
         pg.delete();
 	}
 
