@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blacklistentries>
+  <blacklist>
+    <subnet>188.143.232.22/24</subnet>
+    <description>Russian Spam Bots 001</description>
+  </blacklist>
+  <blacklist>
+    <subnet>176.10.104.227/24</subnet>
+    <description>Russian Spam Bots 002</description>
+  </blacklist>
+  <blacklist>
+    <subnet>95.130.13.153/24</subnet>
+    <description>Russian Spam Bots 003</description>
+  </blacklist>
+</blacklistentries>
