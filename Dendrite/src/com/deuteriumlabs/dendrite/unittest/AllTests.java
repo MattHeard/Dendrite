@@ -6,7 +6,5 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ AddTagControllerTest.class })
-public class AllTests {
-
-}
+@SuiteClasses({ AddTagControllerTest.class, DeleteNotificationControllerTest.class })
+public class AllTests {}

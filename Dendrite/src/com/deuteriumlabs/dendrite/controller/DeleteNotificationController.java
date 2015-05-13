@@ -41,7 +41,7 @@ public class DeleteNotificationController {
 	/**
 	 * @return
 	 */
-	private String getNotificationId() {
+	public String getNotificationId() {
 		return this.notificationId;
 	}
 
