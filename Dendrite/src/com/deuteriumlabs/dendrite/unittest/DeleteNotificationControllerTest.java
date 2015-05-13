@@ -2,12 +2,14 @@
 package com.deuteriumlabs.dendrite.unittest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.deuteriumlabs.dendrite.controller.DeleteNotificationController;
+import com.deuteriumlabs.dendrite.model.Notification;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
@@ -37,11 +39,20 @@ public class DeleteNotificationControllerTest {
 		assertEquals(expected, actual);
 	}
 
-//	@Test
-//	public final void testDeleteNotification() {
-//		fail("Not yet implemented"); // TODO
-//	}
-//
+	@Test
+	public final void testDeleteNotification() {
+		final Notification notification = new Notification();
+		notification.setRecipientId("1234");
+		notification.create();
+		notification.read();
+		final long notificationId = notification.getId();
+		final DeleteNotificationController controller;
+		controller = new DeleteNotificationController();
+		controller.setNotificationId(Long.toString(notificationId));
+		final boolean isDeleted = controller.deleteNotification();
+		assertTrue(isDeleted);
+	}
+
 //	@Test
 //	public final void testIsMyUserTheRecipient() {
 //		fail("Not yet implemented"); // TODO
