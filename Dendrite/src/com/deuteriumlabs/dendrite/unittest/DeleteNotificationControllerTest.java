@@ -1,7 +1,7 @@
 /* © 2013-2015 Deuterium Labs Limited */
 package com.deuteriumlabs.dendrite.unittest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;
@@ -34,6 +34,7 @@ public class DeleteNotificationControllerTest {
 		controller.setNotificationId(notificationId);
 		final String expected = notificationId;
 		final String actual = controller.getNotificationId();
+		assertEquals(expected, actual);
 	}
 
 //	@Test
