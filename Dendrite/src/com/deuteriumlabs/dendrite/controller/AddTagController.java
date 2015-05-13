@@ -44,7 +44,7 @@ public class AddTagController {
 		return pg;
 	}
 
-	private String getTag() {
+	public String getTag() {
 		return this.tag;
 	}
 

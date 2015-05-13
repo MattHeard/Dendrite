@@ -65,7 +65,12 @@ public class AddTagControllerTest {
 
 	@Test
 	public final void testSetTag() {
-		fail("Not yet implemented"); // TODO
+		final AddTagController controller = new AddTagController();
+		final String tag = "test";
+		controller.setTag(tag);
+		final String expected = tag;
+		final String actual = controller.getTag();
+		assertEquals(expected, actual);
 	}
 
 }
