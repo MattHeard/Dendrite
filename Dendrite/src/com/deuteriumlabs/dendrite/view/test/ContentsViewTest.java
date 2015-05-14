@@ -16,12 +16,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.deuteriumlabs.dendrite.controller.SubmitNewController;
-import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.view.ContentsView;
 import com.deuteriumlabs.dendrite.view.ContentsView.Link;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
+// HttpSessionContext is deprecated but is necessary for implementing
+// DummyHttpSession.
+@SuppressWarnings("deprecation")
 public class ContentsViewTest {
 	
 	private class DummyHttpSession implements HttpSession {
@@ -33,7 +35,7 @@ public class ContentsViewTest {
 		}
 
 		@Override
-		public Enumeration getAttributeNames() {
+		public Enumeration<?> getAttributeNames() {
 			// TODO Auto-generated method stub
 			return null;
 		}
@@ -64,13 +66,6 @@ public class ContentsViewTest {
 
 		@Override
 		public ServletContext getServletContext() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@SuppressWarnings("deprecation")
-		@Override
-		public HttpSessionContext getSessionContext() {
 			// TODO Auto-generated method stub
 			return null;
 		}
@@ -127,6 +122,13 @@ public class ContentsViewTest {
 		public void setMaxInactiveInterval(int arg0) {
 			// TODO Auto-generated method stub
 			
+		}
+
+		@SuppressWarnings("deprecation")
+		@Override
+		public HttpSessionContext getSessionContext() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 		
 	}
