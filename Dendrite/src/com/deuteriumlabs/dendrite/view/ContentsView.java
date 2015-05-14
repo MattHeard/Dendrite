@@ -154,7 +154,15 @@ public class ContentsView extends View {
 	}
 
 	private int getNumFilteredBeginnings() {
-		return this.numFilteredBeginnings;
+		if (numFilteredBeginnings < 0) {
+			numFilteredBeginnings = countFilteredBeginnings();
+		}
+		return numFilteredBeginnings;
+	}
+
+	private int countFilteredBeginnings() {
+		final String tag = getFilter();
+		return StoryPage.countFirstPgsMatchingTag(tag);
 	}
 
 	/**
@@ -247,6 +255,7 @@ public class ContentsView extends View {
 		this.setFilterFromRequest(req);
 		final String bodyMainTitle = this.getBodyMainTitle();
 		pageContext.setAttribute("bodyMainTitle", bodyMainTitle);
+		numFilteredBeginnings = -1;
 	}
 
 	private void setFilterFromRequest(HttpServletRequest req) {
