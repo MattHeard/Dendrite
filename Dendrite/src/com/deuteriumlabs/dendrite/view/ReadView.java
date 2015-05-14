@@ -80,13 +80,10 @@ public class ReadView extends View {
 	}
 
 	public String getOptionLink(final int index) {
-		final StoryOption option = new StoryOption();
-		final PageId source = this.getPageId();
-		option.setSource(source);
-		option.setListIndex(index);
-		option.read();
+		final StoryOption option = getOptionByIndex(index);
 		final int target = option.getTarget();
 		if (target == 0) {
+			final PageId source = this.getPageId();
 			final String from = source.toString();
 			return "/write?from=" + from + "&linkIndex=" + index;
 		} else {
@@ -95,12 +92,22 @@ public class ReadView extends View {
 	}
 
 	public String getOptionText(final int index) {
+		final StoryOption option = getOptionByIndex(index);
+		return option.getText();
+	}
+
+	private StoryOption getOptionByIndex(final int index) {
 		final StoryOption option = new StoryOption();
 		final PageId source = this.getPageId();
 		option.setSource(source);
 		option.setListIndex(index);
 		option.read();
-		return option.getText();
+		return option;
+	}
+	
+	public boolean isOptionWritten(final int index) {
+		final StoryOption option = getOptionByIndex(index);
+		return option.isConnected();
 	}
 
 	private StoryPage getPage() {

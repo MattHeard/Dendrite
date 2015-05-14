@@ -1,5 +1,5 @@
-<!-- © 2013-2015 Deuterium Labs Limited -->
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- © 2013-2015 Deuterium Labs Limited -->
 <blacklistentries>
   <blacklist>
     <subnet>188.143.232.22/24</subnet>

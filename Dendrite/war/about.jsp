@@ -283,6 +283,7 @@ view.initialise();
           descriptions of all of our updates here. Bug fixes, new features,
           minor tweaks.</p>
             <ul>
+              <li>1.0.11: Added indications about which options have been written.</li>
               <li>1.0.10: Updated bio for Matthew and Leah.</li>
               <li>1.0.9: Improved contents page numbering.</li>
               <li>1.0.8: Added link to contents page on each read page.</li>
