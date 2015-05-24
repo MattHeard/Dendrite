@@ -36,7 +36,11 @@ if (view.isPastTheLastPg()) {
           back to <a href="/contents">the table of contents</a>.</p><%
 	
 } else {
-
+	
+	%>
+		<p class="small notice"><a href="/terms">Our Terms of Use have recently been
+		  updated. Please review them now.</a></p><%
+	
 %>
         <h1>${fn:escapeXml(bodyMainTitle)}</h1>
         <ul id="contents"><%
