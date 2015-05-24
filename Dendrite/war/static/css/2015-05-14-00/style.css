@@ -301,6 +301,14 @@ div.accordion > ul.tabs {
 
 /* Other */
 
+dd {
+	padding-bottom: 1em;
+}
+
+dd:last-child {
+	padding-bottom: inherit;
+}
+
 .notice {
     margin-top: 50px;
     font-size: 1.5em;
