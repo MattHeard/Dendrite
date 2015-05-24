@@ -35,10 +35,10 @@ view.setPageContext(pageContext);
       <ul>
         <li>upload, post or otherwise transmit or disseminate any photos,
             software, material, comment or information that is unlawful,
-            tortious, obscene, vulgar, defamatory, pornographic, indecent, lewd,
-            harassing, threatening, hateful, harmful, invasive of privacy or
-            publicity rights, abusive, inflammatory, or racially, ethnically or
-            otherwise objectionable;</li>
+            tortious, obscene, vulgar, defamatory, harassing, threatening,
+            hateful, harmful, invasive of privacy or publicity rights, abusive,
+            inflammatory, or racially, ethnically or otherwise
+            objectionable;</li>
         <li>infringe the copyright or other intellectual property rights, or
             confidential information, of any other person;</li>
         <li>defame, abuse, harass, stalk, threaten or otherwise violate the
@@ -60,6 +60,36 @@ view.setPageContext(pageContext);
             communication or message; or</li>
         <li>use this Website for commercial venture, advertisement, promotion,
             or gain of any kind (whether or not for money or other reward).</li>
+      </ul>
+      <h3>Erotic and Pornographic Content</h3>
+      <dl>
+        <dt><b>"Erotic Writing"</b> means</dt>
+        <dd>Writing that includes (among other things) themes that celebrate
+            the human body and human sexuality in a literary, aesthetic, and
+            artistic form.</dd>
+        <dt><b>"Pornographic Writing"</b> means</dt>
+        <dd>Writing that explicitly describes sexual acts or activities with
+            the sole purpose of sexual arousal or carnal pursuits without
+            aesthetic or artistic merit.</dd>
+      </dl>
+      <p>This Website permits you to write text, comment, or information that
+          is classified as Erotic Writing, notwithstanding that such content
+          must not contain photos, software, material, comment or information
+          that is unlawful, tortious, obscene, vulgar, defamatory, harassing,
+          threatening, hateful, harmful, invasive of privacy or publicity
+          rights, abusive, inflammatory, or racially, ethnically or otherwise
+          objectionable (as per the above section).</p>
+      <p>For the avoidance of doubt, erotic LGBT and Queer writing is permitted
+          on this Website.</p>
+      <p>You also agree not to use this Website to:</p>
+      <ul>
+        <li>upload, post or otherwise transmit or disseminate any text,
+            material, comment or information that is Pornographic Writing;
+            or</li>
+        <li>upload, post or otherwise transmit or disseminate any text,
+            material, comment or information that depicts unlawful sexual acts
+            such as incest, bestiality, rape, sexual violence, sexual acts with
+            children, or any other similar acts.</li>
       </ul>
       <h3>Content on this Website</h3>
       <p>You may view and create any Content on this Website. <b>"Content"</b>
@@ -169,5 +199,5 @@ view.setPageContext(pageContext);
           these terms, your use of this Website and any dispute arising out of
           such use of this Website.</p>
       <h3>Latest update</h3>
-      <p>These Terms were last updated 20 October 2013.</p>
+      <p>These Terms were last updated 24 May 2015.</p>
 <%@include file="bottom.jspf" %>
