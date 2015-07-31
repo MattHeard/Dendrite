@@ -273,7 +273,7 @@ public abstract class View {
 	}
 
 	private final FooterLinkList footerLinks;
-	private PageContext pageContext;
+	protected PageContext pageContext;
 	private HttpServletRequest request;
 
 	/**

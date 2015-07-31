@@ -303,6 +303,20 @@ public class ContentsView extends View {
 		pageContext.setAttribute("nextLink", link);
 	}
 
+	public void prepareLastPageLink() {
+		final int numStories = StoryBeginning.countAllBeginnings();
+		int numContentPgs = numStories / NUM_STORIES_DISPLAYED;
+		if (numStories % NUM_STORIES_DISPLAYED != 0) {
+			numContentPgs++;
+		}
+		final String lastNum = Integer.toString(numContentPgs);
+		String link = "/contents?p=" + lastNum;
+		if (this.isFiltered()) {
+			link += "&filter=" + this.getFilter();
+		}
+		pageContext.setAttribute("lastLink", link);
+	}
+
 	public void preparePrevPageLink() {
 		final PageContext pageContext = this.getPageContext();
 		final String prevNum = this.getPrevPageNumber();

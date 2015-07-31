@@ -83,6 +83,7 @@ if (isFirstPage == false) {
     view.preparePrevPageLink();
     	
     %>
+          <span><a title="First page of contents" href="/contents?p=1">|◀</a></span>
           <span><a title="Previous page of contents" href="${fn:escapeXml(prevLink)}">◀</a></span><%
     	
 } else {
@@ -99,9 +100,11 @@ view.prepareRomanPgNum();
 final boolean isLastPage = view.isLastPage();
 if (isLastPage == false) {
 	view.prepareNextPageLink();
+	view.prepareLastPageLink();
     	
     %>
-          <span><a title="Next page of contents" href="${fn:escapeXml(nextLink)}">▶</a></span><%
+          <span><a title="Next page of contents" href="${fn:escapeXml(nextLink)}">▶</a></span>
+          <span><a title="Last page of contents" href="${fn:escapeXml(lastLink)}">▶|</a></span><%
     	
 }
 	
