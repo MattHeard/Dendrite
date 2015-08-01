@@ -25,6 +25,8 @@ if (isPageInStore == true) {
 
 %><%
 
+	final String pageNumber = view.getPageNumber();
+	pageContext.setAttribute("pageNumber", pageNumber);
     if (isPageInStore == true) {
     	final boolean isBeginning = view.isBeginning();
     	if (isBeginning == true) {
@@ -35,8 +37,6 @@ if (isPageInStore == true) {
       <div id="storyTitle"><h1>${fn:escapeXml(title)}</h1></div><%
 
     	}
-    	final String pageNumber = view.getPageNumber();
-    	pageContext.setAttribute("pageNumber", pageNumber);
 
     	%>
       <ul id="modifyMenu">
@@ -335,20 +335,23 @@ for (final String tag : tagNames) {
       <p class="notice">Why don't you <a href="/new">start a new story?</a></p><%
 	
     }
+
+	%>
+      <p id="pgNav"><%
 	
 	if (view.isShowingFirstPage() == false) {
 		view.preparePrevPageNum();
 		
 		%>
-      <span
-          class="pageArrow"
-          id="prevPage"><a href="/read?p=${fn:escapeXml(prevPageNum)}">◀</a></span><%
+        <span class="pgArrow"><a href="/read?p=${fn:escapeXml(prevPageNum)}">◀</a></span><%
 		
 	}
 	
+	%>
+        <span>${fn:escapeXml(pageNumber)}</span><%
+	
 	view.prepareNextPageNum();
 	%>
-      <span
-          class="pageArrow"
-          id="nextPage"><a href="/read?p=${fn:escapeXml(nextPageNum)}">▶</a></span>
+        <span class="pgArrow"><a href="/read?p=${fn:escapeXml(nextPageNum)}">▶</a></span>
+      </p>
 <%@include file="bottom.jspf" %>

@@ -322,11 +322,11 @@ ul#contents {
 	padding: 0px;
 }
 
-p#contentsNav {
+p#contentsNav, p#pgNav {
 	text-align: center;
 }
 
-p#contentsNav > span {
+p#contentsNav > span, p#pgNav > span {
 	padding: 20px;
 }
 
@@ -1414,16 +1414,8 @@ ul.optionPair > li > a:hover {
 	color: #eee;
 }
 
-.pageArrow {
+.pgArrow {
 	opacity: 0.2;
-}
-
-#prevPage {
-	float: left;
-}
-
-#nextPage {
-	float: right;
 }
 
 .prefInput {
