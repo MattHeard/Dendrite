@@ -283,6 +283,7 @@ view.initialise();
           descriptions of all of our updates here. Bug fixes, new features,
           minor tweaks.</p>
             <ul>
+              <li>1.0.15: Fixed pagination bug on author page.</li>
               <li>1.0.14: Added links to the first and last contents pages.</li>
               <li>1.0.13: Updated the <a href="/terms">Terms of Use</a>.</li>
               <li>1.0.12: Fixed a bug on the second page of filtered contents.</li>

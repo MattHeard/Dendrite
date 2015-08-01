@@ -330,7 +330,11 @@ public class BibliographyView {
 
 	public int getLastPageNumber() {
 		final int numStories = this.getNumPages();
-		return (numStories / NUM_PAGES_DISPLAYED) + 1;
+		int lastPgNum = numStories / NUM_PAGES_DISPLAYED;
+		if (numStories % NUM_PAGES_DISPLAYED != 0) {
+			lastPgNum++;
+		}
+		return lastPgNum;
 	}
 
 	public boolean isLastPage() {
