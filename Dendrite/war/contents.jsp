@@ -38,10 +38,6 @@ if (view.isPastTheLastPg()) {
 } else {
 	
 	%>
-		<p class="small notice"><a href="/terms">Our Terms of Use have recently been
-		  updated. Please review them now.</a></p><%
-	
-%>
         <h1>${fn:escapeXml(bodyMainTitle)}</h1>
         <ul id="contents"><%
 
