@@ -1,6 +1,8 @@
 /* © 2013-2015 Deuterium Labs Limited */
 package com.deuteriumlabs.dendrite.model;
 
+import java.util.Date;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -15,6 +17,7 @@ import com.google.appengine.api.datastore.Query;
  * getting data from the Google App Engine datastore.
  */
 public abstract class Model {
+	private static final String CREATION_DATE_PROPERTY = "creationDate";
 
 	/**
 	 * Returns a single entity from the prepared query.
@@ -156,8 +159,14 @@ public abstract class Model {
 	}
 
 	private void putEntityInStore(final Entity entity) {
+		this.setCreationDate(entity);
 		this.setPropertiesInEntity(entity);
 		final DatastoreService store = getStore();
 		store.put(entity);
+	}
+
+	private void setCreationDate(final Entity entity) {
+		final Date date = new Date();
+		entity.setProperty(CREATION_DATE_PROPERTY, date);
 	}
 }
