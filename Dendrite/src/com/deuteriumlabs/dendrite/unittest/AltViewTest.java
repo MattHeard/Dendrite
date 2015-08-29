@@ -809,20 +809,6 @@ public class AltViewTest {
 
     }
 
-
-    private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
-            new LocalDatastoreServiceTestConfig());
-
-    @Before
-    public void setUp() {
-        helper.setUp();
-    }
-
-    @After
-    public void tearDown() {
-        helper.tearDown();
-    }
-    
     @Test
     public final void testGetUrl() {
         final AltView view = new AltView();
