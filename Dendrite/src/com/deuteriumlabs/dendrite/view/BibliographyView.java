@@ -334,6 +334,9 @@ public class BibliographyView {
 		if (numStories % NUM_PAGES_DISPLAYED != 0) {
 			lastPgNum++;
 		}
+		if (lastPgNum < 1) {
+			lastPgNum = 1;
+		}
 		return lastPgNum;
 	}
 
