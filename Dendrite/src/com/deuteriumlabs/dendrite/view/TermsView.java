@@ -4,7 +4,7 @@ package com.deuteriumlabs.dendrite.view;
 public class TermsView extends View {
 
 	@Override
-	String getUrl() {
+	public String getUrl() {
 		return "/terms";
 	}
 

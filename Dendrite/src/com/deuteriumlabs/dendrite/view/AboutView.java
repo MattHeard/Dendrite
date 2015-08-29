@@ -10,7 +10,7 @@ public class AboutView extends View {
 	private static final String WEB_PG_TITLE_ATTR_VAL = "Dendrite - About";
 
 	@Override
-	String getUrl() {
+    public String getUrl() {
 		return URL;
 	}
 

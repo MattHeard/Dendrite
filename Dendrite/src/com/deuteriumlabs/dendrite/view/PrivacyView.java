@@ -4,7 +4,7 @@ package com.deuteriumlabs.dendrite.view;
 public class PrivacyView extends View {
 
 	@Override
-	String getUrl() {
+	public String getUrl() {
 		return "/privacy";
 	}
 

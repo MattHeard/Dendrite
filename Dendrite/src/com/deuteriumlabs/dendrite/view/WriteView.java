@@ -46,7 +46,7 @@ public class WriteView extends FormView {
 	}
 
 	@Override
-	String getUrl() {
+	public String getUrl() {
 		final String from = this.getFrom();
 		String url = "/write?from=" + from;
 		final String linkIndex = this.getListIndex();

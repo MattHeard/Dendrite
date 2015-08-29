@@ -130,7 +130,7 @@ public class SubmitWriteServlet extends SubmitServlet {
 	}
 
 	@Override
-	String getUrl() {
+	public String getUrl() {
 		final String from = this.getFrom();
 		String url = "/write?from=" + from;
 		final String linkIndex = this.getLinkIndex();

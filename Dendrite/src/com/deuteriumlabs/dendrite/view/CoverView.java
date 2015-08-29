@@ -6,7 +6,7 @@ import javax.servlet.jsp.PageContext;
 public class CoverView extends View {
 
 	@Override
-	String getUrl() {
+	public String getUrl() {
 		return "/cover";
 	}
 

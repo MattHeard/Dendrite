@@ -10,7 +10,7 @@ public class FaqView extends View {
 	private static final String WEB_PG_TITLE_ATTR_VAL = "Dendrite - FAQ";
 
 	@Override
-	String getUrl() {
+	public String getUrl() {
 		return URL;
 	}
 

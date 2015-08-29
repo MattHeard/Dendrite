@@ -222,7 +222,7 @@ public class ContentsView extends View {
 	 * @see com.deuteriumlabs.dendrite.view.View#getUrl()
 	 */
 	@Override
-	String getUrl() {
+	public String getUrl() {
 		return "/contents";
 	}
 

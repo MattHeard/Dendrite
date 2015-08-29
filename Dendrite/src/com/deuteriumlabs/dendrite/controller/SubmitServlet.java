@@ -5,7 +5,7 @@ public abstract class SubmitServlet extends DendriteServlet {
 
     private static final long serialVersionUID = -352599017961664562L;
 
-    abstract String getUrl();
+    abstract public String getUrl();
 
     protected void redirectFromBlankAuthorName() {
         String url = getUrl();

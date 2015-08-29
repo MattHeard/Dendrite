@@ -13,7 +13,7 @@ public class StatsView extends View {
 	private static final String NUM_PGS_ATTR_NAME = "numPgs";
 
 	@Override
-	String getUrl() {
+	public String getUrl() {
 		return URL;
 	}
 

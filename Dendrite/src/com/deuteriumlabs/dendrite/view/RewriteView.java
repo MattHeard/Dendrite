@@ -35,7 +35,7 @@ public class RewriteView extends FormView {
 	}
 
 	@Override
-	String getUrl() {
+	public String getUrl() {
 		String pageNumber = this.pgNum;
 		return "/rewrite?p=" + pageNumber;
 	}

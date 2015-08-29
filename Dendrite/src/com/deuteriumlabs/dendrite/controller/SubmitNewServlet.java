@@ -60,7 +60,7 @@ public class SubmitNewServlet extends SubmitServlet {
     }
 
     @Override
-    String getUrl() { return "/new"; }
+    public String getUrl() { return "/new"; }
 
     @Override
     protected void redirectFromBlankAuthorName() {

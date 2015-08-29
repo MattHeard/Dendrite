@@ -14,7 +14,7 @@ public class NotificationsView extends View {
 	private List<Notification> notifications;
 
 	@Override
-	String getUrl() {
+	public String getUrl() {
 		return "/notifications";
 	}
 

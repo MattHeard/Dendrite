@@ -6,5 +6,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ AddTagControllerTest.class, BibliographyViewTest.class, DeleteNotificationControllerTest.class })
+@SuiteClasses({ AboutViewTest.class,
+        AddTagControllerTest.class,
+        BibliographyViewTest.class,
+        DeleteNotificationControllerTest.class })
 public class AllTests {}

@@ -42,7 +42,7 @@ public class FollowersView extends View {
 	}
 
 	@Override
-	String getUrl() {
+	public String getUrl() {
 		final String id = this.getId();
 		return "/followers?id=" + id;
 	}

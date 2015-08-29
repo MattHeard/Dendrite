@@ -7,7 +7,7 @@ import javax.servlet.jsp.PageContext;
 public class NewView extends FormView {
 
 	@Override
-	String getUrl() {
+	public String getUrl() {
 		return "/new";
 	}
 

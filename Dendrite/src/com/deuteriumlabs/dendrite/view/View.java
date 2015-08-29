@@ -333,7 +333,7 @@ public abstract class View {
 	 * 
 	 * @return The URL to this page
 	 */
-	abstract String getUrl();
+	abstract public String getUrl();
 
 	/**
 	 * Returns the title of the web page displaying this View.

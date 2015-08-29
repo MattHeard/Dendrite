@@ -91,7 +91,7 @@ public class SubmitRewriteServlet extends SubmitServlet {
 	}
 
 	@Override
-	final String getUrl() {
+	final public String getUrl() {
 		final String p = this.pageNumber;
 		return "/rewrite?p=" + p;
 	}

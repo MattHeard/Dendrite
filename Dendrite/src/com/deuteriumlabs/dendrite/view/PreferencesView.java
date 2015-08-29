@@ -12,7 +12,7 @@ public class PreferencesView extends View {
 	private String error;
 
 	@Override
-	String getUrl() {
+	public String getUrl() {
 		return "/preferences";
 	}
 

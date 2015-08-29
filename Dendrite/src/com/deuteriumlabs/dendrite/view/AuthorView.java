@@ -57,7 +57,7 @@ public class AuthorView extends View {
 	}
 
 	@Override
-	String getUrl() {
+	public String getUrl() {
 		final String id = this.getId();
 		return "/author?id=" + id;
 	}

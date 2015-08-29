@@ -169,7 +169,7 @@ public class ReadView extends View {
 	 * @see com.deuteriumlabs.dendrite.view.View#getUrl()
 	 */
 	@Override
-	String getUrl() {
+	public String getUrl() {
 		final PageId idValue = this.getPageId();
 		final String idString = idValue.toString();
 		return "/read?p=" + idString;
