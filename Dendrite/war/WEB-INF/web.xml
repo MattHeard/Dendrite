@@ -134,6 +134,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/terms</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>Donate</servlet-name>
+		<jsp-file>/donate.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Donate</servlet-name>
+		<url-pattern>/donate</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>Write</servlet-name>
 		<jsp-file>/write.jsp</jsp-file>
 	</servlet>

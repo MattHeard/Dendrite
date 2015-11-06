@@ -1635,6 +1635,16 @@ textarea {
 	margin-top: 2px;
 }
 
+form.donate > input {
+	width: initial;
+	padding: initial;
+	border: initial;
+}
+
+h1.donate, p.donate {
+	text-align: left;
+}
+
 @media all and (min-width: 600px) {
 	#login,#logout {
 		text-align: right;

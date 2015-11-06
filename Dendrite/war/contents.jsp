@@ -37,6 +37,10 @@ if (view.isPastTheLastPg()) {
 	
 } else {
 	
+    %>
+        <p class="small notice"><a href="/donate">Dendrite is experiencing a lot of traffic.<br />
+            Please consider donating to keep us online.</a></p><%
+    
 	%>
         <h1>${fn:escapeXml(bodyMainTitle)}</h1>
         <div id="contents_column_headers">
