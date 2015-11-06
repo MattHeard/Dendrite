@@ -304,15 +304,12 @@ public class ContentsView extends View {
 	}
 
 	public void prepareLastPageLink() {
-		final int numStories = StoryBeginning.countAllBeginnings();
-		int numContentPgs = numStories / NUM_STORIES_DISPLAYED;
-		if (numStories % NUM_STORIES_DISPLAYED != 0) {
-			numContentPgs++;
-		}
+		final String filter = this.getFilter();
+		int numContentPgs = this.getLastPageNumber();
 		final String lastNum = Integer.toString(numContentPgs);
 		String link = "/contents?p=" + lastNum;
 		if (this.isFiltered()) {
-			link += "&filter=" + this.getFilter();
+			link += "&filter=" + filter;
 		}
 		pageContext.setAttribute("lastLink", link);
 	}

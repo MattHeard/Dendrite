@@ -88,6 +88,8 @@ public class StoryPage extends Model {
 		final Query query = new Query(KIND_NAME);
 		final String propertyName = ANCESTRY_PROPERTY;
 		FilterOperator operator = FilterOperator.GREATER_THAN;
+		
+		// TODO(Matt Heard) Clarify names of 'greater' and 'less' variables.
 		String value = greater;
 		final Filter greaterFilter;
 		greaterFilter = new FilterPredicate(propertyName, operator, value);
