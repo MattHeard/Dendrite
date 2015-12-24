@@ -1,2 +1,4 @@
 *.class
 **/appengine-generated/**
+.metadata
+.DS_Store
