@@ -66,6 +66,7 @@ ga('send', 'pageview');
       <select name="filter"><%
           
 final String[] tagNames = { 
+		"ABSURD",
         "ACTION",
         "ADVENTURE",
         "COMEDY",
@@ -79,6 +80,7 @@ final String[] tagNames = {
         "INSPIRATIONAL",
         "MYSTERY",
         "POLITICAL",
+        "REAL-LIFE",
         "RELIGIOUS",
         "ROMANCE",
         "SCIFI",

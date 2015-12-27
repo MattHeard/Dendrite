@@ -243,6 +243,7 @@ if (isPageInStore == true) {
           <select><%
           
 final String[] tagNames = { 
+		"ABSURD",
 		"ACTION",
 		"ADVENTURE",
 		"COMEDY",
@@ -256,6 +257,7 @@ final String[] tagNames = {
 		"INSPIRATIONAL",
 		"MYSTERY",
 		"POLITICAL",
+		"REAL-LIFE",
 		"RELIGIOUS",
 		"ROMANCE",
 		"SCIFI",
