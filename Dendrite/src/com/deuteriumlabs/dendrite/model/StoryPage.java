@@ -1193,4 +1193,10 @@ public class StoryPage extends Model {
 		this.setTagsInEntity(entity);
 		this.setIsFirstPgInEntity(entity);
 	}
+
+	@Override
+	protected Entity createNewEntity(String kindName) {
+		final String key = this.getId().toString();
+		return new Entity(KIND_NAME, key);
+	}
 }
