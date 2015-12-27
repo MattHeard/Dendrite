@@ -50,7 +50,7 @@ public abstract class Model {
 	 */
 	public void create() {
 		final String kindName = this.getKindName();
-		final Entity entity = new Entity(kindName);
+		final Entity entity = createNewEntity(kindName);
 		putEntityInStore(entity);
 	}
 
@@ -132,6 +132,10 @@ public abstract class Model {
 	private void setCreationDate(final Entity entity) {
 		final Date date = new Date();
 		entity.setProperty(CREATION_DATE_PROPERTY, date);
+	}
+
+	protected Entity createNewEntity(final String kindName) {
+		return new Entity(kindName);
 	}
 
 	/**
