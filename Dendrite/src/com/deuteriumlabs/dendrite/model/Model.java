@@ -65,44 +65,6 @@ public abstract class Model {
 		}
 	}
 
-	private void deleteEntityByKey(final Entity entity) {
-		final Key key = entity.getKey();
-		final DatastoreService store = getStore();
-		store.delete(key);
-	}
-
-	/**
-	 * Returns the model's kind. Each model kind has a unique name which allows
-	 * for identification in the datastore. Subclasses implement this method to
-	 * manage their own kind name.
-	 * 
-	 * @return The kind of this model
-	 */
-	abstract String getKindName();
-
-	/**
-	 * Returns the entity matching this model instance. Returns
-	 * <code>null</code> if there is a problem.
-	 * 
-	 * @return The entity matching this model instance, or <code>null</code> if
-	 *         the retrieval fails
-	 */
-	private Entity getMatchingEntity() {
-		final DatastoreService store = getStore();
-		final Query query = this.getMatchingQuery();
-		final PreparedQuery preparedQuery = store.prepare(query);
-		return getSingleEntity(preparedQuery);
-	}
-
-	/**
-	 * Returns a query which should identify a single entity matching this
-	 * model. Subclasses implement this method to use their own unique
-	 * identifying properties to build filters for building this query.
-	 * 
-	 * @return The query for identifying this model instance
-	 */
-	abstract Query getMatchingQuery();
-
 	/**
 	 * Returns <code>true</code> if this model instance is in the store.
 	 * 
@@ -130,6 +92,67 @@ public abstract class Model {
 	}
 
 	/**
+	 * Retrieves the matching entity from the datastore, replaces all of the
+	 * properties in that entity, and then puts it back in the datastore.
+	 */
+	public void update() {
+		final Entity entity = this.getMatchingEntity();
+		if (entity != null) {
+			putEntityInStore(entity);
+		}
+	}
+
+	private void deleteEntityByKey(final Entity entity) {
+		final Key key = entity.getKey();
+		final DatastoreService store = getStore();
+		store.delete(key);
+	}
+
+	/**
+	 * Returns the entity matching this model instance. Returns
+	 * <code>null</code> if there is a problem.
+	 * 
+	 * @return The entity matching this model instance, or <code>null</code> if
+	 *         the retrieval fails
+	 */
+	private Entity getMatchingEntity() {
+		final DatastoreService store = getStore();
+		final Query query = this.getMatchingQuery();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		return getSingleEntity(preparedQuery);
+	}
+
+	private void putEntityInStore(final Entity entity) {
+		this.setCreationDate(entity);
+		this.setPropertiesInEntity(entity);
+		final DatastoreService store = getStore();
+		store.put(entity);
+	}
+
+	private void setCreationDate(final Entity entity) {
+		final Date date = new Date();
+		entity.setProperty(CREATION_DATE_PROPERTY, date);
+	}
+
+	/**
+	 * Returns the model's kind. Each model kind has a unique name which allows
+	 * for identification in the datastore. Subclasses implement this method to
+	 * manage their own kind name.
+	 * 
+	 * @return The kind of this model
+	 */
+	abstract String getKindName();
+
+	/**
+	 * Returns a query which should identify a single entity matching this
+	 * model. Subclasses implement this method to use their own unique
+	 * identifying properties to build filters for building this query.
+	 * 
+	 * @return The query for identifying this model instance
+	 */
+	abstract Query getMatchingQuery();
+
+	/**
 	 * Reads the values from the entity corresponding to the properties of this
 	 * model instance.
 	 * 
@@ -146,27 +169,4 @@ public abstract class Model {
 	 *            The entity storing the properties
 	 */
 	abstract void setPropertiesInEntity(final Entity entity);
-
-	/**
-	 * Retrieves the matching entity from the datastore, replaces all of the
-	 * properties in that entity, and then puts it back in the datastore.
-	 */
-	public void update() {
-		final Entity entity = this.getMatchingEntity();
-		if (entity != null) {
-			putEntityInStore(entity);
-		}
-	}
-
-	private void putEntityInStore(final Entity entity) {
-		this.setCreationDate(entity);
-		this.setPropertiesInEntity(entity);
-		final DatastoreService store = getStore();
-		store.put(entity);
-	}
-
-	private void setCreationDate(final Entity entity) {
-		final Date date = new Date();
-		entity.setProperty(CREATION_DATE_PROPERTY, date);
-	}
 }
