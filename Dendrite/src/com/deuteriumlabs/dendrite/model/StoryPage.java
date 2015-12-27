@@ -62,13 +62,6 @@ public class StoryPage extends Model {
 		return versionStr;
 	}
 
-	private static char convertNumToLetter(int num) {
-		Map<Integer, Character> map = new HashMap<Integer, Character>();
-		for (int i = 0; i < LETTERS.length; i++)
-			map.put(i + 1, LETTERS[i]);
-		return map.get(num);
-	}
-
 	public static int countAllPagesWrittenBy(final String authorId) {
 		final Query query = new Query(KIND_NAME);
 		final Filter filter = getAuthorIdFilter(authorId);
@@ -79,17 +72,31 @@ public class StoryPage extends Model {
 		return preparedQuery.countEntities(fetchOptions);
 	}
 
-	/**
-	 * @param greater
-	 * @param less
-	 * @return
-	 */
-	static int countSubtreeBetween(final String greater, final String less) {
+	public static int countAllPgs() {
 		final Query query = new Query(KIND_NAME);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		return preparedQuery.countEntities(fetchOptions);
+	}
+
+	public static int countFirstPgsMatchingTag(final String tag) {
+		final PreparedQuery preparedQuery =
+				getPreparedQueryForFirstPgsMatchingTag(tag);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		return preparedQuery.countEntities(fetchOptions);
+	}
+
+	// TODO(Matt Heard): Clarify names of 'greater' and 'less' variables.
+	public static int countLoversBetween(final String greater, final String less) {
+		final Query query = new Query(KIND_NAME);
+		Class<String> type = String.class;
+		String projectionProperty = LOVING_USERS_PROPERTY;
+		final PropertyProjection projection;
+		projection = new PropertyProjection(projectionProperty, type);
+		query.addProjection(projection);
 		final String propertyName = ANCESTRY_PROPERTY;
 		FilterOperator operator = FilterOperator.GREATER_THAN;
-		
-		// TODO(Matt Heard) Clarify names of 'greater' and 'less' variables.
 		String value = greater;
 		final Filter greaterFilter;
 		greaterFilter = new FilterPredicate(propertyName, operator, value);
@@ -103,7 +110,16 @@ public class StoryPage extends Model {
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		return preparedQuery.countEntities(fetchOptions);
+		final List<Entity> entities = preparedQuery.asList(fetchOptions);
+		int count = 0;
+		for (final Entity entity : entities) {
+			final String loverId;
+			loverId = (String) entity.getProperty(projectionProperty);
+			if (loverId != null && loverId.equals("") == false) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 	public static int countVersions(final int num) {
@@ -127,6 +143,101 @@ public class StoryPage extends Model {
 		final List<Entity> entities = preparedQuery.asList(fetchOptions);
 		final List<StoryPage> pages = getPgsFromEntities(entities);
 		return pages;
+	}
+
+	public static List<StoryPage> getFirstPgsMatchingTag(final String tag) {
+		final PreparedQuery preparedQuery = 
+				getPreparedQueryForFirstPgsMatchingTag(tag);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		final List<Entity> entities = preparedQuery.asList(fetchOptions);
+		final List<StoryPage> pgs = new ArrayList<StoryPage>();
+		for (final Entity entity : entities) {
+			final StoryPage pg = new StoryPage(entity);
+			pgs.add(pg);
+		}
+		return pgs;
+	}
+
+	public static List<StoryPage> getPagesWrittenBy(String authorId, int start,
+			int end) {
+		final Query query = new Query(KIND_NAME);
+		query.addSort(BEGINNING_NUMBER_PROPERTY);
+		query.addSort(ID_NUMBER_PROPERTY);
+		query.addSort(ID_VERSION_PROPERTY);
+		final Filter filter = getAuthorIdFilter(authorId);
+		query.setFilter(filter);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final int limit = end - start;
+		final FetchOptions fetchOptions = FetchOptions.Builder.withLimit(limit);
+		final int offset = start;
+		fetchOptions.offset(offset);
+		List<Entity> entities = preparedQuery.asList(fetchOptions);
+		List<StoryPage> pgs = getPgsFromEntities(entities);
+		return pgs;
+	}
+
+	/**
+	 * @param pageId
+	 * @return
+	 */
+	public static StoryPage getParentOf(final PageId childId) {
+		childId.setVersion("a");
+		final StoryPage child = new StoryPage();
+		child.setId(childId);
+		child.read();
+		return child.getParent();
+	}
+
+	public static String getRandomVersion(final PageId id) {
+		id.setVersion("a");
+		final StoryPage pg = new StoryPage();
+		pg.setId(id);
+		pg.read();
+		if (pg.isInStore() == true) {
+			final long denominator = pg.calculateChanceDenominator();
+			Random generator = new Random();
+			int randomNum = generator.nextInt((int) denominator) + 1;
+			while (randomNum >= 0) {
+				final long numerator = pg.calculateChanceNumerator();
+				randomNum -= numerator;
+				if (randomNum >= 0) {
+					pg.incrementVersion();
+				}
+			}
+			final String version = pg.getId().getVersion();
+			return version;
+		} else {
+			return "a";
+		}
+	}
+
+	private static char convertNumToLetter(int num) {
+		Map<Integer, Character> map = new HashMap<Integer, Character>();
+		for (int i = 0; i < LETTERS.length; i++)
+			map.put(i + 1, LETTERS[i]);
+		return map.get(num);
+	}
+
+	private static int countLoversOfAllVersions(final int pgNum) {
+		final Query query = new Query(KIND_NAME);
+		Projection loversProjection;
+		String propertyName = LOVING_USERS_PROPERTY;
+		loversProjection = new PropertyProjection(propertyName, String.class);
+		query.addProjection(loversProjection);
+		FilterPredicate filter;
+		filter = Query.FilterOperator.EQUAL.of(ID_NUMBER_PROPERTY, pgNum);
+		query.setFilter(filter);
+		final DatastoreService store = getStore();
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		final List<Entity> entities = store.prepare(query).asList(fetchOptions);
+		int count = 0;
+		for (final Entity entity : entities) {
+			if (entity.getProperty(LOVING_USERS_PROPERTY) != null) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 	private static Filter getAuthorIdFilter(String authorId) {
@@ -178,7 +289,6 @@ public class StoryPage extends Model {
 		final Long num = (Long) entity.getProperty(ID_NUMBER_PROPERTY);
 		return num.intValue();
 	}
-
 	/**
 	 * Builds a filter to restrict a query to a particular ID version. This will
 	 * probably not be very useful without other query filters.
@@ -193,7 +303,6 @@ public class StoryPage extends Model {
 		final String value = version;
 		return new FilterPredicate(propertyName, operator, value);
 	}
-
 	/**
 	 * Returns the version component of the story page ID from the given entity.
 	 * 
@@ -204,38 +313,6 @@ public class StoryPage extends Model {
 	private static String getIdVersionFromEntity(final Entity entity) {
 		return (String) entity.getProperty(ID_VERSION_PROPERTY);
 	}
-
-	public static List<StoryPage> getPagesWrittenBy(String authorId, int start,
-			int end) {
-		final Query query = new Query(KIND_NAME);
-		query.addSort(BEGINNING_NUMBER_PROPERTY);
-		query.addSort(ID_NUMBER_PROPERTY);
-		query.addSort(ID_VERSION_PROPERTY);
-		final Filter filter = getAuthorIdFilter(authorId);
-		query.setFilter(filter);
-		final DatastoreService store = getStore();
-		final PreparedQuery preparedQuery = store.prepare(query);
-		final int limit = end - start;
-		final FetchOptions fetchOptions = FetchOptions.Builder.withLimit(limit);
-		final int offset = start;
-		fetchOptions.offset(offset);
-		List<Entity> entities = preparedQuery.asList(fetchOptions);
-		List<StoryPage> pgs = getPgsFromEntities(entities);
-		return pgs;
-	}
-
-	/**
-	 * @param pageId
-	 * @return
-	 */
-	public static StoryPage getParentOf(final PageId childId) {
-		childId.setVersion("a");
-		final StoryPage child = new StoryPage();
-		child.setId(childId);
-		child.read();
-		return child.getParent();
-	}
-
 	private static List<StoryPage> getPgsFromEntities(
 			final List<Entity> entities) {
 		final List<StoryPage> pgs = new ArrayList<StoryPage>();
@@ -245,41 +322,68 @@ public class StoryPage extends Model {
 		}
 		return pgs;
 	}
-
-	public static String getRandomVersion(final PageId id) {
-		id.setVersion("a");
-		final StoryPage pg = new StoryPage();
-		pg.setId(id);
-		pg.read();
-		if (pg.isInStore() == true) {
-			final long denominator = pg.calculateChanceDenominator();
-			Random generator = new Random();
-			int randomNum = generator.nextInt((int) denominator) + 1;
-			while (randomNum >= 0) {
-				final long numerator = pg.calculateChanceNumerator();
-				randomNum -= numerator;
-				if (randomNum >= 0) {
-					pg.incrementVersion();
-				}
-			}
-			final String version = pg.getId().getVersion();
-			return version;
-		} else {
-			return "a";
-		}
+	private static PreparedQuery getPreparedQueryForFirstPgsMatchingTag(
+			final String tag) {
+		final Query query = new Query(KIND_NAME);
+		String propertyName = IS_FIRST_PG_PROPERTY;
+		FilterOperator operator = FilterOperator.EQUAL;
+		final Filter isFirstPgFilter;
+		isFirstPgFilter = new FilterPredicate(propertyName, operator, true);
+		propertyName = TAGS_PROPERTY;
+		final String propertyVal = tag;
+		final Filter tagFilter;
+		tagFilter = new FilterPredicate(propertyName, operator, propertyVal);
+		final Filter filter;
+		filter = CompositeFilterOperator.and(isFirstPgFilter, tagFilter);
+		query.setFilter(filter);
+		query.addSort(ID_NUMBER_PROPERTY);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		return preparedQuery;
 	}
-
+	/**
+	 * @param greater
+	 * @param less
+	 * @return
+	 */
+	static int countSubtreeBetween(final String greater, final String less) {
+		final Query query = new Query(KIND_NAME);
+		final String propertyName = ANCESTRY_PROPERTY;
+		FilterOperator operator = FilterOperator.GREATER_THAN;
+		
+		// TODO(Matt Heard) Clarify names of 'greater' and 'less' variables.
+		String value = greater;
+		final Filter greaterFilter;
+		greaterFilter = new FilterPredicate(propertyName, operator, value);
+		operator = FilterOperator.LESS_THAN;
+		value = less;
+		final Filter lessFilter;
+		lessFilter = new FilterPredicate(propertyName, operator, value);
+		final Filter filter;
+		filter = CompositeFilterOperator.and(greaterFilter, lessFilter);
+		query.setFilter(filter);
+		final DatastoreService store = getStore();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+		return preparedQuery.countEntities(fetchOptions);
+	}
 	private List<PageId> ancestry;
 	private String authorId;
 	private String authorName;
 	private PageId beginning;
 	private String chance;
 	private List<String> formerlyLovingUsers;
+
 	private PageId id;
+
 	private List<String> lovingUsers;
+
 	private StoryPage parent;
+
 	private List<String> tags;
+
 	private Text text;
+
 	private boolean isFirstPg;
 
 	public StoryPage() {
@@ -288,6 +392,246 @@ public class StoryPage extends Model {
 
 	public StoryPage(final Entity entity) {
 		this.readPropertiesFromEntity(entity);
+	}
+
+	public boolean addTag(final String tag) {
+		final List<String> tags = this.getTags();
+		final boolean isDuplicate = tags.contains(tag);
+		if (isDuplicate == false) {
+			tags.add(tag);
+			this.setTags(tags);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public void create() {
+		this.generateAncestry();
+		this.determineWhetherFirstPg();
+		super.create();
+	}
+
+	public void determineWhetherFirstPg() {
+		final PageId beginningId = this.getBeginning();
+		final int beginningNum = beginningId.getNumber();
+
+		final PageId pgId = this.getId();
+		final int pgNum = pgId.getNumber();
+
+		final boolean isFirstPg = (beginningNum == pgNum);
+		this.setFirstPg(isFirstPg);
+	}
+
+	/**
+     * 
+     */
+	public void generateAncestry() {
+		final StoryPage parent = this.getParent();
+		final List<PageId> ancestry;
+		if (parent != null) {
+			parent.read();
+			ancestry = parent.getAncestry();
+		} else {
+			ancestry = new ArrayList<PageId>();
+		}
+		final PageId id = this.getId();
+		ancestry.add(id);
+		this.setAncestry(ancestry);
+	}
+
+	/**
+	 * @return ancestry The list of pages that lead to this page.
+	 */
+	public List<PageId> getAncestry() {
+		return this.ancestry;
+	}
+
+	public String getAuthorId() {
+		return this.authorId;
+	}
+
+	public String getAuthorName() {
+		return this.authorName;
+	}
+
+	public PageId getBeginning() {
+		return this.beginning;
+	}
+
+	/**
+	 * @return
+	 */
+	public String getChance() {
+		if (this.chance == null) {
+			this.calculateChance();
+		}
+		return this.chance;
+	}
+
+	/**
+	 * @return
+	 */
+	public List<String> getFormerlyLovingUsers() {
+		return this.formerlyLovingUsers;
+	}
+
+	/**
+	 * Returns the ID of this story page.
+	 * 
+	 * @return The ID of this story page
+	 */
+	public PageId getId() {
+		return id;
+	}
+
+	public String getLongSummary() {
+		final Text text = this.getText();
+		if (text != null) {
+			final String full = text.getValue();
+			return summarise(full, 100);
+		} else {
+			return "This page has not been written yet.";
+		}
+	}
+
+	/**
+	 * @return
+	 */
+	public List<String> getLovingUsers() {
+		return this.lovingUsers;
+	}
+
+	/**
+	 * @return
+	 */
+	public int getNumLovingUsers() {
+		final List<String> lovingUsers = this.getLovingUsers();
+		return lovingUsers.size();
+	}
+
+	/**
+	 * @return
+	 */
+	public StoryPage getParent() {
+		return this.parent;
+	}
+
+	public String getSummary() {
+		final Text text = this.getText();
+		final String full = text.getValue();
+		return summarise(full, MAX_SUMMARY_LEN);
+	}
+
+	public List<String> getTags() {
+		if (this.tags == null) {
+			this.initTags();
+		}
+		return this.tags;
+	}
+
+	/**
+	 * Returns the text of this story page.
+	 * 
+	 * @return The text of this story page
+	 */
+	public Text getText() {
+		return this.text;
+	}
+
+	public boolean isFirstPg() {
+		return this.isFirstPg;
+	}
+
+	/**
+	 * @param userId
+	 * @return
+	 */
+	public boolean isLovedBy(final String userId) {
+		final List<String> lovingUsers = this.getLovingUsers();
+		return lovingUsers.contains(userId);
+	}
+
+	public boolean removeTag(final String tag) {
+		final List<String> tags = this.getTags();
+		boolean isUpdateNeeded = false;
+		while (tags.contains(tag)) {
+			tags.remove(tag);
+			isUpdateNeeded = true;
+		}
+		if (isUpdateNeeded) {
+			this.setTags(tags);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void setAuthorId(final String authorId) {
+		this.authorId = authorId;
+	}
+
+	public void setAuthorName(final String authorName) {
+		this.authorName = authorName;
+	}
+
+	public void setBeginning(PageId beginning) {
+		this.beginning = beginning;
+	}
+
+	/**
+	 * @param users
+	 */
+	public void setFormerlyLovingUsers(final List<String> users) {
+		this.formerlyLovingUsers = users;
+	}
+
+	/**
+	 * Sets the ID of this story page.
+	 * 
+	 * @param id
+	 *            The new ID for this story page
+	 */
+	public void setId(final PageId id) {
+		this.id = id;
+		final PageId beginning = this.getBeginning();
+		if (beginning == null) {
+			this.setBeginning(id);
+		}
+	}
+
+	/**
+	 * @param lovingUsers
+	 */
+	public void setLovingUsers(final List<String> lovingUsers) {
+		this.lovingUsers = lovingUsers;
+	}
+
+	public void setParent(final StoryPage parent) {
+		this.parent = parent;
+	}
+
+	/**
+	 * Sets the text of this story page.
+	 * 
+	 * @param string
+	 *            The new text for this story page
+	 */
+	public void setText(final String string) {
+		final Text text = new Text(string);
+		this.setText(text);
+	}
+
+	public void setText(final Text text) {
+		this.text = text;
+	}
+
+	@Override
+	public String toString() {
+		final PageId id = this.getId();
+		final String summary = this.getText().toString();
+		return "{ " + id + ": " + summary + " }";
 	}
 
 	/**
@@ -336,6 +680,99 @@ public class StoryPage extends Model {
 				+ (loveDenominator * loveInfluence);
 	}
 
+	/**
+	 * @return
+	 */
+	private int calculateChanceNumerator() {
+		final int sizeNumerator = this.getSizeNumerator();
+		final int sizeInfluence = this.getSizeInfluence();
+		final int loveNumerator = this.getLoveNumerator();
+		final int loveInfluence = this.getLoveInfluence();
+		return (sizeNumerator * sizeInfluence)
+				+ (loveNumerator + loveInfluence);
+	}
+
+	/**
+	 * @param entity
+	 * @return
+	 */
+	private List<PageId> getAncestryFromEntity(final Entity entity) {
+		final String str = (String) entity.getProperty(ANCESTRY_PROPERTY);
+		return parseAncestry(str);
+	}
+
+	private String getAuthorIdFromEntity(final Entity entity) {
+		return (String) entity.getProperty(AUTHOR_ID_PROPERTY);
+	}
+
+	private String getAuthorNameFromEntity(final Entity entity) {
+		return (String) entity.getProperty(AUTHOR_NAME_PROPERTY);
+	}
+
+	private int getBeginningNumFromEntity(final Entity entity) {
+		final String property = BEGINNING_NUMBER_PROPERTY;
+		final Long num = (Long) entity.getProperty(property);
+		if (num != null) {
+			return num.intValue();
+		} else {
+			return 0;
+		}
+	}
+
+	private String getBeginningVersionFromEntity(final Entity entity) {
+		return (String) entity.getProperty(BEGINNING_VERSION_PROPERTY);
+	}
+
+	/**
+	 * @param entity
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private List<String> getFormerlyLovingUsersFromEntity(final Entity entity) {
+		final String property = FORMERLY_LOVING_USERS_PROPERTY;
+		return (List<String>) entity.getProperty(property);
+	}
+
+	private boolean getIsFirstPgFromEntity(final Entity entity) {
+		final String propertyName = IS_FIRST_PG_PROPERTY;
+		final Boolean property = (Boolean) entity.getProperty(propertyName);
+		if (property != null) {
+			return property.booleanValue();
+		} else {
+			return false;
+		}
+	}
+
+	private int getLoveDenominator() {
+		final int numLoversOfAllVersions = this.getNumLoversOfAllVersions();
+		return numLoversOfAllVersions;
+	}
+
+	private int getLoveInfluence() {
+		return LOVE_INFLUENCE;
+	}
+
+	private int getLoveNumerator() {
+		final int numLoversOfThisPg = this.getNumLovingUsers();
+		return numLoversOfThisPg;
+	}
+
+	/**
+	 * @param entity
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private List<String> getLovingUsersFromEntity(final Entity entity) {
+		return (List<String>) entity.getProperty(LOVING_USERS_PROPERTY);
+	}
+
+	private int getNumLoversOfAllVersions() {
+		final PageId id = this.getId();
+		final int pgNum = id.getNumber();
+		final int numLovers = StoryPage.countLoversOfAllVersions(pgNum);
+		return numLovers;
+	}
+
 	private int getSizeDenominator() {
 		if (this.isTheFirstPage()) {
 			/*
@@ -354,241 +791,12 @@ public class StoryPage extends Model {
 		}
 	}
 
-	/**
-	 * @return
-	 */
-	private int calculateChanceNumerator() {
-		final int sizeNumerator = this.getSizeNumerator();
-		final int sizeInfluence = this.getSizeInfluence();
-		final int loveNumerator = this.getLoveNumerator();
-		final int loveInfluence = this.getLoveInfluence();
-		return (sizeNumerator * sizeInfluence)
-				+ (loveNumerator + loveInfluence);
-	}
-
-	private int getLoveDenominator() {
-		final int numLoversOfAllVersions = this.getNumLoversOfAllVersions();
-		return numLoversOfAllVersions;
-	}
-
-	private int getNumLoversOfAllVersions() {
-		final PageId id = this.getId();
-		final int pgNum = id.getNumber();
-		final int numLovers = StoryPage.countLoversOfAllVersions(pgNum);
-		return numLovers;
-	}
-
-	private static int countLoversOfAllVersions(final int pgNum) {
-		final Query query = new Query(KIND_NAME);
-		Projection loversProjection;
-		String propertyName = LOVING_USERS_PROPERTY;
-		loversProjection = new PropertyProjection(propertyName, String.class);
-		query.addProjection(loversProjection);
-		FilterPredicate filter;
-		filter = Query.FilterOperator.EQUAL.of(ID_NUMBER_PROPERTY, pgNum);
-		query.setFilter(filter);
-		final DatastoreService store = getStore();
-		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		final List<Entity> entities = store.prepare(query).asList(fetchOptions);
-		int count = 0;
-		for (final Entity entity : entities) {
-			if (entity.getProperty(LOVING_USERS_PROPERTY) != null) {
-				count++;
-			}
-		}
-		return count;
-	}
-
-	private int getLoveNumerator() {
-		final int numLoversOfThisPg = this.getNumLovingUsers();
-		return numLoversOfThisPg;
-	}
-
-	private int getLoveInfluence() {
-		return LOVE_INFLUENCE;
-	}
-
 	private int getSizeInfluence() {
 		return SIZE_INFLUENCE;
 	}
 
 	private int getSizeNumerator() {
 		return this.getSizeOfSubtree() + 1;
-	}
-
-	@Override
-	public void create() {
-		this.generateAncestry();
-		this.determineWhetherFirstPg();
-		super.create();
-	}
-
-	public void determineWhetherFirstPg() {
-		final PageId beginningId = this.getBeginning();
-		final int beginningNum = beginningId.getNumber();
-
-		final PageId pgId = this.getId();
-		final int pgNum = pgId.getNumber();
-
-		final boolean isFirstPg = (beginningNum == pgNum);
-		this.setFirstPg(isFirstPg);
-	}
-
-	/**
-     * 
-     */
-	public void generateAncestry() {
-		final StoryPage parent = this.getParent();
-		final List<PageId> ancestry;
-		if (parent != null) {
-			parent.read();
-			ancestry = parent.getAncestry();
-		} else {
-			ancestry = new ArrayList<PageId>();
-		}
-		final PageId id = this.getId();
-		ancestry.add(id);
-		this.setAncestry(ancestry);
-	}
-
-	/**
-	 * @return ancestry The list of pages that lead to this page.
-	 */
-	public List<PageId> getAncestry() {
-		return this.ancestry;
-	}
-
-	/**
-	 * @param entity
-	 * @return
-	 */
-	private List<PageId> getAncestryFromEntity(final Entity entity) {
-		final String str = (String) entity.getProperty(ANCESTRY_PROPERTY);
-		return parseAncestry(str);
-	}
-
-	public String getAuthorId() {
-		return this.authorId;
-	}
-
-	private String getAuthorIdFromEntity(final Entity entity) {
-		return (String) entity.getProperty(AUTHOR_ID_PROPERTY);
-	}
-
-	public String getAuthorName() {
-		return this.authorName;
-	}
-
-	private String getAuthorNameFromEntity(final Entity entity) {
-		return (String) entity.getProperty(AUTHOR_NAME_PROPERTY);
-	}
-
-	public PageId getBeginning() {
-		return this.beginning;
-	}
-
-	private int getBeginningNumFromEntity(final Entity entity) {
-		final String property = BEGINNING_NUMBER_PROPERTY;
-		final Long num = (Long) entity.getProperty(property);
-		if (num != null) {
-			return num.intValue();
-		} else {
-			return 0;
-		}
-	}
-
-	private String getBeginningVersionFromEntity(final Entity entity) {
-		return (String) entity.getProperty(BEGINNING_VERSION_PROPERTY);
-	}
-
-	/**
-	 * @return
-	 */
-	public String getChance() {
-		if (this.chance == null) {
-			this.calculateChance();
-		}
-		return this.chance;
-	}
-
-	/**
-	 * @return
-	 */
-	public List<String> getFormerlyLovingUsers() {
-		return this.formerlyLovingUsers;
-	}
-
-	/**
-	 * @param entity
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	private List<String> getFormerlyLovingUsersFromEntity(final Entity entity) {
-		final String property = FORMERLY_LOVING_USERS_PROPERTY;
-		return (List<String>) entity.getProperty(property);
-	}
-
-	/**
-	 * Returns the ID of this story page.
-	 * 
-	 * @return The ID of this story page
-	 */
-	public PageId getId() {
-		return id;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.deuteriumlabs.dendrite.model.Model#getKindName()
-	 */
-	@Override
-	String getKindName() {
-		return KIND_NAME;
-	}
-
-	/**
-	 * @return
-	 */
-	public List<String> getLovingUsers() {
-		return this.lovingUsers;
-	}
-
-	/**
-	 * @param entity
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	private List<String> getLovingUsersFromEntity(final Entity entity) {
-		return (List<String>) entity.getProperty(LOVING_USERS_PROPERTY);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.deuteriumlabs.dendrite.model.Model#getMatchingQuery()
-	 */
-	@Override
-	Query getMatchingQuery() {
-		final Query query = new Query(KIND_NAME);
-		final PageId id = this.getId();
-		final Filter filter = getIdFilter(id);
-		return query.setFilter(filter);
-	}
-
-	/**
-	 * @return
-	 */
-	public int getNumLovingUsers() {
-		final List<String> lovingUsers = this.getLovingUsers();
-		return lovingUsers.size();
-	}
-
-	/**
-	 * @return
-	 */
-	public StoryPage getParent() {
-		return this.parent;
 	}
 
 	/**
@@ -636,30 +844,9 @@ public class StoryPage extends Model {
 		return StoryPage.countSubtreeBetween(greater, less);
 	}
 
-	public List<String> getTags() {
-		if (this.tags == null) {
-			this.initTags();
-		}
-		return this.tags;
-	}
-
-	private void initTags() {
-		final List<String> tags = new ArrayList<String>();
-		this.setTags(tags);
-	}
-
 	@SuppressWarnings("unchecked")
 	private List<String> getTagsFromEntity(final Entity entity) {
 		return (List<String>) entity.getProperty(TAGS_PROPERTY);
-	}
-
-	/**
-	 * Returns the text of this story page.
-	 * 
-	 * @return The text of this story page
-	 */
-	public Text getText() {
-		return this.text;
 	}
 
 	/**
@@ -681,13 +868,9 @@ public class StoryPage extends Model {
 		this.read();
 	}
 
-	/**
-	 * @param userId
-	 * @return
-	 */
-	public boolean isLovedBy(final String userId) {
-		final List<String> lovingUsers = this.getLovingUsers();
-		return lovingUsers.contains(userId);
+	private void initTags() {
+		final List<String> tags = new ArrayList<String>();
+		this.setTags(tags);
 	}
 
 	/**
@@ -772,6 +955,11 @@ public class StoryPage extends Model {
 		this.setId(id);
 	}
 
+	private void readIsFirstPgFromEntity(final Entity entity) {
+		final boolean isFirstPg = getIsFirstPgFromEntity(entity);
+		this.setFirstPg(isFirstPg);
+	}
+
 	/**
 	 * @param entity
 	 */
@@ -781,46 +969,6 @@ public class StoryPage extends Model {
 			users = new ArrayList<String>();
 		}
 		this.setLovingUsers(users);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.deuteriumlabs.dendrite.model.Model#readPropertiesFromEntity(com.google
-	 * .appengine.api.datastore.Entity)
-	 */
-	@Override
-	void readPropertiesFromEntity(final Entity entity) {
-		this.readAncestryFromEntity(entity);
-		this.readIdFromEntity(entity);
-		this.readTextFromEntity(entity);
-		this.readBeginningFromEntity(entity);
-		this.readAuthorNameFromEntity(entity);
-		this.readAuthorIdFromEntity(entity);
-		this.readLovingUsersFromEntity(entity);
-		this.readFormerlyLovingUsersFromEntity(entity);
-		this.readTagsFromEntity(entity);
-		this.readIsFirstPgFromEntity(entity);
-	}
-
-	private void readIsFirstPgFromEntity(final Entity entity) {
-		final boolean isFirstPg = getIsFirstPgFromEntity(entity);
-		this.setFirstPg(isFirstPg);
-	}
-
-	private void setFirstPg(final boolean isFirstPg) {
-		this.isFirstPg = isFirstPg;
-	}
-
-	private boolean getIsFirstPgFromEntity(final Entity entity) {
-		final String propertyName = IS_FIRST_PG_PROPERTY;
-		final Boolean property = (Boolean) entity.getProperty(propertyName);
-		if (property != null) {
-			return property.booleanValue();
-		} else {
-			return false;
-		}
 	}
 
 	private void readTagsFromEntity(final Entity entity) {
@@ -865,10 +1013,6 @@ public class StoryPage extends Model {
 		entity.setProperty(ANCESTRY_PROPERTY, entityVal);
 	}
 
-	public void setAuthorId(final String authorId) {
-		this.authorId = authorId;
-	}
-
 	private void setAuthorIdInEntity(final Entity entity) {
 		final String authorId = this.getAuthorId();
 		if (authorId != null) {
@@ -876,19 +1020,11 @@ public class StoryPage extends Model {
 		}
 	}
 
-	public void setAuthorName(final String authorName) {
-		this.authorName = authorName;
-	}
-
 	private void setAuthorNameInEntity(final Entity entity) {
 		final String authorName = this.getAuthorName();
 		if (authorName != null) {
 			entity.setProperty(AUTHOR_NAME_PROPERTY, authorName);
 		}
-	}
-
-	public void setBeginning(PageId beginning) {
-		this.beginning = beginning;
 	}
 
 	private void setBeginningInEntity(final Entity entity) {
@@ -906,11 +1042,8 @@ public class StoryPage extends Model {
 		this.chance = chance;
 	}
 
-	/**
-	 * @param users
-	 */
-	public void setFormerlyLovingUsers(final List<String> users) {
-		this.formerlyLovingUsers = users;
+	private void setFirstPg(final boolean isFirstPg) {
+		this.isFirstPg = isFirstPg;
 	}
 
 	/**
@@ -919,20 +1052,6 @@ public class StoryPage extends Model {
 	private void setFormerlyLovingUsersInEntity(final Entity entity) {
 		final List<String> users = this.getFormerlyLovingUsers();
 		entity.setProperty(FORMERLY_LOVING_USERS_PROPERTY, users);
-	}
-
-	/**
-	 * Sets the ID of this story page.
-	 * 
-	 * @param id
-	 *            The new ID for this story page
-	 */
-	public void setId(final PageId id) {
-		this.id = id;
-		final PageId beginning = this.getBeginning();
-		if (beginning == null) {
-			this.setBeginning(id);
-		}
 	}
 
 	/**
@@ -950,11 +1069,9 @@ public class StoryPage extends Model {
 		entity.setProperty(ID_VERSION_PROPERTY, version);
 	}
 
-	/**
-	 * @param lovingUsers
-	 */
-	public void setLovingUsers(final List<String> lovingUsers) {
-		this.lovingUsers = lovingUsers;
+	private void setIsFirstPgInEntity(final Entity entity) {
+		final boolean isFirstPg = this.isFirstPg();
+		entity.setProperty(IS_FIRST_PG_PROPERTY, isFirstPg);
 	}
 
 	/**
@@ -963,10 +1080,6 @@ public class StoryPage extends Model {
 	private void setLovingUsersInEntity(final Entity entity) {
 		final List<String> lovingUsers = this.getLovingUsers();
 		entity.setProperty(LOVING_USERS_PROPERTY, lovingUsers);
-	}
-
-	public void setParent(final StoryPage parent) {
-		this.parent = parent;
 	}
 
 	/**
@@ -985,6 +1098,81 @@ public class StoryPage extends Model {
 		}
 	}
 
+	private void setTags(final List<String> tags) {
+		this.tags = tags;
+	}
+
+	private void setTagsInEntity(final Entity entity) {
+		final List<String> tags = this.getTags();
+		entity.setProperty(TAGS_PROPERTY, tags);
+	}
+
+	/**
+	 * Sets the value in the entity corresponding to the text of this story
+	 * page.
+	 * 
+	 * @param entity
+	 *            The entity in which the value is to be stored
+	 */
+	private void setTextInEntity(Entity entity) {
+		final Text text = this.getText();
+		entity.setProperty(TEXT_PROPERTY, text);
+	}
+
+	private String summarise(final String full, final int len) {
+		final int fullSize = full.length();
+		if (fullSize < (len - 1))
+			return full;
+		else {
+			final String cropped = full.substring(0, (len - 1));
+			return cropped + ELLIPSIS;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.deuteriumlabs.dendrite.model.Model#getKindName()
+	 */
+	@Override
+	String getKindName() {
+		return KIND_NAME;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.deuteriumlabs.dendrite.model.Model#getMatchingQuery()
+	 */
+	@Override
+	Query getMatchingQuery() {
+		final Query query = new Query(KIND_NAME);
+		final PageId id = this.getId();
+		final Filter filter = getIdFilter(id);
+		return query.setFilter(filter);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.deuteriumlabs.dendrite.model.Model#readPropertiesFromEntity(com.google
+	 * .appengine.api.datastore.Entity)
+	 */
+	@Override
+	void readPropertiesFromEntity(final Entity entity) {
+		this.readAncestryFromEntity(entity);
+		this.readIdFromEntity(entity);
+		this.readTextFromEntity(entity);
+		this.readBeginningFromEntity(entity);
+		this.readAuthorNameFromEntity(entity);
+		this.readAuthorIdFromEntity(entity);
+		this.readLovingUsersFromEntity(entity);
+		this.readFormerlyLovingUsersFromEntity(entity);
+		this.readTagsFromEntity(entity);
+		this.readIsFirstPgFromEntity(entity);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1004,192 +1192,5 @@ public class StoryPage extends Model {
 		this.setFormerlyLovingUsersInEntity(entity);
 		this.setTagsInEntity(entity);
 		this.setIsFirstPgInEntity(entity);
-	}
-
-	private void setIsFirstPgInEntity(final Entity entity) {
-		final boolean isFirstPg = this.isFirstPg();
-		entity.setProperty(IS_FIRST_PG_PROPERTY, isFirstPg);
-	}
-
-	public boolean isFirstPg() {
-		return this.isFirstPg;
-	}
-
-	private void setTags(final List<String> tags) {
-		this.tags = tags;
-	}
-
-	private void setTagsInEntity(final Entity entity) {
-		final List<String> tags = this.getTags();
-		entity.setProperty(TAGS_PROPERTY, tags);
-	}
-
-	/**
-	 * Sets the text of this story page.
-	 * 
-	 * @param string
-	 *            The new text for this story page
-	 */
-	public void setText(final String string) {
-		final Text text = new Text(string);
-		this.setText(text);
-	}
-
-	public void setText(final Text text) {
-		this.text = text;
-	}
-
-	/**
-	 * Sets the value in the entity corresponding to the text of this story
-	 * page.
-	 * 
-	 * @param entity
-	 *            The entity in which the value is to be stored
-	 */
-	private void setTextInEntity(Entity entity) {
-		final Text text = this.getText();
-		entity.setProperty(TEXT_PROPERTY, text);
-	}
-
-	@Override
-	public String toString() {
-		final PageId id = this.getId();
-		final String summary = this.getText().toString();
-		return "{ " + id + ": " + summary + " }";
-	}
-
-	public boolean addTag(final String tag) {
-		final List<String> tags = this.getTags();
-		final boolean isDuplicate = tags.contains(tag);
-		if (isDuplicate == false) {
-			tags.add(tag);
-			this.setTags(tags);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public boolean removeTag(final String tag) {
-		final List<String> tags = this.getTags();
-		boolean isUpdateNeeded = false;
-		while (tags.contains(tag)) {
-			tags.remove(tag);
-			isUpdateNeeded = true;
-		}
-		if (isUpdateNeeded) {
-			this.setTags(tags);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public String getSummary() {
-		final Text text = this.getText();
-		final String full = text.getValue();
-		return summarise(full, MAX_SUMMARY_LEN);
-	}
-
-	public String getLongSummary() {
-		final Text text = this.getText();
-		if (text != null) {
-			final String full = text.getValue();
-			return summarise(full, 100);
-		} else {
-			return "This page has not been written yet.";
-		}
-	}
-
-	private String summarise(final String full, final int len) {
-		final int fullSize = full.length();
-		if (fullSize < (len - 1))
-			return full;
-		else {
-			final String cropped = full.substring(0, (len - 1));
-			return cropped + ELLIPSIS;
-		}
-	}
-
-	public static int countLoversBetween(final String greater, final String less) {
-		final Query query = new Query(KIND_NAME);
-		Class<String> type = String.class;
-		String projectionProperty = LOVING_USERS_PROPERTY;
-		final PropertyProjection projection;
-		projection = new PropertyProjection(projectionProperty, type);
-		query.addProjection(projection);
-		final String propertyName = ANCESTRY_PROPERTY;
-		FilterOperator operator = FilterOperator.GREATER_THAN;
-		String value = greater;
-		final Filter greaterFilter;
-		greaterFilter = new FilterPredicate(propertyName, operator, value);
-		operator = FilterOperator.LESS_THAN;
-		value = less;
-		final Filter lessFilter;
-		lessFilter = new FilterPredicate(propertyName, operator, value);
-		final Filter filter;
-		filter = CompositeFilterOperator.and(greaterFilter, lessFilter);
-		query.setFilter(filter);
-		final DatastoreService store = getStore();
-		final PreparedQuery preparedQuery = store.prepare(query);
-		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		final List<Entity> entities = preparedQuery.asList(fetchOptions);
-		int count = 0;
-		for (final Entity entity : entities) {
-			final String loverId;
-			loverId = (String) entity.getProperty(projectionProperty);
-			if (loverId != null && loverId.equals("") == false) {
-				count++;
-			}
-		}
-		return count;
-	}
-
-	public static List<StoryPage> getFirstPgsMatchingTag(final String tag) {
-		final PreparedQuery preparedQuery = 
-				getPreparedQueryForFirstPgsMatchingTag(tag);
-		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		final List<Entity> entities = preparedQuery.asList(fetchOptions);
-		final List<StoryPage> pgs = new ArrayList<StoryPage>();
-		for (final Entity entity : entities) {
-			final StoryPage pg = new StoryPage(entity);
-			pgs.add(pg);
-		}
-		return pgs;
-	}
-
-	private static PreparedQuery getPreparedQueryForFirstPgsMatchingTag(
-			final String tag) {
-		final Query query = new Query(KIND_NAME);
-		String propertyName = IS_FIRST_PG_PROPERTY;
-		FilterOperator operator = FilterOperator.EQUAL;
-		final Filter isFirstPgFilter;
-		isFirstPgFilter = new FilterPredicate(propertyName, operator, true);
-		propertyName = TAGS_PROPERTY;
-		final String propertyVal = tag;
-		final Filter tagFilter;
-		tagFilter = new FilterPredicate(propertyName, operator, propertyVal);
-		final Filter filter;
-		filter = CompositeFilterOperator.and(isFirstPgFilter, tagFilter);
-		query.setFilter(filter);
-		query.addSort(ID_NUMBER_PROPERTY);
-		final DatastoreService store = getStore();
-		final PreparedQuery preparedQuery = store.prepare(query);
-		return preparedQuery;
-	}
-
-	public static int countAllPgs() {
-		final Query query = new Query(KIND_NAME);
-		final DatastoreService store = getStore();
-		final PreparedQuery preparedQuery = store.prepare(query);
-		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		return preparedQuery.countEntities(fetchOptions);
-	}
-	
-	public static int countFirstPgsMatchingTag(final String tag) {
-		final PreparedQuery preparedQuery =
-				getPreparedQueryForFirstPgsMatchingTag(tag);
-		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		return preparedQuery.countEntities(fetchOptions);
 	}
 }
