@@ -222,6 +222,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/removeTag</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>KeySetter</servlet-name>
+        <servlet-class>com.deuteriumlabs.dendrite.controller.KeySetter</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>KeySetter</servlet-name>
+        <url-pattern>/keySetter</url-pattern>
+    </servlet-mapping>
+    
 	<welcome-file-list>
 		<welcome-file>cover.jsp</welcome-file>
 	</welcome-file-list>
