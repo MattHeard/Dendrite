@@ -807,7 +807,7 @@ button, .button, .option {
 }
 
 .option.unwritten::after {
-	content: " âœŽ";
+	content: " ✎";
 }
 
 .darkTheme button, .darkTheme .button, .darkTheme .option {
