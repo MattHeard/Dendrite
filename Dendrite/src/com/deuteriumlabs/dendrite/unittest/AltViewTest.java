@@ -26,13 +26,9 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import com.deuteriumlabs.dendrite.view.AltView;
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class AltViewTest {
 
