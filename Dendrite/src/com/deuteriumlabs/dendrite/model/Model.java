@@ -18,6 +18,8 @@ import com.google.appengine.api.datastore.Query;
  * getting data from the Google App Engine datastore.
  */
 public abstract class Model {
+    private Entity entity = null;
+    
 	private static final String CREATION_DATE_PROPERTY = "creationDate";
 
 	/**
@@ -51,7 +53,7 @@ public abstract class Model {
 	 */
 	public void create() {
 		final String kindName = this.getKindName();
-		final Entity entity = createNewEntity(kindName);
+		entity = createNewEntity(kindName);
 		putEntityInStore(entity);
 	}
 
@@ -60,14 +62,16 @@ public abstract class Model {
 	 * store.
 	 */
 	public void delete() {
-		Entity entity = null;
-        try {
-            entity = this.getMatchingEntity();
-        } catch (EntityNotFoundException e) {
-            e.printStackTrace();
-        }
+		if (entity == null) {
+            try {
+                entity = this.getMatchingEntity();
+            } catch (EntityNotFoundException e) {
+                e.printStackTrace();
+            }
+		}
 		if (entity != null) {
 			deleteEntityByKey(entity);
+			entity = null;
 		}
 	}
 
@@ -91,12 +95,13 @@ public abstract class Model {
 	 * from the entity, and inserts those properties into this model instance.
 	 */
 	public void read() {
-		Entity entity = null;
-        try {
-            entity = this.getMatchingEntity();
-        } catch (EntityNotFoundException e) {
-            e.printStackTrace();
-        }
+	    if (entity == null) {
+            try {
+                entity = this.getMatchingEntity();
+            } catch (EntityNotFoundException e) {
+                e.printStackTrace();
+            }
+	    }
 		if (entity != null) {
 			this.readPropertiesFromEntity(entity);
 		}
@@ -107,12 +112,13 @@ public abstract class Model {
 	 * properties in that entity, and then puts it back in the datastore.
 	 */
 	public void update() {
-		Entity entity = null;
-        try {
-            entity = this.getMatchingEntity();
-        } catch (EntityNotFoundException e) {
-            e.printStackTrace();
-        }
+	    if (entity == null) {
+            try {
+                entity = this.getMatchingEntity();
+            } catch (EntityNotFoundException e) {
+                e.printStackTrace();
+            }
+	    }
 		if (entity != null) {
 			putEntityInStore(entity);
 		}
