@@ -6,6 +6,7 @@ import java.util.Date;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -59,7 +60,12 @@ public abstract class Model {
 	 * store.
 	 */
 	public void delete() {
-		final Entity entity = this.getMatchingEntity();
+		Entity entity = null;
+        try {
+            entity = this.getMatchingEntity();
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+        }
 		if (entity != null) {
 			deleteEntityByKey(entity);
 		}
@@ -85,7 +91,12 @@ public abstract class Model {
 	 * from the entity, and inserts those properties into this model instance.
 	 */
 	public void read() {
-		final Entity entity = this.getMatchingEntity();
+		Entity entity = null;
+        try {
+            entity = this.getMatchingEntity();
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+        }
 		if (entity != null) {
 			this.readPropertiesFromEntity(entity);
 		}
@@ -96,7 +107,12 @@ public abstract class Model {
 	 * properties in that entity, and then puts it back in the datastore.
 	 */
 	public void update() {
-		final Entity entity = this.getMatchingEntity();
+		Entity entity = null;
+        try {
+            entity = this.getMatchingEntity();
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+        }
 		if (entity != null) {
 			putEntityInStore(entity);
 		}
@@ -106,20 +122,6 @@ public abstract class Model {
 		final Key key = entity.getKey();
 		final DatastoreService store = getStore();
 		store.delete(key);
-	}
-
-	/**
-	 * Returns the entity matching this model instance. Returns
-	 * <code>null</code> if there is a problem.
-	 * 
-	 * @return The entity matching this model instance, or <code>null</code> if
-	 *         the retrieval fails
-	 */
-	private Entity getMatchingEntity() {
-		final DatastoreService store = getStore();
-		final Query query = this.getMatchingQuery();
-		final PreparedQuery preparedQuery = store.prepare(query);
-		return getSingleEntity(preparedQuery);
 	}
 
 	private void putEntityInStore(final Entity entity) {
@@ -136,6 +138,21 @@ public abstract class Model {
 
 	protected Entity createNewEntity(final String kindName) {
 		return new Entity(kindName);
+	}
+
+	/**
+	 * Returns the entity matching this model instance. Returns
+	 * <code>null</code> if there is a problem.
+	 *
+	 * @return The entity matching this model instance, or <code>null</code> if
+	 *         the retrieval fails
+	 * @throws EntityNotFoundException 
+	 */
+	protected Entity getMatchingEntity() throws EntityNotFoundException {
+		final DatastoreService store = getStore();
+		final Query query = this.getMatchingQuery();
+		final PreparedQuery preparedQuery = store.prepare(query);
+		return getSingleEntity(preparedQuery);
 	}
 
 	/**

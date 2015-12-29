@@ -7,9 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.google.appengine.api.datastore.AdminDatastoreService.KeyBuilder;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Projection;
 import com.google.appengine.api.datastore.PropertyProjection;
@@ -1199,4 +1203,14 @@ public class StoryPage extends Model {
 		final String key = this.getId().toString();
 		return new Entity(KIND_NAME, key);
 	}
+
+    @Override
+    protected Entity getMatchingEntity() throws EntityNotFoundException {
+        final Key key = getKey();
+        return getStore().get(key);
+    }
+
+    private Key getKey() {
+        return KeyFactory.createKey(KIND_NAME, id.toString());
+    }
 }
