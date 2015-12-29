@@ -292,6 +292,7 @@ public class StoryPage extends Model {
 		final Long num = (Long) entity.getProperty(ID_NUMBER_PROPERTY);
 		return num.intValue();
 	}
+	
 	/**
 	 * Builds a filter to restrict a query to a particular ID version. This will
 	 * probably not be very useful without other query filters.
@@ -306,6 +307,7 @@ public class StoryPage extends Model {
 		final String value = version;
 		return new FilterPredicate(propertyName, operator, value);
 	}
+	
 	/**
 	 * Returns the version component of the story page ID from the given entity.
 	 * 
@@ -316,6 +318,7 @@ public class StoryPage extends Model {
 	private static String getIdVersionFromEntity(final Entity entity) {
 		return (String) entity.getProperty(ID_VERSION_PROPERTY);
 	}
+	
 	private static List<StoryPage> getPgsFromEntities(
 			final List<Entity> entities) {
 		final List<StoryPage> pgs = new ArrayList<StoryPage>();
@@ -325,6 +328,7 @@ public class StoryPage extends Model {
 		}
 		return pgs;
 	}
+	
 	private static PreparedQuery getPreparedQueryForFirstPgsMatchingTag(
 			final String tag) {
 		final Query query = new Query(KIND_NAME);
@@ -344,6 +348,7 @@ public class StoryPage extends Model {
 		final PreparedQuery preparedQuery = store.prepare(query);
 		return preparedQuery;
 	}
+	
 	/**
 	 * @param greater
 	 * @param less
@@ -370,23 +375,18 @@ public class StoryPage extends Model {
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
 		return preparedQuery.countEntities(fetchOptions);
 	}
+	
 	private List<PageId> ancestry;
 	private String authorId;
 	private String authorName;
 	private PageId beginning;
 	private String chance;
 	private List<String> formerlyLovingUsers;
-
 	private PageId id;
-
 	private List<String> lovingUsers;
-
 	private StoryPage parent;
-
 	private List<String> tags;
-
 	private Text text;
-
 	private boolean isFirstPg;
 
 	public StoryPage() {
