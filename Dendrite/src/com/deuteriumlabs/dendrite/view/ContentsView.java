@@ -146,8 +146,7 @@ public class ContentsView extends View {
 	private int getNumberOfStories() {
 		final boolean isFiltered = this.isFiltered();
 		if (isFiltered) {
-			int size = this.getNumFilteredBeginnings();
-			return size;
+			return this.getNumFilteredBeginnings();
 		} else {
 			return StoryBeginning.countAllBeginnings();
 		}
