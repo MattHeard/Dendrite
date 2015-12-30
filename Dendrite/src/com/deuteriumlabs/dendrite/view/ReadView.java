@@ -34,12 +34,11 @@ public class ReadView extends View {
 	public ReadView() { }
 
 	public List<PageId> getAncestry() {
-		return this.getPage().getAncestry();
+		return page.getAncestry();
 	}
 
 	private User getAuthor() {
 		if (this.author == null) {
-			final StoryPage page = this.getPage();
 			final String userId = page.getAuthorId();
 			this.author = new User();
 			this.author.setId(userId);
@@ -54,12 +53,10 @@ public class ReadView extends View {
 	}
 
 	public String getAuthorId() {
-		final StoryPage page = this.getPage();
 		return page.getAuthorId();
 	}
 
 	public String getAuthorName() {
-		final StoryPage page = this.getPage();
 		return page.getAuthorName();
 	}
 
@@ -68,7 +65,6 @@ public class ReadView extends View {
 	}
 
 	public String getFirstUrl() {
-		final StoryPage page = this.getPage();
 		final PageId firstPageId = page.getBeginning();
 		return "read?p=" + firstPageId;
 	}
@@ -109,10 +105,6 @@ public class ReadView extends View {
 		return option.isConnected();
 	}
 
-	private StoryPage getPage() {
-		return this.page;
-	}
-
 	public PageId getPageId() {
 		return this.pageId;
 	}
@@ -124,7 +116,6 @@ public class ReadView extends View {
 	}
 
 	public String getPageText() {
-		final StoryPage page = this.getPage();
 		final Text text = page.getText();
 		if (text != null)
 			return text.getValue();
@@ -175,7 +166,6 @@ public class ReadView extends View {
 	}
 
 	public boolean isAuthorAnonymous() {
-		final StoryPage page = this.getPage();
 		final String authorId = page.getAuthorId();
 		return (authorId == null);
 	}
@@ -194,7 +184,6 @@ public class ReadView extends View {
 	}
 
 	public boolean isPageInStore() {
-		final StoryPage page = this.getPage();
 		return page.isInStore();
 	}
 
@@ -258,7 +247,7 @@ public class ReadView extends View {
 	}
 
 	public String getChance() {
-		return this.getPage().getChance();
+		return page.getChance();
 	}
 
 	public boolean isNotLoved() {
@@ -270,14 +259,12 @@ public class ReadView extends View {
 	 * @return
 	 */
 	public boolean isLoved() {
-		final StoryPage page = this.getPage();
 		final String userId = View.getMyUserId();
 		return page.isLovedBy(userId);
 	}
 
 	public int getNumLovingUsers() {
-		final StoryPage p = this.getPage();
-		return p.getNumLovingUsers();
+		return page.getNumLovingUsers();
 	}
 
 	public String getNumLovingUsersString() {
@@ -296,8 +283,7 @@ public class ReadView extends View {
 	}
 
 	public List<String> getTags() {
-		final StoryPage pg = this.getPage();
-		final List<String> tags = pg.getTags();
+		final List<String> tags = page.getTags();
 		return tags;
 	}
 
@@ -338,7 +324,6 @@ public class ReadView extends View {
 
 	@Override
 	protected String getMetaDesc() {
-		final StoryPage pg = this.getPage();
-		return pg.getLongSummary();
+		return page.getLongSummary();
 	}
 }
