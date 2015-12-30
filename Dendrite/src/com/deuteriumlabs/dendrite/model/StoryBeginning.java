@@ -347,7 +347,7 @@ public class StoryBeginning extends Model {
 	}
 
 	public static int countAllBeginnings() {
-		final Query query = new Query(KIND_NAME);
+		final Query query = new Query(KIND_NAME).setKeysOnly();
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
