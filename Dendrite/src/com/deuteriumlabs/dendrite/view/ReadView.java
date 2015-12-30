@@ -31,8 +31,7 @@ public class ReadView extends View {
 	private StoryPage page;
 	private PageId pageId;
 
-	public ReadView() {
-	}
+	public ReadView() { }
 
 	public List<PageId> getAncestry() {
 		return this.getPage().getAncestry();
