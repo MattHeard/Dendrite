@@ -38,13 +38,13 @@ public class ReadView extends View {
 	}
 
 	private User getAuthor() {
-		if (this.author == null) {
+		if (author == null) {
 			final String userId = page.getAuthorId();
-			this.author = new User();
-			this.author.setId(userId);
-			this.author.read();
+			author = new User();
+			author.setId(userId);
+			author.read();
 		}
-		return this.author;
+		return author;
 	}
 
 	public int getAuthorAvatarId() {
@@ -61,7 +61,7 @@ public class ReadView extends View {
 	}
 
 	private StoryBeginning getBeginning() {
-		return this.beginning;
+		return beginning;
 	}
 
 	public String getFirstUrl() {
@@ -70,15 +70,14 @@ public class ReadView extends View {
 	}
 
 	public int getNumberOfOptions() {
-		final PageId source = this.getPageId();
-		return StoryOption.countOptions(source);
+		return StoryOption.countOptions(pageId);
 	}
 
 	public String getOptionLink(final int index) {
 		final StoryOption option = getOptionByIndex(index);
 		final int target = option.getTarget();
 		if (target == 0) {
-			final PageId source = this.getPageId();
+			final PageId source = getPageId();
 			final String from = source.toString();
 			return "/write?from=" + from + "&linkIndex=" + index;
 		} else {
@@ -93,8 +92,7 @@ public class ReadView extends View {
 
 	private StoryOption getOptionByIndex(final int index) {
 		final StoryOption option = new StoryOption();
-		final PageId source = this.getPageId();
-		option.setSource(source);
+		option.setSource(pageId);
 		option.setListIndex(index);
 		option.read();
 		return option;
@@ -106,12 +104,11 @@ public class ReadView extends View {
 	}
 
 	public PageId getPageId() {
-		return this.pageId;
+		return pageId;
 	}
 
 	public String getPageNumber() {
-		final PageId id = this.getPageId();
-		final int number = id.getNumber();
+		final int number = pageId.getNumber();
 		return Integer.toString(number);
 	}
 
@@ -160,9 +157,7 @@ public class ReadView extends View {
 	 */
 	@Override
 	public String getUrl() {
-		final PageId idValue = this.getPageId();
-		final String idString = idValue.toString();
-		return "/read?p=" + idString;
+		return "/read?p=" + pageId.toString();
 	}
 
 	public boolean isAuthorAnonymous() {
@@ -176,8 +171,7 @@ public class ReadView extends View {
 	}
 
 	public boolean isBeginning() {
-		final PageId currPageId = this.getPageId();
-		final int currPageNumber = currPageId.getNumber();
+		final int currPageNumber = pageId.getNumber();
 		final StoryBeginning beginning = this.getBeginning();
 		final int beginningPageNumber = beginning.getPageNumber();
 		return (currPageNumber == beginningPageNumber);
@@ -188,9 +182,7 @@ public class ReadView extends View {
 	}
 
 	public boolean isShowingFirstPage() {
-		final PageId id = this.getPageId();
-		final int num = id.getNumber();
-		return (num == 1);
+		return (pageId.getNumber() == 1);
 	}
 
 	public void prepareNextPageNum() {
