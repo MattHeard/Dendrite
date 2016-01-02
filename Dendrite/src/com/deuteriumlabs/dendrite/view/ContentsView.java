@@ -2,6 +2,7 @@
 package com.deuteriumlabs.dendrite.view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -20,6 +21,7 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
  */
 public class ContentsView extends View {
     public class Link {
+        public PageId pageId;
         public String number;
         public String text;
         public String url;
@@ -32,12 +34,13 @@ public class ContentsView extends View {
     private static final int    NUM_STORIES_DISPLAYED               = 10;
     private static final String FILTER_PARAMETER_NAME               = "filter";
 
+    // OPTIMISE
+    // This function is called once per contents page link and each call makes
+    // a datastore query. This might be able to be optimised into a single
+    // query.
     public static List<String> getTags(final Link link) {
-        final String num = link.number;
-        final String version = link.version;
-        final PageId id = new PageId(num + version);
         final StoryPage pg = new StoryPage();
-        pg.setId(id);
+        pg.setId(new PageId(link.number + link.version));
         pg.read();
         return pg.getTags();
     }
@@ -76,8 +79,7 @@ public class ContentsView extends View {
             final List<String> versions = getPageVersions();
             final List<String> urls = getUrls(numbers, versions);
             final int length = texts.size();
-
-            final List<Link> links = new ArrayList<Link>();
+            links = new ArrayList<Link>();
             for (int i = 0; i < length; i++) {
                 final Link link = new Link();
                 link.url = urls.get(i);
@@ -86,10 +88,7 @@ public class ContentsView extends View {
                 link.version = versions.get(i);
                 links.add(link);
             }
-
-            setLinks(links);
         }
-
         return links;
     }
 
@@ -202,7 +201,6 @@ public class ContentsView extends View {
     }
 
     public void prepareLastPageLink() {
-        final String filter = getFilter();
         final int numContentPgs = getLastPageNumber();
         final String lastNum = Integer.toString(numContentPgs);
         String link = "/contents?p=" + lastNum;
@@ -227,7 +225,7 @@ public class ContentsView extends View {
         final String nextNum = getNextPageNumber();
         String link = "/contents?p=" + nextNum;
         if (isFiltered()) {
-            link += "&filter=" + getFilter();
+            link += "&filter=" + filter;
         }
         pageContext.setAttribute("nextLink", link);
     }
@@ -237,7 +235,7 @@ public class ContentsView extends View {
         final String prevNum = getPrevPageNumber();
         String link = "/contents?p=" + prevNum;
         if (isFiltered()) {
-            link += "&filter=" + getFilter();
+            link += "&filter=" + filter;
         }
         pageContext.setAttribute("prevLink", link);
     }
@@ -326,8 +324,7 @@ public class ContentsView extends View {
             unsortedMap.put(idNum, total);
         }
 
-        final Map<Integer, List<Integer>> sortedMap;
-        sortedMap = new TreeMap<Integer, List<Integer>>();
+        final Map<Integer, List<Integer>> sortedMap = new TreeMap<>();
         for (final int idNum : unsortedMap.keySet()) {
             final int weight = unsortedMap.get(idNum);
             List<Integer> idNums = sortedMap.remove(weight);
@@ -360,8 +357,7 @@ public class ContentsView extends View {
     }
 
     private int countFilteredBeginnings() {
-        final String tag = getFilter();
-        return StoryPage.countFirstPgsMatchingTag(tag);
+        return StoryPage.countFirstPgsMatchingTag(filter);
     }
 
     /**
@@ -393,12 +389,8 @@ public class ContentsView extends View {
         }
     }
 
-    private String getFilter() {
-        return filter;
-    }
-
     private List<StoryBeginning> getFilteredBeginnings() {
-        final String tag = getFilter();
+        final String tag = filter;
         final List<StoryPage> pgs = StoryPage.getFirstPgsMatchingTag(tag);
         setFirstPgsMatchingTag(pgs);
 
@@ -418,8 +410,7 @@ public class ContentsView extends View {
     }
 
     private int getFirstIndex() {
-        final int contentsPageNumber = getContentsPageNumber();
-        return (contentsPageNumber - 1) * NUM_STORIES_DISPLAYED;
+        return (getContentsPageNumber() - 1) * NUM_STORIES_DISPLAYED;
     }
 
     private int getLastPageNumber() {
@@ -458,17 +449,10 @@ public class ContentsView extends View {
     }
 
     private List<StoryPage> getPgsList(final int number) {
-        final Map<Integer, List<StoryPage>> map = getPgsMap();
-        final List<StoryPage> list = map.get(number);
-        return list;
-    }
-
-    private Map<Integer, List<StoryPage>> getPgsMap() {
-        return pgsMap;
+        return pgsMap.get(number);
     }
 
     private boolean isFiltered() {
-        final String filter = getFilter();
         return (filter != null) && (filter.length() > 0);
     }
 
@@ -479,8 +463,7 @@ public class ContentsView extends View {
      */
     private void readBeginnings() {
         final List<StoryBeginning> beginnings;
-        final boolean isFiltered = isFiltered();
-        if (isFiltered == false) {
+        if (isFiltered() == false) {
             final int first = getFirstIndex();
             final int last = first + NUM_STORIES_DISPLAYED;
             beginnings = StoryBeginning.getBeginnings(first, last);
@@ -488,6 +471,14 @@ public class ContentsView extends View {
             beginnings = getFilteredBeginnings();
         }
         setBeginnings(beginnings);
+        
+        // DEBUG
+        printTags();
+    }
+
+    private void printTags() {
+        Map<PageId, List<String>> tagMap = new HashMap<>();
+        System.out.println(tagMap);
     }
 
     private String selectByWeight(final List<StoryPage> pgs) {
