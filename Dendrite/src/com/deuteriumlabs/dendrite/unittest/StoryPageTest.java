@@ -8,7 +8,7 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
 
 public class StoryPageTest {
     @Test
-    public void testBlankStoryPage() {
+    public void testBlankStoryPageHasNoBeginning() {
         final StoryPage storyPage = new StoryPage();
         assertEquals(storyPage.getBeginning(), null);
     }
