@@ -30,18 +30,21 @@ public class StoryPageTest {
         assertEquals(storyPage.getLongSummary(), NOT_WRITTEN);
     }
 
+    // TODO Set up a test database and construct an existing StoryPage
     @Ignore(IMPLEMENT_ME)
     @Test
     public void testConstructorWithEntity() {
         fail(IMPLEMENT_ME);
     }
 
+    // TODO Set up a test database and create a StoryPage
     @Ignore(IMPLEMENT_ME)
     @Test
     public void testCreate() {
         fail(IMPLEMENT_ME);
     }
 
+    // TODO Set up a test database and query a created StoryPage
     @Ignore(IMPLEMENT_ME)
     @Test
     public void testGetAncestry() {
