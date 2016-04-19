@@ -3,6 +3,7 @@ package com.deuteriumlabs.dendrite.unittest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import com.deuteriumlabs.dendrite.model.StoryPage;
@@ -24,5 +25,11 @@ public class StoryPageTest {
         assertNull(storyPage.getParent());
         assertTrue(storyPage.getTags().isEmpty());
         assertEquals(storyPage.getLongSummary(), NOT_WRITTEN);
+    }
+
+    // TODO(Matt Heard): Implement with mock Entity
+    @Test
+    public void testConstructorWithEntity() {
+        fail("Not implemented yet");
     }
 }
