@@ -52,6 +52,7 @@ public class StoryPage extends Model {
     private static final int    LOVE_INFLUENCE                 = 1;
     private static final String IS_FIRST_PG_PROPERTY           = "isFirstPg";
 
+    // TODO(Matt Heard): Extract into service object
     public static String convertNumberToVersion(final int num) {
         final int lowNum = ((num - 1) % LEN_ALPHABET) + 1;
         final char lowLetter = convertNumToLetter(lowNum);
@@ -64,6 +65,7 @@ public class StoryPage extends Model {
         return versionStr;
     }
 
+    // TODO(Matt Heard): Move into Author object
     public static int countAllPagesWrittenBy(final String authorId) {
         final Query query = new Query(KIND_NAME);
         final Filter filter = getAuthorIdFilter(authorId);
@@ -74,6 +76,8 @@ public class StoryPage extends Model {
         return preparedQuery.countEntities(fetchOptions);
     }
 
+    // TODO(Matt Heard): Extract into service object
+    // TODO(Matt Heard): Investigate using Datastore statistics value instead
     public static int countAllPgs() {
         final Query query = new Query(KIND_NAME);
         final DatastoreService store = getStore();
@@ -82,6 +86,7 @@ public class StoryPage extends Model {
         return preparedQuery.countEntities(fetchOptions);
     }
 
+    // TODO(Matt Heard): Extract into service object
     public static int countFirstPgsMatchingTag(final String tag) {
         final PreparedQuery preparedQuery = getPreparedQueryForFirstPgsMatchingTag(
                 tag);
