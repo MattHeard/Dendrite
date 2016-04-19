@@ -23,12 +23,6 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Text;
 
-/**
- * Represents a page of a story. <code>StoryPage</code> instances act as nodes
- * in a tree to form a complete story. The unordered nature of the page IDs of
- * the pages in a story causes the branches of different stories to be
- * interwoven.
- */
 public class StoryPage extends Model {
     private static final String ELLIPSIS                       = "…";
     private static final int    MAX_SUMMARY_LEN                = 30;
@@ -185,10 +179,6 @@ public class StoryPage extends Model {
         return pgs;
     }
 
-    /**
-     * @param pageId
-     * @return
-     */
     public static StoryPage getParentOf(final PageId childId) {
         childId.setVersion("a");
         final StoryPage child = new StoryPage();
@@ -256,13 +246,6 @@ public class StoryPage extends Model {
         return new FilterPredicate(propertyName, operator, value);
     }
 
-    /**
-     * Builds a filter to restrict a query to a particular ID.
-     *
-     * @param id
-     *            The page ID to filter for
-     * @return The filter to apply to the query
-     */
     private static Filter getIdFilter(final PageId id) {
         final int num = id.getNumber();
         final Filter numFilter = getIdNumFilter(num);
@@ -271,15 +254,6 @@ public class StoryPage extends Model {
         return CompositeFilterOperator.and(numFilter, versionFilter);
     }
 
-    /**
-     * Builds a filter to restrict a query to a particular ID number. Without
-     * also applying a filter to restrict to a particular ID version, this will
-     * provide a collection of versions of one page in a story.
-     *
-     * @param num
-     *            The page number to filter for
-     * @return The filter to apply to the query
-     */
     private static Filter getIdNumFilter(final int num) {
         final String propertyName = ID_NUMBER_PROPERTY;
         final FilterOperator operator = FilterOperator.EQUAL;
@@ -287,26 +261,11 @@ public class StoryPage extends Model {
         return new FilterPredicate(propertyName, operator, value);
     }
 
-    /**
-     * Returns the number component of the story page ID from the given entity.
-     *
-     * @param entity
-     *            The entity containing the ID
-     * @return The number component of the story page ID
-     */
     private static int getIdNumFromEntity(final Entity entity) {
         final Long num = (Long) entity.getProperty(ID_NUMBER_PROPERTY);
         return num.intValue();
     }
 
-    /**
-     * Builds a filter to restrict a query to a particular ID version. This will
-     * probably not be very useful without other query filters.
-     *
-     * @param version
-     *            The page version to filter for
-     * @return The filter to apply to the query
-     */
     private static Filter getIdVersionFilter(final String version) {
         final String propertyName = ID_VERSION_PROPERTY;
         final FilterOperator operator = FilterOperator.EQUAL;
@@ -314,13 +273,6 @@ public class StoryPage extends Model {
         return new FilterPredicate(propertyName, operator, value);
     }
 
-    /**
-     * Returns the version component of the story page ID from the given entity.
-     *
-     * @param entity
-     *            The entity containing the ID
-     * @return The version component of the story page ID
-     */
     private static String getIdVersionFromEntity(final Entity entity) {
         return (String) entity.getProperty(ID_VERSION_PROPERTY);
     }
@@ -355,11 +307,6 @@ public class StoryPage extends Model {
         return preparedQuery;
     }
 
-    /**
-     * @param greater
-     * @param less
-     * @return
-     */
     static int countSubtreeBetween(final String greater, final String less) {
         final Query query = new Query(KIND_NAME);
         final String propertyName = ANCESTRY_PROPERTY;
@@ -439,9 +386,6 @@ public class StoryPage extends Model {
         setAncestry(ancestry);
     }
 
-    /**
-     * @return ancestry The list of pages that lead to this page.
-     */
     public List<PageId> getAncestry() {
         return ancestry;
     }
@@ -458,9 +402,6 @@ public class StoryPage extends Model {
         return beginning;
     }
 
-    /**
-     * @return
-     */
     public String getChance() {
         if (chance == null) {
             calculateChance();
@@ -468,18 +409,10 @@ public class StoryPage extends Model {
         return chance;
     }
 
-    /**
-     * @return
-     */
     public List<String> getFormerlyLovingUsers() {
         return formerlyLovingUsers;
     }
 
-    /**
-     * Returns the ID of this story page.
-     *
-     * @return The ID of this story page
-     */
     public PageId getId() {
         return id;
     }
@@ -516,11 +449,6 @@ public class StoryPage extends Model {
         return tags;
     }
 
-    /**
-     * Returns the text of this story page.
-     *
-     * @return The text of this story page
-     */
     public Text getText() {
         return text;
     }
@@ -529,10 +457,6 @@ public class StoryPage extends Model {
         return isFirstPg;
     }
 
-    /**
-     * @param userId
-     * @return
-     */
     public boolean isLovedBy(final String userId) {
         return lovingUsers.contains(userId);
     }
@@ -562,19 +486,10 @@ public class StoryPage extends Model {
         this.beginning = beginning;
     }
 
-    /**
-     * @param users
-     */
     public void setFormerlyLovingUsers(final List<String> users) {
         formerlyLovingUsers = users;
     }
 
-    /**
-     * Sets the ID of this story page.
-     *
-     * @param id
-     *            The new ID for this story page
-     */
     public void setId(final PageId id) {
         this.id = id;
         if (beginning == null) {
@@ -582,9 +497,6 @@ public class StoryPage extends Model {
         }
     }
 
-    /**
-     * @param lovingUsers
-     */
     public void setLovingUsers(final List<String> lovingUsers) {
         this.lovingUsers = lovingUsers;
     }
@@ -593,12 +505,6 @@ public class StoryPage extends Model {
         this.parent = parent;
     }
 
-    /**
-     * Sets the text of this story page.
-     *
-     * @param string
-     *            The new text for this story page
-     */
     public void setText(final String string) {
         text = new Text(string);
     }
@@ -646,9 +552,6 @@ public class StoryPage extends Model {
         setChance(numerator + "/" + denominator);
     }
 
-    /**
-     * @return
-     */
     private long calculateChanceDenominator() {
         final int sizeDenominator = getSizeDenominator();
         final int sizeInfluence = getSizeInfluence();
@@ -658,9 +561,6 @@ public class StoryPage extends Model {
                 + (loveDenominator * loveInfluence);
     }
 
-    /**
-     * @return
-     */
     private int calculateChanceNumerator() {
         final int sizeNumerator = getSizeNumerator();
         final int sizeInfluence = getSizeInfluence();
@@ -670,10 +570,6 @@ public class StoryPage extends Model {
                 + (loveNumerator + loveInfluence);
     }
 
-    /**
-     * @param entity
-     * @return
-     */
     private List<PageId> getAncestryFromEntity(final Entity entity) {
         final String ancestry = (String) entity.getProperty(ANCESTRY_PROPERTY);
         return parseAncestry(ancestry);
@@ -697,10 +593,6 @@ public class StoryPage extends Model {
         return (String) entity.getProperty(BEGINNING_VERSION_PROPERTY);
     }
 
-    /**
-     * @param entity
-     * @return
-     */
     @SuppressWarnings("unchecked")
     private List<String> getFormerlyLovingUsersFromEntity(final Entity entity) {
         return (List<String>) entity.getProperty(FORMERLY_LOVING_USERS_PROPERTY);
@@ -727,10 +619,6 @@ public class StoryPage extends Model {
         return getNumLovingUsers();
     }
 
-    /**
-     * @param entity
-     * @return
-     */
     @SuppressWarnings("unchecked")
     private List<String> getLovingUsersFromEntity(final Entity entity) {
         return (List<String>) entity.getProperty(LOVING_USERS_PROPERTY);
@@ -767,9 +655,6 @@ public class StoryPage extends Model {
         return getSizeOfSubtree() + 1;
     }
 
-    /**
-     * @return
-     */
     private int getSizeOfBeginningSubtree() {
         final int num = id.getNumber();
         final String greaterThanOrEqual = num + "`";
@@ -777,9 +662,6 @@ public class StoryPage extends Model {
         return StoryPage.countSubtreeBetween(greaterThanOrEqual, lessThan);
     }
 
-    /**
-     * @return
-     */
     private int getSizeOfSiblingSubtrees() {
         String subtreeAncestry = "";
         for (int i = 0; i < ancestry.size() - 1; i++) {
@@ -792,9 +674,6 @@ public class StoryPage extends Model {
         return StoryPage.countSubtreeBetween(greaterThanOrEqual, lessThan);
     }
 
-    /**
-     * @return
-     */
     private int getSizeOfSubtree() {
         String subtreeAncestry = "";
         for (int i = 0; i < ancestry.size(); i++) {
@@ -814,20 +693,10 @@ public class StoryPage extends Model {
         return (List<String>) entity.getProperty(TAGS_PROPERTY);
     }
 
-    /**
-     * Returns the text of the story page from the given entity.
-     *
-     * @param entity
-     *            The entity containing the text
-     * @return The text of the story page
-     */
     private Text getTextFromEntity(final Entity entity) {
         return (Text) entity.getProperty(TEXT_PROPERTY);
     }
 
-    /**
-     * @return
-     */
     private void incrementVersion() {
         id.incrementVersion();
         read();
@@ -845,10 +714,6 @@ public class StoryPage extends Model {
         return id.getNumber() == beginning.getNumber();
     }
 
-    /**
-     * @param str
-     * @return
-     */
     private List<PageId> parseAncestry(final String str) {
         final List<PageId> ancestry = new ArrayList<PageId>();
         if (str != null && str.equals("") == false) {
@@ -861,9 +726,6 @@ public class StoryPage extends Model {
         return ancestry;
     }
 
-    /**
-     * @param entity
-     */
     private void readAncestryFromEntity(final Entity entity) {
         final List<PageId> ancestry = getAncestryFromEntity(entity);
         setAncestry(ancestry);
@@ -892,9 +754,6 @@ public class StoryPage extends Model {
         }
     }
 
-    /**
-     * @param entity
-     */
     private void readFormerlyLovingUsersFromEntity(final Entity entity) {
         List<String> users = getFormerlyLovingUsersFromEntity(entity);
         if (users == null) {
@@ -903,13 +762,6 @@ public class StoryPage extends Model {
         setFormerlyLovingUsers(users);
     }
 
-    /**
-     * Reads the values from the entity corresponding to the ID of this story
-     * page.
-     *
-     * @param entity
-     *            The entity storing the ID
-     */
     private void readIdFromEntity(final Entity entity) {
         final PageId id = new PageId();
         final int num = getIdNumFromEntity(entity);
@@ -924,9 +776,6 @@ public class StoryPage extends Model {
         setFirstPg(isFirstPg);
     }
 
-    /**
-     * @param entity
-     */
     private void readLovingUsersFromEntity(final Entity entity) {
         List<String> users = getLovingUsersFromEntity(entity);
         if (users == null) {
@@ -943,28 +792,15 @@ public class StoryPage extends Model {
         setTags(tags);
     }
 
-    /**
-     * Reads the value from the entity corresponding to the text of this story
-     * page.
-     *
-     * @param entity
-     *            The entity storing the text
-     */
     private void readTextFromEntity(final Entity entity) {
         final Text text = getTextFromEntity(entity);
         this.setText(text);
     }
 
-    /**
-     * @param ancestry
-     */
     private void setAncestry(final List<PageId> ancestry) {
         this.ancestry = ancestry;
     }
 
-    /**
-     * @param entity
-     */
     private void setAncestryInEntity(final Entity entity) {
         final List<PageId> ancestry = getAncestry();
         String entityVal = "";
@@ -999,9 +835,6 @@ public class StoryPage extends Model {
         entity.setProperty(BEGINNING_VERSION_PROPERTY, version);
     }
 
-    /**
-     * @param chance
-     */
     private void setChance(final String chance) {
         this.chance = chance;
     }
@@ -1010,21 +843,11 @@ public class StoryPage extends Model {
         this.isFirstPg = isFirstPg;
     }
 
-    /**
-     * @param entity
-     */
     private void setFormerlyLovingUsersInEntity(final Entity entity) {
         final List<String> users = getFormerlyLovingUsers();
         entity.setProperty(FORMERLY_LOVING_USERS_PROPERTY, users);
     }
 
-    /**
-     * Sets the values in the entity corresponding to the ID for this story
-     * page.
-     *
-     * @param entity
-     *            The entity in which the values are to be stored
-     */
     private void setIdInEntity(final Entity entity) {
         final PageId id = getId();
         final int num = id.getNumber();
@@ -1038,17 +861,11 @@ public class StoryPage extends Model {
         entity.setProperty(IS_FIRST_PG_PROPERTY, isFirstPg);
     }
 
-    /**
-     * @param entity
-     */
     private void setLovingUsersInEntity(final Entity entity) {
         final List<String> lovingUsers = getLovingUsers();
         entity.setProperty(LOVING_USERS_PROPERTY, lovingUsers);
     }
 
-    /**
-     * @param ancestry
-     */
     private void setParentFromAncestry(final List<PageId> ancestry) {
         if (ancestry.size() > 1) {
             final int parentIndex = ancestry.size() - 2;
@@ -1071,13 +888,6 @@ public class StoryPage extends Model {
         entity.setProperty(TAGS_PROPERTY, tags);
     }
 
-    /**
-     * Sets the value in the entity corresponding to the text of this story
-     * page.
-     *
-     * @param entity
-     *            The entity in which the value is to be stored
-     */
     private void setTextInEntity(final Entity entity) {
         final Text text = getText();
         entity.setProperty(TEXT_PROPERTY, text);
@@ -1105,21 +915,11 @@ public class StoryPage extends Model {
         return getStore().get(key);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.deuteriumlabs.dendrite.model.Model#getKindName()
-     */
     @Override
     String getKindName() {
         return KIND_NAME;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.deuteriumlabs.dendrite.model.Model#getMatchingQuery()
-     */
     @Override
     Query getMatchingQuery() {
         final Query query = new Query(KIND_NAME);
@@ -1128,12 +928,6 @@ public class StoryPage extends Model {
         return query.setFilter(filter);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.deuteriumlabs.dendrite.model.Model#readPropertiesFromEntity(com.
-     * google .appengine.api.datastore.Entity)
-     */
     @Override
     void readPropertiesFromEntity(final Entity entity) {
         readAncestryFromEntity(entity);
@@ -1148,13 +942,6 @@ public class StoryPage extends Model {
         readIsFirstPgFromEntity(entity);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * com.deuteriumlabs.dendrite.model.Model#setPropertiesInEntity(com.google
-     * .appengine.api.datastore.Entity)
-     */
     @Override
     void setPropertiesInEntity(final Entity entity) {
         setAncestryInEntity(entity);
