@@ -6,12 +6,14 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 
 public class StoryPageTest {
+    final static String IMPLEMENT_ME = "Not implemented yet";
     final static String NOT_WRITTEN = "This page has not been written yet.";
 
     @Test
@@ -30,19 +32,21 @@ public class StoryPageTest {
         assertEquals(storyPage.getLongSummary(), NOT_WRITTEN);
     }
 
-    // TODO(Matt Heard): Implement with mock Entity
+    @Ignore(IMPLEMENT_ME)
     @Test
     public void testConstructorWithEntity() {
-        fail("Not implemented yet");
+        fail(IMPLEMENT_ME);
     }
 
+    @Ignore(IMPLEMENT_ME)
     @Test
     public void testCreateWithNoParent() {
-        fail("Not implemented yet");
+        fail(IMPLEMENT_ME);
     }
 
+    @Ignore(IMPLEMENT_ME)
     @Test
     public void testCreateWithParent() {
-        fail("Not implemented yet");
+        fail(IMPLEMENT_ME);
     }
 }
