@@ -40,13 +40,7 @@ public class StoryPageTest {
 
     @Ignore(IMPLEMENT_ME)
     @Test
-    public void testCreateWithNoParent() {
-        fail(IMPLEMENT_ME);
-    }
-
-    @Ignore(IMPLEMENT_ME)
-    @Test
-    public void testCreateWithParent() {
+    public void testCreate() {
         fail(IMPLEMENT_ME);
     }
 }
