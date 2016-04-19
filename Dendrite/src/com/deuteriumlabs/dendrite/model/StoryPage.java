@@ -369,12 +369,12 @@ public class StoryPage extends Model {
         super.create();
     }
 
-    public void determineWhetherFirstPg() {
+    private void determineWhetherFirstPg() {
         final boolean isFirstPg = (beginning.getNumber() == id.getNumber());
         setFirstPg(isFirstPg);
     }
 
-    public void generateAncestry() {
+    private void generateAncestry() {
         final List<PageId> ancestry;
         if (parent != null) {
             parent.read();
