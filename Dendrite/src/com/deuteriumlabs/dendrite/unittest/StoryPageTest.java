@@ -36,15 +36,13 @@ public class StoryPageTest {
         fail("Not implemented yet");
     }
 
-    // TODO(Matt Heard): Implement with mock Entity
     @Test
-    public void testCreate() {
-        final StoryPage storyPage = new StoryPage();
-        final PageId beginning = new PageId();
-        beginning.setNumber(1);
-        beginning.setVersion("a");
-        storyPage.setBeginning(beginning);
-        storyPage.create();
-        assertNotNull(storyPage.getAncestry());
+    public void testCreateWithNoParent() {
+        fail("Not implemented yet");
+    }
+
+    @Test
+    public void testCreateWithParent() {
+        fail("Not implemented yet");
     }
 }
