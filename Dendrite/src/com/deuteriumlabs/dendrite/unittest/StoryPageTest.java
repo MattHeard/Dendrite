@@ -11,7 +11,7 @@ public class StoryPageTest {
     final static String NOT_WRITTEN = "This page has not been written yet.";
 
     @Test
-    public void testBlankStoryPageHasNoBeginning() {
+    public void testDefaultConstructor() {
         final StoryPage storyPage = new StoryPage();
         assertNull(storyPage.getBeginning());
         assertNull(storyPage.getAncestry());
