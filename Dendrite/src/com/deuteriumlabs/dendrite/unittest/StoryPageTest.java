@@ -43,4 +43,10 @@ public class StoryPageTest {
     public void testCreate() {
         fail(IMPLEMENT_ME);
     }
+
+    @Test
+    public void testGetAncestry() {
+        final StoryPage storyPage = new StoryPage();
+        assertNull(storyPage.getAncestry());
+    }
 }
