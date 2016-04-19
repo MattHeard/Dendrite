@@ -1,11 +1,14 @@
 package com.deuteriumlabs.dendrite.unittest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
+
+import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 
 public class StoryPageTest {
@@ -36,6 +39,12 @@ public class StoryPageTest {
     // TODO(Matt Heard): Implement with mock Entity
     @Test
     public void testCreate() {
-        fail("Not implemented yet");
+        final StoryPage storyPage = new StoryPage();
+        final PageId beginning = new PageId();
+        beginning.setNumber(1);
+        beginning.setVersion("a");
+        storyPage.setBeginning(beginning);
+        storyPage.create();
+        assertNotNull(storyPage.getAncestry());
     }
 }
