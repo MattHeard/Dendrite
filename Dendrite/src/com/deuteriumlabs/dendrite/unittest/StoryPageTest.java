@@ -32,4 +32,10 @@ public class StoryPageTest {
     public void testConstructorWithEntity() {
         fail("Not implemented yet");
     }
+
+    // TODO(Matt Heard): Implement with mock Entity
+    @Test
+    public void testCreate() {
+        fail("Not implemented yet");
+    }
 }
