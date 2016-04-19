@@ -1,7 +1,6 @@
 package com.deuteriumlabs.dendrite.unittest;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -9,7 +8,6 @@ import static org.junit.Assert.fail;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 
 public class StoryPageTest {
@@ -44,9 +42,9 @@ public class StoryPageTest {
         fail(IMPLEMENT_ME);
     }
 
+    @Ignore(IMPLEMENT_ME)
     @Test
     public void testGetAncestry() {
-        final StoryPage storyPage = new StoryPage();
-        assertNull(storyPage.getAncestry());
+        fail(IMPLEMENT_ME);
     }
 }
