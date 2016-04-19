@@ -9,6 +9,7 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
 
 public class StoryPageTest {
     final static String NOT_WRITTEN = "This page has not been written yet.";
+
     @Test
     public void testBlankStoryPageHasNoBeginning() {
         final StoryPage storyPage = new StoryPage();
