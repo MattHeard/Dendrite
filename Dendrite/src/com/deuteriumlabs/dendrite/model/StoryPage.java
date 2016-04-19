@@ -24,27 +24,27 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Text;
 
 public class StoryPage extends Model {
-    private static final String ELLIPSIS                       = "…";
-    private static final int    MAX_SUMMARY_LEN                = 30;
     private static final char   ANCESTRY_DELIMITER             = '>';
     private static final String ANCESTRY_PROPERTY              = "ancestry";
     private static final String AUTHOR_ID_PROPERTY             = "authorId";
     private static final String AUTHOR_NAME_PROPERTY           = "authorName";
     private static final String BEGINNING_NUMBER_PROPERTY      = "beginningNumber";
     private static final String BEGINNING_VERSION_PROPERTY     = "beginningVersion";
+    private static final String ELLIPSIS                       = "…";
     private static final String FORMERLY_LOVING_USERS_PROPERTY = "formerlyLovingUsers";
     private static final String ID_NUMBER_PROPERTY             = "idNumber";
     private static final String ID_VERSION_PROPERTY            = "idVersion";
+    private static final String IS_FIRST_PG_PROPERTY           = "isFirstPg";
     private static final String KIND_NAME                      = "StoryPage";
     private static final int    LEN_ALPHABET                   = 26;
     private static final char[] LETTERS                        = "abcdefghijklmnopqrstuvwxyz"
             .toCharArray();
+    private static final int    LOVE_INFLUENCE                 = 1;
     private static final String LOVING_USERS_PROPERTY          = "lovingUsers";
+    private static final int    MAX_SUMMARY_LEN                = 30;
+    private static final int    SIZE_INFLUENCE                 = 1;
     private static final String TAGS_PROPERTY                  = "tags";
     private static final String TEXT_PROPERTY                  = "text";
-    private static final int    SIZE_INFLUENCE                 = 1;
-    private static final int    LOVE_INFLUENCE                 = 1;
-    private static final String IS_FIRST_PG_PROPERTY           = "isFirstPg";
 
     // TODO(Matt Heard): Extract into service object
     public static String convertNumberToVersion(final int num) {
@@ -336,11 +336,11 @@ public class StoryPage extends Model {
     private String       chance;
     private List<String> formerlyLovingUsers;
     private PageId       id;
+    private boolean      isFirstPg;
     private List<String> lovingUsers;
     private StoryPage    parent;
     private List<String> tags;
     private Text         text;
-    private boolean      isFirstPg;
 
     public StoryPage() {
         setBeginning(null);
@@ -367,23 +367,6 @@ public class StoryPage extends Model {
         generateAncestry();
         determineWhetherFirstPg();
         super.create();
-    }
-
-    private void determineWhetherFirstPg() {
-        final boolean isFirstPg = (beginning.getNumber() == id.getNumber());
-        setFirstPg(isFirstPg);
-    }
-
-    private void generateAncestry() {
-        final List<PageId> ancestry;
-        if (parent != null) {
-            parent.read();
-            ancestry = parent.getAncestry();
-        } else {
-            ancestry = new ArrayList<PageId>();
-        }
-        ancestry.add(id);
-        setAncestry(ancestry);
     }
 
     public List<PageId> getAncestry() {
@@ -568,6 +551,23 @@ public class StoryPage extends Model {
         final int loveInfluence = getLoveInfluence();
         return (sizeNumerator * sizeInfluence)
                 + (loveNumerator + loveInfluence);
+    }
+
+    private void determineWhetherFirstPg() {
+        final boolean isFirstPg = (beginning.getNumber() == id.getNumber());
+        setFirstPg(isFirstPg);
+    }
+
+    private void generateAncestry() {
+        final List<PageId> ancestry;
+        if (parent != null) {
+            parent.read();
+            ancestry = parent.getAncestry();
+        } else {
+            ancestry = new ArrayList<PageId>();
+        }
+        ancestry.add(id);
+        setAncestry(ancestry);
     }
 
     private List<PageId> getAncestryFromEntity(final Entity entity) {
