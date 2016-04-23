@@ -5,14 +5,33 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import com.deuteriumlabs.dendrite.model.StoryPage;
 
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+
 public class StoryPageTest {
     final static String IMPLEMENT_ME = "Not implemented yet";
     final static String NOT_WRITTEN = "This page has not been written yet.";
+    
+    private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
+            new LocalDatastoreServiceTestConfig());
+
+    @Before
+    public void setUp() {
+        helper.setUp();
+    }
+
+    @After
+    public void tearDown() {
+        helper.tearDown();
+    }
+
 
     @Test
     public void testDefaultConstructor() {
@@ -29,8 +48,8 @@ public class StoryPageTest {
         assertTrue(storyPage.getTags().isEmpty());
         assertEquals(storyPage.getLongSummary(), NOT_WRITTEN);
     }
-
-    // TODO Set up a test database and construct an existing StoryPage
+    
+    // TODO Set up a test database and create a StoryPage
     @Ignore(IMPLEMENT_ME)
     @Test
     public void testConstructorWithEntity() {
