@@ -22,7 +22,7 @@ public class FollowNotification extends Notification {
 	public FollowNotification() {
 	}
 
-	public FollowNotification(final Entity entity) {
+	public FollowNotification(final DatastoreEntity entity) {
 		this.readPropertiesFromEntity(entity);
 	}
 
@@ -61,35 +61,35 @@ public class FollowNotification extends Notification {
 	}
 
 	@Override
-	void readPropertiesFromEntity(final Entity entity) {
+	void readPropertiesFromEntity(final DatastoreEntity entity) {
 		super.readPropertiesFromEntity(entity);
 		this.readFollowerIdFromEntity(entity);
 	}
 
-	private void readFollowerIdFromEntity(final Entity entity) {
+	private void readFollowerIdFromEntity(final DatastoreEntity entity) {
 		final String id = getFollowerIdFromEntity(entity);
 		this.setFollowerId(id);
 	}
 
-	private String getFollowerIdFromEntity(final Entity entity) {
+	private String getFollowerIdFromEntity(final DatastoreEntity entity) {
 		final String id = (String) entity.getProperty(FOLLOWER_ID_PROPERTY);
 		return id;
 	}
 
 	@Override
-	void setPropertiesInEntity(final Entity entity) {
+	void setPropertiesInEntity(final DatastoreEntity entity) {
 		super.setPropertiesInEntity(entity);
 		this.setFollowerIdInEntity(entity);
 		setTypeInEntity(entity);
 	}
 
-	private static void setTypeInEntity(final Entity entity) {
+	private static void setTypeInEntity(final DatastoreEntity entity) {
 		final String type = getType();
 		String propertyName = Notification.getTypePropertyName();
 		entity.setProperty(propertyName, type);
 	}
 
-	private void setFollowerIdInEntity(final Entity entity) {
+	private void setFollowerIdInEntity(final DatastoreEntity entity) {
 		final String id = this.getFollowerId();
 		entity.setProperty(FOLLOWER_ID_PROPERTY, id);
 	}

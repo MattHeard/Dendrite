@@ -18,7 +18,7 @@ import com.google.appengine.api.datastore.Query;
  * getting data from the Google App Engine datastore.
  */
 public abstract class Model {
-    private Entity entity = null;
+    private DatastoreEntity entity = null;
     
 	private static final String CREATION_DATE_PROPERTY = "creationDate";
 
@@ -29,9 +29,9 @@ public abstract class Model {
 	 *            the prepared query matching a single entity
 	 * @return The single entity from the prepared query
 	 */
-	protected static Entity getSingleEntity(final PreparedQuery preparedQuery) {
+	protected static DatastoreEntity getSingleEntity(final PreparedQuery preparedQuery) {
 		try {
-			return preparedQuery.asSingleEntity();
+			return new DatastoreEntity(preparedQuery.asSingleEntity());
 		} catch (TooManyResultsException e) {
 			return null;
 		}
@@ -124,26 +124,25 @@ public abstract class Model {
 		}
 	}
 
-	private void deleteEntityByKey(final Entity entity) {
+	private void deleteEntityByKey(final DatastoreEntity entity) {
 		final Key key = entity.getKey();
 		final DatastoreService store = getStore();
 		store.delete(key);
 	}
 
-	private void putEntityInStore(final Entity entity) {
+	private void putEntityInStore(final DatastoreEntity entity) {
 		this.setCreationDate(entity);
 		this.setPropertiesInEntity(entity);
-		final DatastoreService store = getStore();
-		store.put(entity);
+		entity.putInStore();
 	}
 
-	private void setCreationDate(final Entity entity) {
+	private void setCreationDate(final DatastoreEntity entity) {
 		final Date date = new Date();
 		entity.setProperty(CREATION_DATE_PROPERTY, date);
 	}
 
-	protected Entity createNewEntity(final String kindName) {
-		return new Entity(kindName);
+	protected DatastoreEntity createNewEntity(final String kindName) {
+		return new DatastoreEntity(kindName);
 	}
 
 	/**
@@ -154,7 +153,8 @@ public abstract class Model {
 	 *         the retrieval fails
 	 * @throws EntityNotFoundException 
 	 */
-	protected Entity getMatchingEntity() throws EntityNotFoundException {
+	protected DatastoreEntity getMatchingEntity()
+	        throws EntityNotFoundException {
 		final DatastoreService store = getStore();
 		final Query query = this.getMatchingQuery();
 		final PreparedQuery preparedQuery = store.prepare(query);
@@ -186,7 +186,7 @@ public abstract class Model {
 	 * @param entity
 	 *            The entity storing the properties
 	 */
-	abstract void readPropertiesFromEntity(final Entity entity);
+	abstract void readPropertiesFromEntity(final DatastoreEntity entity);
 
 	/**
 	 * Sets the values in the entity corresponding to the properties of this
@@ -195,5 +195,5 @@ public abstract class Model {
 	 * @param entity
 	 *            The entity storing the properties
 	 */
-	abstract void setPropertiesInEntity(final Entity entity);
+	abstract void setPropertiesInEntity(final DatastoreEntity entity);
 }

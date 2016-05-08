@@ -56,7 +56,7 @@ public class Notification extends Model {
 	 * @param entity
 	 * @return
 	 */
-	private static long getEntityIdFromEntity(final Entity entity) {
+	private static long getEntityIdFromEntity(final DatastoreEntity entity) {
 		final long id = entity.getKey().getId();
 		return id;
 	}
@@ -76,7 +76,7 @@ public class Notification extends Model {
 	 * @param entity
 	 * @return
 	 */
-	private static boolean getIsNewFromEntity(final Entity entity) {
+	private static boolean getIsNewFromEntity(final DatastoreEntity entity) {
 		final Boolean isNew = (Boolean) entity.getProperty(IS_NEW_PROPERTY);
 		return isNew;
 	}
@@ -92,8 +92,8 @@ public class Notification extends Model {
 		query.addSort(TIME_PROPERTY, SortDirection.ASCENDING);
 		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
-		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-		final List<Entity> entities = preparedQuery.asList(fetchOptions);
+        final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+        final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
 		final List<Notification> notifications;
 		notifications = getNotificationsFromEntities(entities);
 		return notifications;
@@ -108,9 +108,9 @@ public class Notification extends Model {
 	 * @return
 	 */
 	private static List<Notification> getNotificationsFromEntities(
-			List<Entity> entities) {
+			List<DatastoreEntity> entities) {
 		final List<Notification> notifications = new ArrayList<Notification>();
-		for (final Entity entity : entities) {
+		for (final DatastoreEntity entity : entities) {
 			final Notification notification;
 			if (entity.hasProperty(TYPE_PROPERTY) == true) {
 				final String type = (String) entity.getProperty(TYPE_PROPERTY);
@@ -156,7 +156,7 @@ public class Notification extends Model {
 	 * @param entity
 	 * @return
 	 */
-	private static String getRecipientFromEntity(final Entity entity) {
+	private static String getRecipientFromEntity(final DatastoreEntity entity) {
 		final String id = (String) entity.getProperty(RECIPIENT_ID_PROPERTY);
 		return id;
 	}
@@ -176,7 +176,7 @@ public class Notification extends Model {
 	 * @param entity
 	 * @return
 	 */
-	private static Date getTimeFromEntity(final Entity entity) {
+	private static Date getTimeFromEntity(final DatastoreEntity entity) {
 		final Date time = (Date) entity.getProperty(TIME_PROPERTY);
 		return time;
 	}
@@ -197,7 +197,7 @@ public class Notification extends Model {
 	/**
 	 * @param entity
 	 */
-	public Notification(final Entity entity) {
+	public Notification(final DatastoreEntity entity) {
 		this.readPropertiesFromEntity(entity);
 	}
 
@@ -294,7 +294,7 @@ public class Notification extends Model {
 	/**
 	 * @param entity
 	 */
-	private void readEntityIdFromEntity(final Entity entity) {
+	private void readEntityIdFromEntity(final DatastoreEntity entity) {
 		final long id = getEntityIdFromEntity(entity);
 		this.setEntityId(id);
 	}
@@ -302,7 +302,7 @@ public class Notification extends Model {
 	/**
 	 * @param entity
 	 */
-	private void readIsNewFromEntity(final Entity entity) {
+	private void readIsNewFromEntity(final DatastoreEntity entity) {
 		final boolean isNew = getIsNewFromEntity(entity);
 		this.setNew(isNew);
 	}
@@ -315,7 +315,7 @@ public class Notification extends Model {
 	 * .appengine.api.datastore.Entity)
 	 */
 	@Override
-	void readPropertiesFromEntity(final Entity entity) {
+	void readPropertiesFromEntity(final DatastoreEntity entity) {
 		this.readRecipientFromEntity(entity);
 		this.readTimeFromEntity(entity);
 		this.readIsNewFromEntity(entity);
@@ -325,7 +325,7 @@ public class Notification extends Model {
 	/**
 	 * @param entity
 	 */
-	private void readRecipientFromEntity(final Entity entity) {
+	private void readRecipientFromEntity(final DatastoreEntity entity) {
 		final String id = getRecipientFromEntity(entity);
 		this.setRecipientId(id);
 	}
@@ -333,7 +333,7 @@ public class Notification extends Model {
 	/**
 	 * @param entity
 	 */
-	private void readTimeFromEntity(final Entity entity) {
+	private void readTimeFromEntity(final DatastoreEntity entity) {
 		final Date time = getTimeFromEntity(entity);
 		this.setTime(time);
 	}
@@ -355,7 +355,7 @@ public class Notification extends Model {
 	/**
 	 * @param entity
 	 */
-	private void setIsNewInEntity(final Entity entity) {
+	private void setIsNewInEntity(final DatastoreEntity entity) {
 		final boolean isNew = this.isNew();
 		entity.setProperty(IS_NEW_PROPERTY, isNew);
 	}
@@ -375,7 +375,7 @@ public class Notification extends Model {
 	 * .appengine.api.datastore.Entity)
 	 */
 	@Override
-	void setPropertiesInEntity(final Entity entity) {
+	void setPropertiesInEntity(final DatastoreEntity entity) {
 		this.setRecipientInEntity(entity);
 		this.setTimeInEntity(entity);
 		this.setIsNewInEntity(entity);
@@ -391,7 +391,7 @@ public class Notification extends Model {
 	/**
 	 * @param entity
 	 */
-	private void setRecipientInEntity(final Entity entity) {
+	private void setRecipientInEntity(final DatastoreEntity entity) {
 		final String id = this.getRecipientId();
 		entity.setProperty(RECIPIENT_ID_PROPERTY, id);
 	}
@@ -406,7 +406,7 @@ public class Notification extends Model {
 	/**
 	 * @param entity
 	 */
-	private void setTimeInEntity(final Entity entity) {
+	private void setTimeInEntity(final DatastoreEntity entity) {
 		final Date time = this.getTime();
 		entity.setProperty(TIME_PROPERTY, time);
 	}

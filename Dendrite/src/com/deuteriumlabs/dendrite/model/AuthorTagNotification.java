@@ -20,7 +20,7 @@ public class AuthorTagNotification extends Notification {
 		return TYPE;
 	}
 
-	private static void setTypeInEntity(final Entity entity) {
+	private static void setTypeInEntity(final DatastoreEntity entity) {
 		entity.setProperty(Notification.getTypePropertyName(), getType());
 	}
 
@@ -32,7 +32,7 @@ public class AuthorTagNotification extends Notification {
 	public AuthorTagNotification() {
 	}
 
-	public AuthorTagNotification(final Entity entity) {
+	public AuthorTagNotification(final DatastoreEntity entity) {
 		this.readPropertiesFromEntity(entity);
 	}
 
@@ -98,11 +98,11 @@ public class AuthorTagNotification extends Notification {
 		return this.pgId;
 	}
 
-	private int getPgIdNumFromEntity(final Entity entity) {
+	private int getPgIdNumFromEntity(final DatastoreEntity entity) {
 		return ((Long) entity.getProperty(PG_ID_NUM_PROPERTY)).intValue();
 	}
 
-	private String getPgIdVersionFromEntity(final Entity entity) {
+	private String getPgIdVersionFromEntity(final DatastoreEntity entity) {
 		return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
 	}
 
@@ -110,7 +110,7 @@ public class AuthorTagNotification extends Notification {
 		return this.tag;
 	}
 
-	private String getTagFromEntity(final Entity entity) {
+	private String getTagFromEntity(final DatastoreEntity entity) {
 		return ((String) entity.getProperty(TAG_PROPERTY)).toUpperCase();
 	}
 
@@ -118,7 +118,7 @@ public class AuthorTagNotification extends Notification {
 		return this.taggerId;
 	}
 
-	private String getTaggerIdFromEntity(final Entity entity) {
+	private String getTaggerIdFromEntity(final DatastoreEntity entity) {
 		return (String) entity.getProperty(TAGGER_ID_PROPERTY);
 	}
 
@@ -126,11 +126,11 @@ public class AuthorTagNotification extends Notification {
 		return this.taggerName;
 	}
 
-	private String getTaggerNameFromEntity(final Entity entity) {
+	private String getTaggerNameFromEntity(final DatastoreEntity entity) {
 		return (String) entity.getProperty(TAGGER_NAME_PROPERTY);
 	}
 
-	private void readPgIdFromEntity(final Entity entity) {
+	private void readPgIdFromEntity(final DatastoreEntity entity) {
 		final PageId id = new PageId();
 		id.setNumber(getPgIdNumFromEntity(entity));
 		id.setVersion(getPgIdVersionFromEntity(entity));
@@ -138,7 +138,7 @@ public class AuthorTagNotification extends Notification {
 	}
 
 	@Override
-	void readPropertiesFromEntity(final Entity entity) {
+	void readPropertiesFromEntity(final DatastoreEntity entity) {
 		super.readPropertiesFromEntity(entity);
 		this.readPgIdFromEntity(entity);
 		this.readTagFromEntity(entity);
@@ -146,15 +146,15 @@ public class AuthorTagNotification extends Notification {
 		this.readTaggerNameFromEntity(entity);
 	}
 
-	private void readTagFromEntity(final Entity entity) {
+	private void readTagFromEntity(final DatastoreEntity entity) {
 		this.setTag(getTagFromEntity(entity));
 	}
 
-	private void readTaggerIdFromEntity(final Entity entity) {
+	private void readTaggerIdFromEntity(final DatastoreEntity entity) {
 		this.setTaggerId(getTaggerIdFromEntity(entity));
 	}
 
-	private void readTaggerNameFromEntity(final Entity entity) {
+	private void readTaggerNameFromEntity(final DatastoreEntity entity) {
 		this.setTaggerName(getTaggerNameFromEntity(entity));
 	}
 
@@ -162,14 +162,14 @@ public class AuthorTagNotification extends Notification {
 		this.pgId = id;
 	}
 
-	private void setPgIdInEntity(final Entity entity) {
+	private void setPgIdInEntity(final DatastoreEntity entity) {
 		final PageId id = this.getPgId();
 		entity.setProperty(PG_ID_NUM_PROPERTY, id.getNumber());
 		entity.setProperty(PG_ID_VERSION_PROPERTY, id.getVersion());
 	}
 
 	@Override
-	void setPropertiesInEntity(final Entity entity) {
+	void setPropertiesInEntity(final DatastoreEntity entity) {
 		super.setPropertiesInEntity(entity);
 		this.setPgIdInEntity(entity);
 		this.setTagInEntity(entity);
@@ -188,7 +188,7 @@ public class AuthorTagNotification extends Notification {
 		this.taggerId = id;
 	}
 
-	private void setTaggerIdInEntity(final Entity entity) {
+	private void setTaggerIdInEntity(final DatastoreEntity entity) {
 		entity.setProperty(TAGGER_ID_PROPERTY, this.getTaggerId());
 	}
 
@@ -196,11 +196,11 @@ public class AuthorTagNotification extends Notification {
 		this.taggerName = name;
 	}
 
-	private void setTaggerNameInEntity(final Entity entity) {
+	private void setTaggerNameInEntity(final DatastoreEntity entity) {
 		entity.setProperty(TAGGER_NAME_PROPERTY, this.getTaggerName());
 	}
 
-	private void setTagInEntity(final Entity entity) {
+	private void setTagInEntity(final DatastoreEntity entity) {
 		entity.setProperty(TAG_PROPERTY, this.getTag());
 	}
 }

@@ -70,7 +70,7 @@ public class StoryOption extends Model {
 	 *            The entity containing the list index
 	 * @return The list index
 	 */
-	private static int getListIndexFromEntity(final Entity entity) {
+	private static int getListIndexFromEntity(final DatastoreEntity entity) {
 		final Long listIndex = (Long) entity.getProperty(LIST_INDEX_PROPERTY);
 		return listIndex.intValue();
 	}
@@ -112,7 +112,7 @@ public class StoryOption extends Model {
 	 *            The entity containing the source page ID
 	 * @return The number component of the source page ID
 	 */
-	private static int getSourceNumberFromEntity(final Entity entity) {
+	private static int getSourceNumberFromEntity(final DatastoreEntity entity) {
 		final Long number = (Long) entity.getProperty(SOURCE_NUMBER_PROPERTY);
 		return number.intValue();
 	}
@@ -140,7 +140,7 @@ public class StoryOption extends Model {
 	 *            The entity containing the source page ID
 	 * @return The version component of the source page ID
 	 */
-	private static String getSourceVersionFromEntity(final Entity entity) {
+	private static String getSourceVersionFromEntity(final DatastoreEntity entity) {
 		return (String) entity.getProperty(SOURCE_VERSION_PROPERTY);
 	}
 
@@ -151,7 +151,7 @@ public class StoryOption extends Model {
 	 *            The entity containing the text
 	 * @return The text
 	 */
-	private static String getTextFromEntity(final Entity entity) {
+	private static String getTextFromEntity(final DatastoreEntity entity) {
 		return (String) entity.getProperty(TEXT_PROPERTY);
 	}
 
@@ -173,7 +173,7 @@ public class StoryOption extends Model {
 		return isSourceSet && isListIndexSet;
 	}
 
-	private Entity getEntityWithTarget() {
+	private DatastoreEntity getEntityWithTarget() {
 		final DatastoreService store = getStore();
 		final Query query1 = new Query(KIND_NAME);
 		final int target = this.getTarget();
@@ -254,7 +254,7 @@ public class StoryOption extends Model {
 		return new FilterPredicate(propertyName, operator, value);
 	}
 
-	private int getTargetFromEntity(final Entity entity) {
+	private int getTargetFromEntity(final DatastoreEntity entity) {
 		final Long number = (Long) entity.getProperty(TARGET_PROPERTY);
 		if (number != null)
 			return number.intValue();
@@ -283,7 +283,7 @@ public class StoryOption extends Model {
 	 * @param entity
 	 *            The entity storing the list index
 	 */
-	private void readListIndexFromEntity(final Entity entity) {
+	private void readListIndexFromEntity(final DatastoreEntity entity) {
 		final int listIndex = getListIndexFromEntity(entity);
 		this.setListIndex(listIndex);
 	}
@@ -296,7 +296,7 @@ public class StoryOption extends Model {
 	 * .appengine.api.datastore.Entity)
 	 */
 	@Override
-	void readPropertiesFromEntity(final Entity entity) {
+	void readPropertiesFromEntity(final DatastoreEntity entity) {
 		this.readSourceFromEntity(entity);
 		this.readListIndexFromEntity(entity);
 		this.readTextFromEntity(entity);
@@ -310,7 +310,7 @@ public class StoryOption extends Model {
 	 * @param entity
 	 *            The entity storing the source page ID
 	 */
-	private void readSourceFromEntity(final Entity entity) {
+	private void readSourceFromEntity(final DatastoreEntity entity) {
 		final PageId source = new PageId();
 		final int number = getSourceNumberFromEntity(entity);
 		source.setNumber(number);
@@ -319,7 +319,7 @@ public class StoryOption extends Model {
 		this.setSource(source);
 	}
 
-	private void readTargetFromEntity(final Entity entity) {
+	private void readTargetFromEntity(final DatastoreEntity entity) {
 		final int target = getTargetFromEntity(entity);
 		this.setTarget(target);
 	}
@@ -331,13 +331,13 @@ public class StoryOption extends Model {
 	 * @param entity
 	 *            The entity storing the text
 	 */
-	private void readTextFromEntity(final Entity entity) {
+	private void readTextFromEntity(final DatastoreEntity entity) {
 		final String text = getTextFromEntity(entity);
 		this.setText(text);
 	}
 
 	public void readWithTarget() {
-		final Entity entity = this.getEntityWithTarget();
+		final DatastoreEntity entity = this.getEntityWithTarget();
 		if (entity != null)
 			this.readPropertiesFromEntity(entity);
 	}
@@ -359,7 +359,7 @@ public class StoryOption extends Model {
 	 * @param entity
 	 *            The entity in which the value is to be stored
 	 */
-	private void setListIndexInEntity(final Entity entity) {
+	private void setListIndexInEntity(final DatastoreEntity entity) {
 		final int listIndex = this.getListIndex();
 		entity.setProperty(LIST_INDEX_PROPERTY, listIndex);
 	}
@@ -372,7 +372,7 @@ public class StoryOption extends Model {
 	 * .appengine.api.datastore.Entity)
 	 */
 	@Override
-	void setPropertiesInEntity(final Entity entity) {
+	void setPropertiesInEntity(final DatastoreEntity entity) {
 		this.setSourceInEntity(entity);
 		this.setListIndexInEntity(entity);
 		this.setTextInEntity(entity);
@@ -396,7 +396,7 @@ public class StoryOption extends Model {
 	 * @param entity
 	 *            The entity in which the values are to be stored
 	 */
-	private void setSourceInEntity(final Entity entity) {
+	private void setSourceInEntity(final DatastoreEntity entity) {
 		final PageId source = this.getSource();
 		final int number = source.getNumber();
 		entity.setProperty(SOURCE_NUMBER_PROPERTY, number);
@@ -408,7 +408,7 @@ public class StoryOption extends Model {
 		this.target = target;
 	}
 
-	private void setTargetInEntity(final Entity entity) {
+	private void setTargetInEntity(final DatastoreEntity entity) {
 		final int target = this.getTarget();
 		if (target != 0)
 			entity.setProperty(TARGET_PROPERTY, target);
@@ -431,7 +431,7 @@ public class StoryOption extends Model {
 	 * @param entity
 	 *            The entity in which the value is to be stored
 	 */
-	private void setTextInEntity(final Entity entity) {
+	private void setTextInEntity(final DatastoreEntity entity) {
 		final String text = this.getText();
 		entity.setProperty(TEXT_PROPERTY, text);
 	}

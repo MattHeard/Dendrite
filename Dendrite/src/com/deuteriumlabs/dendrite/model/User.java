@@ -83,7 +83,7 @@ public class User extends Model {
 		avatarDescs = Collections.unmodifiableMap(map);
 	}
 
-	private static String getAlignmentFromEntity(final Entity entity) {
+	private static String getAlignmentFromEntity(final DatastoreEntity entity) {
 		String alignment = (String) entity.getProperty(ALIGNMENT_PROPERTY);
 		if (alignment != null)
 			return alignment;
@@ -102,11 +102,11 @@ public class User extends Model {
 	 *            The entity containing the default pen name
 	 * @return The default pen name
 	 */
-	private static String getDefaultPenNameFromEntity(final Entity entity) {
+	private static String getDefaultPenNameFromEntity(final DatastoreEntity entity) {
 		return (String) entity.getProperty(DEFAULT_PEN_NAME_PROPERTY);
 	}
 
-	private static String getFontColourFromEntity(final Entity entity) {
+	private static String getFontColourFromEntity(final DatastoreEntity entity) {
 		String fontColour = (String) entity.getProperty(FONT_COLOUR_PROPERTY);
 		if (fontColour != null)
 			return fontColour;
@@ -114,7 +114,7 @@ public class User extends Model {
 			return DEFAULT_FONT_COLOUR;
 	}
 
-	private static double getFontSizeFromEntity(final Entity entity) {
+	private static double getFontSizeFromEntity(final DatastoreEntity entity) {
 		Double fontSize = (Double) entity.getProperty(FONT_SIZE_PROPERTY);
 		if (fontSize != null)
 			return fontSize;
@@ -122,7 +122,7 @@ public class User extends Model {
 			return DEFAULT_FONT_SIZE;
 	}
 
-	private static String getFontTypeFromEntity(final Entity entity) {
+	private static String getFontTypeFromEntity(final DatastoreEntity entity) {
 		String fontType = (String) entity.getProperty(FONT_TYPE_PROPERTY);
 		if (fontType != null)
 			return fontType;
@@ -151,7 +151,7 @@ public class User extends Model {
 	 *            The entity containing the user ID
 	 * @return The user ID
 	 */
-	private static String getIdFromEntity(final Entity entity) {
+	private static String getIdFromEntity(final DatastoreEntity entity) {
 		return (String) entity.getProperty(ID_PROPERTY);
 	}
 
@@ -200,7 +200,7 @@ public class User extends Model {
 			return null;
 	}
 
-	private static double getSpacingFromEntity(final Entity entity) {
+	private static double getSpacingFromEntity(final DatastoreEntity entity) {
 		Double spacing = (Double) entity.getProperty(SPACING_PROPERTY);
 		if (spacing != null)
 			return spacing;
@@ -208,7 +208,7 @@ public class User extends Model {
 			return DEFAULT_SPACING;
 	}
 
-	private static String getThemeFromEntity(final Entity entity) {
+	private static String getThemeFromEntity(final DatastoreEntity entity) {
 		String theme = (String) entity.getProperty(THEME_PROPERTY);
 		if (theme != null)
 			return theme;
@@ -330,7 +330,7 @@ public class User extends Model {
 		return (fontSize != DEFAULT_FONT_SIZE);
 	}
 
-	private void readAlignmentFromEntity(final Entity entity) {
+	private void readAlignmentFromEntity(final DatastoreEntity entity) {
 		final String alignment = getAlignmentFromEntity(entity);
 		this.setAlignment(alignment);
 	}
@@ -342,22 +342,22 @@ public class User extends Model {
 	 * @param entity
 	 *            The entity storing the default pen name
 	 */
-	private void readDefaultPenNameFromEntity(final Entity entity) {
+	private void readDefaultPenNameFromEntity(final DatastoreEntity entity) {
 		final String defaultPenName = getDefaultPenNameFromEntity(entity);
 		this.setDefaultPenName(defaultPenName);
 	}
 
-	private void readFontColourFromEntity(final Entity entity) {
+	private void readFontColourFromEntity(final DatastoreEntity entity) {
 		final String fontColour = getFontColourFromEntity(entity);
 		this.setFontColour(fontColour);
 	}
 
-	private void readFontSizeFromEntity(final Entity entity) {
+	private void readFontSizeFromEntity(final DatastoreEntity entity) {
 		final double fontSize = getFontSizeFromEntity(entity);
 		this.setFontSize(fontSize);
 	}
 
-	private void readFontTypeFromEntity(final Entity entity) {
+	private void readFontTypeFromEntity(final DatastoreEntity entity) {
 		final String fontType = getFontTypeFromEntity(entity);
 		this.setFontType(fontType);
 	}
@@ -369,7 +369,7 @@ public class User extends Model {
 	 * @param entity
 	 *            The entity storing the user ID
 	 */
-	private void readIdFromEntity(final Entity entity) {
+	private void readIdFromEntity(final DatastoreEntity entity) {
 		final String id = getIdFromEntity(entity);
 		this.setId(id);
 	}
@@ -382,7 +382,7 @@ public class User extends Model {
 	 * .appengine.api.datastore.Entity)
 	 */
 	@Override
-	void readPropertiesFromEntity(final Entity entity) {
+	void readPropertiesFromEntity(final DatastoreEntity entity) {
 		this.readIdFromEntity(entity);
 		this.readDefaultPenNameFromEntity(entity);
 		this.readFontSizeFromEntity(entity);
@@ -396,7 +396,7 @@ public class User extends Model {
 		this.readFormerFollowersFromEntity(entity);
 	}
 
-	private void readFormerFollowersFromEntity(final Entity entity) {
+	private void readFormerFollowersFromEntity(final DatastoreEntity entity) {
 		List<String> formerFollowers = getFormerFollowersFromEntity(entity);
 		if (formerFollowers == null) {
 			formerFollowers = new ArrayList<String>();
@@ -405,11 +405,11 @@ public class User extends Model {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<String> getFormerFollowersFromEntity(final Entity entity) {
+	private List<String> getFormerFollowersFromEntity(final DatastoreEntity entity) {
 		return (List<String>) entity.getProperty(FORMER_FOLLOWERS_PROPERTY);
 	}
 
-	private void readFollowersFromEntity(final Entity entity) {
+	private void readFollowersFromEntity(final DatastoreEntity entity) {
 		List<String> followers = getFollowersFromEntity(entity);
 		if (followers == null) {
 			followers = new ArrayList<String>();
@@ -418,16 +418,16 @@ public class User extends Model {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<String> getFollowersFromEntity(final Entity entity) {
+	private List<String> getFollowersFromEntity(final DatastoreEntity entity) {
 		return (List<String>) entity.getProperty(FOLLOWERS_PROPERTY);
 	}
 
-	private void readAvatarIdFromEntity(final Entity entity) {
+	private void readAvatarIdFromEntity(final DatastoreEntity entity) {
 		final int avatarId = getAvatarIdFromEntity(entity);
 		this.setAvatarId(avatarId);
 	}
 
-	private int getAvatarIdFromEntity(final Entity entity) {
+	private int getAvatarIdFromEntity(final DatastoreEntity entity) {
 		Long avatarId = (Long) entity.getProperty(AVATAR_ID_PROPERTY);
 		if (avatarId != null)
 			return avatarId.intValue();
@@ -435,12 +435,12 @@ public class User extends Model {
 			return DEFAULT_AVATAR_ID;
 	}
 
-	private void readSpacingFromEntity(final Entity entity) {
+	private void readSpacingFromEntity(final DatastoreEntity entity) {
 		final double spacing = getSpacingFromEntity(entity);
 		this.setSpacing(spacing);
 	}
 
-	private void readThemeFromEntity(final Entity entity) {
+	private void readThemeFromEntity(final DatastoreEntity entity) {
 		final String theme = getThemeFromEntity(entity);
 		this.setTheme(theme);
 	}
@@ -449,7 +449,7 @@ public class User extends Model {
 		this.alignment = alignment;
 	}
 
-	private void setAlignmentInEntity(final Entity entity) {
+	private void setAlignmentInEntity(final DatastoreEntity entity) {
 		final String alignment = this.getAlignment();
 		entity.setProperty(ALIGNMENT_PROPERTY, alignment);
 	}
@@ -471,7 +471,7 @@ public class User extends Model {
 	 * @param entity
 	 *            The entity in which the value is to be stored
 	 */
-	private void setDefaultPenNameInEntity(final Entity entity) {
+	private void setDefaultPenNameInEntity(final DatastoreEntity entity) {
 		final String defaultPenName = this.getDefaultPenName();
 		entity.setProperty(DEFAULT_PEN_NAME_PROPERTY, defaultPenName);
 	}
@@ -480,7 +480,7 @@ public class User extends Model {
 		this.fontColour = fontColour;
 	}
 
-	private void setFontColourInEntity(final Entity entity) {
+	private void setFontColourInEntity(final DatastoreEntity entity) {
 		final String fontColour = this.getFontColour();
 		entity.setProperty(FONT_COLOUR_PROPERTY, fontColour);
 	}
@@ -489,7 +489,7 @@ public class User extends Model {
 		this.fontSize = fontSize;
 	}
 
-	private void setFontSizeInEntity(final Entity entity) {
+	private void setFontSizeInEntity(final DatastoreEntity entity) {
 		final double fontSize = this.getFontSize();
 		entity.setProperty(FONT_SIZE_PROPERTY, fontSize);
 	}
@@ -498,7 +498,7 @@ public class User extends Model {
 		this.fontType = fontType;
 	}
 
-	private void setFontTypeInEntity(final Entity entity) {
+	private void setFontTypeInEntity(final DatastoreEntity entity) {
 		final String fontType = this.getFontType();
 		entity.setProperty(FONT_TYPE_PROPERTY, fontType);
 	}
@@ -519,7 +519,7 @@ public class User extends Model {
 	 * @param entity
 	 *            The entity in which the value is to be stored
 	 */
-	private void setIdInEntity(final Entity entity) {
+	private void setIdInEntity(final DatastoreEntity entity) {
 		final String id = this.getId();
 		entity.setProperty(ID_PROPERTY, id);
 	}
@@ -532,7 +532,7 @@ public class User extends Model {
 	 * .appengine.api.datastore.Entity)
 	 */
 	@Override
-	void setPropertiesInEntity(final Entity entity) {
+	void setPropertiesInEntity(final DatastoreEntity entity) {
 		this.setIdInEntity(entity);
 		this.setDefaultPenNameInEntity(entity);
 		this.setFontSizeInEntity(entity);
@@ -546,17 +546,17 @@ public class User extends Model {
 		this.setFormerFollowersInEntity(entity);
 	}
 
-	private void setFormerFollowersInEntity(final Entity entity) {
+	private void setFormerFollowersInEntity(final DatastoreEntity entity) {
 		final List<String> formerFollowers = this.getFormerFollowers();
 		entity.setProperty(FORMER_FOLLOWERS_PROPERTY, formerFollowers);
 	}
 
-	private void setFollowersInEntity(final Entity entity) {
+	private void setFollowersInEntity(final DatastoreEntity entity) {
 		final List<String> followers = this.getFollowers();
 		entity.setProperty(FOLLOWERS_PROPERTY, followers);
 	}
 
-	private void setAvatarIdInEntity(final Entity entity) {
+	private void setAvatarIdInEntity(final DatastoreEntity entity) {
 		final int avatarId = this.getAvatarId();
 		entity.setProperty(AVATAR_ID_PROPERTY, avatarId);
 	}
@@ -565,7 +565,7 @@ public class User extends Model {
 		this.spacing = spacing;
 	}
 
-	private void setSpacingInEntity(final Entity entity) {
+	private void setSpacingInEntity(final DatastoreEntity entity) {
 		final double spacing = this.getSpacing();
 		entity.setProperty(SPACING_PROPERTY, spacing);
 	}
@@ -574,7 +574,7 @@ public class User extends Model {
 		this.theme = theme;
 	}
 
-	private void setThemeInEntity(final Entity entity) {
+	private void setThemeInEntity(final DatastoreEntity entity) {
 		final String theme = this.getTheme();
 		entity.setProperty(THEME_PROPERTY, theme);
 	}

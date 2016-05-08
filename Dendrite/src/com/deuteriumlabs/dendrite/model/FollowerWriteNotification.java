@@ -19,24 +19,24 @@ public class FollowerWriteNotification extends Notification {
 		return TYPE;
 	}
 
-	private static String getAuthorIdFromEntity(final Entity entity) {
+	private static String getAuthorIdFromEntity(final DatastoreEntity entity) {
 		String propertyName = AUTHOR_ID_PROPERTY;
 		final String id = (String) entity.getProperty(propertyName);
 		return id;
 	}
 
-	private static String getAuthorNameFromEntity(final Entity entity) {
+	private static String getAuthorNameFromEntity(final DatastoreEntity entity) {
 		String propertyName = AUTHOR_NAME_PROPERTY;
 		final String name = (String) entity.getProperty(propertyName);
 		return name;
 	}
 
-	private static int getPgIdNumFromEntity(final Entity entity) {
+	private static int getPgIdNumFromEntity(final DatastoreEntity entity) {
 		final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
 		return num.intValue();
 	}
 
-	private static String getPgIdVersionFromEntity(final Entity entity) {
+	private static String getPgIdVersionFromEntity(final DatastoreEntity entity) {
 		return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
 	}
 
@@ -47,7 +47,7 @@ public class FollowerWriteNotification extends Notification {
 	public FollowerWriteNotification() {
 	}
 
-	public FollowerWriteNotification(final Entity entity) {
+	public FollowerWriteNotification(final DatastoreEntity entity) {
 		this.readPropertiesFromEntity(entity);
 	}
 
@@ -92,17 +92,17 @@ public class FollowerWriteNotification extends Notification {
 		return this.pgId;
 	}
 
-	private void readAuthorIdFromEntity(final Entity entity) {
+	private void readAuthorIdFromEntity(final DatastoreEntity entity) {
 		final String id = getAuthorIdFromEntity(entity);
 		this.setAuthorId(id);
 	}
 
-	private void readAuthorNameFromEntity(final Entity entity) {
+	private void readAuthorNameFromEntity(final DatastoreEntity entity) {
 		final String name = getAuthorNameFromEntity(entity);
 		this.setAuthorName(name);
 	}
 
-	private void readPgIdFromEntity(Entity entity) {
+	private void readPgIdFromEntity(final DatastoreEntity entity) {
 		final PageId id = new PageId();
 		final int number = getPgIdNumFromEntity(entity);
 		id.setNumber(number);
@@ -112,7 +112,7 @@ public class FollowerWriteNotification extends Notification {
 	}
 
 	@Override
-	void readPropertiesFromEntity(final Entity entity) {
+	void readPropertiesFromEntity(final DatastoreEntity entity) {
 		super.readPropertiesFromEntity(entity);
 		this.readAuthorIdFromEntity(entity);
 		this.readAuthorNameFromEntity(entity);
@@ -132,7 +132,7 @@ public class FollowerWriteNotification extends Notification {
 	}
 
 	@Override
-	void setPropertiesInEntity(final Entity entity) {
+	void setPropertiesInEntity(final DatastoreEntity entity) {
 		super.setPropertiesInEntity(entity);
 		this.setAuthorNameInEntity(entity);
 		this.setAuthorIdInEntity(entity);
@@ -140,13 +140,13 @@ public class FollowerWriteNotification extends Notification {
 		setTypeInEntity(entity);
 	}
 
-	private static void setTypeInEntity(final Entity entity) {
+	private static void setTypeInEntity(final DatastoreEntity entity) {
 		final String type = getType();
 		String propertyName = Notification.getTypePropertyName();
 		entity.setProperty(propertyName, type);
 	}
 
-	private void setAuthorIdInEntity(final Entity entity) {
+	private void setAuthorIdInEntity(final DatastoreEntity entity) {
 		final String id = this.getAuthorId();
 		entity.setProperty(AUTHOR_ID_PROPERTY, id);
 	}
@@ -155,12 +155,12 @@ public class FollowerWriteNotification extends Notification {
 		return this.authorId;
 	}
 
-	private void setAuthorNameInEntity(final Entity entity) {
+	private void setAuthorNameInEntity(final DatastoreEntity entity) {
 		final String name = this.getAuthorName();
 		entity.setProperty(AUTHOR_NAME_PROPERTY, name);
 	}
 
-	private void setPgIdInEntity(final Entity entity) {
+	private void setPgIdInEntity(final DatastoreEntity entity) {
 		final PageId id = this.getPgId();
 		final int num = id.getNumber();
 		entity.setProperty(PG_ID_NUM_PROPERTY, num);

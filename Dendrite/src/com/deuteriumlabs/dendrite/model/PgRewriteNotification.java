@@ -17,16 +17,16 @@ public class PgRewriteNotification extends Notification {
 	public static final String REWRITE_AUTHOR_ID_PROPERTY = "rewriteAuthorId";
 	private static final String TYPE = "PgRewriteNotification";
 
-	private static int getPgIdNumFromEntity(final Entity entity) {
+	private static int getPgIdNumFromEntity(final DatastoreEntity entity) {
 		final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
 		return num.intValue();
 	}
 
-	private static String getPgIdVersionFromEntity(final Entity entity) {
+	private static String getPgIdVersionFromEntity(final DatastoreEntity entity) {
 		return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
 	}
 
-	private static String getRewriteAuthorIdFromEntity(final Entity entity) {
+	private static String getRewriteAuthorIdFromEntity(final DatastoreEntity entity) {
 		String propertyName = REWRITE_AUTHOR_ID_PROPERTY;
 		final String id = (String) entity.getProperty(propertyName);
 		return id;
@@ -38,7 +38,7 @@ public class PgRewriteNotification extends Notification {
 	public PgRewriteNotification() {
 	}
 
-	public PgRewriteNotification(final Entity entity) {
+	public PgRewriteNotification(final DatastoreEntity entity) {
 		this.readPropertiesFromEntity(entity);
 	}
 
@@ -103,7 +103,7 @@ public class PgRewriteNotification extends Notification {
 		return name;
 	}
 
-	private void readPgIdFromEntity(final Entity entity) {
+	private void readPgIdFromEntity(final DatastoreEntity entity) {
 		final PageId id = new PageId();
 		final int number = getPgIdNumFromEntity(entity);
 		id.setNumber(number);
@@ -113,13 +113,13 @@ public class PgRewriteNotification extends Notification {
 	}
 
 	@Override
-	void readPropertiesFromEntity(final Entity entity) {
+	void readPropertiesFromEntity(final DatastoreEntity entity) {
 		super.readPropertiesFromEntity(entity);
 		this.readPgIdFromEntity(entity);
 		this.readRewriteAuthorIdFromEntity(entity);
 	}
 
-	private void readRewriteAuthorIdFromEntity(final Entity entity) {
+	private void readRewriteAuthorIdFromEntity(final DatastoreEntity entity) {
 		final String id = getRewriteAuthorIdFromEntity(entity);
 		this.setRewriteAuthorId(id);
 	}
@@ -134,7 +134,7 @@ public class PgRewriteNotification extends Notification {
 	/**
 	 * @param entity
 	 */
-	private void setPgIdInEntity(final Entity entity) {
+	private void setPgIdInEntity(final DatastoreEntity entity) {
 		final PageId id = this.getPgId();
 		final int num = id.getNumber();
 		entity.setProperty(PG_ID_NUM_PROPERTY, num);
@@ -143,14 +143,14 @@ public class PgRewriteNotification extends Notification {
 	}
 
 	@Override
-	void setPropertiesInEntity(Entity entity) {
+	void setPropertiesInEntity(final DatastoreEntity entity) {
 		super.setPropertiesInEntity(entity);
 		this.setPgIdInEntity(entity);
 		this.setRewriteAuthorIdInEntity(entity);
 		setTypeInEntity(entity);
 	}
 
-	private static void setTypeInEntity(final Entity entity) {
+	private static void setTypeInEntity(final DatastoreEntity entity) {
 		final String type = getType();
 		String propertyName = Notification.getTypePropertyName();
 		entity.setProperty(propertyName, type);
@@ -163,7 +163,7 @@ public class PgRewriteNotification extends Notification {
 		this.rewriteAuthorId = id;
 	}
 
-	private void setRewriteAuthorIdInEntity(final Entity entity) {
+	private void setRewriteAuthorIdInEntity(final DatastoreEntity entity) {
 		final String id = this.getRewriteAuthorId();
 		entity.setProperty(REWRITE_AUTHOR_ID_PROPERTY, id);
 	}

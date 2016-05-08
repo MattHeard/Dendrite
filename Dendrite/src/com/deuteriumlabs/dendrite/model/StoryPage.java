@@ -112,9 +112,9 @@ public class StoryPage extends Model {
         final DatastoreService store = getStore();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-        final List<Entity> entities = preparedQuery.asList(fetchOptions);
+        final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
         int count = 0;
-        for (final Entity entity : entities) {
+        for (final DatastoreEntity entity : entities) {
             final String loverId;
             loverId = (String) entity.getProperty(projectionProperty);
             if (loverId != null && loverId.equals("") == false) {
@@ -142,7 +142,7 @@ public class StoryPage extends Model {
         final DatastoreService store = getStore();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-        final List<Entity> entities = preparedQuery.asList(fetchOptions);
+        final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
         final List<StoryPage> pages = getPgsFromEntities(entities);
         return pages;
     }
@@ -151,9 +151,9 @@ public class StoryPage extends Model {
         final PreparedQuery preparedQuery = getPreparedQueryForFirstPgsMatchingTag(
                 tag);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-        final List<Entity> entities = preparedQuery.asList(fetchOptions);
+        final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
         final List<StoryPage> pgs = new ArrayList<StoryPage>();
-        for (final Entity entity : entities) {
+        for (final DatastoreEntity entity : entities) {
             final StoryPage pg = new StoryPage(entity);
             pgs.add(pg);
         }
@@ -174,7 +174,7 @@ public class StoryPage extends Model {
         final FetchOptions fetchOptions = FetchOptions.Builder.withLimit(limit);
         final int offset = start;
         fetchOptions.offset(offset);
-        final List<Entity> entities = preparedQuery.asList(fetchOptions);
+        final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
         final List<StoryPage> pgs = getPgsFromEntities(entities);
         return pgs;
     }
@@ -229,9 +229,9 @@ public class StoryPage extends Model {
         query.setFilter(filter);
         final DatastoreService store = getStore();
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-        final List<Entity> entities = store.prepare(query).asList(fetchOptions);
+        final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(store.prepare(query), fetchOptions);
         int count = 0;
-        for (final Entity entity : entities) {
+        for (final DatastoreEntity entity : entities) {
             if (entity.getProperty(LOVING_USERS_PROPERTY) != null) {
                 count++;
             }
@@ -261,7 +261,7 @@ public class StoryPage extends Model {
         return new FilterPredicate(propertyName, operator, value);
     }
 
-    private static int getIdNumFromEntity(final Entity entity) {
+    private static int getIdNumFromEntity(final DatastoreEntity entity) {
         final Long num = (Long) entity.getProperty(ID_NUMBER_PROPERTY);
         return num.intValue();
     }
@@ -273,14 +273,14 @@ public class StoryPage extends Model {
         return new FilterPredicate(propertyName, operator, value);
     }
 
-    private static String getIdVersionFromEntity(final Entity entity) {
+    private static String getIdVersionFromEntity(final DatastoreEntity entity) {
         return (String) entity.getProperty(ID_VERSION_PROPERTY);
     }
 
     private static List<StoryPage> getPgsFromEntities(
-            final List<Entity> entities) {
+            final List<DatastoreEntity> entities) {
         final List<StoryPage> pgs = new ArrayList<StoryPage>();
-        for (final Entity entity : entities) {
+        for (final DatastoreEntity entity : entities) {
             final StoryPage pg = new StoryPage(entity);
             pgs.add(pg);
         }
@@ -346,7 +346,7 @@ public class StoryPage extends Model {
         setBeginning(null);
     }
 
-    public StoryPage(final Entity entity) {
+    public StoryPage(final DatastoreEntity entity) {
         readPropertiesFromEntity(entity);
     }
 
@@ -570,35 +570,35 @@ public class StoryPage extends Model {
         setAncestry(ancestry);
     }
 
-    private List<PageId> getAncestryFromEntity(final Entity entity) {
+    private List<PageId> getAncestryFromEntity(final DatastoreEntity entity) {
         final String ancestry = (String) entity.getProperty(ANCESTRY_PROPERTY);
         return parseAncestry(ancestry);
     }
 
-    private String getAuthorIdFromEntity(final Entity entity) {
+    private String getAuthorIdFromEntity(final DatastoreEntity entity) {
         return (String) entity.getProperty(AUTHOR_ID_PROPERTY);
     }
 
-    private String getAuthorNameFromEntity(final Entity entity) {
+    private String getAuthorNameFromEntity(final DatastoreEntity entity) {
         return (String) entity.getProperty(AUTHOR_NAME_PROPERTY);
     }
 
-    private int getBeginningNumFromEntity(final Entity entity) {
+    private int getBeginningNumFromEntity(final DatastoreEntity entity) {
         final String property = BEGINNING_NUMBER_PROPERTY;
         final Long num = (Long) entity.getProperty(property);
         return (num == null) ? 0 : num.intValue();
     }
 
-    private String getBeginningVersionFromEntity(final Entity entity) {
+    private String getBeginningVersionFromEntity(final DatastoreEntity entity) {
         return (String) entity.getProperty(BEGINNING_VERSION_PROPERTY);
     }
 
     @SuppressWarnings("unchecked")
-    private List<String> getFormerlyLovingUsersFromEntity(final Entity entity) {
+    private List<String> getFormerlyLovingUsersFromEntity(final DatastoreEntity entity) {
         return (List<String>) entity.getProperty(FORMERLY_LOVING_USERS_PROPERTY);
     }
 
-    private boolean getIsFirstPgFromEntity(final Entity entity) {
+    private boolean getIsFirstPgFromEntity(final DatastoreEntity entity) {
         final Boolean property = (Boolean) entity.getProperty(IS_FIRST_PG_PROPERTY);
         return (property == null) ? false : property.booleanValue();
     }
@@ -620,7 +620,7 @@ public class StoryPage extends Model {
     }
 
     @SuppressWarnings("unchecked")
-    private List<String> getLovingUsersFromEntity(final Entity entity) {
+    private List<String> getLovingUsersFromEntity(final DatastoreEntity entity) {
         return (List<String>) entity.getProperty(LOVING_USERS_PROPERTY);
     }
 
@@ -689,11 +689,11 @@ public class StoryPage extends Model {
     }
 
     @SuppressWarnings("unchecked")
-    private List<String> getTagsFromEntity(final Entity entity) {
+    private List<String> getTagsFromEntity(final DatastoreEntity entity) {
         return (List<String>) entity.getProperty(TAGS_PROPERTY);
     }
 
-    private Text getTextFromEntity(final Entity entity) {
+    private Text getTextFromEntity(final DatastoreEntity entity) {
         return (Text) entity.getProperty(TEXT_PROPERTY);
     }
 
@@ -726,21 +726,21 @@ public class StoryPage extends Model {
         return ancestry;
     }
 
-    private void readAncestryFromEntity(final Entity entity) {
+    private void readAncestryFromEntity(final DatastoreEntity entity) {
         final List<PageId> ancestry = getAncestryFromEntity(entity);
         setAncestry(ancestry);
         setParentFromAncestry(ancestry);
     }
 
-    private void readAuthorIdFromEntity(final Entity entity) {
+    private void readAuthorIdFromEntity(final DatastoreEntity entity) {
         setAuthorId(getAuthorIdFromEntity(entity));
     }
 
-    private void readAuthorNameFromEntity(final Entity entity) {
+    private void readAuthorNameFromEntity(final DatastoreEntity entity) {
         setAuthorName(getAuthorNameFromEntity(entity));
     }
 
-    private void readBeginningFromEntity(final Entity entity) {
+    private void readBeginningFromEntity(final DatastoreEntity entity) {
         final PageId beginning = new PageId();
         final int num = getBeginningNumFromEntity(entity);
         beginning.setNumber(num);
@@ -754,7 +754,7 @@ public class StoryPage extends Model {
         }
     }
 
-    private void readFormerlyLovingUsersFromEntity(final Entity entity) {
+    private void readFormerlyLovingUsersFromEntity(final DatastoreEntity entity) {
         List<String> users = getFormerlyLovingUsersFromEntity(entity);
         if (users == null) {
             users = new ArrayList<String>();
@@ -762,7 +762,7 @@ public class StoryPage extends Model {
         setFormerlyLovingUsers(users);
     }
 
-    private void readIdFromEntity(final Entity entity) {
+    private void readIdFromEntity(final DatastoreEntity entity) {
         final PageId id = new PageId();
         final int num = getIdNumFromEntity(entity);
         id.setNumber(num);
@@ -771,12 +771,12 @@ public class StoryPage extends Model {
         setId(id);
     }
 
-    private void readIsFirstPgFromEntity(final Entity entity) {
+    private void readIsFirstPgFromEntity(final DatastoreEntity entity) {
         final boolean isFirstPg = getIsFirstPgFromEntity(entity);
         setFirstPg(isFirstPg);
     }
 
-    private void readLovingUsersFromEntity(final Entity entity) {
+    private void readLovingUsersFromEntity(final DatastoreEntity entity) {
         List<String> users = getLovingUsersFromEntity(entity);
         if (users == null) {
             users = new ArrayList<String>();
@@ -784,7 +784,7 @@ public class StoryPage extends Model {
         setLovingUsers(users);
     }
 
-    private void readTagsFromEntity(final Entity entity) {
+    private void readTagsFromEntity(final DatastoreEntity entity) {
         List<String> tags = getTagsFromEntity(entity);
         if (tags == null) {
             tags = new ArrayList<String>();
@@ -792,7 +792,7 @@ public class StoryPage extends Model {
         setTags(tags);
     }
 
-    private void readTextFromEntity(final Entity entity) {
+    private void readTextFromEntity(final DatastoreEntity entity) {
         final Text text = getTextFromEntity(entity);
         this.setText(text);
     }
@@ -801,7 +801,7 @@ public class StoryPage extends Model {
         this.ancestry = ancestry;
     }
 
-    private void setAncestryInEntity(final Entity entity) {
+    private void setAncestryInEntity(final DatastoreEntity entity) {
         final List<PageId> ancestry = getAncestry();
         String entityVal = "";
         for (int i = 0; i < ancestry.size(); i++) {
@@ -813,21 +813,21 @@ public class StoryPage extends Model {
         entity.setProperty(ANCESTRY_PROPERTY, entityVal);
     }
 
-    private void setAuthorIdInEntity(final Entity entity) {
+    private void setAuthorIdInEntity(final DatastoreEntity entity) {
         final String authorId = getAuthorId();
         if (authorId != null) {
             entity.setProperty(AUTHOR_ID_PROPERTY, authorId);
         }
     }
 
-    private void setAuthorNameInEntity(final Entity entity) {
+    private void setAuthorNameInEntity(final DatastoreEntity entity) {
         final String authorName = getAuthorName();
         if (authorName != null) {
             entity.setProperty(AUTHOR_NAME_PROPERTY, authorName);
         }
     }
 
-    private void setBeginningInEntity(final Entity entity) {
+    private void setBeginningInEntity(final DatastoreEntity entity) {
         final PageId beginning = getBeginning();
         final int num = beginning.getNumber();
         entity.setProperty(BEGINNING_NUMBER_PROPERTY, num);
@@ -843,12 +843,12 @@ public class StoryPage extends Model {
         this.isFirstPg = isFirstPg;
     }
 
-    private void setFormerlyLovingUsersInEntity(final Entity entity) {
+    private void setFormerlyLovingUsersInEntity(final DatastoreEntity entity) {
         final List<String> users = getFormerlyLovingUsers();
         entity.setProperty(FORMERLY_LOVING_USERS_PROPERTY, users);
     }
 
-    private void setIdInEntity(final Entity entity) {
+    private void setIdInEntity(final DatastoreEntity entity) {
         final PageId id = getId();
         final int num = id.getNumber();
         entity.setProperty(ID_NUMBER_PROPERTY, num);
@@ -856,12 +856,12 @@ public class StoryPage extends Model {
         entity.setProperty(ID_VERSION_PROPERTY, version);
     }
 
-    private void setIsFirstPgInEntity(final Entity entity) {
+    private void setIsFirstPgInEntity(final DatastoreEntity entity) {
         final boolean isFirstPg = isFirstPg();
         entity.setProperty(IS_FIRST_PG_PROPERTY, isFirstPg);
     }
 
-    private void setLovingUsersInEntity(final Entity entity) {
+    private void setLovingUsersInEntity(final DatastoreEntity entity) {
         final List<String> lovingUsers = getLovingUsers();
         entity.setProperty(LOVING_USERS_PROPERTY, lovingUsers);
     }
@@ -883,12 +883,12 @@ public class StoryPage extends Model {
         this.tags = tags;
     }
 
-    private void setTagsInEntity(final Entity entity) {
+    private void setTagsInEntity(final DatastoreEntity entity) {
         final List<String> tags = getTags();
         entity.setProperty(TAGS_PROPERTY, tags);
     }
 
-    private void setTextInEntity(final Entity entity) {
+    private void setTextInEntity(final DatastoreEntity entity) {
         final Text text = getText();
         entity.setProperty(TEXT_PROPERTY, text);
     }
@@ -904,15 +904,15 @@ public class StoryPage extends Model {
     }
 
     @Override
-    protected Entity createNewEntity(final String kindName) {
+    protected DatastoreEntity createNewEntity(final String kindName) {
         final String key = getId().toString();
-        return new Entity(KIND_NAME, key);
+        return new DatastoreEntity(KIND_NAME, key);
     }
 
     @Override
-    protected Entity getMatchingEntity() throws EntityNotFoundException {
+    protected DatastoreEntity getMatchingEntity() throws EntityNotFoundException {
         final Key key = getKey();
-        return getStore().get(key);
+        return new DatastoreEntity(getStore().get(key));
     }
 
     @Override
@@ -929,7 +929,7 @@ public class StoryPage extends Model {
     }
 
     @Override
-    void readPropertiesFromEntity(final Entity entity) {
+    void readPropertiesFromEntity(final DatastoreEntity entity) {
         readAncestryFromEntity(entity);
         readIdFromEntity(entity);
         readTextFromEntity(entity);
@@ -943,7 +943,7 @@ public class StoryPage extends Model {
     }
 
     @Override
-    void setPropertiesInEntity(final Entity entity) {
+    void setPropertiesInEntity(final DatastoreEntity entity) {
         setAncestryInEntity(entity);
         setIdInEntity(entity);
         setTextInEntity(entity);

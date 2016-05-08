@@ -48,7 +48,7 @@ public class StoryBeginning extends Model {
 		final FetchOptions fetchOptions = FetchOptions.Builder.withLimit(limit);
 		final int offset = start;
 		fetchOptions.offset(offset);
-		List<Entity> entities = preparedQuery.asList(fetchOptions);
+		List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
 		List<StoryBeginning> beginnings = getBeginningsFromEntities(entities);
 		return beginnings;
 	}
@@ -61,9 +61,9 @@ public class StoryBeginning extends Model {
 	 * @return The list of story beginnings with extracted properties
 	 */
 	private static List<StoryBeginning> getBeginningsFromEntities(
-			final List<Entity> entities) {
+			final List<DatastoreEntity> entities) {
 		final List<StoryBeginning> beginnings = new ArrayList<StoryBeginning>();
-		for (final Entity entity : entities) {
+		for (final DatastoreEntity entity : entities) {
 			StoryBeginning beginning = new StoryBeginning(entity);
 			beginnings.add(beginning);
 		}
@@ -91,7 +91,7 @@ public class StoryBeginning extends Model {
 	 *            The entity containing the page number
 	 * @return The page number
 	 */
-	private static int getPageNumberFromEntity(final Entity entity) {
+	private static int getPageNumberFromEntity(final DatastoreEntity entity) {
 		final Long pageNumber = (Long) entity.getProperty(PAGE_NUMBER_PROPERTY);
 		return pageNumber.intValue();
 	}
@@ -103,7 +103,7 @@ public class StoryBeginning extends Model {
 	 *            The entity containing the title
 	 * @return The title of the story
 	 */
-	private static String getTitleFromEntity(final Entity entity) {
+	private static String getTitleFromEntity(final DatastoreEntity entity) {
 		return (String) entity.getProperty(TITLE_PROPERTY);
 	}
 
@@ -125,7 +125,7 @@ public class StoryBeginning extends Model {
 	 * @param entity
 	 *            The entity containing the properties
 	 */
-	public StoryBeginning(final Entity entity) {
+	public StoryBeginning(final DatastoreEntity entity) {
 		this.readPropertiesFromEntity(entity);
 	}
 
@@ -177,7 +177,7 @@ public class StoryBeginning extends Model {
 	 * @param entity
 	 *            The entity storing the page number
 	 */
-	private void readPageNumberFromEntity(final Entity entity) {
+	private void readPageNumberFromEntity(final DatastoreEntity entity) {
 		final int pageNumber = getPageNumberFromEntity(entity);
 		this.setPageNumber(pageNumber);
 	}
@@ -190,7 +190,7 @@ public class StoryBeginning extends Model {
 	 * .appengine.api.datastore.Entity)
 	 */
 	@Override
-	void readPropertiesFromEntity(final Entity entity) {
+	void readPropertiesFromEntity(final DatastoreEntity entity) {
 		this.readPageNumberFromEntity(entity);
 		this.readTitleFromEntity(entity);
 		this.readSizeFromEntity(entity);
@@ -198,12 +198,12 @@ public class StoryBeginning extends Model {
 		this.readQualityFromEntity(entity);
 	}
 
-	private void readQualityFromEntity(final Entity entity) {
+	private void readQualityFromEntity(final DatastoreEntity entity) {
 		final int quality = getQualityFromEntity(entity);
 		this.setQuality(quality);
 	}
 
-	private int getQualityFromEntity(final Entity entity) {
+	private int getQualityFromEntity(final DatastoreEntity entity) {
 		final Long quality = (Long) entity.getProperty(QUALITY_PROPERTY);
 		if (quality != null) {
 			return quality.intValue();
@@ -212,12 +212,12 @@ public class StoryBeginning extends Model {
 		}
 	}
 
-	private void readLoveFromEntity(final Entity entity) {
+	private void readLoveFromEntity(final DatastoreEntity entity) {
 		final int love = getLoveFromEntity(entity);
 		this.setLove(love);
 	}
 
-	private int getLoveFromEntity(final Entity entity) {
+	private int getLoveFromEntity(final DatastoreEntity entity) {
 		final Long love = (Long) entity.getProperty(LOVE_PROPERTY);
 		if (love != null) {
 			return love.intValue();
@@ -226,12 +226,12 @@ public class StoryBeginning extends Model {
 		}
 	}
 
-	private void readSizeFromEntity(final Entity entity) {
+	private void readSizeFromEntity(final DatastoreEntity entity) {
 		final int size = getSizeFromEntity(entity);
 		this.setSize(size);
 	}
 
-	private int getSizeFromEntity(final Entity entity) {
+	private int getSizeFromEntity(final DatastoreEntity entity) {
 		final Long size = (Long) entity.getProperty(SIZE_PROPERTY);
 		if (size != null) {
 			return size.intValue();
@@ -246,7 +246,7 @@ public class StoryBeginning extends Model {
 	 * @param entity
 	 *            The entity storing the title
 	 */
-	private void readTitleFromEntity(final Entity entity) {
+	private void readTitleFromEntity(final DatastoreEntity entity) {
 		final String title = getTitleFromEntity(entity);
 		if (title == null) {
 			this.setTitle("???");
@@ -275,7 +275,7 @@ public class StoryBeginning extends Model {
 	 * @param entity
 	 *            The entity in which the value is to be stored
 	 */
-	private void setPageNumberInEntity(final Entity entity) {
+	private void setPageNumberInEntity(final DatastoreEntity entity) {
 		final int pageNumber = this.getPageNumber();
 		entity.setProperty(PAGE_NUMBER_PROPERTY, pageNumber);
 	}
@@ -288,7 +288,7 @@ public class StoryBeginning extends Model {
 	 * .appengine.api.datastore.Entity)
 	 */
 	@Override
-	void setPropertiesInEntity(final Entity entity) {
+	void setPropertiesInEntity(final DatastoreEntity entity) {
 		this.setPageNumberInEntity(entity);
 		this.setTitleInEntity(entity);
 		this.setSizeInEntity(entity);
@@ -296,17 +296,17 @@ public class StoryBeginning extends Model {
 		this.setQualityInEntity(entity);
 	}
 
-	private void setSizeInEntity(final Entity entity) {
+	private void setSizeInEntity(final DatastoreEntity entity) {
 		final int size = this.getSize();
 		entity.setProperty(SIZE_PROPERTY, size);
 	}
 
-	private void setLoveInEntity(final Entity entity) {
+	private void setLoveInEntity(final DatastoreEntity entity) {
 		final int love = this.getLove();
 		entity.setProperty(LOVE_PROPERTY, love);
 	}
 
-	private void setQualityInEntity(final Entity entity) {
+	private void setQualityInEntity(final DatastoreEntity entity) {
 		final int quality = this.getQuality();
 		entity.setProperty(QUALITY_PROPERTY, quality);
 	}
@@ -341,7 +341,7 @@ public class StoryBeginning extends Model {
 	 * @param entity
 	 *            The entity in which the value is to be stored
 	 */
-	private void setTitleInEntity(final Entity entity) {
+	private void setTitleInEntity(final DatastoreEntity entity) {
 		final String title = this.getTitle();
 		entity.setProperty(TITLE_PROPERTY, title);
 	}

@@ -17,28 +17,28 @@ public class FolloweeNewNotification extends Notification {
 	private static final String TITLE_PROPERTY = "title";
 	private static final String TYPE = "FolloweeNewNotification";
 
-	private static String getAuthorIdFromEntity(final Entity entity) {
+	private static String getAuthorIdFromEntity(final DatastoreEntity entity) {
 		String propertyName = NEW_AUTHOR_ID_PROPERTY;
 		final String id = (String) entity.getProperty(propertyName);
 		return id;
 	}
 
-	private static String getAuthorNameFromEntity(final Entity entity) {
+	private static String getAuthorNameFromEntity(final DatastoreEntity entity) {
 		String propertyName = NEW_AUTHOR_NAME_PROPERTY;
 		final String name = (String) entity.getProperty(propertyName);
 		return name;
 	}
 
-	private static int getPgIdNumFromEntity(final Entity entity) {
+	private static int getPgIdNumFromEntity(final DatastoreEntity entity) {
 		final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
 		return num.intValue();
 	}
 
-	private static String getPgIdVersionFromEntity(final Entity entity) {
+	private static String getPgIdVersionFromEntity(final DatastoreEntity entity) {
 		return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
 	}
 
-	private static String getTitleFromEntity(final Entity entity) {
+	private static String getTitleFromEntity(final DatastoreEntity entity) {
 		String propertyName = TITLE_PROPERTY;
 		final String title = (String) entity.getProperty(propertyName);
 		return title;
@@ -48,7 +48,7 @@ public class FolloweeNewNotification extends Notification {
 		return TYPE;
 	}
 
-	private static void setTypeInEntity(final Entity entity) {
+	private static void setTypeInEntity(final DatastoreEntity entity) {
 		final String type = getType();
 		String propertyName = Notification.getTypePropertyName();
 		entity.setProperty(propertyName, type);
@@ -62,7 +62,7 @@ public class FolloweeNewNotification extends Notification {
 	public FolloweeNewNotification() {
 	}
 
-	public FolloweeNewNotification(final Entity entity) {
+	public FolloweeNewNotification(final DatastoreEntity entity) {
 		this.readPropertiesFromEntity(entity);
 	}
 
@@ -119,17 +119,17 @@ public class FolloweeNewNotification extends Notification {
 		return this.title;
 	}
 
-	private void readAuthorIdFromEntity(final Entity entity) {
+	private void readAuthorIdFromEntity(final DatastoreEntity entity) {
 		final String id = getAuthorIdFromEntity(entity);
 		this.setAuthorId(id);
 	}
 
-	private void readAuthorNameFromEntity(final Entity entity) {
+	private void readAuthorNameFromEntity(final DatastoreEntity entity) {
 		final String name = getAuthorNameFromEntity(entity);
 		this.setAuthorName(name);
 	}
 
-	private void readPgIdFromEntity(Entity entity) {
+	private void readPgIdFromEntity(final DatastoreEntity entity) {
 		final PageId id = new PageId();
 		final int number = getPgIdNumFromEntity(entity);
 		id.setNumber(number);
@@ -139,7 +139,7 @@ public class FolloweeNewNotification extends Notification {
 	}
 
 	@Override
-	void readPropertiesFromEntity(final Entity entity) {
+	void readPropertiesFromEntity(final DatastoreEntity entity) {
 		super.readPropertiesFromEntity(entity);
 		this.readAuthorIdFromEntity(entity);
 		this.readAuthorNameFromEntity(entity);
@@ -147,7 +147,7 @@ public class FolloweeNewNotification extends Notification {
 		this.readTitleFromEntity(entity);
 	}
 
-	private void readTitleFromEntity(final Entity entity) {
+	private void readTitleFromEntity(final DatastoreEntity entity) {
 		final String title = getTitleFromEntity(entity);
 		this.setTitle(title);
 	}
@@ -156,7 +156,7 @@ public class FolloweeNewNotification extends Notification {
 		this.authorId = id;
 	}
 
-	private void setAuthorIdInEntity(final Entity entity) {
+	private void setAuthorIdInEntity(final DatastoreEntity entity) {
 		final String id = this.getAuthorId();
 		entity.setProperty(NEW_AUTHOR_ID_PROPERTY, id);
 	}
@@ -165,7 +165,7 @@ public class FolloweeNewNotification extends Notification {
 		this.authorName = name;
 	}
 
-	private void setAuthorNameInEntity(final Entity entity) {
+	private void setAuthorNameInEntity(final DatastoreEntity entity) {
 		final String name = this.getAuthorName();
 		entity.setProperty(NEW_AUTHOR_NAME_PROPERTY, name);
 	}
@@ -174,7 +174,7 @@ public class FolloweeNewNotification extends Notification {
 		this.pgId = id;
 	}
 
-	private void setPgIdInEntity(final Entity entity) {
+	private void setPgIdInEntity(final DatastoreEntity entity) {
 		final PageId id = this.getPgId();
 		final int num = id.getNumber();
 		entity.setProperty(PG_ID_NUM_PROPERTY, num);
@@ -183,7 +183,7 @@ public class FolloweeNewNotification extends Notification {
 	}
 
 	@Override
-	void setPropertiesInEntity(final Entity entity) {
+	void setPropertiesInEntity(final DatastoreEntity entity) {
 		super.setPropertiesInEntity(entity);
 		this.setAuthorIdInEntity(entity);
 		this.setAuthorNameInEntity(entity);
@@ -196,7 +196,7 @@ public class FolloweeNewNotification extends Notification {
 		this.title = title;
 	}
 
-	private void setTitleInEntity(final Entity entity) {
+	private void setTitleInEntity(final DatastoreEntity entity) {
 		final String title = this.getTitle();
 		entity.setProperty(TITLE_PROPERTY, title);
 	}

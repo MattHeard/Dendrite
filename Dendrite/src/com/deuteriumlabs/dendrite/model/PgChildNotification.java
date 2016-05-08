@@ -26,7 +26,7 @@ public class PgChildNotification extends Notification {
 	public PgChildNotification() {
 	}
 
-	public PgChildNotification(final Entity entity) {
+	public PgChildNotification(final DatastoreEntity entity) {
 		this.readPropertiesFromEntity(entity);
 	}
 
@@ -37,7 +37,7 @@ public class PgChildNotification extends Notification {
 		return this.childAuthorId;
 	}
 
-	private String getChildAuthorIdFromEntity(final Entity entity) {
+	private String getChildAuthorIdFromEntity(final DatastoreEntity entity) {
 		final String id = (String) entity.getProperty(CHILD_AUTHOR_ID_PROPERTY);
 		return id;
 	}
@@ -96,21 +96,21 @@ public class PgChildNotification extends Notification {
 		return this.pgId;
 	}
 
-	private int getPgIdNumFromEntity(final Entity entity) {
+	private int getPgIdNumFromEntity(final DatastoreEntity entity) {
 		final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
 		return num.intValue();
 	}
 
-	private String getPgIdVersionFromEntity(final Entity entity) {
+	private String getPgIdVersionFromEntity(final DatastoreEntity entity) {
 		return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
 	}
 
-	private void readChildAuthorIdFromEntity(final Entity entity) {
+	private void readChildAuthorIdFromEntity(final DatastoreEntity entity) {
 		final String id = getChildAuthorIdFromEntity(entity);
 		this.setChildAuthorId(id);
 	}
 
-	private void readPgIdFromEntity(final Entity entity) {
+	private void readPgIdFromEntity(final DatastoreEntity entity) {
 		final PageId id = new PageId();
 		final int number = getPgIdNumFromEntity(entity);
 		id.setNumber(number);
@@ -120,7 +120,7 @@ public class PgChildNotification extends Notification {
 	}
 
 	@Override
-	void readPropertiesFromEntity(Entity entity) {
+	void readPropertiesFromEntity(final DatastoreEntity entity) {
 		super.readPropertiesFromEntity(entity);
 		this.readPgIdFromEntity(entity);
 		this.readChildAuthorIdFromEntity(entity);
@@ -133,7 +133,7 @@ public class PgChildNotification extends Notification {
 		this.childAuthorId = id;
 	}
 
-	private void setChildAuthorIdInEntity(final Entity entity) {
+	private void setChildAuthorIdInEntity(final DatastoreEntity entity) {
 		final String id = this.getChildAuthorId();
 		entity.setProperty(CHILD_AUTHOR_ID_PROPERTY, id);
 	}
@@ -148,7 +148,7 @@ public class PgChildNotification extends Notification {
 	/**
 	 * @param entity
 	 */
-	private void setPgIdInEntity(final Entity entity) {
+	private void setPgIdInEntity(final DatastoreEntity entity) {
 		final PageId id = this.getPgId();
 		final int num = id.getNumber();
 		entity.setProperty(PG_ID_NUM_PROPERTY, num);
@@ -157,14 +157,14 @@ public class PgChildNotification extends Notification {
 	}
 
 	@Override
-	void setPropertiesInEntity(final Entity entity) {
+	void setPropertiesInEntity(final DatastoreEntity entity) {
 		super.setPropertiesInEntity(entity);
 		this.setPgIdInEntity(entity);
 		this.setChildAuthorIdInEntity(entity);
 		setTypeInEntity(entity);
 	}
 
-	private static void setTypeInEntity(final Entity entity) {
+	private static void setTypeInEntity(final DatastoreEntity entity) {
 		final String type = getType();
 		String propertyName = Notification.getTypePropertyName();
 		entity.setProperty(propertyName, type);
