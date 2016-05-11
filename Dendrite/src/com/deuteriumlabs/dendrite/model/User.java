@@ -240,21 +240,13 @@ public class User extends Model {
     private String       alignment;
     private int          avatarId;
     private String       defaultPenName;
-
     private List<String> followers;
-
     private String       fontColour;
-
     private double       fontSize;
-
     private String       fontType;
-
     private List<String> formerFollowers;
-
     private String       id;
-
     private double       spacing;
-
     private String       theme;
 
     public User() {
