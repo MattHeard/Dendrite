@@ -5,7 +5,7 @@ import javax.servlet.jsp.PageContext;
 
 public class CoverView extends View {
     public CoverView(final PageContext pageContext) {
-        this.setPageContext(pageContext);
+        this.pageContext = pageContext;
     }
 
 	@Override
