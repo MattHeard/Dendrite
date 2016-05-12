@@ -5,8 +5,7 @@
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><%
 
-final CoverView view = new CoverView();
-view.setPageContext(pageContext);
+final CoverView view = new CoverView(pageContext);
 
 %>
 <!DOCTYPE html>

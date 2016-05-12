@@ -4,6 +4,9 @@ package com.deuteriumlabs.dendrite.view;
 import javax.servlet.jsp.PageContext;
 
 public class CoverView extends View {
+    public CoverView(final PageContext pageContext) {
+        this.setPageContext(pageContext);
+    }
 
 	@Override
 	public String getUrl() {
