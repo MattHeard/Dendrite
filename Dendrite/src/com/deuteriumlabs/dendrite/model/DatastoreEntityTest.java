@@ -15,7 +15,6 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
@@ -95,9 +94,9 @@ public class DatastoreEntityTest {
     @Test
     public void testFromPreparedQuery() {
         final String kind = "testKind";
-        final Query query = new Query(kind);
+        final DatastoreQuery query = new DatastoreQuery(kind);
         final PreparedQuery preparedQuery =
-                DatastoreServiceFactory.getDatastoreService().prepare(query);
+                DatastoreServiceFactory.getDatastoreService().prepare(query.get());
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         final List<DatastoreEntity> entities =
                 DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
