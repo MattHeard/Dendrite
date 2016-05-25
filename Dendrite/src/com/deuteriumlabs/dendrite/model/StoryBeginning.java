@@ -8,7 +8,6 @@ import com.deuteriumlabs.dendrite.queries.Store;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -38,7 +37,7 @@ public class StoryBeginning extends Model {
 	 * @return The list of beginnings between start and end, not including end
 	 */
 	public static List<StoryBeginning> getBeginnings(final int start,
-			final int end, final Store store, final Query query) {
+			final int end, final Store store, final DatastoreQuery query) {
 		query.addSort(QUALITY_PROPERTY, SortDirection.DESCENDING);
 		query.addSort(PAGE_NUMBER_PROPERTY);
 		final PreparedQuery preparedQuery = store.prepare(query);
@@ -143,11 +142,12 @@ public class StoryBeginning extends Model {
 	 * @see com.deuteriumlabs.dendrite.model.Model#getMatchingQuery()
 	 */
 	@Override
-	Query getMatchingQuery() {
-		final Query query = new Query(KIND_NAME);
+	DatastoreQuery getMatchingQuery() {
+		final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
 		final int pageNumber = this.getPageNumber();
 		final Filter pageNumberFilter = getPageNumberFilter(pageNumber);
-		return query.setFilter(pageNumberFilter);
+		query.setFilter(pageNumberFilter);
+		return query;
 	}
 
 	/**
@@ -345,9 +345,10 @@ public class StoryBeginning extends Model {
 	}
 
 	public static int countAllBeginnings() {
-		final Query query = new Query(KIND_NAME).setKeysOnly();
+		final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
+		query.setKeysOnly();
 		final DatastoreService store = new Store().get();
-		final PreparedQuery preparedQuery = store.prepare(query);
+		final PreparedQuery preparedQuery = store.prepare(query.get());
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
 		return preparedQuery.countEntities(fetchOptions);
 	}

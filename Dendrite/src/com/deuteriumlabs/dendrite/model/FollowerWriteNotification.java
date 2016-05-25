@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
-import com.google.appengine.api.datastore.Entity;
 
 public class FollowerWriteNotification extends Notification {
 

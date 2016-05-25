@@ -10,12 +10,11 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 
+import com.deuteriumlabs.dendrite.model.DatastoreQuery;
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 import com.deuteriumlabs.dendrite.queries.Store;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.Query;
 
 /**
  * Represents the table of contents from which the user can select a story to
@@ -74,7 +73,7 @@ public class ContentsView extends View {
         return BODY_MAIN_TITLE;
     }
 
-    public List<Link> getLinks(final Store store, final Query query) {
+    public List<Link> getLinks(final Store store, final DatastoreQuery query) {
         if (links == null) {
             final List<String> texts = getTitles(store, query);
             final List<String> numbers = getPageNumbers(store, query);
@@ -100,7 +99,7 @@ public class ContentsView extends View {
         return Integer.toString(next);
     }
 
-    private List<String> getPageNumbers(final Store store, final Query query) {
+    private List<String> getPageNumbers(final Store store, final DatastoreQuery query) {
         final List<String> numbers = new ArrayList<String>();
         final List<StoryBeginning> beginnings = getBeginnings(store, query);
         for (final StoryBeginning beginning : beginnings) {
@@ -120,7 +119,7 @@ public class ContentsView extends View {
         return Integer.toString(prev);
     }
 
-    private List<String> getTitles(final Store store, final Query query) {
+    private List<String> getTitles(final Store store, final DatastoreQuery query) {
         final List<String> titles = new ArrayList<String>();
         final List<StoryBeginning> beginnings = getBeginnings(store, query);
         for (final StoryBeginning beginning : beginnings) {
@@ -356,7 +355,7 @@ public class ContentsView extends View {
      * @return The list of all beginnings on this page of contents
      */
     private List<StoryBeginning> getBeginnings(final Store store,
-            final Query query) {
+            final DatastoreQuery query) {
         if (beginnings == null) {
             readBeginnings(store, query);
         }
@@ -429,7 +428,7 @@ public class ContentsView extends View {
         return numFilteredBeginnings;
     }
 
-    private List<String> getPageVersions(final Store store, final Query query) {
+    private List<String> getPageVersions(final Store store, final DatastoreQuery query) {
         final List<String> versions = new ArrayList<String>();
         final List<String> numbers = getPageNumbers(store, query);
         for (final String number : numbers) {
@@ -452,7 +451,7 @@ public class ContentsView extends View {
      * paginated so that a limited number of beginnings are displayed at one
      * time.
      */
-    private void readBeginnings(final Store store, final Query query) {
+    private void readBeginnings(final Store store, final DatastoreQuery query) {
         final List<StoryBeginning> beginnings;
         if (isFiltered() == false) {
             final int first = getFirstIndex();
@@ -532,10 +531,6 @@ public class ContentsView extends View {
         }
 
         setPgsMap(map);
-    }
-
-    private void setLinks(final List<Link> links) {
-        this.links = links;
     }
 
     private void setNumFilteredBeginnings(final int size) {

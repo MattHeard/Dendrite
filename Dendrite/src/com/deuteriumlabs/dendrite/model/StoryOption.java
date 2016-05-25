@@ -3,11 +3,8 @@ package com.deuteriumlabs.dendrite.model;
 
 import com.deuteriumlabs.dendrite.queries.SingleEntity;
 import com.deuteriumlabs.dendrite.queries.Store;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
@@ -42,10 +39,10 @@ public class StoryOption extends Model {
 	private static final String TEXT_PROPERTY = "text";
 
 	public static int countOptions(final PageId source) {
-		final Query query = new Query(KIND_NAME);
+		final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
 		final Filter filter = getSourceFilter(source);
 		query.setFilter(filter);
-		final DatastoreService store = new Store().get();
+		final Store store = new Store();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
 		return preparedQuery.countEntities(fetchOptions);
@@ -176,11 +173,11 @@ public class StoryOption extends Model {
 	}
 
 	private DatastoreEntity getEntityWithTarget() {
-		final DatastoreService store = new Store().get();
-		final Query query1 = new Query(KIND_NAME);
+		final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
 		final int target = this.getTarget();
 		final Filter filter = this.getTargetFilter(target);
-		final Query query = query1.setFilter(filter);
+		query.setFilter(filter);
+        final Store store = new Store();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		return new SingleEntity(preparedQuery).get();
 	}
@@ -210,7 +207,7 @@ public class StoryOption extends Model {
 	 * @see com.deuteriumlabs.dendrite.model.Model#getMatchingQuery()
 	 */
 	@Override
-	Query getMatchingQuery() {
+	DatastoreQuery getMatchingQuery() {
 		if (this.areSourceAndIndexSet() == true) {
 			return getQueryMatchingSourceAndIndex();
 		} else {
@@ -218,8 +215,8 @@ public class StoryOption extends Model {
 		}
 	}
 
-	private Query getQueryMatchingSourceAndIndex() {
-		final Query query = new Query(KIND_NAME);
+	private DatastoreQuery getQueryMatchingSourceAndIndex() {
+		final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
 		final PageId source = this.getSource();
 		final Filter sourceFilter = getSourceFilter(source);
 		final int listIndex = this.getListIndex();
@@ -229,8 +226,8 @@ public class StoryOption extends Model {
 		return query.setFilter(filter);
 	}
 
-	private Query getQueryMatchingTarget() {
-		final Query query = new Query(KIND_NAME);
+	private DatastoreQuery getQueryMatchingTarget() {
+		final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
 		final int target = this.getTarget();
 		final Filter filter = getTargetFilter(target);
 		return query.setFilter(filter);

@@ -5,13 +5,11 @@ import java.util.Date;
 
 import com.deuteriumlabs.dendrite.queries.SingleEntity;
 import com.deuteriumlabs.dendrite.queries.Store;
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 
 public abstract class Model {
     private static final String CREATION_DATE_PROPERTY = "creationDate";
@@ -39,8 +37,8 @@ public abstract class Model {
     }
 
     public boolean isInStore() {
-        final Query query = getMatchingQuery();
-        final DatastoreService store = new Store().get();
+        final DatastoreQuery query = getMatchingQuery();
+        final Store store = new Store();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         final int count = preparedQuery.countEntities(fetchOptions);
@@ -96,14 +94,14 @@ public abstract class Model {
 
     protected DatastoreEntity getMatchingEntity()
             throws EntityNotFoundException {
-        final DatastoreService store = new Store().get();
-        final Query query = getMatchingQuery();
+        final Store store = new Store();
+        final DatastoreQuery query = getMatchingQuery();
         final PreparedQuery preparedQuery = store.prepare(query);
         return new SingleEntity(preparedQuery).get();
     }
 
     abstract String getKindName();
-    abstract Query getMatchingQuery();
+    abstract DatastoreQuery getMatchingQuery();
     abstract void readPropertiesFromEntity(final DatastoreEntity entity);
     abstract void setPropertiesInEntity(final DatastoreEntity entity);
 }

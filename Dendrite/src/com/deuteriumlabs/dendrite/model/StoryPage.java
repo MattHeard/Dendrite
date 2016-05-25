@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.Random;
 
 import com.deuteriumlabs.dendrite.queries.Store;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
@@ -17,7 +15,6 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Projection;
 import com.google.appengine.api.datastore.PropertyProjection;
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
@@ -62,10 +59,10 @@ public class StoryPage extends Model {
 
     // TODO(Matt Heard): Move into Author object
     public static int countAllPagesWrittenBy(final String authorId) {
-        final Query query = new Query(KIND_NAME);
+        final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
         final Filter filter = getAuthorIdFilter(authorId);
         query.setFilter(filter);
-        final DatastoreService store = new Store().get();
+        final Store store = new Store();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         return preparedQuery.countEntities(fetchOptions);
@@ -74,8 +71,8 @@ public class StoryPage extends Model {
     // TODO(Matt Heard): Extract into service object
     // TODO(Matt Heard): Investigate using Datastore statistics value instead
     public static int countAllPgs() {
-        final Query query = new Query(KIND_NAME);
-        final DatastoreService store = new Store().get();
+        final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
+        final Store store = new Store();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         return preparedQuery.countEntities(fetchOptions);
@@ -92,7 +89,7 @@ public class StoryPage extends Model {
     // TODO(Matt Heard): Clarify names of 'greater' and 'less' variables.
     public static int countLoversBetween(final String greater,
             final String less) {
-        final Query query = new Query(KIND_NAME);
+        final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
         final Class<String> type = String.class;
         final String projectionProperty = LOVING_USERS_PROPERTY;
         final PropertyProjection projection;
@@ -110,7 +107,7 @@ public class StoryPage extends Model {
         final Filter filter;
         filter = CompositeFilterOperator.and(greaterFilter, lessFilter);
         query.setFilter(filter);
-        final DatastoreService store = new Store().get();
+        final Store store = new Store();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
@@ -126,21 +123,21 @@ public class StoryPage extends Model {
     }
 
     public static int countVersions(final int num) {
-        final Query query = new Query(KIND_NAME);
+        final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
         final Filter filter = getIdNumFilter(num);
         query.setFilter(filter);
-        final DatastoreService store = new Store().get();
+        final Store store = new Store();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         return preparedQuery.countEntities(fetchOptions);
     }
 
     public static List<StoryPage> getAllVersions(final PageId pageId) {
-        final Query query = new Query(KIND_NAME);
+        final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
         final int num = pageId.getNumber();
         final Filter filter = StoryPage.getIdNumFilter(num);
         query.setFilter(filter);
-        final DatastoreService store = new Store().get();
+        final Store store = new Store();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
@@ -163,13 +160,13 @@ public class StoryPage extends Model {
 
     public static List<StoryPage> getPagesWrittenBy(final String authorId,
             final int start, final int end) {
-        final Query query = new Query(KIND_NAME);
+        final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
         query.addSort(BEGINNING_NUMBER_PROPERTY);
         query.addSort(ID_NUMBER_PROPERTY);
         query.addSort(ID_VERSION_PROPERTY);
         final Filter filter = getAuthorIdFilter(authorId);
         query.setFilter(filter);
-        final DatastoreService store = new Store().get();
+        final Store store = new Store();
         final PreparedQuery preparedQuery = store.prepare(query);
         final int limit = end - start;
         final FetchOptions fetchOptions = FetchOptions.Builder.withLimit(limit);
@@ -219,17 +216,18 @@ public class StoryPage extends Model {
     }
 
     private static int countLoversOfAllVersions(final int pgNum) {
-        final Query query = new Query(KIND_NAME);
+        final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
         Projection loversProjection;
         final String propertyName = LOVING_USERS_PROPERTY;
         loversProjection = new PropertyProjection(propertyName, String.class);
         query.addProjection(loversProjection);
         FilterPredicate filter;
-        filter = Query.FilterOperator.EQUAL.of(ID_NUMBER_PROPERTY, pgNum);
+        filter = FilterOperator.EQUAL.of(ID_NUMBER_PROPERTY, pgNum);
         query.setFilter(filter);
-        final DatastoreService store = new Store().get();
+        final Store store = new Store();
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-        final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(store.prepare(query), fetchOptions);
+        final PreparedQuery preparedQuery = store.prepare(query);
+        final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
         int count = 0;
         for (final DatastoreEntity entity : entities) {
             if (entity.getProperty(LOVING_USERS_PROPERTY) != null) {
@@ -289,7 +287,7 @@ public class StoryPage extends Model {
 
     private static PreparedQuery getPreparedQueryForFirstPgsMatchingTag(
             final String tag) {
-        final Query query = new Query(KIND_NAME);
+        final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
         String propertyName = IS_FIRST_PG_PROPERTY;
         final FilterOperator operator = FilterOperator.EQUAL;
         final Filter isFirstPgFilter;
@@ -302,13 +300,13 @@ public class StoryPage extends Model {
         filter = CompositeFilterOperator.and(isFirstPgFilter, tagFilter);
         query.setFilter(filter);
         query.addSort(ID_NUMBER_PROPERTY);
-        final DatastoreService store = new Store().get();
+        final Store store = new Store();
         final PreparedQuery preparedQuery = store.prepare(query);
         return preparedQuery;
     }
 
     static int countSubtreeBetween(final String greater, final String less) {
-        final Query query = new Query(KIND_NAME);
+        final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
         final String propertyName = ANCESTRY_PROPERTY;
         FilterOperator operator = FilterOperator.GREATER_THAN;
 
@@ -323,7 +321,7 @@ public class StoryPage extends Model {
         final Filter filter;
         filter = CompositeFilterOperator.and(greaterFilter, lessFilter);
         query.setFilter(filter);
-        final DatastoreService store = new Store().get();
+        final Store store = new Store();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         return preparedQuery.countEntities(fetchOptions);
@@ -921,11 +919,12 @@ public class StoryPage extends Model {
     }
 
     @Override
-    Query getMatchingQuery() {
-        final Query query = new Query(KIND_NAME);
+    DatastoreQuery getMatchingQuery() {
+        final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
         final PageId id = getId();
         final Filter filter = getIdFilter(id);
-        return query.setFilter(filter);
+        query.setFilter(filter);
+        return query;
     }
 
     @Override

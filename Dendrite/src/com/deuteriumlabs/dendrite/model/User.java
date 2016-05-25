@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -504,11 +503,12 @@ public class User extends Model {
     }
 
     @Override
-    Query getMatchingQuery() {
-        final Query query = new Query(KIND_NAME);
+    DatastoreQuery getMatchingQuery() {
+        final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
         final String id = getId();
         final Filter idFilter = getIdFilter(id);
-        return query.setFilter(idFilter);
+        query.setFilter(idFilter);
+        return query;
     }
 
     @Override

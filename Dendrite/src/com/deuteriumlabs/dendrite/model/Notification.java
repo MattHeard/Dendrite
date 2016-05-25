@@ -16,7 +16,6 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
@@ -39,7 +38,7 @@ public class Notification extends Model {
 	 * @return
 	 */
 	public static int countNewNotificationsForRecipient(final String recipientId) {
-		final Query query = new Query(KIND_NAME);
+		final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
 		final Filter recipientFilter = getRecipientFilter(recipientId);
 		final boolean isNew = true;
 		final Filter isNewFilter = getIsNewFilter(isNew);
@@ -47,7 +46,7 @@ public class Notification extends Model {
 		filter = CompositeFilterOperator.and(recipientFilter, isNewFilter);
 		query.setFilter(filter);
 		final DatastoreService store = new Store().get();
-		final PreparedQuery preparedQuery = store.prepare(query);
+		final PreparedQuery preparedQuery = store.prepare(query.get());
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
 		return preparedQuery.countEntities(fetchOptions);
 	}
@@ -86,12 +85,12 @@ public class Notification extends Model {
 	 * @return
 	 */
 	public static List<Notification> getNotificationsForUser(final String userId) {
-		final Query query = new Query(KIND_NAME);
+		final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
 		final Filter filter = getRecipientFilter(userId);
 		query.setFilter(filter);
 		query.addSort(TIME_PROPERTY, SortDirection.ASCENDING);
 		final DatastoreService store = new Store().get();
-		final PreparedQuery preparedQuery = store.prepare(query);
+		final PreparedQuery preparedQuery = store.prepare(query.get());
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
 		final List<Notification> notifications;
@@ -230,7 +229,7 @@ public class Notification extends Model {
 	 * @see com.deuteriumlabs.dendrite.model.Model#getMatchingQuery()
 	 */
 	@Override
-	Query getMatchingQuery() {
+	DatastoreQuery getMatchingQuery() {
 		final boolean isIdDefined = this.isIdDefined();
 		if (isIdDefined == true) {
 			return this.getQueryById();
@@ -244,25 +243,27 @@ public class Notification extends Model {
 		return (id > 0);
 	}
 
-	private Query getQueryByRecipientAndTime() {
-		final Query query = new Query(KIND_NAME);
+	private DatastoreQuery getQueryByRecipientAndTime() {
+		final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
 		final String recipientId = this.getRecipientId();
 		final Filter recipientFilter = getRecipientFilter(recipientId);
 		final Date time = this.getTime();
 		final Filter timeFilter = getTimeFilter(time);
 		final Filter filter;
 		filter = CompositeFilterOperator.and(recipientFilter, timeFilter);
-		return query.setFilter(filter);
+		query.setFilter(filter);
+		return query;
 	}
 
-	private Query getQueryById() {
-		final Query query = new Query(KIND_NAME);
+	private DatastoreQuery getQueryById() {
+		final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
 		String propertyName = Entity.KEY_RESERVED_PROPERTY;
 		FilterOperator operator = FilterOperator.EQUAL;
 		final long id = this.getId();
 		final Key key = KeyFactory.createKey(KIND_NAME, id);
 		Filter filter = new FilterPredicate(propertyName, operator, key);
-		return query.setFilter(filter);
+		query.setFilter(filter);
+		return query;
 	}
 
 	/**

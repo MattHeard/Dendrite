@@ -1,12 +1,12 @@
 package com.deuteriumlabs.dendrite.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
@@ -31,8 +31,8 @@ public class ModelTest {
         }
 
         @Override
-        Query getMatchingQuery() {
-            return new Query(getKindName());
+        DatastoreQuery getMatchingQuery() {
+            return new DatastoreQuery(getKindName());
         }
 
         @Override

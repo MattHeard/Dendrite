@@ -1,6 +1,7 @@
 package com.deuteriumlabs.dendrite.view;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import javax.servlet.jsp.PageContext;
 
@@ -9,9 +10,9 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import com.deuteriumlabs.dendrite.model.DatastoreQuery;
 import com.deuteriumlabs.dendrite.queries.Store;
 import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 
 public class ContentsViewTest {
 
@@ -51,8 +52,8 @@ public class ContentsViewTest {
                     throws Throwable {
                 return preparedQuery;
             }
-        }).when(store).prepare(Mockito.any(Query.class));
-        final Query query = Mockito.mock(Query.class);
+        }).when(store).prepare(Mockito.any(DatastoreQuery.class));
+        final DatastoreQuery query = Mockito.mock(DatastoreQuery.class);
         assertNull(view.getLinks(store, query));
     }
 
