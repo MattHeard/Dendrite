@@ -15,7 +15,6 @@ public class PgRewriteNotification extends Notification {
 	private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
 	private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
 	public static final String REWRITE_AUTHOR_ID_PROPERTY = "rewriteAuthorId";
-	private static final String TYPE = "PgRewriteNotification";
 
 	private static int getPgIdNumFromEntity(final DatastoreEntity entity) {
 		final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
@@ -150,12 +149,6 @@ public class PgRewriteNotification extends Notification {
 		setTypeInEntity(entity);
 	}
 
-	private static void setTypeInEntity(final DatastoreEntity entity) {
-		final String type = getType();
-		String propertyName = Notification.getTypePropertyName();
-		entity.setProperty(propertyName, type);
-	}
-
 	/**
 	 * @param id
 	 */
@@ -166,9 +159,5 @@ public class PgRewriteNotification extends Notification {
 	private void setRewriteAuthorIdInEntity(final DatastoreEntity entity) {
 		final String id = this.getRewriteAuthorId();
 		entity.setProperty(REWRITE_AUTHOR_ID_PROPERTY, id);
-	}
-
-	public static String getType() {
-		return TYPE;
 	}
 }

@@ -13,11 +13,6 @@ public class FollowerRewriteNotification extends Notification {
 	private static final String AUTHOR_NAME_PROPERTY = "authorName";
 	private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
 	private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
-	private static final String TYPE = "FollowerRewriteNotification";
-
-	public static String getType() {
-		return TYPE;
-	}
 
 	private static String getAuthorIdFromEntity(final DatastoreEntity entity) {
 		String propertyName = AUTHOR_ID_PROPERTY;
@@ -138,12 +133,6 @@ public class FollowerRewriteNotification extends Notification {
 		this.setAuthorIdInEntity(entity);
 		this.setPgIdInEntity(entity);
 		setTypeInEntity(entity);
-	}
-
-	private static void setTypeInEntity(final DatastoreEntity entity) {
-		final String type = getType();
-		String propertyName = Notification.getTypePropertyName();
-		entity.setProperty(propertyName, type);
 	}
 
 	private void setAuthorIdInEntity(final DatastoreEntity entity) {

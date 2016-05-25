@@ -58,9 +58,9 @@ public abstract class View {
 			++currIndex;
 		}
 	}
-
-	private static String getAlignmentClass() {
-		final String alignmentSetting = getUserAlignment();
+	
+	private static String getAlignmentClass(final User myUser) {
+		final String alignmentSetting = getUserAlignment(myUser);
 		if (alignmentSetting.equals("Left")) {
 			return "leftAlignment";
 		} else if (alignmentSetting.equals("Right")) {
@@ -78,8 +78,8 @@ public abstract class View {
 	 * 
 	 * @return The URL to the author page of the logged-in user
 	 */
-	public static String getAuthorLink() {
-		final User myUser = User.getMyUser();
+	// TODO Make private and non-static
+	public static String getAuthorLink(final User myUser) {
 		if (myUser != null) {
 			final String userId = myUser.getId();
 			return "author?id=" + userId;
@@ -88,8 +88,8 @@ public abstract class View {
 		}
 	}
 
-	private static String getColourClass() {
-		final String colourSetting = getUserFontColour();
+	private static String getColourClass(final User myUser) {
+		final String colourSetting = getUserFontColour(myUser);
 		if (colourSetting.equals("Charcoal")) {
 			return "charcoalColour";
 		} else if (colourSetting.equals("Black")) {
@@ -108,12 +108,7 @@ public abstract class View {
 	}
 
 	public static String getMyUserId() {
-		final User myUser = User.getMyUser();
-		if (myUser != null) {
-			return myUser.getId();
-		} else {
-			return null;
-		}
+	    return User.getMyUserId();
 	}
 
 	/**
@@ -121,8 +116,7 @@ public abstract class View {
 	 * 
 	 * @return The default pen name of the logged-in user
 	 */
-	public static String getMyUserName() {
-		final User myUser = User.getMyUser();
+	public static String getMyUserName(final User myUser) {
 		if (myUser != null) {
 			return myUser.getDefaultPenName();
 		} else {
@@ -130,8 +124,8 @@ public abstract class View {
 		}
 	}
 
-	private static String getSizeClass() {
-		final double sizeSetting = getUserFontSize();
+	private static String getSizeClass(final User myUser) {
+		final double sizeSetting = getUserFontSize(myUser);
 		if (sizeSetting == 2.0) {
 			return "hugeSize";
 		} else if (sizeSetting == 1.5) {
@@ -143,8 +137,8 @@ public abstract class View {
 		}
 	}
 
-	private static String getSpacingClass() {
-		final double spacingSetting = getUserSpacing();
+	private static String getSpacingClass(final User myUser) {
+		final double spacingSetting = getUserSpacing(myUser);
 		if (spacingSetting == 3.0) {
 			return "hugeSpacing";
 		} else if (spacingSetting == 2.0) {
@@ -156,8 +150,8 @@ public abstract class View {
 		}
 	}
 
-	private static String getThemeClass() {
-		final String themeSetting = getUserTheme();
+	private static String getThemeClass(final User myUser) {
+		final String themeSetting = getUserTheme(myUser);
 		if (themeSetting.equals("Dark")) {
 			return "darkTheme";
 		} else if (themeSetting.equals("Sepia")) {
@@ -169,14 +163,14 @@ public abstract class View {
 		}
 	}
 
-	private static String getThemeClasses() {
+	private static String getThemeClasses(final User myUser) {
 		final List<String> themeClassList = new ArrayList<String>();
-		themeClassList.add(getSizeClass());
-		themeClassList.add(getTypefaceClass());
-		themeClassList.add(getColourClass());
-		themeClassList.add(getSpacingClass());
-		themeClassList.add(getAlignmentClass());
-		themeClassList.add(getThemeClass());
+		themeClassList.add(getSizeClass(myUser));
+		themeClassList.add(getTypefaceClass(myUser));
+		themeClassList.add(getColourClass(myUser));
+		themeClassList.add(getSpacingClass(myUser));
+		themeClassList.add(getAlignmentClass(myUser));
+		themeClassList.add(getThemeClass(myUser));
 		String themeClassStr = "";
 		for (final String themeClass : themeClassList) {
 			themeClassStr += themeClass + " ";
@@ -184,8 +178,8 @@ public abstract class View {
 		return themeClassStr;
 	}
 
-	private static String getTypefaceClass() {
-		final String typefaceSetting = getUserFontType();
+	private static String getTypefaceClass(final User myUser) {
+		final String typefaceSetting = getUserFontType(myUser);
 		if (typefaceSetting.equals("Serif")) {
 			return "serifTypeface";
 		} else if (typefaceSetting.equals("Monospace")) {
@@ -199,8 +193,7 @@ public abstract class View {
 		}
 	}
 
-	public static String getUserAlignment() {
-		final User myUser = User.getMyUser();
+	public static String getUserAlignment(final User myUser) {
 		if (myUser != null) {
 			return myUser.getAlignment();
 		} else {
@@ -208,8 +201,7 @@ public abstract class View {
 		}
 	}
 
-	public static String getUserFontColour() {
-		final User myUser = User.getMyUser();
+	public static String getUserFontColour(final User myUser) {
 		if (myUser != null) {
 			return myUser.getFontColour();
 		} else {
@@ -217,8 +209,7 @@ public abstract class View {
 		}
 	}
 
-	public static double getUserFontSize() {
-		final User myUser = User.getMyUser();
+	public static double getUserFontSize(final User myUser) {
 		if (myUser != null) {
 			return myUser.getFontSize();
 		} else {
@@ -226,8 +217,7 @@ public abstract class View {
 		}
 	}
 
-	public static String getUserFontType() {
-		final User myUser = User.getMyUser();
+	public static String getUserFontType(final User myUser) {
 		if (myUser != null) {
 			return myUser.getFontType();
 		} else {
@@ -235,8 +225,7 @@ public abstract class View {
 		}
 	}
 
-	public static double getUserSpacing() {
-		final User myUser = User.getMyUser();
+	public static double getUserSpacing(final User myUser) {
 		if (myUser != null) {
 			return myUser.getSpacing();
 		} else {
@@ -244,21 +233,11 @@ public abstract class View {
 		}
 	}
 
-	public static String getUserTheme() {
-		final User myUser = User.getMyUser();
+	public static String getUserTheme(final User myUser) {
 		if (myUser != null) {
 			return myUser.getTheme();
 		} else {
 			return "";
-		}
-	}
-
-	public static boolean isUserFontSizeSet() {
-		final User myUser = User.getMyUser();
-		if (myUser != null) {
-			return myUser.isFontSizeSet();
-		} else {
-			return false;
 		}
 	}
 
@@ -358,17 +337,17 @@ public abstract class View {
 		footerLinks.next();
 	}
 
-	public void prepareThemeClasses() {
-		final String themeClasses = getThemeClasses();
+	public void prepareThemeClasses(final User myUser) {
+		final String themeClasses = getThemeClasses(myUser);
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute("themeClasses", themeClasses);
 	}
 
-	public void prepareUserHeader() {
+	public void prepareUserHeader(final User myUser) {
 		final PageContext pageContext = this.getPageContext();
-		final String authorLink = getAuthorLink();
+		final String authorLink = getAuthorLink(myUser);
 		pageContext.setAttribute("authorLink", authorLink);
-		final String userName = getMyUserName();
+		final String userName = getMyUserName(myUser);
 		pageContext.setAttribute("userName", userName);
 		final String logoutLink = this.getLogoutLink();
 		pageContext.setAttribute("logoutLink", logoutLink);
@@ -382,8 +361,8 @@ public abstract class View {
 		this.request = request;
 	}
 
-	public void prepareThemeClass() {
-		final String themeClass = getThemeClass();
+	public void prepareThemeClass(final User myUser) {
+		final String themeClass = getThemeClass(myUser);
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute("themeClass", themeClass);
 	}

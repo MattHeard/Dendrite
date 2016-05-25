@@ -46,7 +46,7 @@ public class RemoveTagController {
 
 	private boolean isPgAuthorCurrentUser() {
 		if (User.isMyUserLoggedIn()) {
-			final String myUserId = User.getMyUser().getId();
+			final String myUserId = User.getMyUserId();
 			final String authorId = this.getAuthorId();
 			return myUserId.equals(authorId);
 		} else {

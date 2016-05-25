@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.deuteriumlabs.dendrite.model.User;
+
 public class ResetPreferencesServlet extends UpdatePreferencesServlet {
 
     private static final long serialVersionUID = 5970059991233726340L;
@@ -17,7 +19,8 @@ public class ResetPreferencesServlet extends UpdatePreferencesServlet {
         this.setResponse(resp);
         final ResetPreferencesController controller;
         controller = new ResetPreferencesController();
-        controller.setCurrPenName();
+        final User myUser = User.getMyUser();
+        controller.setCurrPenName(myUser);
         controller.setDefaultFontSize();
         controller.setDefaultFontType();
         controller.setDefaultFontColour();
@@ -25,7 +28,7 @@ public class ResetPreferencesServlet extends UpdatePreferencesServlet {
         controller.setDefaultAlignment();
         controller.setDefaultTheme();
         controller.setDefaultAvatarId();
-        controller.updatePreferences();
+        controller.updatePreferences(myUser);
         this.redirectToMyPreferencesPage();
     }
 

@@ -2,10 +2,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.PreferencesView"
+%><%@ page import="com.deuteriumlabs.dendrite.model.User"
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><%
 
 pageContext.setAttribute("webPageTitle", "Dendrite - My Preferences");
+final User myUser = User.getMyUser();
 final PreferencesView view = new PreferencesView();
 view.setPageContext(pageContext);
 view.setRequest(request);
@@ -191,7 +193,7 @@ if (isNewPenNameBlank == true) {
                     value="${fn:escapeXml(alignmentOption)}"
                     id="alignment${fn:escapeXml(alignmentOption)}"<%
         
-        if (alignmentOptions[i].equals(PreferencesView.getUserAlignment())) {
+        if (alignmentOptions[i].equals(PreferencesView.getUserAlignment(myUser))) {
             
             %>
                     checked="checked"<%
@@ -254,7 +256,7 @@ if (isNewPenNameBlank == true) {
                 value="${fn:escapeXml(avatarNum)}"
                 class="avatar_input_hidden"<%
                 
-        final int userAvatarId = view.getAvatarId();
+        final int userAvatarId = view.getAvatarId(myUser);
         final boolean isSelected = (userAvatarId == i);
         if (isSelected == true) {
         	

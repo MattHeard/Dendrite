@@ -23,4 +23,13 @@ public class CoverView extends View {
 		final PageContext pageContext = this.getPageContext();
 		pageContext.setAttribute("tagName", tag);
 	}
+	
+	public String[] getTags() {
+	    final String[] tags = { "ABSURD", "ACTION", "ADVENTURE", "COMEDY",
+	            "CRIME", "DRAMA", "EROTIC", "FANFIC", "FANTASY", "HISTORICAL",
+	            "HORROR", "INSPIRATIONAL", "MYSTERY", "POLITICAL", "REAL-LIFE",
+	            "RELIGIOUS", "ROMANCE", "SCIFI", "SPAM", "THRILLER", "WESTERN",
+	            "YOUNG-ADULT" };
+	    return tags;
+	}
 }

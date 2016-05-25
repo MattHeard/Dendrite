@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.deuteriumlabs.dendrite.model.PageId;
+import com.deuteriumlabs.dendrite.model.User;
 
 public class AddTagServlet extends DendriteServlet {
     
@@ -39,7 +40,8 @@ public class AddTagServlet extends DendriteServlet {
 				final AddTagController controller = new AddTagController();
 				controller.setPgId(pgId);
 				controller.setTag(tag);
-				final boolean isAdded = controller.addTag();
+				final User myUser = User.getMyUser();
+				final boolean isAdded = controller.addTag(myUser);
 				if (isAdded) {
 					this.returnOk();
 				} else {

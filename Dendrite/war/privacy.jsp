@@ -2,10 +2,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.PrivacyView"
+%><%@ page import="com.deuteriumlabs.dendrite.model.User"
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><%
 
 pageContext.setAttribute("webPageTitle", "Dendrite - My Preferences");
+final User myUser = User.getMyUser();
 final PrivacyView view = new PrivacyView();
 view.setPageContext(pageContext);
 view.initialise();

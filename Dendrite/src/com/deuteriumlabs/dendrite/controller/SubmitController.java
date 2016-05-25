@@ -11,6 +11,7 @@ import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryOption;
 import com.deuteriumlabs.dendrite.model.StoryPage;
+import com.deuteriumlabs.dendrite.model.User;
 
 public abstract class SubmitController {
 
@@ -74,9 +75,9 @@ public abstract class SubmitController {
     	beginning.update();
     }
 
-    public void buildNewPage() {
+    public void buildNewPage(final User myUser) {
         this.setNewPageId();
-        this.buildStoryPage();
+        this.buildStoryPage(myUser);
         this.buildStoryOptions();
         this.forgetDraft();
     }
@@ -106,7 +107,7 @@ public abstract class SubmitController {
         }
     }
 
-    abstract void buildStoryPage();
+    abstract void buildStoryPage(final User myUser);
 
     private PageId findUnallocatedPageId() {
         final PageId id = new PageId();

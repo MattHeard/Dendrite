@@ -1,5 +1,6 @@
 <% /* � 2013-2015 Deuterium Labs Limited */ %>
 <%@ page import="com.deuteriumlabs.dendrite.view.View"
+%><%@ page import="com.deuteriumlabs.dendrite.model.User"
 %><%@ page import="java.util.Arrays"
 %><%@ page import="java.util.List"
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
@@ -11,7 +12,7 @@
     
 final String font;
 if (View.isUserLoggedIn()) {
-    font = View.getUserFontType();
+    font = View.getUserFontType(myUser);
 } else {
     font = "Sans-serif";
 }
@@ -80,7 +81,7 @@ ga('send', 'pageview');
     <title>${fn:escapeXml(webPageTitle)}</title>
   </head><%
 
-view.prepareThemeClasses();
+view.prepareThemeClasses(myUser);
   
 %>
   <body onLoad="init();" class="${fn:escapeXml(themeClasses)}">
@@ -93,14 +94,14 @@ view.prepareThemeClasses();
               width="283px"
               height="70px"<%
               
-view.prepareThemeClass();
+view.prepareThemeClass(myUser);
               
 %>
               src="/static/img/logo/2014-08-20-0/${fn:escapeXml(themeClass)}/logo.png" /></a></div><%
 
 final boolean isUserLoggedIn = View.isUserLoggedIn();
 if (isUserLoggedIn == true) {
-	view.prepareUserHeader();
+	view.prepareUserHeader(myUser);
     
     %>
           

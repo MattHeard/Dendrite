@@ -10,9 +10,11 @@
  */%><%@ page import="com.deuteriumlabs.dendrite.model.Notification"
 %><%@ page import="com.deuteriumlabs.dendrite.view.HyperlinkedStr"
 %><%@ page import="com.deuteriumlabs.dendrite.view.NotificationsView"
+%><%@ page import="com.deuteriumlabs.dendrite.model.User"
 %><%
 
 final NotificationsView view = new NotificationsView();
+final User myUser = User.getMyUser();
 view.setPageContext(pageContext);
 view.setRequest(request);
 view.initialise();

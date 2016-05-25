@@ -2,11 +2,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.ReadView"
+%><%@ page import="com.deuteriumlabs.dendrite.model.User"
 %><%@ page import="com.deuteriumlabs.dendrite.view.FormattedText"
 %><%@ page import="com.deuteriumlabs.dendrite.view.FormattedText.Format"
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><%
 
+final User myUser = User.getMyUser();
 final ReadView view = new ReadView();
 view.setPageContext(pageContext);
 final String pageId = request.getParameter("p");

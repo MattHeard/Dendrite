@@ -16,15 +16,14 @@ public class SubmitNewController extends SubmitController {
 	private static final int MAX_TITLE_LEN = 100;
 	private String title;
 
-	public void buildNewStory() {
-		this.buildNewPage();
+	public void buildNewStory(final User myUser) {
+		this.buildNewPage(myUser);
 		this.buildStoryBeginning();
 		this.recalculateStoryQuality();
-		this.notifyFollowers();
+		this.notifyFollowers(myUser);
 	}
 
-	private void notifyFollowers() {
-		final User myUser = User.getMyUser();
+	private void notifyFollowers(final User myUser) {
 		if (myUser != null) {
 			List<String> followerIds = myUser.getFollowers();
 			if (followerIds != null) {
@@ -56,7 +55,7 @@ public class SubmitNewController extends SubmitController {
 	}
 
 	@Override
-	void buildStoryPage() {
+	void buildStoryPage(final User myUser) {
 		final StoryPage page = new StoryPage();
 		this.addStoryPageValues(page);
 		final boolean isInStore = page.isInStore();

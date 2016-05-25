@@ -2,9 +2,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.TermsView"
+%><%@ page import="com.deuteriumlabs.dendrite.model.User"
 %><%
 
 pageContext.setAttribute("webPageTitle", "Dendrite - Terms of Use");
+final User myUser = User.getMyUser();
 final TermsView view = new TermsView();
 view.setPageContext(pageContext);
 

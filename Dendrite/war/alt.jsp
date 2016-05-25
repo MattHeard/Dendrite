@@ -6,8 +6,10 @@
         
 %><%@ page import="com.deuteriumlabs.dendrite.view.AltView"
 %><%@ page import="com.deuteriumlabs.dendrite.view.AltView.Alt"
+%><%@ page import="com.deuteriumlabs.dendrite.model.User"
 %><%
 
+final User myUser = User.getMyUser();
 final AltView view = new AltView();
 view.setPageContext(pageContext);
 view.setRequest(request);

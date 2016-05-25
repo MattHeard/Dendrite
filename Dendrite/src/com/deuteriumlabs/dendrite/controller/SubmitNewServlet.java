@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.deuteriumlabs.dendrite.model.PageId;
+import com.deuteriumlabs.dendrite.model.User;
 
 public class SubmitNewServlet extends SubmitServlet {
 
@@ -53,7 +54,8 @@ public class SubmitNewServlet extends SubmitServlet {
         else if (controller.isAuthorNameTooLong() == true)
             this.redirectFromTooLongAuthorName();
         else {
-            controller.buildNewStory();
+            final User myUser = User.getMyUser();
+            controller.buildNewStory(myUser);
             final PageId id = controller.getId();
             resp.sendRedirect("/read?p=" + id);
         }

@@ -3,6 +3,7 @@ package com.deuteriumlabs.dendrite.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.jsp.PageContext;
 
@@ -139,7 +140,8 @@ public class ReadView extends View {
 		final PageId id = new PageId(string);
 		String version = id.getVersion();
 		if (version == null) {
-			version = StoryPage.getRandomVersion(id);
+		    final Random generator = new Random();
+			version = StoryPage.getRandomVersion(id, generator);
 			id.setVersion(version);
 		}
 		return id;

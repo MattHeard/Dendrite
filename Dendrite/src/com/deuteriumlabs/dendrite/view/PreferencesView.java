@@ -20,9 +20,8 @@ public class PreferencesView extends View {
 		return User.getAvatarDesc(id);
 	}
 
-	public int getAvatarId() {
-		final User user = User.getMyUser();
-		return user.getAvatarId();
+	public int getAvatarId(final User myUser) {
+		return myUser.getAvatarId();
 	}
 
 	public boolean isNewPenNameBlank() {

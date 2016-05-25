@@ -11,7 +11,7 @@ public class AddTagController {
 	private PageId pgId;
 	private String tag;
 
-	public boolean addTag() {
+	public boolean addTag(final User myUser) {
 		final StoryPage pg = this.getStoryPg();
 		final String tag = this.getTag();
 		final boolean isTagAdded = pg.addTag(tag);
@@ -19,7 +19,7 @@ public class AddTagController {
 			pg.update();
 			final boolean isPgAuthorCurrentUser = isPgAuthorCurrentUser();
 			if (isPgAuthorCurrentUser == false) {
-				this.notifyAuthor();
+				this.notifyAuthor(myUser);
 			}
 			return true;
 		} else {
@@ -50,7 +50,7 @@ public class AddTagController {
 
 	private boolean isPgAuthorCurrentUser() {
 		if (User.isMyUserLoggedIn()) {
-			final String myUserId = User.getMyUser().getId();
+			final String myUserId = User.getMyUserId();
 			final String authorId = this.getAuthorId();
 			return myUserId.equals(authorId);
 		} else {
@@ -58,30 +58,26 @@ public class AddTagController {
 		}
 	}
 
-	private void notifyAuthor() {
+	private void notifyAuthor(final User myUser) {
 		final AuthorTagNotification notification = new AuthorTagNotification();
 		notification.setPgId(this.getPgId());
 		notification.setTaggerId(this.getTaggerId());
-		notification.setTaggerName(this.getTaggerName());
+		notification.setTaggerName(this.getTaggerName(myUser));
 		notification.setTag(this.getTag());
 		notification.setRecipientId(this.getAuthorId());
 		notification.create();
 	}
 
-	private String getTaggerName() {
+	private String getTaggerName(final User myUser) {
 		if (User.isMyUserLoggedIn()) {
-			return User.getMyUser().getDefaultPenName();
+			return myUser.getDefaultPenName();
 		} else {
 			return null;
 		}
 	}
 
 	private String getTaggerId() {
-		if (User.isMyUserLoggedIn()) {
-			return User.getMyUser().getId();
-		} else {
-			return null;
-		}
+	    return User.getMyUserId();
 	}
 
 	public void setPgId(final PageId pgId) {

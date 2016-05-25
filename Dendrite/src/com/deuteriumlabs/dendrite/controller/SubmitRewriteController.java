@@ -15,13 +15,13 @@ public class SubmitRewriteController extends SubmitController {
 	protected int pageNumber;
 
 	@Override
-	public void buildNewPage() {
-		super.buildNewPage();
+	public void buildNewPage(final User myUser) {
+		super.buildNewPage(myUser);
 		this.recalculateStoryQuality();
 	}
 
 	@Override
-	void buildStoryPage() {
+	void buildStoryPage(final User myUser) {
 		final StoryPage page = new StoryPage();
 		this.addStoryPageValues(page);
 		final PageId beginning = this.getBeginning();
@@ -33,7 +33,7 @@ public class SubmitRewriteController extends SubmitController {
 		}
 
 		this.notifyAuthorsOfAltPgs();
-		this.notifyFollowers();
+		this.notifyFollowers(myUser);
 	}
 
 	private PageId getBeginning() {
@@ -100,8 +100,7 @@ public class SubmitRewriteController extends SubmitController {
 		}
 	}
 
-	private void notifyFollowers() {
-		final User myUser = User.getMyUser();
+	private void notifyFollowers(final User myUser) {
 		if (myUser != null) {
 			List<String> followerIds = myUser.getFollowers();
 			List<String> altPgAuthorIds = this.getAuthorsOfAltPgs();

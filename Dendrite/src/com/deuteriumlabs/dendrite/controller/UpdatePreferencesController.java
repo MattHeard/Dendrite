@@ -101,8 +101,7 @@ public class UpdatePreferencesController {
         this.theme = theme;
     }
 
-    public boolean updatePreferences() {
-        final User myUser = User.getMyUser();
+    public boolean updatePreferences(final User myUser) {
         if (myUser != null) {
             final String penName = this.getNewPenName();
             myUser.setDefaultPenName(penName);

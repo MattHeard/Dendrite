@@ -2,7 +2,6 @@
 package com.deuteriumlabs.dendrite.view;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -14,6 +13,9 @@ import javax.servlet.jsp.PageContext;
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryPage;
+import com.deuteriumlabs.dendrite.queries.Store;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Query;
 
 /**
  * Represents the table of contents from which the user can select a story to
@@ -72,11 +74,11 @@ public class ContentsView extends View {
         return BODY_MAIN_TITLE;
     }
 
-    public List<Link> getLinks() {
+    public List<Link> getLinks(final Store store, final Query query) {
         if (links == null) {
-            final List<String> texts = getTitles();
-            final List<String> numbers = getPageNumbers();
-            final List<String> versions = getPageVersions();
+            final List<String> texts = getTitles(store, query);
+            final List<String> numbers = getPageNumbers(store, query);
+            final List<String> versions = getPageVersions(store, query);
             final List<String> urls = getUrls(numbers, versions);
             final int length = texts.size();
             links = new ArrayList<Link>();
@@ -98,16 +100,9 @@ public class ContentsView extends View {
         return Integer.toString(next);
     }
 
-    /**
-     * Returns the list of page numbers of all beginnings on this page of
-     * contents.
-     *
-     * @return The list of page numbers of all beginnings on this page of
-     *         contents
-     */
-    public List<String> getPageNumbers() {
+    private List<String> getPageNumbers(final Store store, final Query query) {
         final List<String> numbers = new ArrayList<String>();
-        final List<StoryBeginning> beginnings = getBeginnings();
+        final List<StoryBeginning> beginnings = getBeginnings(store, query);
         for (final StoryBeginning beginning : beginnings) {
             final int numberValue = beginning.getPageNumber();
             final String numberString = Integer.toString(numberValue);
@@ -125,14 +120,9 @@ public class ContentsView extends View {
         return Integer.toString(prev);
     }
 
-    /**
-     * Returns the list of titles of all beginnings on this page of contents.
-     *
-     * @return The list of titles of all beginnings on this page of contents
-     */
-    public List<String> getTitles() {
+    private List<String> getTitles(final Store store, final Query query) {
         final List<String> titles = new ArrayList<String>();
-        final List<StoryBeginning> beginnings = getBeginnings();
+        final List<StoryBeginning> beginnings = getBeginnings(store, query);
         for (final StoryBeginning beginning : beginnings) {
             final String title = beginning.getTitle();
             titles.add(title);
@@ -365,9 +355,10 @@ public class ContentsView extends View {
      *
      * @return The list of all beginnings on this page of contents
      */
-    private List<StoryBeginning> getBeginnings() {
+    private List<StoryBeginning> getBeginnings(final Store store,
+            final Query query) {
         if (beginnings == null) {
-            readBeginnings();
+            readBeginnings(store, query);
         }
         return beginnings;
     }
@@ -438,9 +429,9 @@ public class ContentsView extends View {
         return numFilteredBeginnings;
     }
 
-    private List<String> getPageVersions() {
+    private List<String> getPageVersions(final Store store, final Query query) {
         final List<String> versions = new ArrayList<String>();
-        final List<String> numbers = getPageNumbers();
+        final List<String> numbers = getPageNumbers(store, query);
         for (final String number : numbers) {
             final String version = specifyVersion(number);
             versions.add(version);
@@ -461,24 +452,17 @@ public class ContentsView extends View {
      * paginated so that a limited number of beginnings are displayed at one
      * time.
      */
-    private void readBeginnings() {
+    private void readBeginnings(final Store store, final Query query) {
         final List<StoryBeginning> beginnings;
         if (isFiltered() == false) {
             final int first = getFirstIndex();
             final int last = first + NUM_STORIES_DISPLAYED;
-            beginnings = StoryBeginning.getBeginnings(first, last);
+            beginnings = StoryBeginning.getBeginnings(first, last, store,
+                    query);
         } else {
             beginnings = getFilteredBeginnings();
         }
         setBeginnings(beginnings);
-        
-        // DEBUG
-        printTags();
-    }
-
-    private void printTags() {
-        Map<PageId, List<String>> tagMap = new HashMap<>();
-        System.out.println(tagMap);
     }
 
     private String selectByWeight(final List<StoryPage> pgs) {
@@ -566,7 +550,8 @@ public class ContentsView extends View {
         final boolean isFiltered = isFiltered();
         if (isFiltered == false) {
             final PageId id = new PageId(number);
-            final String version = StoryPage.getRandomVersion(id);
+            final Random generator = new Random();
+            final String version = StoryPage.getRandomVersion(id, generator);
             return version;
         } else {
             final int num = Integer.parseInt(number);

@@ -5,62 +5,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
-import com.google.appengine.api.datastore.Entity;
 
 public class AuthorTagNotification extends Notification {
-
 	private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
 	private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
 	private static final String TAG_PROPERTY = "tag";
 	private static final String TAGGER_ID_PROPERTY = "taggerId";
 	private static final String TAGGER_NAME_PROPERTY = "taggerName";
-	private static final String TYPE = "AuthorTagNotification";
-
-	public static String getType() {
-		return TYPE;
-	}
-
-	private static void setTypeInEntity(final DatastoreEntity entity) {
-		entity.setProperty(Notification.getTypePropertyName(), getType());
-	}
 
 	private PageId pgId;
 	private String tag;
 	private String taggerId;
 	private String taggerName;
 
-	public AuthorTagNotification() {
-	}
+	public AuthorTagNotification() { }
 
 	public AuthorTagNotification(final DatastoreEntity entity) {
-		this.readPropertiesFromEntity(entity);
-	}
-
-	@Override
-	public String getMsg() {
-		final PageId pgId = this.getPgId();
-		final String tag = this.getTag();
-		final String taggerId = this.getTaggerId();
-		final String msg;
-		if (taggerId != null) {
-			final String name = this.getTaggerName();
-			msg = name + " tagged your page " + pgId + " as " + tag + ".";
-		} else {
-			msg = "Someone tagged your page " + pgId + " as " + tag + ".";
-		}
-		return msg;
+		readPropertiesFromEntity(entity);
 	}
 
 	@Override
 	public List<HyperlinkedStr> getHyperlinkedMsg() {
-		final PageId pgId = this.getPgId();
-		final String tag = this.getTag();
-		final String taggerId = this.getTaggerId();
 		final List<HyperlinkedStr> msg = new ArrayList<HyperlinkedStr>();
 
 		if (taggerId != null) {
 			final HyperlinkedStr nameChunk = new HyperlinkedStr();
-			nameChunk.str = this.getTaggerName();
+			nameChunk.str = taggerName;
 			nameChunk.url = "/author?id=" + taggerId;
 			msg.add(nameChunk);
 
@@ -94,8 +64,32 @@ public class AuthorTagNotification extends Notification {
 		return msg;
 	}
 
-	private PageId getPgId() {
-		return this.pgId;
+	@Override
+	public String getMsg() {
+		final String msg;
+		if (taggerId != null) {
+			final String name = taggerName;
+			msg = name + " tagged your page " + pgId + " as " + tag + ".";
+		} else {
+			msg = "Someone tagged your page " + pgId + " as " + tag + ".";
+		}
+		return msg;
+	}
+
+	public void setPgId(final PageId id) {
+		pgId = id;
+	}
+
+	public void setTag(final String tag) {
+		this.tag = tag;
+	}
+
+	public void setTaggerId(final String id) {
+		taggerId = id;
+	}
+
+	public void setTaggerName(final String name) {
+		taggerName = name;
 	}
 
 	private int getPgIdNumFromEntity(final DatastoreEntity entity) {
@@ -106,24 +100,12 @@ public class AuthorTagNotification extends Notification {
 		return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
 	}
 
-	private String getTag() {
-		return this.tag;
-	}
-
 	private String getTagFromEntity(final DatastoreEntity entity) {
 		return ((String) entity.getProperty(TAG_PROPERTY)).toUpperCase();
 	}
 
-	private String getTaggerId() {
-		return this.taggerId;
-	}
-
 	private String getTaggerIdFromEntity(final DatastoreEntity entity) {
 		return (String) entity.getProperty(TAGGER_ID_PROPERTY);
-	}
-
-	private String getTaggerName() {
-		return this.taggerName;
 	}
 
 	private String getTaggerNameFromEntity(final DatastoreEntity entity) {
@@ -134,73 +116,57 @@ public class AuthorTagNotification extends Notification {
 		final PageId id = new PageId();
 		id.setNumber(getPgIdNumFromEntity(entity));
 		id.setVersion(getPgIdVersionFromEntity(entity));
-		this.setPgId(id);
+		setPgId(id);
+	}
+
+	private void readTagFromEntity(final DatastoreEntity entity) {
+		setTag(getTagFromEntity(entity));
+	}
+
+	private void readTaggerIdFromEntity(final DatastoreEntity entity) {
+		setTaggerId(getTaggerIdFromEntity(entity));
+	}
+
+	private void readTaggerNameFromEntity(final DatastoreEntity entity) {
+		setTaggerName(getTaggerNameFromEntity(entity));
+	}
+
+	private void setPgIdInEntity(final DatastoreEntity entity) {
+		final PageId id = pgId;
+		entity.setProperty(PG_ID_NUM_PROPERTY, id.getNumber());
+		entity.setProperty(PG_ID_VERSION_PROPERTY, id.getVersion());
+	}
+
+	private void setTaggerIdInEntity(final DatastoreEntity entity) {
+		entity.setProperty(TAGGER_ID_PROPERTY, taggerId);
+	}
+
+	private void setTaggerNameInEntity(final DatastoreEntity entity) {
+		entity.setProperty(TAGGER_NAME_PROPERTY, taggerName);
+	}
+
+	private void setTagInEntity(final DatastoreEntity entity) {
+		entity.setProperty(TAG_PROPERTY, tag);
 	}
 
 	@Override
 	void readPropertiesFromEntity(final DatastoreEntity entity) {
 		super.readPropertiesFromEntity(entity);
-		this.readPgIdFromEntity(entity);
-		this.readTagFromEntity(entity);
-		this.readTaggerIdFromEntity(entity);
-		this.readTaggerNameFromEntity(entity);
-	}
-
-	private void readTagFromEntity(final DatastoreEntity entity) {
-		this.setTag(getTagFromEntity(entity));
-	}
-
-	private void readTaggerIdFromEntity(final DatastoreEntity entity) {
-		this.setTaggerId(getTaggerIdFromEntity(entity));
-	}
-
-	private void readTaggerNameFromEntity(final DatastoreEntity entity) {
-		this.setTaggerName(getTaggerNameFromEntity(entity));
-	}
-
-	public void setPgId(final PageId id) {
-		this.pgId = id;
-	}
-
-	private void setPgIdInEntity(final DatastoreEntity entity) {
-		final PageId id = this.getPgId();
-		entity.setProperty(PG_ID_NUM_PROPERTY, id.getNumber());
-		entity.setProperty(PG_ID_VERSION_PROPERTY, id.getVersion());
+		readPgIdFromEntity(entity);
+		readTagFromEntity(entity);
+		readTaggerIdFromEntity(entity);
+		readTaggerNameFromEntity(entity);
 	}
 
 	@Override
 	void setPropertiesInEntity(final DatastoreEntity entity) {
 		super.setPropertiesInEntity(entity);
-		this.setPgIdInEntity(entity);
-		this.setTagInEntity(entity);
-		if (this.getTaggerId() != null) {
-			this.setTaggerIdInEntity(entity);
-			this.setTaggerNameInEntity(entity);
+		setPgIdInEntity(entity);
+		setTagInEntity(entity);
+		if (taggerId != null) {
+			setTaggerIdInEntity(entity);
+			setTaggerNameInEntity(entity);
 		}
 		setTypeInEntity(entity);
-	}
-
-	public void setTag(final String tag) {
-		this.tag = tag;
-	}
-
-	public void setTaggerId(final String id) {
-		this.taggerId = id;
-	}
-
-	private void setTaggerIdInEntity(final DatastoreEntity entity) {
-		entity.setProperty(TAGGER_ID_PROPERTY, this.getTaggerId());
-	}
-
-	public void setTaggerName(final String name) {
-		this.taggerName = name;
-	}
-
-	private void setTaggerNameInEntity(final DatastoreEntity entity) {
-		entity.setProperty(TAGGER_NAME_PROPERTY, this.getTaggerName());
-	}
-
-	private void setTagInEntity(final DatastoreEntity entity) {
-		entity.setProperty(TAG_PROPERTY, this.getTag());
 	}
 }

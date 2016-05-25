@@ -4,8 +4,8 @@ package com.deuteriumlabs.dendrite.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.deuteriumlabs.dendrite.queries.Store;
 import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -38,11 +38,9 @@ public class StoryBeginning extends Model {
 	 * @return The list of beginnings between start and end, not including end
 	 */
 	public static List<StoryBeginning> getBeginnings(final int start,
-			final int end) {
-		final Query query = new Query(KIND_NAME);
+			final int end, final Store store, final Query query) {
 		query.addSort(QUALITY_PROPERTY, SortDirection.DESCENDING);
 		query.addSort(PAGE_NUMBER_PROPERTY);
-		final DatastoreService store = getStore();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final int limit = end - start;
 		final FetchOptions fetchOptions = FetchOptions.Builder.withLimit(limit);
@@ -348,7 +346,7 @@ public class StoryBeginning extends Model {
 
 	public static int countAllBeginnings() {
 		final Query query = new Query(KIND_NAME).setKeysOnly();
-		final DatastoreService store = getStore();
+		final DatastoreService store = new Store().get();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
 		return preparedQuery.countEntities(fetchOptions);

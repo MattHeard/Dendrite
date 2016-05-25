@@ -2,9 +2,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.CoverView"
+%><%@ page import="com.deuteriumlabs.dendrite.model.User"
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><%
 
+final User myUser = User.getMyUser();
 final CoverView view = new CoverView(pageContext);
 
 %>
@@ -63,32 +65,8 @@ ga('send', 'pageview');
     <p>Filter stories by genre</p>
     <form action="/contents" class="filter">
       <select name="filter"><%
-          
-final String[] tagNames = { 
-		"ABSURD",
-        "ACTION",
-        "ADVENTURE",
-        "COMEDY",
-        "CRIME",
-        "DRAMA",
-        "EROTIC",
-        "FANFIC",
-        "FANTASY",
-        "HISTORICAL",
-        "HORROR",
-        "INSPIRATIONAL",
-        "MYSTERY",
-        "POLITICAL",
-        "REAL-LIFE",
-        "RELIGIOUS",
-        "ROMANCE",
-        "SCIFI",
-        "SPAM",
-        "THRILLER",
-        "WESTERN",
-        "YOUNG-ADULT" };
       
-for (final String tag : tagNames) {
+for (final String tag : view.getTags()) {
 	view.prepareTagName(tag);
     
     %>

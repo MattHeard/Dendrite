@@ -2,10 +2,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.RewriteView"
+%><%@ page import="com.deuteriumlabs.dendrite.model.User"
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><%
 
 pageContext.setAttribute("webPageTitle", "Dendrite - Rewrite");
+final User myUser = User.getMyUser();
 final RewriteView view = new RewriteView();
 view.setPageContext(pageContext);
 view.setSession(session);

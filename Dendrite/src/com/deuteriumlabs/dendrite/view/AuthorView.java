@@ -175,8 +175,7 @@ public class AuthorView extends View {
 		final User author = this.getAuthor();
 		final List<String> followers = author.getFollowers();
 		if (followers != null) {
-			final User myUser = User.getMyUser();
-			final String myUserId = myUser.getId();
+			final String myUserId = User.getMyUserId();
 			return followers.contains(myUserId);
 		} else {
 			return false;

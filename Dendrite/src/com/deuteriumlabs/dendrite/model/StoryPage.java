@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.deuteriumlabs.dendrite.queries.Store;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
@@ -64,7 +65,7 @@ public class StoryPage extends Model {
         final Query query = new Query(KIND_NAME);
         final Filter filter = getAuthorIdFilter(authorId);
         query.setFilter(filter);
-        final DatastoreService store = getStore();
+        final DatastoreService store = new Store().get();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         return preparedQuery.countEntities(fetchOptions);
@@ -74,7 +75,7 @@ public class StoryPage extends Model {
     // TODO(Matt Heard): Investigate using Datastore statistics value instead
     public static int countAllPgs() {
         final Query query = new Query(KIND_NAME);
-        final DatastoreService store = getStore();
+        final DatastoreService store = new Store().get();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         return preparedQuery.countEntities(fetchOptions);
@@ -109,7 +110,7 @@ public class StoryPage extends Model {
         final Filter filter;
         filter = CompositeFilterOperator.and(greaterFilter, lessFilter);
         query.setFilter(filter);
-        final DatastoreService store = getStore();
+        final DatastoreService store = new Store().get();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
@@ -128,7 +129,7 @@ public class StoryPage extends Model {
         final Query query = new Query(KIND_NAME);
         final Filter filter = getIdNumFilter(num);
         query.setFilter(filter);
-        final DatastoreService store = getStore();
+        final DatastoreService store = new Store().get();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         return preparedQuery.countEntities(fetchOptions);
@@ -139,7 +140,7 @@ public class StoryPage extends Model {
         final int num = pageId.getNumber();
         final Filter filter = StoryPage.getIdNumFilter(num);
         query.setFilter(filter);
-        final DatastoreService store = getStore();
+        final DatastoreService store = new Store().get();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
@@ -168,7 +169,7 @@ public class StoryPage extends Model {
         query.addSort(ID_VERSION_PROPERTY);
         final Filter filter = getAuthorIdFilter(authorId);
         query.setFilter(filter);
-        final DatastoreService store = getStore();
+        final DatastoreService store = new Store().get();
         final PreparedQuery preparedQuery = store.prepare(query);
         final int limit = end - start;
         final FetchOptions fetchOptions = FetchOptions.Builder.withLimit(limit);
@@ -187,14 +188,13 @@ public class StoryPage extends Model {
         return child.getParent();
     }
 
-    public static String getRandomVersion(final PageId id) {
+    public static String getRandomVersion(final PageId id, final Random generator) {
         id.setVersion("a");
         final StoryPage pg = new StoryPage();
         pg.setId(id);
         pg.read();
         if (pg.isInStore() == true) {
             final long denominator = pg.calculateChanceDenominator();
-            final Random generator = new Random();
             int randomNum = generator.nextInt((int) denominator) + 1;
             while (randomNum >= 0) {
                 final long numerator = pg.calculateChanceNumerator();
@@ -227,7 +227,7 @@ public class StoryPage extends Model {
         FilterPredicate filter;
         filter = Query.FilterOperator.EQUAL.of(ID_NUMBER_PROPERTY, pgNum);
         query.setFilter(filter);
-        final DatastoreService store = getStore();
+        final DatastoreService store = new Store().get();
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(store.prepare(query), fetchOptions);
         int count = 0;
@@ -302,7 +302,7 @@ public class StoryPage extends Model {
         filter = CompositeFilterOperator.and(isFirstPgFilter, tagFilter);
         query.setFilter(filter);
         query.addSort(ID_NUMBER_PROPERTY);
-        final DatastoreService store = getStore();
+        final DatastoreService store = new Store().get();
         final PreparedQuery preparedQuery = store.prepare(query);
         return preparedQuery;
     }
@@ -323,7 +323,7 @@ public class StoryPage extends Model {
         final Filter filter;
         filter = CompositeFilterOperator.and(greaterFilter, lessFilter);
         query.setFilter(filter);
-        final DatastoreService store = getStore();
+        final DatastoreService store = new Store().get();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         return preparedQuery.countEntities(fetchOptions);
@@ -912,7 +912,7 @@ public class StoryPage extends Model {
     @Override
     protected DatastoreEntity getMatchingEntity() throws EntityNotFoundException {
         final Key key = getKey();
-        return new DatastoreEntity(getStore().get(key));
+        return new DatastoreEntity(new Store().get().get(key));
     }
 
     @Override

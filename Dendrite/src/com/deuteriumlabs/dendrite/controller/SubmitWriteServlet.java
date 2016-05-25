@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryOption;
 import com.deuteriumlabs.dendrite.model.StoryPage;
+import com.deuteriumlabs.dendrite.model.User;
 
 public class SubmitWriteServlet extends SubmitServlet {
 
@@ -72,12 +73,13 @@ public class SubmitWriteServlet extends SubmitServlet {
 		else if (controller.isAuthorNameTooLong() == true)
 			this.redirectFromTooLongAuthorName();
 		else {
+            final User myUser = User.getMyUser();
 			final boolean isIncomingOptionConnected;
 			isIncomingOptionConnected = this.isIncomingOptionConnected();
 			if (isIncomingOptionConnected) {
-				this.passToRewriteServlet();
+				this.passToRewriteServlet(myUser);
 			} else {
-				controller.buildNewPage();
+				controller.buildNewPage(myUser);
 				controller.connectIncomingOption();
 				final PageId id = controller.getId();
 				resp.sendRedirect("/read?p=" + id);
@@ -89,7 +91,7 @@ public class SubmitWriteServlet extends SubmitServlet {
 		this.req = req;
 	}
 
-	private void passToRewriteServlet() throws IOException {
+	private void passToRewriteServlet(final User myUser) throws IOException {
 		final SubmitRewriteServlet rewriteServlet = new SubmitRewriteServlet();
 		rewriteServlet.session = req.getSession();
 		int target = this.getConnectedOptionTarget();
@@ -99,7 +101,7 @@ public class SubmitWriteServlet extends SubmitServlet {
 		rewriteServlet.options = this.options;
 		rewriteServlet.authorId = this.authorId;
 		rewriteServlet.setResponse(this.getResponse());
-		rewriteServlet.processRewrite();
+		rewriteServlet.processRewrite(myUser);
 	}
 
 	private int getConnectedOptionTarget() {

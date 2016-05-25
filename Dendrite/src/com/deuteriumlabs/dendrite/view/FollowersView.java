@@ -75,8 +75,7 @@ public class FollowersView extends View {
 	public boolean isUserFollowingAuthor() {
 		final User author = this.getAuthor();
 		final List<String> followers = author.getFollowers();
-		final User myUser = User.getMyUser();
-		final String myUserId = myUser.getId();
+		final String myUserId = User.getMyUserId();
 		return followers.contains(myUserId);
 	}
 

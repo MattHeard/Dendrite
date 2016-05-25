@@ -11,9 +11,11 @@
  * HTML and the Java components are cleanly separated.
  */
 %><%@ page import="com.deuteriumlabs.dendrite.view.StatsView"
+%><%@ page import="com.deuteriumlabs.dendrite.model.User"
 %><%
 
 final StatsView view = new StatsView();
+final User myUser = User.getMyUser();
 view.setPageContext(pageContext);
 view.setRequest(request);
 view.initialise();

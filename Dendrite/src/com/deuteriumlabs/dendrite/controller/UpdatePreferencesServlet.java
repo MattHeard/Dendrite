@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.deuteriumlabs.dendrite.model.User;
+
 public class UpdatePreferencesServlet extends DendriteServlet {
 
     private static final long serialVersionUID = 8943369549424406002L;
@@ -38,7 +40,8 @@ public class UpdatePreferencesServlet extends DendriteServlet {
         if (controller.isNewPenNameBlank() == true)
             this.redirectFromBlankNewPenName();
         else {
-            final boolean isUpdated = controller.updatePreferences();
+            final User myUser = User.getMyUser();
+            final boolean isUpdated = controller.updatePreferences(myUser);
             if (isUpdated == true)
                 this.redirectToMyPreferencesPage();
             else

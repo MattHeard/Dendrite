@@ -2,10 +2,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
 %><%@ page import="com.deuteriumlabs.dendrite.view.WriteView"
+%><%@ page import="com.deuteriumlabs.dendrite.model.User"
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" 
 %><%
 
 pageContext.setAttribute("webPageTitle", "Dendrite - Write");
+final User myUser = User.getMyUser();
 final WriteView view = new WriteView();
 view.setPageContext(pageContext);
 view.setSession(session);

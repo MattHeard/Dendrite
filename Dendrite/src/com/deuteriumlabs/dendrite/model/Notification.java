@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.deuteriumlabs.dendrite.queries.Store;
 import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
@@ -32,7 +33,6 @@ public class Notification extends Model {
 	private static final String RECIPIENT_ID_PROPERTY = "recipient";
 	private static final String TIME_PROPERTY = "time";
 	private static final String TYPE_PROPERTY = "type";
-	private static final String TYPE = "FollowerRewriteNotification";
 
 	/**
 	 * @param pgId
@@ -46,7 +46,7 @@ public class Notification extends Model {
 		final Filter filter;
 		filter = CompositeFilterOperator.and(recipientFilter, isNewFilter);
 		query.setFilter(filter);
-		final DatastoreService store = getStore();
+		final DatastoreService store = new Store().get();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
 		return preparedQuery.countEntities(fetchOptions);
@@ -90,17 +90,13 @@ public class Notification extends Model {
 		final Filter filter = getRecipientFilter(userId);
 		query.setFilter(filter);
 		query.addSort(TIME_PROPERTY, SortDirection.ASCENDING);
-		final DatastoreService store = getStore();
+		final DatastoreService store = new Store().get();
 		final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
 		final List<Notification> notifications;
 		notifications = getNotificationsFromEntities(entities);
 		return notifications;
-	}
-
-	public static String getType() {
-		return TYPE;
 	}
 
 	/**
@@ -114,21 +110,21 @@ public class Notification extends Model {
 			final Notification notification;
 			if (entity.hasProperty(TYPE_PROPERTY) == true) {
 				final String type = (String) entity.getProperty(TYPE_PROPERTY);
-				if (FolloweeNewNotification.getType().equals(type)) {
+				if (FolloweeNewNotification.class.toString().equals(type)) {
 					notification = new FolloweeNewNotification(entity);
-				} else if (AuthorTagNotification.getType().equals(type)) {
+				} else if (AuthorTagNotification.class.toString().equals(type)) {
 					notification = new AuthorTagNotification(entity);
-				} else if (FollowerWriteNotification.getType().equals(type)) {
+				} else if (FollowerWriteNotification.class.toString().equals(type)) {
 					notification = new FollowerWriteNotification(entity);
-				} else if (FollowerRewriteNotification.getType().equals(type)) {
+				} else if (FollowerRewriteNotification.class.toString().equals(type)) {
 					notification = new FollowerRewriteNotification(entity);
-				} else if (FollowNotification.getType().equals(type)) {
+				} else if (FollowNotification.class.toString().equals(type)) {
 					notification = new FollowNotification(entity);
-				} else if (PgChildNotification.getType().equals(type)) {
+				} else if (PgChildNotification.class.toString().equals(type)) {
 					notification = new PgChildNotification(entity);
-				} else if (PgLovedNotification.getType().equals(type)) {
+				} else if (PgLovedNotification.class.toString().equals(type)) {
 					notification = new PgLovedNotification(entity);
-				} else if (PgRewriteNotification.getType().equals(type)) {
+				} else if (PgRewriteNotification.class.toString().equals(type)) {
 					notification = new PgRewriteNotification(entity);
 				} else {
 					notification = new Notification(entity);
@@ -140,6 +136,12 @@ public class Notification extends Model {
 		}
 		return notifications;
 	}
+
+    protected void setTypeInEntity(final DatastoreEntity entity) {
+        final String type = getClass().toString();
+        String propertyName = Notification.getTypePropertyName();
+        entity.setProperty(propertyName, type);
+    }
 
 	/**
 	 * @param recipientId
@@ -440,7 +442,7 @@ public class Notification extends Model {
 	public void deleteById() {
 		final long id = this.getEntityId();
 		final Key key = KeyFactory.createKey(KIND_NAME, id);
-		final DatastoreService store = getStore();
+		final DatastoreService store = new Store().get();
 		store.delete(key);
 	}
 

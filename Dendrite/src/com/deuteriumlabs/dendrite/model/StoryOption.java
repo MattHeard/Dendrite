@@ -1,6 +1,8 @@
 /* © 2013-2015 Deuterium Labs Limited */
 package com.deuteriumlabs.dendrite.model;
 
+import com.deuteriumlabs.dendrite.queries.SingleEntity;
+import com.deuteriumlabs.dendrite.queries.Store;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
@@ -43,7 +45,7 @@ public class StoryOption extends Model {
 		final Query query = new Query(KIND_NAME);
 		final Filter filter = getSourceFilter(source);
 		query.setFilter(filter);
-		final DatastoreService store = getStore();
+		final DatastoreService store = new Store().get();
 		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
 		return preparedQuery.countEntities(fetchOptions);
@@ -174,13 +176,13 @@ public class StoryOption extends Model {
 	}
 
 	private DatastoreEntity getEntityWithTarget() {
-		final DatastoreService store = getStore();
+		final DatastoreService store = new Store().get();
 		final Query query1 = new Query(KIND_NAME);
 		final int target = this.getTarget();
 		final Filter filter = this.getTargetFilter(target);
 		final Query query = query1.setFilter(filter);
 		final PreparedQuery preparedQuery = store.prepare(query);
-		return getSingleEntity(preparedQuery);
+		return new SingleEntity(preparedQuery).get();
 	}
 
 	/*

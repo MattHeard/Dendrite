@@ -41,7 +41,7 @@ public class ResetPreferencesController extends UpdatePreferencesController {
         this.setAvatarId(User.getDefaultAvatarId());
     }
 
-    public void setCurrPenName() {
-        this.setNewPenName(User.getMyUser().getDefaultPenName());
+    public void setCurrPenName(final User myUser) {
+        this.setNewPenName(myUser.getDefaultPenName());
     }
 }

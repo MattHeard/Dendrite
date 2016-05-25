@@ -11,8 +11,6 @@ public class FollowNotification extends Notification {
 
 	static final String FOLLOWER_ID_PROPERTY = "followerId";
 
-	private static final String TYPE = "FollowNotification";
-
 	private String followerId;
 
 	public void setFollowerId(final String followerId) {
@@ -83,18 +81,8 @@ public class FollowNotification extends Notification {
 		setTypeInEntity(entity);
 	}
 
-	private static void setTypeInEntity(final DatastoreEntity entity) {
-		final String type = getType();
-		String propertyName = Notification.getTypePropertyName();
-		entity.setProperty(propertyName, type);
-	}
-
 	private void setFollowerIdInEntity(final DatastoreEntity entity) {
 		final String id = this.getFollowerId();
 		entity.setProperty(FOLLOWER_ID_PROPERTY, id);
-	}
-
-	public static String getType() {
-		return TYPE;
 	}
 }

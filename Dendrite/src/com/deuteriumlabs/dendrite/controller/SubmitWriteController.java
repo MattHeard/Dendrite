@@ -15,13 +15,13 @@ public class SubmitWriteController extends SubmitController {
 	private int linkIndex;
 
 	@Override
-	public void buildNewPage() {
-		super.buildNewPage();
+	public void buildNewPage(final User myUser) {
+		super.buildNewPage(myUser);
 		this.recalculateStoryQuality();
 	}
 
 	@Override
-	void buildStoryPage() {
+	void buildStoryPage(final User myUser) {
 		final StoryPage page = new StoryPage();
 		this.addStoryPageValues(page);
 		final PageId beginning = this.getBeginning();
@@ -35,7 +35,7 @@ public class SubmitWriteController extends SubmitController {
 			this.notifyParent();
 		}
 
-		this.notifyFollowers();
+		this.notifyFollowers(myUser);
 	}
 
 	public void connectIncomingOption() {
@@ -111,8 +111,7 @@ public class SubmitWriteController extends SubmitController {
 		return this.getParent().getAuthorId();
 	}
 
-	private void notifyFollowers() {
-		final User myUser = User.getMyUser();
+	private void notifyFollowers(final User myUser) {
 		if (myUser != null) {
 			List<String> followerIds = myUser.getFollowers();
 			if (followerIds != null) {

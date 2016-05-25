@@ -3,30 +3,18 @@ package com.deuteriumlabs.dendrite.model;
 
 import java.util.Date;
 
+import com.deuteriumlabs.dendrite.queries.SingleEntity;
+import com.deuteriumlabs.dendrite.queries.Store;
+
 import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
 import com.google.appengine.api.datastore.Query;
 
 public abstract class Model {
     private static final String CREATION_DATE_PROPERTY = "creationDate";
-
-    protected static DatastoreEntity getSingleEntity(
-            final PreparedQuery preparedQuery) {
-        try {
-            return new DatastoreEntity(preparedQuery.asSingleEntity());
-        } catch (final TooManyResultsException e) {
-            return null;
-        }
-    }
-
-    protected static DatastoreService getStore() {
-        return DatastoreServiceFactory.getDatastoreService();
-    }
 
     private DatastoreEntity entity = null;
 
@@ -52,7 +40,7 @@ public abstract class Model {
 
     public boolean isInStore() {
         final Query query = getMatchingQuery();
-        final DatastoreService store = getStore();
+        final DatastoreService store = new Store().get();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         final int count = preparedQuery.countEntities(fetchOptions);
@@ -87,7 +75,7 @@ public abstract class Model {
 
     private void deleteEntityByKey(final DatastoreEntity entity) {
         final Key key = entity.getKey();
-        final DatastoreService store = getStore();
+        final DatastoreService store = new Store().get();
         store.delete(key);
     }
 
@@ -108,10 +96,10 @@ public abstract class Model {
 
     protected DatastoreEntity getMatchingEntity()
             throws EntityNotFoundException {
-        final DatastoreService store = getStore();
+        final DatastoreService store = new Store().get();
         final Query query = getMatchingQuery();
         final PreparedQuery preparedQuery = store.prepare(query);
-        return getSingleEntity(preparedQuery);
+        return new SingleEntity(preparedQuery).get();
     }
 
     abstract String getKindName();

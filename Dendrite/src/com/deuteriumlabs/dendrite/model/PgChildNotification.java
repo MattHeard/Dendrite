@@ -18,7 +18,6 @@ public class PgChildNotification extends Notification {
 	private static final String CHILD_AUTHOR_ID_PROPERTY = "childAuthorId";
 	private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
 	private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
-	private static final String TYPE = "PgChildNotification";
 
 	private String childAuthorId;
 	private PageId pgId;
@@ -161,16 +160,6 @@ public class PgChildNotification extends Notification {
 		super.setPropertiesInEntity(entity);
 		this.setPgIdInEntity(entity);
 		this.setChildAuthorIdInEntity(entity);
-		setTypeInEntity(entity);
-	}
-
-	private static void setTypeInEntity(final DatastoreEntity entity) {
-		final String type = getType();
-		String propertyName = Notification.getTypePropertyName();
-		entity.setProperty(propertyName, type);
-	}
-
-	public static String getType() {
-		return TYPE;
+		this.setTypeInEntity(entity);
 	}
 }

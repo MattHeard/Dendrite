@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryPage;
+import com.deuteriumlabs.dendrite.model.User;
 
 public class SubmitRewriteServlet extends SubmitServlet {
 
@@ -30,10 +31,11 @@ public class SubmitRewriteServlet extends SubmitServlet {
 			IOException {
 		this.req = req;
 		this.setResponse(resp);
-		this.handleReq();
+		final User myUser = User.getMyUser();
+		this.handleReq(myUser);
 	}
 
-	private void handleReq() throws IOException {
+	private void handleReq(final User myUser) throws IOException {
 		final HttpServletRequest req = this.req;
 		final HttpSession session = req.getSession();
 		this.session = session;
@@ -52,10 +54,10 @@ public class SubmitRewriteServlet extends SubmitServlet {
 		final String authorId = req.getParameter("authorId");
 		this.authorId = authorId;
 
-		processRewrite();
+		processRewrite(myUser);
 	}
 
-	void processRewrite() throws IOException {
+	void processRewrite(final User myUser) throws IOException {
 		final SubmitRewriteController controller;
 		controller = new SubmitRewriteController();
 		controller.setSession(this.session);
@@ -83,7 +85,7 @@ public class SubmitRewriteServlet extends SubmitServlet {
 		} else if (controller.isAuthorNameTooLong()) {
 			this.redirectFromTooLongAuthorName();
 		} else {
-			controller.buildNewPage();
+			controller.buildNewPage(myUser);
 			final PageId id = controller.getId();
 			final HttpServletResponse resp = this.getResponse();
 			resp.sendRedirect("/read?p=" + id);

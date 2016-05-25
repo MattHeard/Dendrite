@@ -11,6 +11,7 @@
  * Java components are cleanly separated.
  */
 %><%@ page import="com.deuteriumlabs.dendrite.view.AuthorView" %><%
+%><%@ page import="com.deuteriumlabs.dendrite.model.User" %><%
 %><%@ page import="com.deuteriumlabs.dendrite.view.FollowersView" %><%
 
 /*
@@ -20,6 +21,7 @@
  */
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %><%
 
+final User myUser = User.getMyUser();
 final AuthorView view = new AuthorView();
 view.setPageContext(pageContext);
 view.setRequest(request);

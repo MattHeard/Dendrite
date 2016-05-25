@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
-import com.google.appengine.api.datastore.Entity;
 
 public class FolloweeNewNotification extends Notification {
 
@@ -15,7 +14,6 @@ public class FolloweeNewNotification extends Notification {
 	private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
 	private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
 	private static final String TITLE_PROPERTY = "title";
-	private static final String TYPE = "FolloweeNewNotification";
 
 	private static String getAuthorIdFromEntity(final DatastoreEntity entity) {
 		String propertyName = NEW_AUTHOR_ID_PROPERTY;
@@ -42,16 +40,6 @@ public class FolloweeNewNotification extends Notification {
 		String propertyName = TITLE_PROPERTY;
 		final String title = (String) entity.getProperty(propertyName);
 		return title;
-	}
-
-	public static String getType() {
-		return TYPE;
-	}
-
-	private static void setTypeInEntity(final DatastoreEntity entity) {
-		final String type = getType();
-		String propertyName = Notification.getTypePropertyName();
-		entity.setProperty(propertyName, type);
 	}
 
 	private String authorId;

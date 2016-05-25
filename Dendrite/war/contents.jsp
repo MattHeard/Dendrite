@@ -12,6 +12,9 @@
  */
 %><%@ page import="com.deuteriumlabs.dendrite.view.ContentsView" %><%
 %><%@ page import="com.deuteriumlabs.dendrite.view.ContentsView.Link" %><%
+%><%@ page import="com.deuteriumlabs.dendrite.queries.Store" %><%
+%><%@ page import="com.deuteriumlabs.dendrite.model.User" %><%
+%><%@ page import="com.google.appengine.api.datastore.Query" %><%
 
 /*
  * The JSTL functions provide `escapeXml(...)`. Currently, all
@@ -20,6 +23,7 @@
  */
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %><%
 
+final User myUser = User.getMyUser();
 final ContentsView view = new ContentsView();
 view.setPageContext(pageContext);
 view.setRequest(request);
@@ -52,7 +56,9 @@ if (view.isPastTheLastPg()) {
 // Display the links to the stories which have already been written. Only ten
 // links are shown at one time.
         
-for (final Link link : view.getLinks()) {
+final Query query = new Query("StoryBeginning");
+final Store store = new Store();
+for (final Link link : view.getLinks(store, query)) {
 	view.prepareLink(link);
 	
 	%>

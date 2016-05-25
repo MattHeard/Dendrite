@@ -11,6 +11,7 @@
  * components are cleanly separated.
  */
 %><%@ page import="com.deuteriumlabs.dendrite.view.NewView" %><%
+%><%@ page import="com.deuteriumlabs.dendrite.model.User" %><%
 
 /*
  * The JSTL functions provide `escapeXml(...)`. Currently, all
@@ -20,6 +21,7 @@
 %><%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %><%
 %><%
 
+final User myUser = User.getMyUser();
 final NewView view = new NewView();
 view.setPageContext(pageContext);
 view.setRequest(request);
