@@ -3,6 +3,7 @@ package com.deuteriumlabs.dendrite.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.deuteriumlabs.dendrite.queries.Store;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -30,15 +31,11 @@ public class DatastoreEntity {
     }
 
     public void putInStore() {
-        getDatastore().put(entity);
+        new Store().put(entity);
     }
 
     public void setProperty(final String name, final Object value) {
         entity.setProperty(name, value);
-    }
-
-    private DatastoreService getDatastore() {
-        return DatastoreServiceFactory.getDatastoreService();
     }
 
     public boolean hasProperty(final String name) {

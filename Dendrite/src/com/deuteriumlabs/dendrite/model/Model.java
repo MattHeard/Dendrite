@@ -5,7 +5,6 @@ import java.util.Date;
 
 import com.deuteriumlabs.dendrite.queries.SingleEntity;
 import com.deuteriumlabs.dendrite.queries.Store;
-import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
@@ -73,7 +72,7 @@ public abstract class Model {
 
     private void deleteEntityByKey(final DatastoreEntity entity) {
         final Key key = entity.getKey();
-        final DatastoreService store = new Store().get();
+        final Store store = new Store();
         store.delete(key);
     }
 

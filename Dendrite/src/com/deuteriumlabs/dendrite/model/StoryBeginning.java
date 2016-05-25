@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.deuteriumlabs.dendrite.queries.Store;
-import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -347,8 +346,8 @@ public class StoryBeginning extends Model {
 	public static int countAllBeginnings() {
 		final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
 		query.setKeysOnly();
-		final DatastoreService store = new Store().get();
-		final PreparedQuery preparedQuery = store.prepare(query.get());
+		final Store store = new Store();
+		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
 		return preparedQuery.countEntities(fetchOptions);
 	}

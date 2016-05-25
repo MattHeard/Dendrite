@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.deuteriumlabs.dendrite.queries.Store;
 import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
-import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
@@ -45,8 +44,8 @@ public class Notification extends Model {
 		final Filter filter;
 		filter = CompositeFilterOperator.and(recipientFilter, isNewFilter);
 		query.setFilter(filter);
-		final DatastoreService store = new Store().get();
-		final PreparedQuery preparedQuery = store.prepare(query.get());
+		final Store store = new Store();
+		final PreparedQuery preparedQuery = store.prepare(query);
 		final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
 		return preparedQuery.countEntities(fetchOptions);
 	}
@@ -89,8 +88,8 @@ public class Notification extends Model {
 		final Filter filter = getRecipientFilter(userId);
 		query.setFilter(filter);
 		query.addSort(TIME_PROPERTY, SortDirection.ASCENDING);
-		final DatastoreService store = new Store().get();
-		final PreparedQuery preparedQuery = store.prepare(query.get());
+		final Store store = new Store();
+		final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
 		final List<Notification> notifications;
@@ -443,7 +442,7 @@ public class Notification extends Model {
 	public void deleteById() {
 		final long id = this.getEntityId();
 		final Key key = KeyFactory.createKey(KIND_NAME, id);
-		final DatastoreService store = new Store().get();
+		final Store store = new Store();
 		store.delete(key);
 	}
 
