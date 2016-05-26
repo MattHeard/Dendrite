@@ -4,44 +4,43 @@ package com.deuteriumlabs.dendrite.controller;
 import com.deuteriumlabs.dendrite.model.User;
 
 public class ResetPreferencesController extends UpdatePreferencesController {
-
-    public void setDefaultFontSize() {
-        this.setFontSize(User.getDefaultFontSize());
-    }
-
-    private void setFontSize(final double size) {
-        this.setFontSize(Double.toString(size));
-    }
-
-    public void setDefaultFontType() {
-        this.setFontType(User.getDefaultFontType());
-    }
-
-    public void setDefaultFontColour() {
-        this.setFontColour(User.getDefaultFontColour());
-    }
-
-    public void setDefaultSpacing() {
-        this.setSpacing(User.getDefaultSpacing());
-    }
-
-    private void setSpacing(final double spacing) {
-        this.setSpacing(Double.toString(spacing));
+    public void setCurrPenName(final User myUser) {
+        setNewPenName(myUser.getDefaultPenName());
     }
 
     public void setDefaultAlignment() {
-        this.setAlignment(User.getDefaultAlignment());
-    }
-
-    public void setDefaultTheme() {
-        this.setTheme(User.getDefaultTheme());
+        setAlignment(User.getDefaultAlignment());
     }
 
     public void setDefaultAvatarId() {
-        this.setAvatarId(User.getDefaultAvatarId());
+        setAvatarId(User.getDefaultAvatarId());
     }
 
-    public void setCurrPenName(final User myUser) {
-        this.setNewPenName(myUser.getDefaultPenName());
+    public void setDefaultFontColour() {
+        setFontColour(User.getDefaultFontColour());
+    }
+
+    public void setDefaultFontSize() {
+        setFontSize(User.getDefaultFontSize());
+    }
+
+    public void setDefaultFontType() {
+        setFontType(User.getDefaultFontType());
+    }
+
+    public void setDefaultSpacing() {
+        setSpacing(User.getDefaultSpacing());
+    }
+
+    public void setDefaultTheme() {
+        setTheme(User.getDefaultTheme());
+    }
+
+    private void setFontSize(final double size) {
+        setFontSize(Double.toString(size));
+    }
+
+    private void setSpacing(final double spacing) {
+        setSpacing(Double.toString(spacing));
     }
 }

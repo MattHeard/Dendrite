@@ -16,7 +16,7 @@ public class UpdatePreferencesServlet extends DendriteServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        this.setResponse(resp);
+        setResponse(resp);
         final UpdatePreferencesController controller;
         controller = new UpdatePreferencesController();
         final String newPenName = req.getParameter("newPenName");
@@ -34,18 +34,18 @@ public class UpdatePreferencesServlet extends DendriteServlet {
         final String theme = req.getParameter("theme");
         controller.setTheme(theme);
 
-        int avatarId = this.getAvatarId(req);
+        int avatarId = getAvatarId(req);
         controller.setAvatarId(avatarId);
 
         if (controller.isNewPenNameBlank() == true)
-            this.redirectFromBlankNewPenName();
+            redirectFromBlankNewPenName();
         else {
             final User myUser = User.getMyUser();
             final boolean isUpdated = controller.updatePreferences(myUser);
             if (isUpdated == true)
-                this.redirectToMyPreferencesPage();
+                redirectToMyPreferencesPage();
             else
-                this.redirectFromUpdateFailure();
+                redirectFromUpdateFailure();
         }
     }
 
@@ -66,17 +66,17 @@ public class UpdatePreferencesServlet extends DendriteServlet {
 
     private void redirectFromBlankNewPenName() {
         final String url = "/preferences?error=blankNewPenName";
-        this.redirect(url);
+        redirect(url);
     }
 
     private void redirectFromUpdateFailure() {
         final String url = "/preferences?error=updateFailed";
-        this.redirect(url);
+        redirect(url);
     }
 
     protected void redirectToMyPreferencesPage() {
         final String url = "/preferences";
-        this.redirect(url);
+        redirect(url);
     }
 
 }

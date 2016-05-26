@@ -29,55 +29,53 @@ public class SubmitWriteServlet extends SubmitServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		this.setReq(req);
-		this.setResponse(resp);
+		this.req = req;
+		setResponse(resp);
 		final SubmitWriteController controller;
 		controller = new SubmitWriteController();
 		final HttpSession session = req.getSession();
 		controller.setSession(session);
 		controller.startDraft();
-		final String from = req.getParameter("from");
-		this.setFrom(from);
+		from = req.getParameter("from");
 		controller.setFrom(from);
-		final String linkIndex = req.getParameter("linkIndex");
-		this.setLinkIndex(linkIndex);
+		linkIndex = req.getParameter("linkIndex");
 		controller.setLinkIndex(linkIndex);
-		this.content = req.getParameter("content");
-		controller.setContent(this.content);
-		this.authorName = req.getParameter("authorName");
-		controller.setAuthorName(this.authorName);
+		content = req.getParameter("content");
+		controller.setContent(content);
+		authorName = req.getParameter("authorName");
+		controller.setAuthorName(authorName);
 		final StoryPage parent = new StoryPage();
 		parent.setId(new PageId(from));
 		parent.read();
 		controller.setParent(parent);
-		this.options = new ArrayList<String>();
+		options = new ArrayList<String>();
 		for (int i = 0; i < 5; i++) {
 			final String option = req.getParameter("option" + i);
-			this.options.add(option);
+			options.add(option);
 		}
-		for (final String option : this.options) {
+		for (final String option : options) {
 			if (option != null) {
 				controller.addOption(option);
 			}
 		}
-		this.authorId = req.getParameter("authorId");
-		controller.setAuthorId(this.authorId);
+		authorId = req.getParameter("authorId");
+		controller.setAuthorId(authorId);
 		if (controller.isContentBlank() == true)
-			this.redirectFromBlankContent();
+			redirectFromBlankContent();
 		else if (controller.isContentTooLong() == true)
-			this.redirectFromTooLongContent();
+			redirectFromTooLongContent();
 		else if (controller.isAnyOptionTooLong() == true)
-			this.redirectFromTooLongOption();
+			redirectFromTooLongOption();
 		else if (controller.isAuthorNameBlank() == true)
-			this.redirectFromBlankAuthorName();
+			redirectFromBlankAuthorName();
 		else if (controller.isAuthorNameTooLong() == true)
-			this.redirectFromTooLongAuthorName();
+			redirectFromTooLongAuthorName();
 		else {
             final User myUser = User.getMyUser();
 			final boolean isIncomingOptionConnected;
-			isIncomingOptionConnected = this.isIncomingOptionConnected();
+			isIncomingOptionConnected = isIncomingOptionConnected();
 			if (isIncomingOptionConnected) {
-				this.passToRewriteServlet(myUser);
+				passToRewriteServlet(myUser);
 			} else {
 				controller.buildNewPage(myUser);
 				controller.connectIncomingOption();
@@ -87,64 +85,40 @@ public class SubmitWriteServlet extends SubmitServlet {
 		}
 	}
 
-	private void setReq(final HttpServletRequest req) {
-		this.req = req;
-	}
-
 	private void passToRewriteServlet(final User myUser) throws IOException {
 		final SubmitRewriteServlet rewriteServlet = new SubmitRewriteServlet();
 		rewriteServlet.session = req.getSession();
-		int target = this.getConnectedOptionTarget();
+		int target = getConnectedOptionTarget();
 		rewriteServlet.pageNumber = Integer.toString(target);
-		rewriteServlet.content = this.content;
-		rewriteServlet.authorName = this.authorName;
-		rewriteServlet.options = this.options;
-		rewriteServlet.authorId = this.authorId;
-		rewriteServlet.setResponse(this.getResponse());
+		rewriteServlet.content = content;
+		rewriteServlet.authorName = authorName;
+		rewriteServlet.options = options;
+		rewriteServlet.authorId = authorId;
+		rewriteServlet.setResponse(getResponse());
 		rewriteServlet.processRewrite(myUser);
 	}
 
 	private int getConnectedOptionTarget() {
-		return this.getIncomingOption().getTarget();
+		return getIncomingOption().getTarget();
 	}
 
 	private boolean isIncomingOptionConnected() {
-		final StoryOption option = this.getIncomingOption();
+		final StoryOption option = getIncomingOption();
 		return option.isConnected();
 	}
 
 	private StoryOption getIncomingOption() {
 		final StoryOption option = new StoryOption();
-		final PageId source = new PageId(this.getFrom());
+		final PageId source = new PageId(from);
 		option.setSource(source);
-		final int listIndex = Integer.parseInt(this.getLinkIndex());
+		final int listIndex = Integer.parseInt(linkIndex);
 		option.setListIndex(listIndex);
 		option.read();
 		return option;
 	}
 
-	private String getFrom() {
-		return this.from;
-	}
-
-	private String getLinkIndex() {
-		return this.linkIndex;
-	}
-
 	@Override
 	public String getUrl() {
-		final String from = this.getFrom();
-		String url = "/write?from=" + from;
-		final String linkIndex = this.getLinkIndex();
-		url += "&linkIndex=" + linkIndex;
-		return url;
-	}
-
-	private void setFrom(final String from) {
-		this.from = from;
-	}
-
-	private void setLinkIndex(final String linkIndex) {
-		this.linkIndex = linkIndex;
+		return "/write?from=" + from + "&linkIndex=" + linkIndex;
 	}
 }

@@ -10,13 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.deuteriumlabs.dendrite.model.User;
 
 public class ResetPreferencesServlet extends UpdatePreferencesServlet {
-
     private static final long serialVersionUID = 5970059991233726340L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        this.setResponse(resp);
+        setResponse(resp);
         final ResetPreferencesController controller;
         controller = new ResetPreferencesController();
         final User myUser = User.getMyUser();
@@ -29,7 +28,7 @@ public class ResetPreferencesServlet extends UpdatePreferencesServlet {
         controller.setDefaultTheme();
         controller.setDefaultAvatarId();
         controller.updatePreferences(myUser);
-        this.redirectToMyPreferencesPage();
+        redirectToMyPreferencesPage();
     }
 
 }

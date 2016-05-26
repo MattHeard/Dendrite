@@ -12,13 +12,12 @@ import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.User;
 
 public class SubmitNewServlet extends SubmitServlet {
-
     private static final long serialVersionUID = -8415391685212281716L;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        this.setResponse(resp);
+        setResponse(resp);
         final SubmitNewController controller;
         controller = new SubmitNewController();
         final HttpSession session = req.getSession();
@@ -40,19 +39,19 @@ public class SubmitNewServlet extends SubmitServlet {
         final String authorId = req.getParameter("authorId");
         controller.setAuthorId(authorId);
         if (controller.isTitleBlank() == true)
-            this.redirectFromBlankTitle();
+            redirectFromBlankTitle();
         else if (controller.isTitleTooLong() == true)
-            this.redirectFromTooLongTitle();
+            redirectFromTooLongTitle();
         else if (controller.isContentBlank() == true)
-            this.redirectFromBlankContent();
+            redirectFromBlankContent();
         else if (controller.isContentTooLong() == true)
-            this.redirectFromTooLongContent();
+            redirectFromTooLongContent();
         else if (controller.isAnyOptionTooLong() == true)
-            this.redirectFromTooLongOption();
+            redirectFromTooLongOption();
         else if (controller.isAuthorNameBlank() == true)
-            this.redirectFromBlankAuthorName();
+            redirectFromBlankAuthorName();
         else if (controller.isAuthorNameTooLong() == true)
-            this.redirectFromTooLongAuthorName();
+            redirectFromTooLongAuthorName();
         else {
             final User myUser = User.getMyUser();
             controller.buildNewStory(myUser);
@@ -66,41 +65,34 @@ public class SubmitNewServlet extends SubmitServlet {
 
     @Override
     protected void redirectFromBlankAuthorName() {
-        final String url = "/new?error=blankAuthorName";
-        this.redirect(url);
+        redirect("/new?error=blankAuthorName");
     }
 
     @Override
     protected void redirectFromBlankContent() {
-        final String url = "/new?error=blankContent";
-        this.redirect(url);
+        redirect("/new?error=blankContent");
     }
 
     private void redirectFromBlankTitle() {
-        final String url = "/new?error=blankTitle";
-        this.redirect(url);
+        redirect("/new?error=blankTitle");
     }
 
     @Override
     protected void redirectFromTooLongAuthorName() {
-        final String url = "/new?error=authorNameTooLong";
-        this.redirect(url);
+        redirect("/new?error=authorNameTooLong");
     }
 
     @Override
     protected void redirectFromTooLongContent() {
-        final String url = "/new?error=contentTooLong";
-        this.redirect(url);
+        redirect("/new?error=contentTooLong");
     }
 
     @Override
     protected void redirectFromTooLongOption() {
-        final String url = "/new?error=optionTooLong";
-        this.redirect(url);
+        redirect("/new?error=optionTooLong");
     }
 
     private void redirectFromTooLongTitle() {
-        final String url = "/new?error=titleTooLong";
-        this.redirect(url);
+        redirect("/new?error=titleTooLong");
     }
 }

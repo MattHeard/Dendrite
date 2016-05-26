@@ -11,9 +11,6 @@ import com.deuteriumlabs.dendrite.model.User;
 
 public class UnfollowServlet extends DendriteServlet {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1671751304334555912L;
 
 	@Override

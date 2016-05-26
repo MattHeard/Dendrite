@@ -17,35 +17,33 @@ public class SubmitWriteController extends SubmitController {
 	@Override
 	public void buildNewPage(final User myUser) {
 		super.buildNewPage(myUser);
-		this.recalculateStoryQuality();
+		recalculateStoryQuality();
 	}
 
 	@Override
 	void buildStoryPage(final User myUser) {
 		final StoryPage page = new StoryPage();
-		this.addStoryPageValues(page);
-		final PageId beginning = this.getBeginning();
+		addStoryPageValues(page);
+		final PageId beginning = getBeginning();
 		page.setBeginning(beginning);
 
 		if (page.isInStore() == false) {
 			page.create();
 		}
 
-		if (this.isParentNotificationNeeded()) {
-			this.notifyParent();
+		if (isParentNotificationNeeded()) {
+			notifyParent();
 		}
 
-		this.notifyFollowers(myUser);
+		notifyFollowers(myUser);
 	}
 
 	public void connectIncomingOption() {
 		final StoryOption incoming = new StoryOption();
-		final PageId from = this.getFrom();
 		incoming.setSource(from);
-		final int linkIndex = this.getLinkIndex();
 		incoming.setListIndex(linkIndex);
 		incoming.read();
-		final PageId targetId = this.getId();
+		final PageId targetId = getId();
 		final int targetPageNumber = targetId.getNumber();
 		incoming.setTarget(targetPageNumber);
 		incoming.update();
@@ -53,43 +51,31 @@ public class SubmitWriteController extends SubmitController {
 
 	private PageId getBeginning() {
 		final StoryPage parent = new StoryPage();
-		final PageId from = this.getFrom();
 		parent.setId(from);
 		parent.read();
 		return parent.getBeginning();
-	}
-
-	private PageId getFrom() {
-		return this.from;
-	}
-
-	private int getLinkIndex() {
-		return this.linkIndex;
 	}
 
 	/**
 	 * @return
 	 */
 	private boolean isAuthorNotifiable() {
-		final String parentAuthorId = getParentAuthorId();
-		return (parentAuthorId != null);
+		return (getParent().getAuthorId() != null);
 	}
 
 	/**
 	 * @return
 	 */
 	private boolean isParentNotificationNeeded() {
-		final boolean isAuthorNotifiable = this.isAuthorNotifiable();
-		final boolean isAuthorOfParentPage = this.isAuthorOfParentPage();
-		return (isAuthorNotifiable == true && isAuthorOfParentPage == false);
+		return (isAuthorNotifiable() && !isAuthorOfParentPage());
 	}
 
 	/**
 	 * @return
 	 */
 	private boolean isAuthorOfParentPage() {
-		final String childAuthorId = this.getAuthorId();
-		final String parentAuthorId = getParentAuthorId();
+		final String childAuthorId = getAuthorId();
+		final String parentAuthorId = getParent().getAuthorId();
 		return (parentAuthorId != null && parentAuthorId.equals(childAuthorId));
 	}
 
@@ -98,17 +84,13 @@ public class SubmitWriteController extends SubmitController {
      */
 	private void notifyParent() {
 		final PgChildNotification notification = new PgChildNotification();
-		final PageId childPgId = this.getId();
+		final PageId childPgId = getId();
 		notification.setPgId(childPgId);
-		final String childAuthorId = this.getAuthorId();
+		final String childAuthorId = getAuthorId();
 		notification.setChildAuthorId(childAuthorId);
-		final String parentAuthorId = getParentAuthorId();
+		final String parentAuthorId = getParent().getAuthorId();
 		notification.setRecipientId(parentAuthorId);
 		notification.create();
-	}
-
-	private String getParentAuthorId() {
-		return this.getParent().getAuthorId();
 	}
 
 	private void notifyFollowers(final User myUser) {
@@ -119,9 +101,9 @@ public class SubmitWriteController extends SubmitController {
 					if (isFollowerNeedingNotification(followerId)) {
 						final FollowerWriteNotification notification;
 						notification = new FollowerWriteNotification();
-						notification.setPgId(this.getId());
-						notification.setAuthorId(this.getAuthorId());
-						notification.setAuthorName(this.getAuthorName());
+						notification.setPgId(getId());
+						notification.setAuthorId(getAuthorId());
+						notification.setAuthorName(getAuthorName());
 						notification.setRecipientId(followerId);
 						notification.create();
 					}
@@ -135,7 +117,7 @@ public class SubmitWriteController extends SubmitController {
 			return false;
 		}
 
-		String parentAuthorId = this.getParentAuthorId();
+		String parentAuthorId = getParent().getAuthorId();
 		if (parentAuthorId == null) {
 			return true;
 		} else {

@@ -11,127 +11,12 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
 import com.deuteriumlabs.dendrite.model.User;
 
 public class SubmitRewriteController extends SubmitController {
-
 	protected int pageNumber;
 
 	@Override
 	public void buildNewPage(final User myUser) {
 		super.buildNewPage(myUser);
-		this.recalculateStoryQuality();
-	}
-
-	@Override
-	void buildStoryPage(final User myUser) {
-		final StoryPage page = new StoryPage();
-		this.addStoryPageValues(page);
-		final PageId beginning = this.getBeginning();
-		page.setBeginning(beginning);
-		page.setParent(this.getParent());
-
-		if (page.isInStore() == false) {
-			page.create();
-		}
-
-		this.notifyAuthorsOfAltPgs();
-		this.notifyFollowers(myUser);
-	}
-
-	private PageId getBeginning() {
-		final StoryPage alternative = new StoryPage();
-		final PageId id = new PageId();
-		final int number = this.getPageNumber();
-		id.setNumber(number);
-		id.setVersion("a");
-		alternative.setId(id);
-		alternative.read();
-		final PageId alternativeBeginning = alternative.getBeginning();
-		final int altBeginningNumber = alternativeBeginning.getNumber();
-		if (altBeginningNumber != number) {
-			return alternativeBeginning;
-		} else {
-			return this.getId();
-		}
-	}
-
-	private String getNextVersion() {
-		final int pageNumber = this.getPageNumber();
-		final int count = StoryPage.countVersions(pageNumber);
-		return StoryPage.convertNumberToVersion(count + 1);
-	}
-
-	private List<String> getAuthorsOfAltPgs() {
-		final List<String> authorIds = new ArrayList<String>();
-		final PageId pageId = new PageId();
-		final int num = this.getPageNumber();
-		pageId.setNumber(num);
-		final List<StoryPage> allVersions = StoryPage.getAllVersions(pageId);
-		for (final StoryPage version : allVersions) {
-			final String authorId = version.getAuthorId();
-
-			if (authorId == null) {
-				break;
-			} else {
-				boolean isDuplicate = authorIds.contains(authorId);
-				String newAuthorId = this.getAuthorId();
-				boolean isNewAuthor = authorId.equals(newAuthorId);
-				if (isDuplicate == false && isNewAuthor == false) {
-					authorIds.add(authorId);
-				}
-			}
-		}
-		return authorIds;
-	}
-
-	private int getPageNumber() {
-		return this.pageNumber;
-	}
-
-	private void notifyAuthorsOfAltPgs() {
-		List<String> altPgAuthorIds = this.getAuthorsOfAltPgs();
-		for (final String altPgAuthorId : altPgAuthorIds) {
-			final PgRewriteNotification notification;
-			notification = new PgRewriteNotification();
-			final PageId rewritePgId = this.getId();
-			notification.setPgId(rewritePgId);
-			final String rewriteAuthorId = this.getAuthorId();
-			notification.setRewriteAuthorId(rewriteAuthorId);
-			notification.setRecipientId(altPgAuthorId);
-			notification.create();
-		}
-	}
-
-	private void notifyFollowers(final User myUser) {
-		if (myUser != null) {
-			List<String> followerIds = myUser.getFollowers();
-			List<String> altPgAuthorIds = this.getAuthorsOfAltPgs();
-			if (followerIds != null) {
-				for (final String followerId : followerIds) {
-					if (altPgAuthorIds.contains(followerId) == false) {
-						final FollowerRewriteNotification notification;
-						notification = new FollowerRewriteNotification();
-						notification.setPgId(this.getId());
-						notification.setAuthorId(this.getAuthorId());
-						notification.setAuthorName(this.getAuthorName());
-						notification.setRecipientId(followerId);
-						notification.create();
-					}
-				}
-			}
-		}
-	}
-
-	@Override
-	protected void setNewPageId() {
-		this.setNextPageId();
-	}
-
-	private void setNextPageId() {
-		final PageId id = new PageId();
-		final int number = this.getPageNumber();
-		id.setNumber(number);
-		final String version = this.getNextVersion();
-		id.setVersion(version);
-		this.setPageId(id);
+		recalculateStoryQuality();
 	}
 
 	public void setPageNumber(final String pageNumber) {
@@ -145,5 +30,114 @@ public class SubmitRewriteController extends SubmitController {
 			this.pageNumber = pageNumberValue;
 		else
 			this.pageNumber = 0;
+	}
+
+	private List<String> getAuthorsOfAltPgs() {
+		final List<String> authorIds = new ArrayList<String>();
+		final PageId pageId = new PageId();
+		final int num = pageNumber;
+		pageId.setNumber(num);
+		final List<StoryPage> allVersions = StoryPage.getAllVersions(pageId);
+		for (final StoryPage version : allVersions) {
+			final String authorId = version.getAuthorId();
+
+			if (authorId == null) {
+				break;
+			} else {
+				boolean isDuplicate = authorIds.contains(authorId);
+				String newAuthorId = getAuthorId();
+				boolean isNewAuthor = authorId.equals(newAuthorId);
+				if (isDuplicate == false && isNewAuthor == false) {
+					authorIds.add(authorId);
+				}
+			}
+		}
+		return authorIds;
+	}
+
+	private PageId getBeginning() {
+		final StoryPage alternative = new StoryPage();
+		final PageId id = new PageId();
+		final int number = pageNumber;
+		id.setNumber(number);
+		id.setVersion("a");
+		alternative.setId(id);
+		alternative.read();
+		final PageId alternativeBeginning = alternative.getBeginning();
+		final int altBeginningNumber = alternativeBeginning.getNumber();
+		if (altBeginningNumber != number) {
+			return alternativeBeginning;
+		} else {
+			return getId();
+		}
+	}
+
+	private String getNextVersion() {
+		final int count = StoryPage.countVersions(pageNumber);
+		return StoryPage.convertNumberToVersion(count + 1);
+	}
+
+	private void notifyAuthorsOfAltPgs() {
+		List<String> altPgAuthorIds = getAuthorsOfAltPgs();
+		for (final String altPgAuthorId : altPgAuthorIds) {
+			final PgRewriteNotification notification;
+			notification = new PgRewriteNotification();
+			final PageId rewritePgId = getId();
+			notification.setPgId(rewritePgId);
+			final String rewriteAuthorId = getAuthorId();
+			notification.setRewriteAuthorId(rewriteAuthorId);
+			notification.setRecipientId(altPgAuthorId);
+			notification.create();
+		}
+	}
+
+	private void notifyFollowers(final User myUser) {
+		if (myUser != null) {
+			List<String> followerIds = myUser.getFollowers();
+			List<String> altPgAuthorIds = getAuthorsOfAltPgs();
+			if (followerIds != null) {
+				for (final String followerId : followerIds) {
+					if (altPgAuthorIds.contains(followerId) == false) {
+						final FollowerRewriteNotification notification;
+						notification = new FollowerRewriteNotification();
+						notification.setPgId(getId());
+						notification.setAuthorId(getAuthorId());
+						notification.setAuthorName(getAuthorName());
+						notification.setRecipientId(followerId);
+						notification.create();
+					}
+				}
+			}
+		}
+	}
+
+	private void setNextPageId() {
+		final PageId id = new PageId();
+		final int number = pageNumber;
+		id.setNumber(number);
+		final String version = getNextVersion();
+		id.setVersion(version);
+		setPageId(id);
+	}
+
+	@Override
+	protected void setNewPageId() {
+		setNextPageId();
+	}
+
+	@Override
+	void buildStoryPage(final User myUser) {
+		final StoryPage page = new StoryPage();
+		addStoryPageValues(page);
+		final PageId beginning = getBeginning();
+		page.setBeginning(beginning);
+		page.setParent(getParent());
+
+		if (page.isInStore() == false) {
+			page.create();
+		}
+
+		notifyAuthorsOfAltPgs();
+		notifyFollowers(myUser);
 	}
 }

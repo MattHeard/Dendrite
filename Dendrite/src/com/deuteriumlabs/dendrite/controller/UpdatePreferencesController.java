@@ -4,7 +4,6 @@ package com.deuteriumlabs.dendrite.controller;
 import com.deuteriumlabs.dendrite.model.User;
 
 public class UpdatePreferencesController {
-
     private String alignment;
     private String fontColour;
     private String fontSize;
@@ -14,62 +13,33 @@ public class UpdatePreferencesController {
     private String theme;
     private int avatarId;
 
-    private String getAlignment() {
-        return this.alignment;
-    }
-
-    private String getFontColour() {
-        return this.fontColour;
-    }
-
-    private String getFontSize() {
-        return this.fontSize;
-    }
-
     private double getFontSizeNumber() {
-        final String fontSizeName = this.getFontSize();
-        if (fontSizeName.equals("Huge")) {
+        // TODO Replace with switch or dictionary lookup
+        if (fontSize.equals("Huge")) {
             return 2;
-        } else if (fontSizeName.equals("Large")) {
+        } else if (fontSize.equals("Large")) {
             return 1.5;
-        } else if (fontSizeName.equals("Small")) {
+        } else if (fontSize.equals("Small")) {
             return 0.8;
         } else {
             return 1; // Medium
         }
     }
 
-    private String getFontType() {
-        return this.fontType;
-    }
-
-    private String getNewPenName() {
-        return this.newPenName;
-    }
-
-    private String getSpacing() {
-        return this.spacing;
-    }
-
     private double getSpacingNumber() {
-        final String spacingName = this.getSpacing();
-        if (spacingName.equals("Huge")) {
+        // TODO Replace with switch or dictionary lookup
+        if (spacing.equals("Huge")) {
             return 3;
-        } else if (spacingName.equals("Large")) {
+        } else if (spacing.equals("Large")) {
             return 2;
-        } else if (spacingName.equals("Small")) {
+        } else if (spacing.equals("Small")) {
             return 1;
         } else {
             return 1.5; // Medium
         }
     }
 
-    private String getTheme() {
-        return this.theme;
-    }
-
     public boolean isNewPenNameBlank() {
-        final String newPenName = this.getNewPenName();
         return (newPenName == null || newPenName.equals(""));
     }
 
@@ -103,32 +73,21 @@ public class UpdatePreferencesController {
 
     public boolean updatePreferences(final User myUser) {
         if (myUser != null) {
-            final String penName = this.getNewPenName();
-            myUser.setDefaultPenName(penName);
-            final double fontSize = this.getFontSizeNumber();
+            myUser.setDefaultPenName(newPenName);
+            final double fontSize = getFontSizeNumber();
             myUser.setFontSize(fontSize);
-            final String fontType = this.getFontType();
             myUser.setFontType(fontType);
-            final String fontColour = this.getFontColour();
             myUser.setFontColour(fontColour);
-            final double spacing = this.getSpacingNumber();
+            final double spacing = getSpacingNumber();
             myUser.setSpacing(spacing);
-            final String alignment = this.getAlignment();
             myUser.setAlignment(alignment);
-            final String theme = this.getTheme();
             myUser.setTheme(theme);
-
-            final int avatarId = this.getAvatarId();
             myUser.setAvatarId(avatarId);
 
             myUser.update();
             return true;
         } else
             return false;
-    }
-
-    private int getAvatarId() {
-        return this.avatarId;
     }
 
     public void setAvatarId(final int avatarId) {

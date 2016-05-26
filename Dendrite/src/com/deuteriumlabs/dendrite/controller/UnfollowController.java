@@ -6,16 +6,13 @@ import java.util.List;
 import com.deuteriumlabs.dendrite.model.User;
 
 public class UnfollowController {
-
 	private String sourceId;
 	private String targetId;
 
 	public void enableUnfollow() {
 		final User target = new User();
-		final String targetId = this.getTargetId();
 		target.setId(targetId);
 		target.read();
-		final String sourceId = this.getSourceId();
 		
 		final List<String> followers = target.getFollowers();
 		boolean isRemoved = false;
@@ -32,14 +29,6 @@ public class UnfollowController {
 			}
 			target.update();
 		}
-	}
-
-	private String getSourceId() {
-		return this.sourceId;
-	}
-
-	private String getTargetId() {
-		return this.targetId;
 	}
 
 	public void setSourceId(final String sourceId) {
