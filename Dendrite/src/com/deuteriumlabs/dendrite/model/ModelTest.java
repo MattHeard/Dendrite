@@ -7,6 +7,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.deuteriumlabs.dendrite.dependencies.DatastoreEntity;
+import com.deuteriumlabs.dendrite.dependencies.DatastoreQuery;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 

@@ -1,4 +1,4 @@
-package com.deuteriumlabs.dendrite.model;
+package com.deuteriumlabs.dendrite.dependencies;
 
 import com.google.appengine.api.datastore.Projection;
 import com.google.appengine.api.datastore.PropertyProjection;

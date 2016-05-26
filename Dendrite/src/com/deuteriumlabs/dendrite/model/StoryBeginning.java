@@ -4,7 +4,9 @@ package com.deuteriumlabs.dendrite.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.deuteriumlabs.dendrite.queries.Store;
+import com.deuteriumlabs.dendrite.dependencies.DatastoreEntity;
+import com.deuteriumlabs.dendrite.dependencies.DatastoreQuery;
+import com.deuteriumlabs.dendrite.dependencies.Store;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query.Filter;

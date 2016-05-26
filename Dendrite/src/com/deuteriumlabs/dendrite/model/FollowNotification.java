@@ -4,6 +4,7 @@ package com.deuteriumlabs.dendrite.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.deuteriumlabs.dendrite.dependencies.DatastoreEntity;
 import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 
 public class FollowNotification extends Notification {

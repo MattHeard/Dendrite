@@ -1,6 +1,6 @@
 package com.deuteriumlabs.dendrite.queries;
 
-import com.deuteriumlabs.dendrite.model.DatastoreEntity;
+import com.deuteriumlabs.dendrite.dependencies.DatastoreEntity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
 

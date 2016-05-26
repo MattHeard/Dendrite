@@ -10,11 +10,11 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 
-import com.deuteriumlabs.dendrite.model.DatastoreQuery;
+import com.deuteriumlabs.dendrite.dependencies.DatastoreQuery;
+import com.deuteriumlabs.dendrite.dependencies.Store;
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryPage;
-import com.deuteriumlabs.dendrite.queries.Store;
 
 /**
  * Represents the table of contents from which the user can select a story to

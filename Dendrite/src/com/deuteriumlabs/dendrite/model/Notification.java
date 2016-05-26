@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.deuteriumlabs.dendrite.queries.Store;
+import com.deuteriumlabs.dendrite.dependencies.DatastoreEntity;
+import com.deuteriumlabs.dendrite.dependencies.DatastoreQuery;
+import com.deuteriumlabs.dendrite.dependencies.Store;
 import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;

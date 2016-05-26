@@ -1,11 +1,8 @@
-package com.deuteriumlabs.dendrite.model;
+package com.deuteriumlabs.dendrite.dependencies;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.deuteriumlabs.dendrite.queries.Store;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;

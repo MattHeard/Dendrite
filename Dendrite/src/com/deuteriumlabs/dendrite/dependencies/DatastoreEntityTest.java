@@ -1,4 +1,4 @@
-package com.deuteriumlabs.dendrite.model;
+package com.deuteriumlabs.dendrite.dependencies;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

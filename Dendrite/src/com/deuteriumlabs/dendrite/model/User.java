@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.deuteriumlabs.dendrite.dependencies.DatastoreEntity;
+import com.deuteriumlabs.dendrite.dependencies.DatastoreQuery;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;

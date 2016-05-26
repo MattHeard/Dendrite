@@ -10,8 +10,8 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.deuteriumlabs.dendrite.model.DatastoreQuery;
-import com.deuteriumlabs.dendrite.queries.Store;
+import com.deuteriumlabs.dendrite.dependencies.DatastoreQuery;
+import com.deuteriumlabs.dendrite.dependencies.Store;
 import com.google.appengine.api.datastore.PreparedQuery;
 
 public class ContentsViewTest {

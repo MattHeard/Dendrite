@@ -12,7 +12,7 @@
  */
 %><%@ page import="com.deuteriumlabs.dendrite.view.ContentsView" %><%
 %><%@ page import="com.deuteriumlabs.dendrite.view.ContentsView.Link" %><%
-%><%@ page import="com.deuteriumlabs.dendrite.queries.Store" %><%
+%><%@ page import="com.deuteriumlabs.dendrite.dependencies.Store" %><%
 %><%@ page import="com.deuteriumlabs.dendrite.model.User" %><%
 %><%@ page import="com.google.appengine.api.datastore.Query" %><%
 

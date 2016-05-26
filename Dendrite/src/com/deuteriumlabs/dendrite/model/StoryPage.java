@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.deuteriumlabs.dendrite.queries.Store;
+import com.deuteriumlabs.dendrite.dependencies.DatastoreEntity;
+import com.deuteriumlabs.dendrite.dependencies.DatastoreQuery;
+import com.deuteriumlabs.dendrite.dependencies.Store;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
