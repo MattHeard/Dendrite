@@ -93,11 +93,17 @@ public class AltView extends View {
 		alt.authorId = pg.getAuthorId();
 		alt.authorName = pg.getAuthorName();
 
-		final User author = new User();
-		author.setId(alt.authorId);
-		author.read();
-		alt.authorAvatarId = author.getAvatarId();
-		alt.authorAvatarDesc = User.getAvatarDesc(alt.authorAvatarId);
+		if (alt.authorId != null) {
+    		final User author = new User();
+    		author.setId(alt.authorId);
+    		author.read();
+    		alt.authorAvatarId = author.getAvatarId();
+    		alt.authorAvatarDesc = User.getAvatarDesc(alt.authorAvatarId);
+		} else {
+		    alt.authorAvatarId = 0;
+		    alt.authorAvatarDesc = User.getAvatarDesc(0);
+		}
+		
 		return alt;
 	}
 
