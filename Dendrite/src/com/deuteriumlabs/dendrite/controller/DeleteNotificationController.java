@@ -1,31 +1,13 @@
 /* © 2013-2015 Deuterium Labs Limited */
-/**
- * 
- */
 package com.deuteriumlabs.dendrite.controller;
 
 import com.deuteriumlabs.dendrite.model.Notification;
 import com.deuteriumlabs.dendrite.model.User;
 
-/**
- * 
- */
 public class DeleteNotificationController {
-
 	private String notificationId;
 
-	/**
-	 * @param notificationId
-	 */
-	public void setNotificationId(final String notificationId) {
-		this.notificationId = notificationId;
-	}
-
-	/**
-	 * @return
-	 */
 	public boolean deleteNotification() {
-		final String notificationId = this.getNotificationId();
 		final boolean isDeletionSuccessful;
 		if (notificationId != null) {
 			final Notification notification = new Notification();
@@ -38,15 +20,11 @@ public class DeleteNotificationController {
 		return isDeletionSuccessful;
 	}
 
-	/**
-	 * @return
-	 */
 	public String getNotificationId() {
-		return this.notificationId;
+		return notificationId;
 	}
 
 	public boolean isMyUserTheRecipient() {
-		final String notificationId = this.getNotificationId();
 		if (notificationId != null) {
 			final Notification notification = new Notification();
 			notification.setId(notificationId);
@@ -57,5 +35,9 @@ public class DeleteNotificationController {
 		} else {
 			return false;
 		}
+	}
+
+	public void setNotificationId(final String notificationId) {
+		this.notificationId = notificationId;
 	}
 }

@@ -12,9 +12,9 @@
  */
 %><%@ page import="com.deuteriumlabs.dendrite.view.ContentsView" %><%
 %><%@ page import="com.deuteriumlabs.dendrite.view.ContentsView.Link" %><%
+%><%@ page import="com.deuteriumlabs.dendrite.dependencies.DatastoreQuery" %><%
 %><%@ page import="com.deuteriumlabs.dendrite.dependencies.Store" %><%
 %><%@ page import="com.deuteriumlabs.dendrite.model.User" %><%
-%><%@ page import="com.google.appengine.api.datastore.Query" %><%
 
 /*
  * The JSTL functions provide `escapeXml(...)`. Currently, all
@@ -40,10 +40,6 @@ if (view.isPastTheLastPg()) {
           back to <a href="/contents">the table of contents</a>.</p><%
 	
 } else {
-	
-    %>
-        <p class="small notice"><a href="/donate">Dendrite is experiencing a lot of traffic.<br />
-            Please consider donating to keep us online.</a></p><%
     
 	%>
         <h1>${fn:escapeXml(bodyMainTitle)}</h1>
@@ -56,7 +52,7 @@ if (view.isPastTheLastPg()) {
 // Display the links to the stories which have already been written. Only ten
 // links are shown at one time.
         
-final Query query = new Query("StoryBeginning");
+final DatastoreQuery query = new DatastoreQuery("StoryBeginning");
 final Store store = new Store();
 for (final Link link : view.getLinks(store, query)) {
 	view.prepareLink(link);

@@ -18,13 +18,50 @@ import com.deuteriumlabs.dendrite.model.User;
 public class SubmitWriteServlet extends SubmitServlet {
 
 	private static final long serialVersionUID = -1895973678482433819L;
+	private String authorId;
+	private String authorName;
+	private String content;
 	private String from;
 	private String linkIndex;
-	private HttpServletRequest req;
-	private String content;
-	private String authorName;
 	private List<String> options;
-	private String authorId;
+	private HttpServletRequest req;
+
+	@Override
+	public String getUrl() {
+		return "/write?from=" + from + "&linkIndex=" + linkIndex;
+	}
+
+	private int getConnectedOptionTarget() {
+		return getIncomingOption().getTarget();
+	}
+
+	private StoryOption getIncomingOption() {
+		final StoryOption option = new StoryOption();
+		final PageId source = new PageId(from);
+		option.setSource(source);
+		final int listIndex = Integer.parseInt(linkIndex);
+		option.setListIndex(listIndex);
+		option.read();
+		return option;
+	}
+
+	private boolean isIncomingOptionConnected() {
+		final StoryOption option = getIncomingOption();
+		return option.isConnected();
+	}
+
+	private void passToRewriteServlet(final User myUser) throws IOException {
+		final SubmitRewriteServlet rewriteServlet = new SubmitRewriteServlet();
+		rewriteServlet.setSession(req.getSession());
+		int target = getConnectedOptionTarget();
+		rewriteServlet.setPageNumber(Integer.toString(target));
+		rewriteServlet.setContent(content);
+		rewriteServlet.setAuthorName(authorName);
+		rewriteServlet.setOptions(options);
+		rewriteServlet.setAuthorId(authorId);
+		rewriteServlet.setResponse(getResponse());
+		rewriteServlet.processRewrite(myUser);
+	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -83,42 +120,5 @@ public class SubmitWriteServlet extends SubmitServlet {
 				resp.sendRedirect("/read?p=" + id);
 			}
 		}
-	}
-
-	private void passToRewriteServlet(final User myUser) throws IOException {
-		final SubmitRewriteServlet rewriteServlet = new SubmitRewriteServlet();
-		rewriteServlet.session = req.getSession();
-		int target = getConnectedOptionTarget();
-		rewriteServlet.pageNumber = Integer.toString(target);
-		rewriteServlet.content = content;
-		rewriteServlet.authorName = authorName;
-		rewriteServlet.options = options;
-		rewriteServlet.authorId = authorId;
-		rewriteServlet.setResponse(getResponse());
-		rewriteServlet.processRewrite(myUser);
-	}
-
-	private int getConnectedOptionTarget() {
-		return getIncomingOption().getTarget();
-	}
-
-	private boolean isIncomingOptionConnected() {
-		final StoryOption option = getIncomingOption();
-		return option.isConnected();
-	}
-
-	private StoryOption getIncomingOption() {
-		final StoryOption option = new StoryOption();
-		final PageId source = new PageId(from);
-		option.setSource(source);
-		final int listIndex = Integer.parseInt(linkIndex);
-		option.setListIndex(listIndex);
-		option.read();
-		return option;
-	}
-
-	@Override
-	public String getUrl() {
-		return "/write?from=" + from + "&linkIndex=" + linkIndex;
 	}
 }

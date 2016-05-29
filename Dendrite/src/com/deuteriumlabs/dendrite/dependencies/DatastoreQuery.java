@@ -29,26 +29,31 @@ public class DatastoreQuery {
     public DatastoreQuery addSort(final String propertyName,
             final SortDirection direction) {
         query.addSort(propertyName, direction);
+        
         return this;
     }
 
     public DatastoreQuery addSort(String propertyName) {
         query.addSort(propertyName);
+        
         return this;
     }
 
     public DatastoreQuery setKeysOnly() {
         query.setKeysOnly();
+        
         return this;
     }
 
     public DatastoreQuery addProjection(PropertyProjection projection) {
         query.addProjection(projection);
+        
         return this;
     }
 
     public DatastoreQuery addProjection(Projection projection) {
         query.addProjection(projection);
+        
         return this;
     }
 

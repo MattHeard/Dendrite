@@ -11,7 +11,6 @@ import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.User;
 
 public class AddTagServlet extends DendriteServlet {
-    
 	private static final String PG_ID_PARAMETER_NAME = "p";
 	private static final long serialVersionUID = 3295021739229957210L;
 	private static final String TAG_PARAMETER_NAME = "tag";
@@ -21,21 +20,45 @@ public class AddTagServlet extends DendriteServlet {
 	private HttpServletResponse resp;
 	private String tag;
 
+	private void extractParameters() {
+		extractPgId();
+		extractTag();
+	}
+
+	private void extractPgId() {
+		final String idString = req.getParameter(PG_ID_PARAMETER_NAME);
+		pgId = new PageId(idString);
+	}
+
+	private void extractTag() {
+		this.tag = req.getParameter(TAG_PARAMETER_NAME).toLowerCase();
+	}
+
+	private boolean isTagValid(final String tag) {
+		return (tag != null) && (tag.equals("") == false);
+	}
+
+	private void returnFailure() {
+        resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	}
+
+	private void returnOk() {
+		resp.setStatus(HttpServletResponse.SC_OK);
+	}
+
 	@Override
     protected void doPost(final HttpServletRequest req,
             final HttpServletResponse resp) throws ServletException,
             IOException {
-		this.setReq(req);
-		this.setResp(resp);
-		this.extractParameters();
-		final PageId pgId = this.getPgId();
+		this.req = req;
+		this.resp = resp;
+		extractParameters();
 		if (pgId.isValid() == false) {
-			this.returnFailure();
+			returnFailure();
 		} else {
-			final String tag = this.getTag();
 			final boolean isTagValid = isTagValid(tag);
 			if (isTagValid == false) {
-				this.returnFailure();
+				returnFailure();
 			} else {
 				final AddTagController controller = new AddTagController();
 				controller.setPgId(pgId);
@@ -43,75 +66,11 @@ public class AddTagServlet extends DendriteServlet {
 				final User myUser = User.getMyUser();
 				final boolean isAdded = controller.addTag(myUser);
 				if (isAdded) {
-					this.returnOk();
+					returnOk();
 				} else {
-					this.returnFailure();
+					returnFailure();
 				}
 			}
 		}
     }
-
-	private static boolean isTagValid(final String tag) {
-		return (tag != null) && (tag.equals("") == false);
-	}
-
-	private void returnFailure() {
-		final HttpServletResponse resp = this.getResp();
-        resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-	}
-
-	private String getTag() {
-		return this.tag;
-	}
-
-	private void extractParameters() {
-		this.extractPgId();
-		this.extractTag();
-	}
-
-	private void extractTag() {
-		final HttpServletRequest req = this.getReq();
-		String tag = req.getParameter(TAG_PARAMETER_NAME);
-		tag = tag.toLowerCase();
-		this.setTag(tag);
-	}
-
-	private void setTag(final String tag) {
-		this.tag = tag;
-	}
-
-	private void extractPgId() {
-		final HttpServletRequest req = this.getReq();
-		final String pgId = req.getParameter(PG_ID_PARAMETER_NAME);
-		this.setPgId(pgId);
-	}
-
-	private PageId getPgId() {
-		return this.pgId;
-	}
-
-	private HttpServletRequest getReq() {
-		return this.req;
-	}
-
-	private HttpServletResponse getResp() {
-		return resp;
-	}
-
-	private void returnOk() {
-		final HttpServletResponse resp = this.getResp();
-		resp.setStatus(HttpServletResponse.SC_OK);
-	}
-
-	private void setPgId(final String id) {
-		this.pgId = new PageId(id);
-	}
-
-	private void setReq(final HttpServletRequest req) {
-		this.req = req;
-	}
-
-	private void setResp(final HttpServletResponse resp) {
-		this.resp = resp;
-	}
 }

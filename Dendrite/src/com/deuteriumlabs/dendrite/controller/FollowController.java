@@ -13,11 +13,9 @@ public class FollowController {
 
 	public void enableFollow() {
 		final User target = new User();
-		final String targetId = this.getTargetId();
 		target.setId(targetId);
 		target.read();
 		final List<String> formerFollowers = target.getFormerFollowers();
-		final String sourceId = this.getSourceId();
 		boolean isNeedingAnUpdate = false;
 		boolean isSourceAFormerFollower;
 		if (formerFollowers.contains(sourceId) == true) {
@@ -37,24 +35,16 @@ public class FollowController {
 		if (isNeedingAnUpdate == true) {
 			target.update();
 			if (isSourceAFormerFollower == false) {
-				this.notifyFollow();
+				notifyFollow();
 			}
 		}
 	}
 
-	private String getSourceId() {
-		return this.sourceId;
-	}
-
-	private String getTargetId() {
-		return this.targetId;
-	}
-
 	private void notifyFollow() {
 		final FollowNotification notification = new FollowNotification();
-		final String followerId = this.getSourceId();
+		final String followerId = sourceId;
 		notification.setFollowerId(followerId);
-		final String recipientId = this.getTargetId();
+		final String recipientId = targetId;
 		notification.setRecipientId(recipientId);
 		notification.create();
 	}

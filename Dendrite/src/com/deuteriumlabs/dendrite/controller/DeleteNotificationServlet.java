@@ -1,7 +1,4 @@
 /* © 2013-2015 Deuterium Labs Limited */
-/**
- * 
- */
 package com.deuteriumlabs.dendrite.controller;
 
 import java.io.IOException;
@@ -10,14 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * 
- */
 public class DeleteNotificationServlet extends DendriteServlet {
-
-	/**
-     * 
-     */
 	private static final long serialVersionUID = 8206847215334258623L;
 
 	@Override

@@ -16,11 +16,11 @@ public class DatastoreEntity {
     }
     
     public DatastoreEntity(final String kind) {
-        this.entity = new Entity(kind);
+        entity = new Entity(kind);
     }
 
     public DatastoreEntity(final String kind, final String key) {
-        this.entity = new Entity(kind, key);
+        entity = new Entity(kind, key);
     }
 
     public Key getKey() {

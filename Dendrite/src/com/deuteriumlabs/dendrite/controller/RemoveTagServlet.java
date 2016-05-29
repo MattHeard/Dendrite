@@ -25,32 +25,12 @@ public class RemoveTagServlet extends DendriteServlet {
 	}
 
 	private void extractPgId() {
-		final HttpServletRequest req = getReq();
-		final String pgId = req.getParameter(PG_ID_PARAMETER_NAME);
-		setPgId(pgId);
+		final String idString = req.getParameter(PG_ID_PARAMETER_NAME);
+		pgId = new PageId(idString);
 	}
 
 	private void extractTag() {
-		final HttpServletRequest req = getReq();
-		String tag = req.getParameter(TAG_PARAMETER_NAME);
-		tag = tag.toLowerCase();
-		setTag(tag);
-	}
-
-	private PageId getPgId() {
-		return pgId;
-	}
-
-	private HttpServletRequest getReq() {
-		return req;
-	}
-
-	private HttpServletResponse getResp() {
-		return resp;
-	}
-
-	private String getTag() {
-		return tag;
+		tag = req.getParameter(TAG_PARAMETER_NAME).toLowerCase();
 	}
 
 	private boolean isTagValid(final String tag) {
@@ -58,43 +38,23 @@ public class RemoveTagServlet extends DendriteServlet {
 	}
 
 	private void returnFailure() {
-		final HttpServletResponse resp = getResp();
 		resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 	}
 
 	private void returnOk() {
-		final HttpServletResponse resp = getResp();
 		resp.setStatus(HttpServletResponse.SC_OK);
-	}
-
-	private void setPgId(final String id) {
-		pgId = new PageId(id);
-	}
-
-	private void setReq(final HttpServletRequest req) {
-		this.req = req;
-	}
-
-	private void setResp(final HttpServletResponse resp) {
-		this.resp = resp;
-	}
-
-	private void setTag(final String tag) {
-		this.tag = tag;
 	}
 
 	@Override
 	protected void doPost(final HttpServletRequest req,
 			final HttpServletResponse resp) throws ServletException,
 			IOException {
-		setReq(req);
-		setResp(resp);
+		this.req = req;
+		this.resp = resp;
 		extractParameters();
-		final PageId pgId = getPgId();
 		if (pgId.isValid() == false) {
 			returnFailure();
 		} else {
-			final String tag = getTag();
 			final boolean isTagValid = isTagValid(tag);
 			if (isTagValid == false) {
 				returnFailure();

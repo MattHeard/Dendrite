@@ -23,7 +23,7 @@ if (PreferencesView.isUserLoggedIn()) {
         <h1>My Preferences</h1>
         <form action="updatePreferences" method="post">
           <h3>Details</h3>
-      	  <p>
+          <p>
             <label for="newPenName" class="prefLabel">Pen name</label>
             <input type="text" name="newPenName" id="newPenName" class="prefInput"
                 value="${fn:escapeXml(userName)}"></input>
@@ -60,7 +60,7 @@ if (isNewPenNameBlank == true) {
                     value="${fn:escapeXml(fontSizeOption)}"
                     id="fontSize${fn:escapeXml(fontSizeOption)}"<%
                   
-        if (fontSizeValues[i] == PreferencesView.getUserFontSize()) {
+        if (fontSizeValues[i] == PreferencesView.getUserFontSize(myUser)) {
             
             %>
                     checked="checked"<%
@@ -98,7 +98,7 @@ if (isNewPenNameBlank == true) {
                     value="${fn:escapeXml(fontTypeOption)}"
                     id="fontType${fn:escapeXml(fontTypeOption)}"<%
                   
-        if (fontTypeOptions[i].equals(PreferencesView.getUserFontType())) {
+        if (fontTypeOptions[i].equals(PreferencesView.getUserFontType(myUser))) {
             
             %>
                     checked="checked"<%
@@ -132,7 +132,7 @@ if (isNewPenNameBlank == true) {
                    value="${fn:escapeXml(fontColourOption)}"
                    id="fontColour${fn:escapeXml(fontColourOption)}"<%
                  
-        if (fontColourOptions[i].equals(PreferencesView.getUserFontColour())) {
+        if (fontColourOptions[i].equals(PreferencesView.getUserFontColour(myUser))) {
         
             %>
                    checked="checked"<%
@@ -164,7 +164,7 @@ if (isNewPenNameBlank == true) {
                     value="${fn:escapeXml(spacingOption)}"
                     id="spacing${fn:escapeXml(spacingOption)}"<%
                   
-        if (spacingValues[i] == PreferencesView.getUserSpacing()) {
+        if (spacingValues[i] == PreferencesView.getUserSpacing(myUser)) {
             
             %>
                     checked="checked"<%
@@ -223,7 +223,7 @@ if (isNewPenNameBlank == true) {
                     value="${fn:escapeXml(themeOption)}"
                     id="theme${fn:escapeXml(themeOption)}"<%
                   
-        if (themeOptions[i].equals(PreferencesView.getUserTheme())) {
+        if (themeOptions[i].equals(PreferencesView.getUserTheme(myUser))) {
         
             %>
                     checked="checked"<%

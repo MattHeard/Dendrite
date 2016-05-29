@@ -17,18 +17,66 @@ import com.deuteriumlabs.dendrite.model.User;
 public class SubmitRewriteServlet extends SubmitServlet {
 	private static final long serialVersionUID = 6369008865421800462L;
 	
-	private HttpServletRequest req;
 	private String authorId;
 	private String authorName;
 	private String content;
-	private List<String> options;
-	private String pageNumber;
-	private HttpSession session;
+    private List<String> options;
+    private String pageNumber;
+    private HttpServletRequest req;
+    private HttpSession session;
 
-	@Override
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public List<String> getOptions() {
+        return options;
+    }
+
+    public String getPageNumber() {
+        return pageNumber;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    @Override
 	final public String getUrl() {
 		return "/rewrite?p=" + pageNumber;
 	}
+
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
+    }
+    
+	public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+	
+	public void setContent(String content) {
+        this.content = content;
+    }
+	
+	public void setOptions(List<String> options) {
+        this.options = options;
+    }
+	
+	public void setPageNumber(String pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+	public void setSession(HttpSession session) {
+        this.session = session;
+    }
 
 	private void handleReq(final User myUser) throws IOException {
 		session = req.getSession();

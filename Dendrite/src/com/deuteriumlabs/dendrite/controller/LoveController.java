@@ -1,7 +1,4 @@
 /* © 2013-2015 Deuterium Labs Limited */
-/**
- * 
- */
 package com.deuteriumlabs.dendrite.controller;
 
 import java.util.List;
@@ -11,18 +8,11 @@ import com.deuteriumlabs.dendrite.model.PgLovedNotification;
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 
-/**
- * 
- */
 public class LoveController {
-	public PageId pageId;
 	public String loverId;
+	public PageId pageId;
 	private String authorId;
 
-	/**
-	 * @return
-	 * 
-	 */
 	public int addLove() {
 		final StoryPage pg = new StoryPage();
 		pg.setId(pageId);
@@ -59,21 +49,10 @@ public class LoveController {
 			pg.update();
 			recalculateStoryQuality(pg);
 			if (isNotificationNeeded == true) {
-				this.notifyLove();
+				notifyLove();
 			}
 		}
 		return count;
-	}
-
-	/**
-     * 
-     */
-	private void notifyLove() {
-		final PgLovedNotification notification = new PgLovedNotification();
-		notification.setPgId(pageId);
-		notification.setLoverId(loverId);
-		notification.setRecipientId(authorId);
-		notification.create();
 	}
 
 	public int removeLove() {
@@ -99,6 +78,14 @@ public class LoveController {
 			recalculateStoryQuality(pg);
 		}
 		return count;
+	}
+
+	private void notifyLove() {
+		final PgLovedNotification notification = new PgLovedNotification();
+		notification.setPgId(pageId);
+		notification.setLoverId(loverId);
+		notification.setRecipientId(authorId);
+		notification.create();
 	}
 
 	private void recalculateStoryQuality(final StoryPage pg) {

@@ -118,7 +118,6 @@ public class User extends Model {
         final User myUser = new User();
         final String myUserId = getMyUserId();
         if (myUserId != null) {
-            final User cachedUser = getCachedUser();
             if (cachedUser != null) {
                 final String cachedUserId = cachedUser.getId();
                 if (cachedUserId.equals(myUserId)) {
@@ -132,7 +131,7 @@ public class User extends Model {
             } else {
                 myUser.create();
             }
-            setCachedUser(myUser);
+            cachedUser = myUser;
             return myUser;
         } else {
             return null;
@@ -165,10 +164,6 @@ public class User extends Model {
         } else {
             return DEFAULT_ALIGNMENT;
         }
-    }
-
-    private static User getCachedUser() {
-        return cachedUser;
     }
 
     private static String getDefaultPenNameFromEntity(
@@ -232,10 +227,6 @@ public class User extends Model {
         } else {
             return DEFAULT_THEME;
         }
-    }
-
-    private static void setCachedUser(final User user) {
-        cachedUser = user;
     }
 
     private String       alignment;
@@ -320,11 +311,7 @@ public class User extends Model {
     }
 
     public void setAvatarId(final int avatarId) {
-        if (avatarId > -1) {
-            this.avatarId = avatarId;
-        } else {
-            this.avatarId = 0;
-        }
+        this.avatarId = (avatarId > -1 ? avatarId : 0);
     }
 
     public void setDefaultPenName(final String defaultPenName) {

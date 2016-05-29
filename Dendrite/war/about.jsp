@@ -133,6 +133,8 @@ view.initialise();
         <i>If you would like to contact the developer or either of the major
         contributors, please send a message via the
         <a href="/contact">Contact</a> form.</i></div>
+        <div><a href="/donate">Dendrite is experiencing a lot of traffic.
+        Please consider donating to keep us online.</a></div>
         </section>
         <section class="faq">
           <h2>FAQ</h2>

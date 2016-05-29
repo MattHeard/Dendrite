@@ -24,12 +24,12 @@ public class DatastoreEntityTest {
     
     @Before
     public void setUp() {
-      helper.setUp();
+        helper.setUp();
     }
 
     @After
     public void tearDown() {
-      helper.tearDown();
+        helper.tearDown();
     }
     
     @Test
