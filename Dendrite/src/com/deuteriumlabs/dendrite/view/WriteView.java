@@ -91,7 +91,6 @@ public class WriteView extends FormView {
     }
 
     private StoryOption getOption() {
-        StoryOption option = this.option;
         if (option == null) {
             option = new StoryOption();
             final String from = getFrom();

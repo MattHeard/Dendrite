@@ -131,12 +131,7 @@ public class AltView extends View {
 
     @Override
     protected String getMetaDesc() {
-        if (isPgNumInvalid()) {
-            return "Select from all of the alternative versions of a page.";
-        } else {
-            final int pgNum = this.pgNum;
-            return "Select from all of the alternative versions of page "
-                    + pgNum + ".";
-        }
+        return "Select from all of the alternative versions of "
+                + (isPgNumInvalid() ? "a page." : "page " + pgNum + ".");
     }
 }

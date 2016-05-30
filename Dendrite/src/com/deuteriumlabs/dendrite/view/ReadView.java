@@ -258,7 +258,7 @@ public class ReadView extends View {
 
     public void setPageId(final String idString) {
         final PageId id = getSpecificPageId(idString);
-        this.setPageId(id);
+        setPageId(id);
     }
 
     private User getAuthor() {

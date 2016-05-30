@@ -187,11 +187,7 @@ public class StoryBeginning extends Model {
      *            the page number of the first page in this story
      */
     public void setPageNumber(final int pageNumber) {
-        if (pageNumber > 0) {
-            this.pageNumber = pageNumber;
-        } else {
-            this.pageNumber = 0;
-        }
+        this.pageNumber = ((pageNumber > 0 ? pageNumber : 0));
     }
 
     /**

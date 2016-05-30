@@ -67,7 +67,6 @@ public class FollowersView extends View {
     }
 
     public boolean isAuthorAvatarAvailable() {
-        final User author = this.author;
         return author.isAvatarAvailable();
     }
 

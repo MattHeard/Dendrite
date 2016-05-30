@@ -504,11 +504,7 @@ public class ContentsView extends View {
     }
 
     private void setFilter(final String filter) {
-        if (filter == null) {
-            this.filter = "";
-        } else {
-            this.filter = filter.toLowerCase();
-        }
+        this.filter = (filter == null ? "" : filter.toLowerCase());
     }
 
     private void setFilterFromRequest(final HttpServletRequest req) {

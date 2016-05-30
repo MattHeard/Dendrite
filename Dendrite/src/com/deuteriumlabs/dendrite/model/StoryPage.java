@@ -803,7 +803,7 @@ public class StoryPage extends Model {
 
     private void readTextFromEntity(final DatastoreEntity entity) {
         final Text text = getTextFromEntity(entity);
-        this.setText(text);
+        setText(text);
     }
 
     private void setAncestry(final List<PageId> ancestry) {
