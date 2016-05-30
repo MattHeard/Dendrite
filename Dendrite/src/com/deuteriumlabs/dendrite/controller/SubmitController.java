@@ -196,11 +196,11 @@ public abstract class SubmitController {
 
     protected void recalculateStoryQuality() {
         final PageId pgId = getId();
-        final StoryPage pg = new StoryPage();
-        pg.setId(pgId);
-        pg.read();
+        final StoryPage page = new StoryPage();
+        page.setId(pgId);
+        page.read();
         final StoryBeginning beginning = new StoryBeginning();
-        final PageId beginningId = pg.getBeginning();
+        final PageId beginningId = page.getBeginning();
         beginning.setPageNumber(beginningId.getNumber());
         beginning.read();
         beginning.recalculateQuality();

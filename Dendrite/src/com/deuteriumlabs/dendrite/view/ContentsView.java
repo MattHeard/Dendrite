@@ -40,10 +40,10 @@ public class ContentsView extends View {
     // a datastore query. This might be able to be optimised into a single
     // query.
     public static List<String> getTags(final Link link) {
-        final StoryPage pg = new StoryPage();
-        pg.setId(new PageId(link.number + link.version));
-        pg.read();
-        return pg.getTags();
+        final StoryPage page = new StoryPage();
+        page.setId(new PageId(link.number + link.version));
+        page.read();
+        return page.getTags();
     }
 
     private static String convertPgNumAndVersionToUrl(final String num,
@@ -278,9 +278,9 @@ public class ContentsView extends View {
             final List<StoryPage> pgs) {
         final Map<Integer, Integer> unsortedMap;
         unsortedMap = new TreeMap<Integer, Integer>();
-        for (final StoryPage pg : pgs) {
-            final int idNum = pg.getId().getNumber();
-            final int numLovers = pg.getNumLovingUsers();
+        for (final StoryPage page : pgs) {
+            final int idNum = page.getId().getNumber();
+            final int numLovers = page.getNumLovingUsers();
             Integer total = unsortedMap.remove(idNum);
             if (total != null) {
                 total += numLovers;
@@ -467,8 +467,8 @@ public class ContentsView extends View {
 
     private String selectByWeight(final List<StoryPage> pgs) {
         int totalWeight = 0;
-        for (final StoryPage pg : pgs) {
-            totalWeight += pg.getNumLovingUsers();
+        for (final StoryPage page : pgs) {
+            totalWeight += page.getNumLovingUsers();
         }
         totalWeight += pgs.size();
 
@@ -476,12 +476,12 @@ public class ContentsView extends View {
         int randomNum = generator.nextInt(totalWeight) + 1;
         int i = 0;
         while ((randomNum > 0) && (i < pgs.size())) {
-            final StoryPage pg = pgs.get(i);
-            final int weight = pg.getNumLovingUsers() + 1;
+            final StoryPage page = pgs.get(i);
+            final int weight = page.getNumLovingUsers() + 1;
 
             randomNum -= weight;
             if (randomNum <= 0) {
-                return pg.getId().getVersion();
+                return page.getId().getVersion();
             }
             i++;
         }
@@ -517,13 +517,13 @@ public class ContentsView extends View {
         final Map<Integer, List<StoryPage>> map;
         map = new TreeMap<Integer, List<StoryPage>>();
 
-        for (final StoryPage pg : pgs) {
-            final int idNum = pg.getId().getNumber();
+        for (final StoryPage page : pgs) {
+            final int idNum = page.getId().getNumber();
             List<StoryPage> alts = map.remove(idNum);
             if (alts == null) {
                 alts = new ArrayList<StoryPage>();
             }
-            alts.add(pg);
+            alts.add(page);
             map.put(idNum, alts);
         }
 

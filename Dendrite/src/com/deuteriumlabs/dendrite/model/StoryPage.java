@@ -157,8 +157,8 @@ public class StoryPage extends Model {
                 .fromPreparedQuery(preparedQuery, fetchOptions);
         final List<StoryPage> pgs = new ArrayList<StoryPage>();
         for (final DatastoreEntity entity : entities) {
-            final StoryPage pg = new StoryPage(entity);
-            pgs.add(pg);
+            final StoryPage page = new StoryPage(entity);
+            pgs.add(page);
         }
         return pgs;
     }
@@ -194,20 +194,20 @@ public class StoryPage extends Model {
     public static String getRandomVersion(final PageId id,
             final Random generator) {
         id.setVersion("a");
-        final StoryPage pg = new StoryPage();
-        pg.setId(id);
-        pg.read();
-        if (pg.isInStore() == true) {
-            final long denominator = pg.calculateChanceDenominator();
+        final StoryPage page = new StoryPage();
+        page.setId(id);
+        page.read();
+        if (page.isInStore() == true) {
+            final long denominator = page.calculateChanceDenominator();
             int randomNum = generator.nextInt((int) denominator) + 1;
             while (randomNum >= 0) {
-                final long numerator = pg.calculateChanceNumerator();
+                final long numerator = page.calculateChanceNumerator();
                 randomNum -= numerator;
                 if (randomNum >= 0) {
-                    pg.incrementVersion();
+                    page.incrementVersion();
                 }
             }
-            final String version = pg.getId().getVersion();
+            final String version = page.getId().getVersion();
             return version;
         } else {
             return "a";
@@ -287,8 +287,8 @@ public class StoryPage extends Model {
             final List<DatastoreEntity> entities) {
         final List<StoryPage> pgs = new ArrayList<StoryPage>();
         for (final DatastoreEntity entity : entities) {
-            final StoryPage pg = new StoryPage(entity);
-            pgs.add(pg);
+            final StoryPage page = new StoryPage(entity);
+            pgs.add(page);
         }
         return pgs;
     }

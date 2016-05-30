@@ -14,12 +14,12 @@ public class LoveController {
     private String authorId;
 
     public int addLove() {
-        final StoryPage pg = new StoryPage();
-        pg.setId(pageId);
-        pg.read();
-        authorId = pg.getAuthorId();
+        final StoryPage page = new StoryPage();
+        page.setId(pageId);
+        page.read();
+        authorId = page.getAuthorId();
 
-        final List<String> formerlyLovingUsers = pg.getFormerlyLovingUsers();
+        final List<String> formerlyLovingUsers = page.getFormerlyLovingUsers();
         final boolean isUserAFormerLover;
         if (formerlyLovingUsers.contains(loverId) == true) {
             isUserAFormerLover = true;
@@ -39,15 +39,15 @@ public class LoveController {
                 && (isAuthorNotifiable == true)
                 && (isLoverCurrentAuthor == false);
 
-        final List<String> lovingUsers = pg.getLovingUsers();
+        final List<String> lovingUsers = page.getLovingUsers();
         int count = lovingUsers.size();
         if (lovingUsers.contains(loverId) == false) {
             lovingUsers.add(loverId);
             count++;
-            pg.setFormerlyLovingUsers(formerlyLovingUsers);
-            pg.setLovingUsers(lovingUsers);
-            pg.update();
-            recalculateStoryQuality(pg);
+            page.setFormerlyLovingUsers(formerlyLovingUsers);
+            page.setLovingUsers(lovingUsers);
+            page.update();
+            recalculateStoryQuality(page);
             if (isNotificationNeeded == true) {
                 notifyLove();
             }
@@ -56,26 +56,26 @@ public class LoveController {
     }
 
     public int removeLove() {
-        final StoryPage pg = new StoryPage();
-        pg.setId(pageId);
-        pg.read();
+        final StoryPage page = new StoryPage();
+        page.setId(pageId);
+        page.read();
 
-        final List<String> formerlyLovingUsers = pg.getFormerlyLovingUsers();
+        final List<String> formerlyLovingUsers = page.getFormerlyLovingUsers();
         if (formerlyLovingUsers.contains(loverId) == false) {
             formerlyLovingUsers.add(loverId);
-            pg.setFormerlyLovingUsers(formerlyLovingUsers);
+            page.setFormerlyLovingUsers(formerlyLovingUsers);
         }
 
-        final List<String> lovingUsers = pg.getLovingUsers();
+        final List<String> lovingUsers = page.getLovingUsers();
         int count = lovingUsers.size();
         if (lovingUsers.contains(loverId) == true) {
             do {
                 lovingUsers.remove(loverId);
                 count--;
             } while (lovingUsers.contains(loverId) == true);
-            pg.setLovingUsers(lovingUsers);
-            pg.update();
-            recalculateStoryQuality(pg);
+            page.setLovingUsers(lovingUsers);
+            page.update();
+            recalculateStoryQuality(page);
         }
         return count;
     }
@@ -88,9 +88,9 @@ public class LoveController {
         notification.create();
     }
 
-    private void recalculateStoryQuality(final StoryPage pg) {
+    private void recalculateStoryQuality(final StoryPage page) {
         final StoryBeginning beginning = new StoryBeginning();
-        final PageId beginningId = pg.getBeginning();
+        final PageId beginningId = page.getBeginning();
         beginning.setPageNumber(beginningId.getNumber());
         beginning.read();
         beginning.recalculateQuality();

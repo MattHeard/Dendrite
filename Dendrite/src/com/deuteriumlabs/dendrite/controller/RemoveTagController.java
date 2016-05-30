@@ -9,10 +9,10 @@ public class RemoveTagController {
     private String tag;
 
     public void removeTag() {
-        final StoryPage pg = getStoryPg();
-        final boolean isTagRemoved = pg.removeTag(tag);
+        final StoryPage page = getStoryPg();
+        final boolean isTagRemoved = page.removeTag(tag);
         if (isTagRemoved) {
-            pg.update();
+            page.update();
         }
     }
 
@@ -25,9 +25,9 @@ public class RemoveTagController {
     }
 
     private StoryPage getStoryPg() {
-        final StoryPage pg = new StoryPage();
-        pg.setId(pgId);
-        pg.read();
-        return pg;
+        final StoryPage page = new StoryPage();
+        page.setId(pgId);
+        page.read();
+        return page;
     }
 }

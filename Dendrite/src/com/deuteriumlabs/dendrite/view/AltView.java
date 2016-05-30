@@ -102,14 +102,14 @@ public class AltView extends View {
         final Alt alt = new Alt();
         alt.pgId = id.toString();
 
-        final StoryPage pg = new StoryPage();
-        pg.setId(id);
-        pg.read();
-        alt.numLovers = pg.getNumLovingUsers();
-        alt.summary = pg.getLongSummary();
-        alt.tags = pg.getTags();
-        alt.authorId = pg.getAuthorId();
-        alt.authorName = pg.getAuthorName();
+        final StoryPage page = new StoryPage();
+        page.setId(id);
+        page.read();
+        alt.numLovers = page.getNumLovingUsers();
+        alt.summary = page.getLongSummary();
+        alt.tags = page.getTags();
+        alt.authorId = page.getAuthorId();
+        alt.authorName = page.getAuthorName();
 
         if (alt.authorId != null) {
             final User author = new User();

@@ -12,11 +12,11 @@ public class AddTagController {
     private String tag;
 
     public boolean addTag(final User myUser) {
-        final StoryPage pg = getStoryPg();
+        final StoryPage page = getStoryPg();
         final String tag = getTag();
-        final boolean isTagAdded = pg.addTag(tag);
+        final boolean isTagAdded = page.addTag(tag);
         if (isTagAdded) {
-            pg.update();
+            page.update();
             final boolean isPgAuthorCurrentUser = isPgAuthorCurrentUser();
             if (isPgAuthorCurrentUser == false) {
                 notifyAuthor(myUser);
@@ -44,16 +44,16 @@ public class AddTagController {
     }
 
     private String getAuthorId() {
-        final StoryPage pg = getStoryPg();
-        return pg.getAuthorId();
+        final StoryPage page = getStoryPg();
+        return page.getAuthorId();
     }
 
     private StoryPage getStoryPg() {
         final PageId id = getPgId();
-        final StoryPage pg = new StoryPage();
-        pg.setId(id);
-        pg.read();
-        return pg;
+        final StoryPage page = new StoryPage();
+        page.setId(id);
+        page.read();
+        return page;
     }
 
     private String getTaggerId() {
