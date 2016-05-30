@@ -13,9 +13,35 @@ public class UpdatePreferencesServlet extends DendriteServlet {
 
     private static final long serialVersionUID = 8943369549424406002L;
 
+    private int getAvatarId(final HttpServletRequest req) {
+        final String avatarNumberParameter = req.getParameter("avatar");
+        if (avatarNumberParameter != null) {
+            int avatarNumber;
+            try {
+                avatarNumber = Integer.parseInt(avatarNumberParameter);
+            } catch (final NumberFormatException e) {
+                avatarNumber = 0;
+            }
+            return avatarNumber;
+        } else {
+            return 0;
+        }
+    }
+
+    private void redirectFromBlankNewPenName() {
+        final String url = "/preferences?error=blankNewPenName";
+        redirect(url);
+    }
+
+    private void redirectFromUpdateFailure() {
+        final String url = "/preferences?error=updateFailed";
+        redirect(url);
+    }
+
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    protected void doPost(final HttpServletRequest req,
+            final HttpServletResponse resp)
+                    throws ServletException, IOException {
         setResponse(resp);
         final UpdatePreferencesController controller;
         controller = new UpdatePreferencesController();
@@ -34,44 +60,20 @@ public class UpdatePreferencesServlet extends DendriteServlet {
         final String theme = req.getParameter("theme");
         controller.setTheme(theme);
 
-        int avatarId = getAvatarId(req);
+        final int avatarId = getAvatarId(req);
         controller.setAvatarId(avatarId);
 
-        if (controller.isNewPenNameBlank() == true)
+        if (controller.isNewPenNameBlank() == true) {
             redirectFromBlankNewPenName();
-        else {
+        } else {
             final User myUser = User.getMyUser();
             final boolean isUpdated = controller.updatePreferences(myUser);
-            if (isUpdated == true)
+            if (isUpdated == true) {
                 redirectToMyPreferencesPage();
-            else
+            } else {
                 redirectFromUpdateFailure();
-        }
-    }
-
-    private int getAvatarId(final HttpServletRequest req) {
-        final String avatarNumberParameter = req.getParameter("avatar");
-        if (avatarNumberParameter != null) {
-            int avatarNumber;
-            try {
-                avatarNumber = Integer.parseInt(avatarNumberParameter);
-            } catch (NumberFormatException e) {
-                avatarNumber = 0;
             }
-            return avatarNumber;
-        } else {
-            return 0;
         }
-    }
-
-    private void redirectFromBlankNewPenName() {
-        final String url = "/preferences?error=blankNewPenName";
-        redirect(url);
-    }
-
-    private void redirectFromUpdateFailure() {
-        final String url = "/preferences?error=updateFailed";
-        redirect(url);
     }
 
     protected void redirectToMyPreferencesPage() {

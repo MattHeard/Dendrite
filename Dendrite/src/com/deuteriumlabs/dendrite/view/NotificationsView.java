@@ -10,146 +10,146 @@ import com.deuteriumlabs.dendrite.model.Notification;
 
 public class NotificationsView extends View {
 
-	private int numNotificationsAlreadyDisplayed = 0;
-	private List<Notification> notifications;
+    private List<Notification> notifications;
+    private int numNotificationsAlreadyDisplayed = 0;
 
-	@Override
-	public String getUrl() {
-		return "/notifications";
-	}
+    public long getCurrNotificationId() {
+        final List<Notification> notifications = getNotifications();
+        final int index = getNumNotificationsAlreadyDisplayed();
+        final Notification notification = notifications.get(index);
+        final long id = notification.getId();
+        return id;
+    }
 
-	@Override
-	public void initialise() {
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("webPageTitle", "Dendrite - Notifications");
+    public String getCurrNotificationText() {
+        final List<Notification> notifications = getNotifications();
+        final int index = getNumNotificationsAlreadyDisplayed();
+        final Notification notification = notifications.get(index);
+        final String msg = notification.getMsg();
+        return msg;
+    }
 
-		super.initialise();
-	}
+    public List<List<HyperlinkedStr>> getHyperlinkedMsgs() {
+        final List<Notification> notifications = getNotifications();
+        final List<List<HyperlinkedStr>> msgs;
+        msgs = new ArrayList<List<HyperlinkedStr>>();
+        for (final Notification notification : notifications) {
+            msgs.add(notification.getHyperlinkedMsg());
+        }
+        return msgs;
+    }
 
-	public boolean hasAnotherNotification() {
-		final int numAlreadyDisplayed;
-		numAlreadyDisplayed = this.getNumNotificationsAlreadyDisplayed();
-		final int numToDisplay = this.getNumNotificationsToDisplay();
-		return (numAlreadyDisplayed < numToDisplay);
-	}
+    public String getNextNotificationText() {
+        final List<Notification> notifications = getNotifications();
+        final int index = getNumNotificationsAlreadyDisplayed();
+        incrementNumNotificationsAlreadyDisplayed();
+        final Notification notification = notifications.get(index);
+        final String msg = notification.getMsg();
+        return msg;
+    }
 
-	/**
-	 * @return
-	 */
-	private int getNumNotificationsToDisplay() {
-		final List<Notification> notifications = this.getNotifications();
-		return notifications.size();
-	}
-
-	/**
-	 * @return
-	 */
-	public List<Notification> getNotifications() {
-		if (this.notifications == null) {
-			this.readNotifications();
-		}
-		return this.notifications;
-	}
-
-	/**
-     * 
+    /**
+     * @return
      */
-	private void readNotifications() {
-		final List<Notification> notifications;
-		final String userId = NotificationsView.getMyUserId();
-		notifications = Notification.getNotificationsForUser(userId);
-		this.setNotifications(notifications);
-	}
+    public List<Notification> getNotifications() {
+        if (notifications == null) {
+            readNotifications();
+        }
+        return notifications;
+    }
 
-	/**
-	 * @param notifications
-	 */
-	private void setNotifications(final List<Notification> notifications) {
-		this.notifications = notifications;
-	}
+    @Override
+    public String getUrl() {
+        return "/notifications";
+    }
 
-	/**
-	 * @return
-	 */
-	private int getNumNotificationsAlreadyDisplayed() {
-		return this.numNotificationsAlreadyDisplayed;
-	}
+    public boolean hasAnotherNotification() {
+        final int numAlreadyDisplayed;
+        numAlreadyDisplayed = getNumNotificationsAlreadyDisplayed();
+        final int numToDisplay = getNumNotificationsToDisplay();
+        return (numAlreadyDisplayed < numToDisplay);
+    }
 
-	public String getNextNotificationText() {
-		final List<Notification> notifications = this.getNotifications();
-		final int index = this.getNumNotificationsAlreadyDisplayed();
-		this.incrementNumNotificationsAlreadyDisplayed();
-		final Notification notification = notifications.get(index);
-		final String msg = notification.getMsg();
-		return msg;
-	}
+    @Override
+    public void initialise() {
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("webPageTitle", "Dendrite - Notifications");
 
-	public void prepareNextNotification() {
-		final PageContext pageContext = this.getPageContext();
-		final long id = this.getCurrNotificationId();
-		pageContext.setAttribute("id", id);
-		final String text = this.getCurrNotificationText();
-		pageContext.setAttribute("text", text);
-		this.incrementNumNotificationsAlreadyDisplayed();
-	}
+        super.initialise();
+    }
 
-	public long getCurrNotificationId() {
-		final List<Notification> notifications = this.getNotifications();
-		final int index = this.getNumNotificationsAlreadyDisplayed();
-		final Notification notification = notifications.get(index);
-		final long id = notification.getId();
-		return id;
-	}
+    public void prepareHyperlinkedStr(final HyperlinkedStr h) {
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("str", h.str);
+        pageContext.setAttribute("url", h.url);
+    }
 
-	public String getCurrNotificationText() {
-		final List<Notification> notifications = this.getNotifications();
-		final int index = this.getNumNotificationsAlreadyDisplayed();
-		final Notification notification = notifications.get(index);
-		final String msg = notification.getMsg();
-		return msg;
-	}
+    public void prepareNextNotification() {
+        final PageContext pageContext = getPageContext();
+        final long id = getCurrNotificationId();
+        pageContext.setAttribute("id", id);
+        final String text = getCurrNotificationText();
+        pageContext.setAttribute("text", text);
+        incrementNumNotificationsAlreadyDisplayed();
+    }
 
-	/**
-     * 
+    public void prepareNotification(final Notification notification) {
+        final PageContext pageContext = getPageContext();
+        final long id = notification.getId();
+        pageContext.setAttribute("id", id);
+    }
+
+    /**
+     * @return
      */
-	private void incrementNumNotificationsAlreadyDisplayed() {
-		int num = this.getNumNotificationsAlreadyDisplayed();
-		num++;
-		this.setNumNotificationsAlreadyDisplayed(num);
-	}
+    private int getNumNotificationsAlreadyDisplayed() {
+        return numNotificationsAlreadyDisplayed;
+    }
 
-	/**
-	 * @param num
-	 */
-	private void setNumNotificationsAlreadyDisplayed(final int num) {
-		this.numNotificationsAlreadyDisplayed = num;
-	}
+    /**
+     * @return
+     */
+    private int getNumNotificationsToDisplay() {
+        final List<Notification> notifications = getNotifications();
+        return notifications.size();
+    }
 
-	public List<List<HyperlinkedStr>> getHyperlinkedMsgs() {
-		final List<Notification> notifications = this.getNotifications();
-		final List<List<HyperlinkedStr>> msgs;
-		msgs = new ArrayList<List<HyperlinkedStr>>();
-		for (final Notification notification : notifications) {
-			msgs.add(notification.getHyperlinkedMsg());
-		}
-		return msgs;
-	}
+    /**
+     *
+     */
+    private void incrementNumNotificationsAlreadyDisplayed() {
+        int num = getNumNotificationsAlreadyDisplayed();
+        num++;
+        setNumNotificationsAlreadyDisplayed(num);
+    }
 
-	public void prepareNotification(final Notification notification) {
-		final PageContext pageContext = this.getPageContext();
-		final long id = notification.getId();
-		pageContext.setAttribute("id", id);
-	}
+    /**
+     *
+     */
+    private void readNotifications() {
+        final List<Notification> notifications;
+        final String userId = View.getMyUserId();
+        notifications = Notification.getNotificationsForUser(userId);
+        setNotifications(notifications);
+    }
 
-	public void prepareHyperlinkedStr(final HyperlinkedStr h) {
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("str", h.str);
-		pageContext.setAttribute("url", h.url);
-	}
+    /**
+     * @param notifications
+     */
+    private void setNotifications(final List<Notification> notifications) {
+        this.notifications = notifications;
+    }
 
-	@Override
-	protected String getMetaDesc() {
-		return "Get alerts about authors you are following and changes to your"
-				+ " pages.";
-	}
+    /**
+     * @param num
+     */
+    private void setNumNotificationsAlreadyDisplayed(final int num) {
+        numNotificationsAlreadyDisplayed = num;
+    }
+
+    @Override
+    protected String getMetaDesc() {
+        return "Get alerts about authors you are following and changes to your"
+                + " pages.";
+    }
 }

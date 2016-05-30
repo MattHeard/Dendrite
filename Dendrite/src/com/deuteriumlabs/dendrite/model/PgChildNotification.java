@@ -1,6 +1,6 @@
 /* © 2013-2015 Deuterium Labs Limited */
 /**
- * 
+ *
  */
 package com.deuteriumlabs.dendrite.model;
 
@@ -11,155 +11,155 @@ import com.deuteriumlabs.dendrite.dependencies.DatastoreEntity;
 import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 
 /**
- * 
+ *
  */
 public class PgChildNotification extends Notification {
 
-	private static final String CHILD_AUTHOR_ID_PROPERTY = "childAuthorId";
-	private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
-	private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
+    private static final String CHILD_AUTHOR_ID_PROPERTY = "childAuthorId";
+    private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
+    private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
 
-	private String childAuthorId;
-	private PageId pgId;
+    private String childAuthorId;
+    private PageId pgId;
 
-	public PgChildNotification() {
-	}
+    public PgChildNotification() {
+    }
 
-	public PgChildNotification(final DatastoreEntity entity) {
-		this.readPropertiesFromEntity(entity);
-	}
+    public PgChildNotification(final DatastoreEntity entity) {
+        readPropertiesFromEntity(entity);
+    }
 
-	/**
-	 * @return
-	 */
-	private String getChildAuthorId() {
-		return this.childAuthorId;
-	}
+    @Override
+    public List<HyperlinkedStr> getHyperlinkedMsg() {
+        final List<HyperlinkedStr> msg = new ArrayList<HyperlinkedStr>();
 
-	private String getChildAuthorIdFromEntity(final DatastoreEntity entity) {
-		final String id = (String) entity.getProperty(CHILD_AUTHOR_ID_PROPERTY);
-		return id;
-	}
+        final HyperlinkedStr nameChunk = new HyperlinkedStr();
+        nameChunk.str = getChildAuthorName();
+        nameChunk.url = "/author?id=" + getChildAuthorId();
+        msg.add(nameChunk);
 
-	/**
-	 * @return
-	 */
-	private String getChildAuthorName() {
-		final String id = this.getChildAuthorId();
-		final User author = new User();
-		author.setId(id);
-		author.read();
-		final String name = author.getDefaultPenName();
-		return name;
-	}
+        HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
+        unlinkedChunk.str = " extended one of your pages and wrote page ";
+        msg.add(unlinkedChunk);
 
-	@Override
-	public String getMsg() {
-		final String name = this.getChildAuthorName();
-		final PageId pgId = this.getPgId();
-		final String msg;
-		msg = name + " extended one of your pages and wrote page " + pgId + ".";
-		return msg;
-	}
+        final HyperlinkedStr pgIdChunk = new HyperlinkedStr();
+        final PageId pgId = getPgId();
+        pgIdChunk.str = pgId.toString();
+        pgIdChunk.url = "/read?p=" + pgId;
+        msg.add(pgIdChunk);
 
-	@Override
-	public List<HyperlinkedStr> getHyperlinkedMsg() {
-		final List<HyperlinkedStr> msg = new ArrayList<HyperlinkedStr>();
+        unlinkedChunk = new HyperlinkedStr();
+        unlinkedChunk.str = ".";
+        msg.add(unlinkedChunk);
 
-		final HyperlinkedStr nameChunk = new HyperlinkedStr();
-		nameChunk.str = this.getChildAuthorName();
-		nameChunk.url = "/author?id=" + this.getChildAuthorId();
-		msg.add(nameChunk);
+        return msg;
+    }
 
-		HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
-		unlinkedChunk.str = " extended one of your pages and wrote page ";
-		msg.add(unlinkedChunk);
+    @Override
+    public String getMsg() {
+        final String name = getChildAuthorName();
+        final PageId pgId = getPgId();
+        final String msg;
+        msg = name + " extended one of your pages and wrote page " + pgId + ".";
+        return msg;
+    }
 
-		final HyperlinkedStr pgIdChunk = new HyperlinkedStr();
-		final PageId pgId = this.getPgId();
-		pgIdChunk.str = pgId.toString();
-		pgIdChunk.url = "/read?p=" + pgId;
-		msg.add(pgIdChunk);
+    /**
+     * @param id
+     */
+    public void setChildAuthorId(final String id) {
+        childAuthorId = id;
+    }
 
-		unlinkedChunk = new HyperlinkedStr();
-		unlinkedChunk.str = ".";
-		msg.add(unlinkedChunk);
+    /**
+     * @param id
+     */
+    public void setPgId(final PageId id) {
+        pgId = id;
+    }
 
-		return msg;
-	}
+    /**
+     * @return
+     */
+    private String getChildAuthorId() {
+        return childAuthorId;
+    }
 
-	/**
-	 * @return
-	 */
-	private PageId getPgId() {
-		return this.pgId;
-	}
+    private String getChildAuthorIdFromEntity(final DatastoreEntity entity) {
+        final String id = (String) entity.getProperty(CHILD_AUTHOR_ID_PROPERTY);
+        return id;
+    }
 
-	private int getPgIdNumFromEntity(final DatastoreEntity entity) {
-		final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
-		return num.intValue();
-	}
+    /**
+     * @return
+     */
+    private String getChildAuthorName() {
+        final String id = getChildAuthorId();
+        final User author = new User();
+        author.setId(id);
+        author.read();
+        final String name = author.getDefaultPenName();
+        return name;
+    }
 
-	private String getPgIdVersionFromEntity(final DatastoreEntity entity) {
-		return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
-	}
+    /**
+     * @return
+     */
+    private PageId getPgId() {
+        return pgId;
+    }
 
-	private void readChildAuthorIdFromEntity(final DatastoreEntity entity) {
-		final String id = getChildAuthorIdFromEntity(entity);
-		this.setChildAuthorId(id);
-	}
+    private int getPgIdNumFromEntity(final DatastoreEntity entity) {
+        final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
+        return num.intValue();
+    }
 
-	private void readPgIdFromEntity(final DatastoreEntity entity) {
-		final PageId id = new PageId();
-		final int number = getPgIdNumFromEntity(entity);
-		id.setNumber(number);
-		final String version = getPgIdVersionFromEntity(entity);
-		id.setVersion(version);
-		this.setPgId(id);
-	}
+    private String getPgIdVersionFromEntity(final DatastoreEntity entity) {
+        return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
+    }
 
-	@Override
-	void readPropertiesFromEntity(final DatastoreEntity entity) {
-		super.readPropertiesFromEntity(entity);
-		this.readPgIdFromEntity(entity);
-		this.readChildAuthorIdFromEntity(entity);
-	}
+    private void readChildAuthorIdFromEntity(final DatastoreEntity entity) {
+        final String id = getChildAuthorIdFromEntity(entity);
+        setChildAuthorId(id);
+    }
 
-	/**
-	 * @param id
-	 */
-	public void setChildAuthorId(final String id) {
-		this.childAuthorId = id;
-	}
+    private void readPgIdFromEntity(final DatastoreEntity entity) {
+        final PageId id = new PageId();
+        final int number = getPgIdNumFromEntity(entity);
+        id.setNumber(number);
+        final String version = getPgIdVersionFromEntity(entity);
+        id.setVersion(version);
+        setPgId(id);
+    }
 
-	private void setChildAuthorIdInEntity(final DatastoreEntity entity) {
-		final String id = this.getChildAuthorId();
-		entity.setProperty(CHILD_AUTHOR_ID_PROPERTY, id);
-	}
+    private void setChildAuthorIdInEntity(final DatastoreEntity entity) {
+        final String id = getChildAuthorId();
+        entity.setProperty(CHILD_AUTHOR_ID_PROPERTY, id);
+    }
 
-	/**
-	 * @param id
-	 */
-	public void setPgId(final PageId id) {
-		this.pgId = id;
-	}
+    /**
+     * @param entity
+     */
+    private void setPgIdInEntity(final DatastoreEntity entity) {
+        final PageId id = getPgId();
+        final int num = id.getNumber();
+        entity.setProperty(PG_ID_NUM_PROPERTY, num);
+        final String version = id.getVersion();
+        entity.setProperty(PG_ID_VERSION_PROPERTY, version);
+    }
 
-	/**
-	 * @param entity
-	 */
-	private void setPgIdInEntity(final DatastoreEntity entity) {
-		final PageId id = this.getPgId();
-		final int num = id.getNumber();
-		entity.setProperty(PG_ID_NUM_PROPERTY, num);
-		final String version = id.getVersion();
-		entity.setProperty(PG_ID_VERSION_PROPERTY, version);
-	}
+    @Override
+    void readPropertiesFromEntity(final DatastoreEntity entity) {
+        super.readPropertiesFromEntity(entity);
+        readPgIdFromEntity(entity);
+        readChildAuthorIdFromEntity(entity);
+    }
 
-	@Override
-	void setPropertiesInEntity(final DatastoreEntity entity) {
-		super.setPropertiesInEntity(entity);
-		this.setPgIdInEntity(entity);
-		this.setChildAuthorIdInEntity(entity);
-		this.setTypeInEntity(entity);
-	}
+    @Override
+    void setPropertiesInEntity(final DatastoreEntity entity) {
+        super.setPropertiesInEntity(entity);
+        setPgIdInEntity(entity);
+        setChildAuthorIdInEntity(entity);
+        setTypeInEntity(entity);
+    }
 }

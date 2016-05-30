@@ -11,29 +11,30 @@ import com.deuteriumlabs.dendrite.model.User;
 
 public class UnfollowServlet extends DendriteServlet {
 
-	private static final long serialVersionUID = -1671751304334555912L;
+    private static final long serialVersionUID = -1671751304334555912L;
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		final String targetId = req.getParameter("id");
-		final boolean isTargetIdValid = isTargetIdValid(targetId);
-		if (isTargetIdValid == true) {
-			final UnfollowController controller = new UnfollowController();
-			controller.setTargetId(targetId);
-			final User source = User.getMyUser();
-			final String sourceId = source.getId();
-			controller.setSourceId(sourceId);
-			controller.enableUnfollow();
-			resp.setStatus(HttpServletResponse.SC_OK);
-		} else {
-			resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-		}
-	}
+    private boolean isTargetIdValid(final String id) {
+        final User target = new User();
+        target.setId(id);
+        return target.isInStore();
+    }
 
-	private boolean isTargetIdValid(final String id) {
-		final User target = new User();
-		target.setId(id);
-		return target.isInStore();
-	}
+    @Override
+    protected void doPost(final HttpServletRequest req,
+            final HttpServletResponse resp)
+                    throws ServletException, IOException {
+        final String targetId = req.getParameter("id");
+        final boolean isTargetIdValid = isTargetIdValid(targetId);
+        if (isTargetIdValid == true) {
+            final UnfollowController controller = new UnfollowController();
+            controller.setTargetId(targetId);
+            final User source = User.getMyUser();
+            final String sourceId = source.getId();
+            controller.setSourceId(sourceId);
+            controller.enableUnfollow();
+            resp.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+    }
 }

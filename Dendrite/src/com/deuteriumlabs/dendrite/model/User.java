@@ -16,29 +16,29 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 public class User extends Model {
-    private static final String               ALIGNMENT_PROPERTY        = "alignment";
-    private static final String               AVATAR_ID_PROPERTY        = "avatarId";
+    public static final String UNKNOWN_PEN_NAME = "???";
+    private static final String ALIGNMENT_PROPERTY = "alignment";
+    private static final String AVATAR_ID_PROPERTY = "avatarId";
     private static final Map<Integer, String> avatarDescs;
-    private static User                       cachedUser;
-    private static final String               DEFAULT_ALIGNMENT         = "Justify";
-    private static final int                  DEFAULT_AVATAR_ID         = 0;
-    private static final String               DEFAULT_FONT_COLOUR       = "Default";
-    private static final double               DEFAULT_FONT_SIZE         = 1.0;
-    private static final String               DEFAULT_FONT_TYPE         = "Sans-serif";
-    private static final String               DEFAULT_PEN_NAME_PROPERTY = "defaultPenName";
-    private static final double               DEFAULT_SPACING           = 1.5;
-    private static final String               DEFAULT_THEME             = "Light";
-    private static final String               FOLLOWERS_PROPERTY        = "followers";
-    private static final String               FONT_COLOUR_PROPERTY      = "fontColour";
-    private static final String               FONT_SIZE_PROPERTY        = "fontSize";
-    private static final String               FONT_TYPE_PROPERTY        = "fontType";
-    private static final String               FORMER_FOLLOWERS_PROPERTY = "formerFollowers";
-    private static final String               ID_PROPERTY               = "id";
-    private static final String               KIND_NAME                 = "User";
-    private static final String               SPACING_PROPERTY          = "spacing";
-    private static final String               THEME_PROPERTY            = "theme";
-    
-    public static final String               UNKNOWN_PEN_NAME          = "???";
+    private static User cachedUser;
+    private static final String DEFAULT_ALIGNMENT = "Justify";
+    private static final int DEFAULT_AVATAR_ID = 0;
+    private static final String DEFAULT_FONT_COLOUR = "Default";
+    private static final double DEFAULT_FONT_SIZE = 1.0;
+    private static final String DEFAULT_FONT_TYPE = "Sans-serif";
+    private static final String DEFAULT_PEN_NAME_PROPERTY = "defaultPenName";
+    private static final double DEFAULT_SPACING = 1.5;
+    private static final String DEFAULT_THEME = "Light";
+    private static final String FOLLOWERS_PROPERTY = "followers";
+    private static final String FONT_COLOUR_PROPERTY = "fontColour";
+    private static final String FONT_SIZE_PROPERTY = "fontSize";
+    private static final String FONT_TYPE_PROPERTY = "fontType";
+    private static final String FORMER_FOLLOWERS_PROPERTY = "formerFollowers";
+    private static final String ID_PROPERTY = "id";
+    private static final String KIND_NAME = "User";
+    private static final String SPACING_PROPERTY = "spacing";
+
+    private static final String THEME_PROPERTY = "theme";
 
     static {
         final Map<Integer, String> map = new HashMap<Integer, String>();
@@ -230,17 +230,17 @@ public class User extends Model {
         }
     }
 
-    private String       alignment;
-    private int          avatarId;
-    private String       defaultPenName;
+    private String alignment;
+    private int avatarId;
+    private String defaultPenName;
     private List<String> followers;
-    private String       fontColour;
-    private double       fontSize;
-    private String       fontType;
+    private String fontColour;
+    private double fontSize;
+    private String fontType;
     private List<String> formerFollowers;
-    private String       id;
-    private double       spacing;
-    private String       theme;
+    private String id;
+    private double spacing;
+    private String theme;
 
     public User() {
         setDefaultPenName(UNKNOWN_PEN_NAME);

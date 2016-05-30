@@ -11,73 +11,73 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
  */
 public class RewriteView extends FormView {
 
-	private String pgNum;
+    private String pgNum;
 
-	public String getIncomingOptionText() {
-		final StoryOption option = this.getIncomingOption();
-		final String text = option.getText();
-		return text;
-	}
+    public String getIncomingOptionText() {
+        final StoryOption option = getIncomingOption();
+        final String text = option.getText();
+        return text;
+    }
 
-	private StoryOption getIncomingOption() {
-		final StoryOption option = new StoryOption();
-		final int target = this.getPageNumberAsInt();
-		option.setTarget(target);
-		option.read();
-		return option;
-	}
+    public String getStoryTitle() {
+        final StoryBeginning beginning = getBeginning();
+        beginning.read();
+        final String title = beginning.getTitle();
+        return title;
+    }
 
-	public String getStoryTitle() {
-		final StoryBeginning beginning = this.getBeginning();
-		beginning.read();
-		final String title = beginning.getTitle();
-		return title;
-	}
+    @Override
+    public String getUrl() {
+        final String pageNumber = pgNum;
+        return "/rewrite?p=" + pageNumber;
+    }
 
-	@Override
-	public String getUrl() {
-		String pageNumber = this.pgNum;
-		return "/rewrite?p=" + pageNumber;
-	}
+    public boolean isBeginning() {
+        final StoryBeginning beginning = getBeginning();
+        return beginning.isInStore();
+    }
 
-	public boolean isBeginning() {
-		final StoryBeginning beginning = this.getBeginning();
-		return beginning.isInStore();
-	}
+    public boolean isExistingPage() {
+        final String pageNumber = pgNum;
+        final PageId id = new PageId(pageNumber);
+        id.setVersion("a");
+        final StoryPage page = new StoryPage();
+        page.setId(id);
+        return page.isInStore();
+    }
 
-	private StoryBeginning getBeginning() {
-		final StoryBeginning beginning = new StoryBeginning();
-		int pageNumber = getPageNumberAsInt();
-		beginning.setPageNumber(pageNumber);
-		return beginning;
-	}
+    public void setPageNumber(final String pgNum) {
+        this.pgNum = pgNum;
+    }
 
-	private int getPageNumberAsInt() {
-		final String pageNumberString = this.pgNum;
-		int pageNumber;
-		try {
-			pageNumber = Integer.parseInt(pageNumberString);
-		} catch (NumberFormatException e) {
-			pageNumber = 0;
-		}
-		return pageNumber;
-	}
+    private StoryBeginning getBeginning() {
+        final StoryBeginning beginning = new StoryBeginning();
+        final int pageNumber = getPageNumberAsInt();
+        beginning.setPageNumber(pageNumber);
+        return beginning;
+    }
 
-	public boolean isExistingPage() {
-		final String pageNumber = this.pgNum;
-		final PageId id = new PageId(pageNumber);
-		id.setVersion("a");
-		final StoryPage page = new StoryPage();
-		page.setId(id);
-		return page.isInStore();
-	}
+    private StoryOption getIncomingOption() {
+        final StoryOption option = new StoryOption();
+        final int target = getPageNumberAsInt();
+        option.setTarget(target);
+        option.read();
+        return option;
+    }
 
-	public void setPageNumber(final String pgNum) {
-		this.pgNum = pgNum;
-	}
+    private int getPageNumberAsInt() {
+        final String pageNumberString = pgNum;
+        int pageNumber;
+        try {
+            pageNumber = Integer.parseInt(pageNumberString);
+        } catch (final NumberFormatException e) {
+            pageNumber = 0;
+        }
+        return pageNumber;
+    }
 
-	@Override
-	protected String getMetaDesc() {
-		return "Rewrite the story at page " + pgNum;
-	}
+    @Override
+    protected String getMetaDesc() {
+        return "Rewrite the story at page " + pgNum;
+    }
 }

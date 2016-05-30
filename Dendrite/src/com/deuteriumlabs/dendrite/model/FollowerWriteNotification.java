@@ -9,151 +9,153 @@ import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 
 public class FollowerWriteNotification extends Notification {
 
-	private static final String AUTHOR_ID_PROPERTY = "authorId";
-	private static final String AUTHOR_NAME_PROPERTY = "authorName";
-	private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
-	private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
+    private static final String AUTHOR_ID_PROPERTY = "authorId";
+    private static final String AUTHOR_NAME_PROPERTY = "authorName";
+    private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
+    private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
 
-	private static String getAuthorIdFromEntity(final DatastoreEntity entity) {
-		String propertyName = AUTHOR_ID_PROPERTY;
-		final String id = (String) entity.getProperty(propertyName);
-		return id;
-	}
+    private static String getAuthorIdFromEntity(final DatastoreEntity entity) {
+        final String propertyName = AUTHOR_ID_PROPERTY;
+        final String id = (String) entity.getProperty(propertyName);
+        return id;
+    }
 
-	private static String getAuthorNameFromEntity(final DatastoreEntity entity) {
-		String propertyName = AUTHOR_NAME_PROPERTY;
-		final String name = (String) entity.getProperty(propertyName);
-		return name;
-	}
+    private static String getAuthorNameFromEntity(
+            final DatastoreEntity entity) {
+        final String propertyName = AUTHOR_NAME_PROPERTY;
+        final String name = (String) entity.getProperty(propertyName);
+        return name;
+    }
 
-	private static int getPgIdNumFromEntity(final DatastoreEntity entity) {
-		final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
-		return num.intValue();
-	}
+    private static int getPgIdNumFromEntity(final DatastoreEntity entity) {
+        final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
+        return num.intValue();
+    }
 
-	private static String getPgIdVersionFromEntity(final DatastoreEntity entity) {
-		return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
-	}
+    private static String getPgIdVersionFromEntity(
+            final DatastoreEntity entity) {
+        return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
+    }
 
-	private String authorId;
-	private String authorName;
-	private PageId pgId;
+    private String authorId;
+    private String authorName;
+    private PageId pgId;
 
-	public FollowerWriteNotification() {
-	}
+    public FollowerWriteNotification() {
+    }
 
-	public FollowerWriteNotification(final DatastoreEntity entity) {
-		this.readPropertiesFromEntity(entity);
-	}
+    public FollowerWriteNotification(final DatastoreEntity entity) {
+        readPropertiesFromEntity(entity);
+    }
 
-	private String getAuthorName() {
-		return this.authorName;
-	}
+    @Override
+    public List<HyperlinkedStr> getHyperlinkedMsg() {
+        final List<HyperlinkedStr> msg = new ArrayList<HyperlinkedStr>();
 
-	@Override
-	public String getMsg() {
-		final String name = this.getAuthorName();
-		final PageId pgId = this.getPgId();
-		return name + " continued a story by writing page " + pgId + ".";
-	}
+        final HyperlinkedStr nameChunk = new HyperlinkedStr();
+        nameChunk.str = getAuthorName();
+        nameChunk.url = "/author?id=" + getAuthorId();
+        msg.add(nameChunk);
 
-	@Override
-	public List<HyperlinkedStr> getHyperlinkedMsg() {
-		final List<HyperlinkedStr> msg = new ArrayList<HyperlinkedStr>();
+        HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
+        unlinkedChunk.str = " continued a story by writing page ";
+        msg.add(unlinkedChunk);
 
-		final HyperlinkedStr nameChunk = new HyperlinkedStr();
-		nameChunk.str = this.getAuthorName();
-		nameChunk.url = "/author?id=" + this.getAuthorId();
-		msg.add(nameChunk);
+        final HyperlinkedStr pgIdChunk = new HyperlinkedStr();
+        final PageId pgId = getPgId();
+        pgIdChunk.str = pgId.toString();
+        pgIdChunk.url = "/read?p=" + pgId;
+        msg.add(pgIdChunk);
 
-		HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
-		unlinkedChunk.str = " continued a story by writing page ";
-		msg.add(unlinkedChunk);
+        unlinkedChunk = new HyperlinkedStr();
+        unlinkedChunk.str = ".";
+        msg.add(unlinkedChunk);
 
-		final HyperlinkedStr pgIdChunk = new HyperlinkedStr();
-		final PageId pgId = this.getPgId();
-		pgIdChunk.str = pgId.toString();
-		pgIdChunk.url = "/read?p=" + pgId;
-		msg.add(pgIdChunk);
+        return msg;
+    }
 
-		unlinkedChunk = new HyperlinkedStr();
-		unlinkedChunk.str = ".";
-		msg.add(unlinkedChunk);
+    @Override
+    public String getMsg() {
+        final String name = getAuthorName();
+        final PageId pgId = getPgId();
+        return name + " continued a story by writing page " + pgId + ".";
+    }
 
-		return msg;
-	}
+    public void setAuthorId(final String id) {
+        authorId = id;
+    }
 
-	private PageId getPgId() {
-		return this.pgId;
-	}
+    public void setAuthorName(final String name) {
+        authorName = name;
+    }
 
-	private void readAuthorIdFromEntity(final DatastoreEntity entity) {
-		final String id = getAuthorIdFromEntity(entity);
-		this.setAuthorId(id);
-	}
+    public void setPgId(final PageId id) {
+        pgId = id;
+    }
 
-	private void readAuthorNameFromEntity(final DatastoreEntity entity) {
-		final String name = getAuthorNameFromEntity(entity);
-		this.setAuthorName(name);
-	}
+    private String getAuthorId() {
+        return authorId;
+    }
 
-	private void readPgIdFromEntity(final DatastoreEntity entity) {
-		final PageId id = new PageId();
-		final int number = getPgIdNumFromEntity(entity);
-		id.setNumber(number);
-		final String version = getPgIdVersionFromEntity(entity);
-		id.setVersion(version);
-		this.setPgId(id);
-	}
+    private String getAuthorName() {
+        return authorName;
+    }
 
-	@Override
-	void readPropertiesFromEntity(final DatastoreEntity entity) {
-		super.readPropertiesFromEntity(entity);
-		this.readAuthorIdFromEntity(entity);
-		this.readAuthorNameFromEntity(entity);
-		this.readPgIdFromEntity(entity);
-	}
+    private PageId getPgId() {
+        return pgId;
+    }
 
-	public void setAuthorId(final String id) {
-		this.authorId = id;
-	}
+    private void readAuthorIdFromEntity(final DatastoreEntity entity) {
+        final String id = getAuthorIdFromEntity(entity);
+        setAuthorId(id);
+    }
 
-	public void setAuthorName(final String name) {
-		this.authorName = name;
-	}
+    private void readAuthorNameFromEntity(final DatastoreEntity entity) {
+        final String name = getAuthorNameFromEntity(entity);
+        setAuthorName(name);
+    }
 
-	public void setPgId(final PageId id) {
-		this.pgId = id;
-	}
+    private void readPgIdFromEntity(final DatastoreEntity entity) {
+        final PageId id = new PageId();
+        final int number = getPgIdNumFromEntity(entity);
+        id.setNumber(number);
+        final String version = getPgIdVersionFromEntity(entity);
+        id.setVersion(version);
+        setPgId(id);
+    }
 
-	@Override
-	void setPropertiesInEntity(final DatastoreEntity entity) {
-		super.setPropertiesInEntity(entity);
-		this.setAuthorNameInEntity(entity);
-		this.setAuthorIdInEntity(entity);
-		this.setPgIdInEntity(entity);
-		setTypeInEntity(entity);
-	}
+    private void setAuthorIdInEntity(final DatastoreEntity entity) {
+        final String id = getAuthorId();
+        entity.setProperty(AUTHOR_ID_PROPERTY, id);
+    }
 
-	private void setAuthorIdInEntity(final DatastoreEntity entity) {
-		final String id = this.getAuthorId();
-		entity.setProperty(AUTHOR_ID_PROPERTY, id);
-	}
+    private void setAuthorNameInEntity(final DatastoreEntity entity) {
+        final String name = getAuthorName();
+        entity.setProperty(AUTHOR_NAME_PROPERTY, name);
+    }
 
-	private String getAuthorId() {
-		return this.authorId;
-	}
+    private void setPgIdInEntity(final DatastoreEntity entity) {
+        final PageId id = getPgId();
+        final int num = id.getNumber();
+        entity.setProperty(PG_ID_NUM_PROPERTY, num);
+        final String version = id.getVersion();
+        entity.setProperty(PG_ID_VERSION_PROPERTY, version);
+    }
 
-	private void setAuthorNameInEntity(final DatastoreEntity entity) {
-		final String name = this.getAuthorName();
-		entity.setProperty(AUTHOR_NAME_PROPERTY, name);
-	}
+    @Override
+    void readPropertiesFromEntity(final DatastoreEntity entity) {
+        super.readPropertiesFromEntity(entity);
+        readAuthorIdFromEntity(entity);
+        readAuthorNameFromEntity(entity);
+        readPgIdFromEntity(entity);
+    }
 
-	private void setPgIdInEntity(final DatastoreEntity entity) {
-		final PageId id = this.getPgId();
-		final int num = id.getNumber();
-		entity.setProperty(PG_ID_NUM_PROPERTY, num);
-		final String version = id.getVersion();
-		entity.setProperty(PG_ID_VERSION_PROPERTY, version);
-	}
+    @Override
+    void setPropertiesInEntity(final DatastoreEntity entity) {
+        super.setPropertiesInEntity(entity);
+        setAuthorNameInEntity(entity);
+        setAuthorIdInEntity(entity);
+        setPgIdInEntity(entity);
+        setTypeInEntity(entity);
+    }
 }

@@ -14,287 +14,288 @@ import com.deuteriumlabs.dendrite.model.User;
  */
 public class AuthorView extends View {
 
-	private static final int DEF_AUTHOR_PG_NUM = 1;
+    private static final int DEF_AUTHOR_PG_NUM = 1;
 
-	private User author;
-	private BibliographyView bibliographyView;
-	private String id;
+    private User author;
+    private BibliographyView bibliographyView;
+    private String id;
 
-	private boolean isInvalidPgNum;
+    private boolean isAuthorValid;
 
-	private boolean isAuthorValid;
+    private boolean isInvalidPgNum;
 
-	public AuthorView() {
-		this.initialiseBibilographyView();
-		this.setAuthorPageNumber(DEF_AUTHOR_PG_NUM);
-	}
+    public AuthorView() {
+        initialiseBibilographyView();
+        setAuthorPageNumber(DEF_AUTHOR_PG_NUM);
+    }
 
-	private User getAuthor() {
-		return this.author;
-	}
+    public int getAuthorAvatarId() {
+        return author.getAvatarId();
+    }
 
-	public String getAuthorId() {
-		final User author = this.getAuthor();
-		return author.getId();
-	}
+    public String getAuthorId() {
+        final User author = getAuthor();
+        return author.getId();
+    }
 
-	public int getAuthorAvatarId() {
-		return author.getAvatarId();
-	}
+    public String getId() {
+        return id;
+    }
 
-	private BibliographyView getBibiliographyView() {
-		return bibliographyView;
-	}
+    public String getPenName() {
+        final User user = author;
+        final String penName = user.getDefaultPenName();
+        return penName;
+    }
 
-	public String getId() {
-		return this.id;
-	}
+    @Override
+    public String getUrl() {
+        final String id = getId();
+        return "/author?id=" + id;
+    }
 
-	public String getPenName() {
-		final User user = this.author;
-		final String penName = user.getDefaultPenName();
-		return penName;
-	}
+    public boolean hasAnotherStoryPage() {
+        final BibliographyView bibliographyView = getBibiliographyView();
+        return bibliographyView.hasAnotherStoryPage();
+    }
 
-	@Override
-	public String getUrl() {
-		final String id = this.getId();
-		return "/author?id=" + id;
-	}
+    @Override
+    public void initialise() {
+        final HttpServletRequest request = getRequest();
+        final String id = request.getParameter("id");
+        if (id != null) {
+            setId(id);
+        } else {
+            final String myUserId = User.getMyUserId();
+            setId(myUserId);
+        }
 
-	public boolean hasAnotherStoryPage() {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		return bibliographyView.hasAnotherStoryPage();
-	}
+        extractAuthorPgNum();
 
-	@Override
-	public void initialise() {
-		final HttpServletRequest request = this.getRequest();
-		final String id = request.getParameter("id");
-		if (id != null) {
-			this.setId(id);
-		} else {
-			final String myUserId = User.getMyUserId();
-			this.setId(myUserId);
-		}
+        final String penName = getPenName();
 
-		this.extractAuthorPgNum();
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("penName", penName);
+        pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
 
-		final String penName = this.getPenName();
+        prepareAvatarId();
+        prepareAvatarDesc();
 
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("penName", penName);
-		pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
+        super.initialise();
+    }
 
-		this.prepareAvatarId();
-		this.prepareAvatarDesc();
+    public boolean isAuthorAvatarAvailable() {
+        final User author = this.author;
+        return author.isAvatarAvailable();
+    }
 
-		super.initialise();
-	}
+    public boolean isAuthorPageOfUser() {
+        final String myUserId = View.getMyUserId();
+        final String id = getId();
+        return id.equals(myUserId);
+    }
 
-	private void prepareAvatarDesc() {
-		final int id = this.getAuthorAvatarId();
-		final String desc = User.getAvatarDesc(id);
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("avatarDesc", desc);
-	}
+    public boolean isAuthorValid() {
+        return isAuthorValid;
+    }
 
-	private void extractAuthorPgNum() {
-		final HttpServletRequest req = this.getRequest();
-		final String pParameter = req.getParameter("p");
-		int authorPageNumber;
-		try {
-			authorPageNumber = Integer.parseInt(pParameter);
-		} catch (NumberFormatException e) {
-			authorPageNumber = 1;
-		}
-		final int lastPgNum = this.getLastPgNum();
-		if (authorPageNumber > lastPgNum) {
-			this.isInvalidPgNum = true;
-		} else {
-			this.isInvalidPgNum = false;
-		}
-		this.setAuthorPageNumber(authorPageNumber);
-	}
+    public boolean isFirstPage() {
+        final BibliographyView bibliographyView = getBibiliographyView();
+        return bibliographyView.isFirstPage();
+    }
 
-	public boolean isInvalidPgNum() {
-		return this.isInvalidPgNum;
-	}
+    public boolean isInvalidPgNum() {
+        return isInvalidPgNum;
+    }
 
-	public void preparePg1Url() {
-		final PageContext pageContext = this.getPageContext();
-		final String url = this.getUrl();
-		pageContext.setAttribute("pg1Url", url);
-	}
+    public boolean isLastPage() {
+        final BibliographyView bibliographyView = getBibiliographyView();
+        return bibliographyView.isLastPage();
+    }
 
-	private int getLastPgNum() {
-		return bibliographyView.getLastPageNumber();
-	}
+    public boolean isThisStoryPageCreditedDifferently() {
+        final BibliographyView bibliographyView = getBibiliographyView();
+        final String penName = getPenName();
+        return bibliographyView.isCurrPageCreditedDifferently(penName);
+    }
 
-	private void initialiseBibilographyView() {
-		final BibliographyView view = new BibliographyView();
-		view.setNumStoryPagesAlreadyDisplayed(0);
-		view.setPrevTitle(null);
-		view.setCurrTitle(null);
-		this.setBibiliographyView(view);
-	}
+    public boolean isThisStoryPageInADifferentStory() {
+        final BibliographyView bibliographyView = getBibiliographyView();
+        return bibliographyView.isThisStoryPageInADifferentStory();
+    }
 
-	public boolean isAuthorAvatarAvailable() {
-		final User author = this.author;
-		return author.isAvatarAvailable();
-	}
+    public boolean isUserFollowingAuthor() {
+        final User author = getAuthor();
+        final List<String> followers = author.getFollowers();
+        if (followers != null) {
+            final String myUserId = User.getMyUserId();
+            return followers.contains(myUserId);
+        } else {
+            return false;
+        }
+    }
 
-	public boolean isAuthorPageOfUser() {
-		final String myUserId = View.getMyUserId();
-		final String id = this.getId();
-		return id.equals(myUserId);
-	}
+    public void prepareAuthorId() {
+        final PageContext pageContext = getPageContext();
+        final String id = getAuthorId();
+        pageContext.setAttribute("authorId", id);
+    }
 
-	public boolean isFirstPage() {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		return bibliographyView.isFirstPage();
-	}
+    public void prepareAvatarId() {
+        final int avatarId;
+        if (isAuthorAvatarAvailable() == true) {
+            avatarId = getAuthorAvatarId();
+        } else {
+            avatarId = 1;
+        }
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("avatarId", avatarId);
+    }
 
-	public boolean isLastPage() {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		return bibliographyView.isLastPage();
-	}
+    public void prepareFollowersPageUrl() {
+        final PageContext pageContext = getPageContext();
+        final String id = getId();
+        final String url = "/followers?id=" + id;
+        pageContext.setAttribute("followersPageUrl", url);
+    }
 
-	public boolean isThisStoryPageCreditedDifferently() {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		final String penName = this.getPenName();
-		return bibliographyView.isCurrPageCreditedDifferently(penName);
-	}
+    public void prepareNextAuthorPageLink() {
+        final BibliographyView bibliographyView = getBibiliographyView();
+        bibliographyView.prepareNextAuthorPageLink();
+    }
 
-	public boolean isThisStoryPageInADifferentStory() {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		return bibliographyView.isThisStoryPageInADifferentStory();
-	}
+    public void prepareNextStoryPage() {
+        final BibliographyView bibliographyView = getBibiliographyView();
+        bibliographyView.prepareNextStoryPage();
+    }
 
-	public boolean isUserFollowingAuthor() {
-		final User author = this.getAuthor();
-		final List<String> followers = author.getFollowers();
-		if (followers != null) {
-			final String myUserId = User.getMyUserId();
-			return followers.contains(myUserId);
-		} else {
-			return false;
-		}
-	}
+    public void preparePg1Url() {
+        final PageContext pageContext = getPageContext();
+        final String url = getUrl();
+        pageContext.setAttribute("pg1Url", url);
+    }
 
-	public void prepareFollowersPageUrl() {
-		final PageContext pageContext = this.getPageContext();
-		final String id = this.getId();
-		String url = "/followers?id=" + id;
-		pageContext.setAttribute("followersPageUrl", url);
-	}
+    public void preparePrevAuthorPageLink() {
+        final BibliographyView bibliographyView = getBibiliographyView();
+        bibliographyView.preparePrevAuthorPageLink();
+    }
 
-	public void prepareAvatarId() {
-		final int avatarId;
-		if (this.isAuthorAvatarAvailable() == true) {
-			avatarId = this.getAuthorAvatarId();
-		} else {
-			avatarId = 1;
-		}
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("avatarId", avatarId);
-	}
+    public void prepareTitle(final String title) {
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("title", title);
+    }
 
-	public void prepareNextAuthorPageLink() {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		bibliographyView.prepareNextAuthorPageLink();
-	}
+    public void setAuthorPageNumber(final int authorPageNumber) {
+        final BibliographyView bibliographyView = getBibiliographyView();
+        final int previousPageNumber = bibliographyView.getAuthorPageNumber();
+        if (authorPageNumber > 1) {
+            bibliographyView.setAuthorPageNumber(authorPageNumber);
+        } else {
+            bibliographyView.setDefaultAuthorPageNumber();
+        }
+        if (authorPageNumber != previousPageNumber) {
+            bibliographyView.setTitles(null);
+            setSummaries(null);
+            setPageIds(null);
+        }
+    }
 
-	public void prepareNextStoryPage() {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		bibliographyView.prepareNextStoryPage();
-	}
+    public void setId(final String id) {
+        this.id = id;
+        final User author = new User();
+        author.setId(id);
 
-	public void preparePrevAuthorPageLink() {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		bibliographyView.preparePrevAuthorPageLink();
-	}
+        final boolean isInStore = author.isInStore();
+        isAuthorValid = isInStore;
 
-	public void prepareTitle(final String title) {
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("title", title);
-	}
+        author.read();
+        setAuthor(author);
+        final BibliographyView bibliographyView = getBibiliographyView();
+        if (bibliographyView != null) {
+            bibliographyView.setAuthorId(id);
+        }
+    }
 
-	private void setAuthor(final User author) {
-		this.author = author;
-	}
+    @Override
+    public void setPageContext(final PageContext pageContext) {
+        super.setPageContext(pageContext);
+        final BibliographyView bibliographyView = getBibiliographyView();
+        bibliographyView.setPageContext(pageContext);
+    }
 
-	public void setAuthorPageNumber(final int authorPageNumber) {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		final int previousPageNumber = bibliographyView.getAuthorPageNumber();
-		if (authorPageNumber > 1) {
-			bibliographyView.setAuthorPageNumber(authorPageNumber);
-		} else {
-			bibliographyView.setDefaultAuthorPageNumber();
-		}
-		if (authorPageNumber != previousPageNumber) {
-			bibliographyView.setTitles(null);
-			this.setSummaries(null);
-			this.setPageIds(null);
-		}
-	}
+    public void setPrevTitle(final String prevTitle) {
+        final BibliographyView bibliographyView = getBibiliographyView();
+        bibliographyView.setPrevTitle(prevTitle);
+    }
 
-	private void setBibiliographyView(BibliographyView bibiliographyView) {
-		this.bibliographyView = bibiliographyView;
-	}
+    private void extractAuthorPgNum() {
+        final HttpServletRequest req = getRequest();
+        final String pParameter = req.getParameter("p");
+        int authorPageNumber;
+        try {
+            authorPageNumber = Integer.parseInt(pParameter);
+        } catch (final NumberFormatException e) {
+            authorPageNumber = 1;
+        }
+        final int lastPgNum = getLastPgNum();
+        if (authorPageNumber > lastPgNum) {
+            isInvalidPgNum = true;
+        } else {
+            isInvalidPgNum = false;
+        }
+        setAuthorPageNumber(authorPageNumber);
+    }
 
-	public void setId(final String id) {
-		this.id = id;
-		final User author = new User();
-		author.setId(id);
+    private User getAuthor() {
+        return author;
+    }
 
-		final boolean isInStore = author.isInStore();
-		this.isAuthorValid = isInStore;
+    private BibliographyView getBibiliographyView() {
+        return bibliographyView;
+    }
 
-		author.read();
-		this.setAuthor(author);
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		if (bibliographyView != null) {
-			bibliographyView.setAuthorId(id);
-		}
-	}
+    private int getLastPgNum() {
+        return bibliographyView.getLastPageNumber();
+    }
 
-	public boolean isAuthorValid() {
-		return isAuthorValid;
-	}
+    private void initialiseBibilographyView() {
+        final BibliographyView view = new BibliographyView();
+        view.setNumStoryPagesAlreadyDisplayed(0);
+        view.setPrevTitle(null);
+        view.setCurrTitle(null);
+        setBibiliographyView(view);
+    }
 
-	@Override
-	public void setPageContext(final PageContext pageContext) {
-		super.setPageContext(pageContext);
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		bibliographyView.setPageContext(pageContext);
-	}
+    private void prepareAvatarDesc() {
+        final int id = getAuthorAvatarId();
+        final String desc = User.getAvatarDesc(id);
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("avatarDesc", desc);
+    }
 
-	private void setPageIds(final List<String> pageIds) {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		bibliographyView.setPageIds(pageIds);
-	}
+    private void setAuthor(final User author) {
+        this.author = author;
+    }
 
-	public void setPrevTitle(final String prevTitle) {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		bibliographyView.setPrevTitle(prevTitle);
-	}
+    private void setBibiliographyView(
+            final BibliographyView bibiliographyView) {
+        bibliographyView = bibiliographyView;
+    }
 
-	private void setSummaries(final List<String> summaries) {
-		final BibliographyView bibliographyView = this.getBibiliographyView();
-		bibliographyView.setSummaries(summaries);
-	}
+    private void setPageIds(final List<String> pageIds) {
+        final BibliographyView bibliographyView = getBibiliographyView();
+        bibliographyView.setPageIds(pageIds);
+    }
 
-	public void prepareAuthorId() {
-		final PageContext pageContext = this.getPageContext();
-		final String id = this.getAuthorId();
-		pageContext.setAttribute("authorId", id);
-	}
+    private void setSummaries(final List<String> summaries) {
+        final BibliographyView bibliographyView = getBibiliographyView();
+        bibliographyView.setSummaries(summaries);
+    }
 
-	@Override
-	protected String getMetaDesc() {
-		final String name = this.getPenName();
-		return name + " is an author on Dendrite.";
-	}
+    @Override
+    protected String getMetaDesc() {
+        final String name = getPenName();
+        return name + " is an author on Dendrite.";
+    }
 
 }

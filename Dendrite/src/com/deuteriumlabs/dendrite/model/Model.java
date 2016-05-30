@@ -102,7 +102,10 @@ public abstract class Model {
     }
 
     abstract String getKindName();
+
     abstract DatastoreQuery getMatchingQuery();
+
     abstract void readPropertiesFromEntity(final DatastoreEntity entity);
+
     abstract void setPropertiesInEntity(final DatastoreEntity entity);
 }

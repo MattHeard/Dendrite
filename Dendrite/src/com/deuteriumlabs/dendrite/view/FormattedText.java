@@ -10,11 +10,11 @@ public class FormattedText {
         BOLD, BOLD_ITALIC, ITALIC, NONE
     }
 
-    public static List<FormattedText> extractFormattedText(String input) {
-        List<String> firstList = splitIntoFormatList(input);
-        List<FormattedText> secondList = new ArrayList<FormattedText>();
+    public static List<FormattedText> extractFormattedText(final String input) {
+        final List<String> firstList = splitIntoFormatList(input);
+        final List<FormattedText> secondList = new ArrayList<FormattedText>();
         for (int i = 0; i < firstList.size(); i++) {
-            FormattedText text = new FormattedText();
+            final FormattedText text = new FormattedText();
             text.setText(firstList.get(i));
             text.setFormat(Format.NONE);
             secondList.add(text);
@@ -41,7 +41,8 @@ public class FormattedText {
         for (int i = 0; i < secondList.size(); i++) {
             if (secondList.get(i).getText().equals("**")) {
                 secondList.get(i).setText("*");
-                FormattedText duplicate = new FormattedText(secondList.get(i));
+                final FormattedText duplicate = new FormattedText(
+                        secondList.get(i));
                 secondList.add(i, duplicate);
             }
         }
@@ -65,9 +66,11 @@ public class FormattedText {
             }
         }
 
-        for (int i = 0; i < secondList.size() - 1; i++) {
-            if (secondList.get(i).getFormat() == secondList.get(i + 1).getFormat()) {
-                String combined = secondList.get(i).getText() + secondList.get(i + 1).getText();
+        for (int i = 0; i < (secondList.size() - 1); i++) {
+            if (secondList.get(i).getFormat() == secondList.get(i + 1)
+                    .getFormat()) {
+                final String combined = secondList.get(i).getText()
+                        + secondList.get(i + 1).getText();
                 secondList.get(i).setText(combined);
                 secondList.remove(i + 1);
             }
@@ -75,22 +78,26 @@ public class FormattedText {
         return secondList;
     }
 
+    public static void main() {
+        test();
+    }
+
     // Called in 'read'
-    public static FormattedText[] parseFormattedText(String input) {
-        List<FormattedText> list = extractFormattedText(input);
-        FormattedText[] array = new FormattedText[list.size()];
+    public static FormattedText[] parseFormattedText(final String input) {
+        final List<FormattedText> list = extractFormattedText(input);
+        final FormattedText[] array = new FormattedText[list.size()];
         for (int i = 0; i < list.size(); i++) {
             array[i] = list.get(i);
         }
         return array;
     }
 
-    private static void printTestResults(String string) {
-        List<FormattedText> list = extractFormattedText(string);
+    private static void printTestResults(final String string) {
+        final List<FormattedText> list = extractFormattedText(string);
         System.out.print(string + " > ");
         for (int i = 0; i < list.size(); i++) {
             System.out.print("[");
-            FormattedText text = list.get(i);
+            final FormattedText text = list.get(i);
             if (text.getFormat() == Format.BOLD) {
                 System.out.print("B ");
             } else if (text.getFormat() == Format.BOLD_ITALIC) {
@@ -103,14 +110,14 @@ public class FormattedText {
         System.out.println();
     }
 
-    private static List<String> splitIntoFormatList(String input) {
-        List<String> list = new ArrayList<String>();
+    private static List<String> splitIntoFormatList(final String input) {
+        final List<String> list = new ArrayList<String>();
         if (input != null) {
             final char NULL_CHAR = '0';
             char prev = NULL_CHAR;
             String word = "";
             for (int i = 0; i < input.length(); i++) {
-                char curr = input.charAt(i);
+                final char curr = input.charAt(i);
                 word += curr;
                 if (curr == '*') {
                     if (prev == '*') {
@@ -142,7 +149,7 @@ public class FormattedText {
     }
 
     private static void test() {
-        printTestResults("");			//   >
+        printTestResults("");			// >
         printTestResults("a");			// a > [a]
         printTestResults("ab"); 		// ab > [ab]
         printTestResults("*a*");		// *a* > [I a]
@@ -157,12 +164,8 @@ public class FormattedText {
         printTestResults("*****");		// ***** > [B *]
     }
 
-    public static void main() {
-        test();
-    }
-
-    private static Format toggleBoldFormat(Format format) {
-        switch (format){
+    private static Format toggleBoldFormat(final Format format) {
+        switch (format) {
         case BOLD:
             return Format.NONE;
         case BOLD_ITALIC:
@@ -174,8 +177,8 @@ public class FormattedText {
         }
     }
 
-    private static Format toggleItalicFormat(Format format) {
-        switch (format){
+    private static Format toggleItalicFormat(final Format format) {
+        switch (format) {
         case BOLD:
             return Format.BOLD_ITALIC;
         case BOLD_ITALIC:
@@ -191,29 +194,36 @@ public class FormattedText {
 
     private String text;
 
-    private FormattedText() { }
+    private FormattedText() {
+    }
 
-    private FormattedText(FormattedText deepCopy) {
-        this.format = deepCopy.getFormat();
-        this.text = deepCopy.getText();
+    private FormattedText(final FormattedText deepCopy) {
+        format = deepCopy.getFormat();
+        text = deepCopy.getText();
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        FormattedText other = (FormattedText) obj;
-        if (format != other.format)
+        }
+        final FormattedText other = (FormattedText) obj;
+        if (format != other.format) {
             return false;
+        }
         if (text == null) {
-            if (other.text != null)
+            if (other.text != null) {
                 return false;
-        } else if (!text.equals(other.text))
+            }
+        } else if (!text.equals(other.text)) {
             return false;
+        }
         return true;
     }
 
@@ -225,28 +235,27 @@ public class FormattedText {
         return text;
     }
 
-    public void setFormat(Format format) {
+    public void setFormat(final Format format) {
         this.format = format;
     }
 
-    public void setText(String text) {
+    public void setText(final String text) {
         this.text = text;
-    }
-
-    private void toggleBold() {
-        this.format = toggleBoldFormat(this.format);
-    }
-
-    private void toggleItalic() {
-        this.format = toggleItalicFormat(this.format);
     }
 
     @Override
     public String toString() {
-        final String text = this.getText();
-        final Format format = this.getFormat();
+        final String text = getText();
+        final Format format = getFormat();
         return text + " (" + format + ")";
     }
 
+    private void toggleBold() {
+        format = toggleBoldFormat(format);
+    }
+
+    private void toggleItalic() {
+        format = toggleItalicFormat(format);
+    }
 
 }

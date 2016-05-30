@@ -15,10 +15,10 @@ import com.deuteriumlabs.dendrite.model.User;
 
 public abstract class SubmitController {
     static final int MAX_EXPONENT = 30;
-    
+
     private StoryPage parent;
     private HttpSession session;
-    
+
     protected String authorId;
     protected String authorName;
     protected String content;
@@ -50,20 +50,21 @@ public abstract class SubmitController {
     public PageId getId() {
         return id;
     }
-    
+
     public boolean isAnyOptionTooLong() {
         final List<String> options = getOptions();
         for (final String option : options) {
             final int length = option.length();
-            if (length > 80)
+            if (length > 80) {
                 return true;
+            }
         }
         return false;
     }
 
     public boolean isAuthorNameBlank() {
         final String authorName = getAuthorName();
-        return (authorName == null || authorName.equals(""));
+        return ((authorName == null) || authorName.equals(""));
     }
 
     public boolean isAuthorNameTooLong() {
@@ -74,7 +75,7 @@ public abstract class SubmitController {
 
     public boolean isContentBlank() {
         final String content = getContent();
-        return (content == null || content.equals(""));
+        return ((content == null) || content.equals(""));
     }
 
     public boolean isContentTooLong() {
@@ -110,7 +111,7 @@ public abstract class SubmitController {
         session.setAttribute("isDraftPending", isPendingDraft);
     }
 
-    public void setSession(final HttpSession session) {	
+    public void setSession(final HttpSession session) {
         this.session = session;
     }
 
@@ -145,11 +146,11 @@ public abstract class SubmitController {
         int linkIndex = 0;
         int size = optionTexts.size();
         if (size > 5) {
-        	size = 5;
+            size = 5;
         }
-		for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             final String text = optionTexts.get(i);
-            if (text == null || text.length() == 0) {
+            if ((text == null) || (text.length() == 0)) {
                 continue;
             }
             final StoryOption option = new StoryOption();
@@ -194,16 +195,16 @@ public abstract class SubmitController {
     }
 
     protected void recalculateStoryQuality() {
-    	final PageId pgId = getId();
-    	final StoryPage pg = new StoryPage();
-    	pg.setId(pgId);
-    	pg.read();
-    	final StoryBeginning beginning = new StoryBeginning();
-    	final PageId beginningId = pg.getBeginning();
-    	beginning.setPageNumber(beginningId.getNumber());
-    	beginning.read();
-    	beginning.recalculateQuality();
-    	beginning.update();
+        final PageId pgId = getId();
+        final StoryPage pg = new StoryPage();
+        pg.setId(pgId);
+        pg.read();
+        final StoryBeginning beginning = new StoryBeginning();
+        final PageId beginningId = pg.getBeginning();
+        beginning.setPageNumber(beginningId.getNumber());
+        beginning.read();
+        beginning.recalculateQuality();
+        beginning.update();
     }
 
     protected void setNewPageId() {
@@ -220,22 +221,23 @@ public abstract class SubmitController {
     int findUnallocatedPageNumber() {
         int exponent = 0;
         while (exponent <= MAX_EXPONENT) {
-            int randomNumber = generateRandomNumber(exponent);
+            final int randomNumber = generateRandomNumber(exponent);
             final boolean isUnallocated = isUnallocated(randomNumber);
-            if (isUnallocated)
+            if (isUnallocated) {
                 return randomNumber;
-            else if (exponent != MAX_EXPONENT)
+            } else if (exponent != MAX_EXPONENT) {
                 exponent++;
+            }
         }
         return -1; // Dead code
     }
 
     int generateRandomNumber(final int exponent) {
         final int POWER_BASE = 2;
-        double upper = Math.pow(POWER_BASE, exponent);
-        Random generator = new Random();
-        double randomDouble = generator.nextDouble();
-        double newNumber = (upper * randomDouble) + 1;
+        final double upper = Math.pow(POWER_BASE, exponent);
+        final Random generator = new Random();
+        final double randomDouble = generator.nextDouble();
+        final double newNumber = (upper * randomDouble) + 1;
         return (int) newNumber;
     }
 

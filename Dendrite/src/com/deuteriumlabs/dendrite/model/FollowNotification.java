@@ -9,80 +9,80 @@ import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 
 public class FollowNotification extends Notification {
 
-	static final String FOLLOWER_ID_PROPERTY = "followerId";
+    static final String FOLLOWER_ID_PROPERTY = "followerId";
 
-	private String followerId;
+    private String followerId;
 
-	public void setFollowerId(final String followerId) {
-		this.followerId = followerId;
-	}
+    public FollowNotification() {
+    }
 
-	public FollowNotification() {
-	}
+    public FollowNotification(final DatastoreEntity entity) {
+        readPropertiesFromEntity(entity);
+    }
 
-	public FollowNotification(final DatastoreEntity entity) {
-		this.readPropertiesFromEntity(entity);
-	}
+    @Override
+    public List<HyperlinkedStr> getHyperlinkedMsg() {
+        final List<HyperlinkedStr> msg = new ArrayList<HyperlinkedStr>();
 
-	@Override
-	public String getMsg() {
-		final String follower = this.getFollowerName();
-		return follower + " is now following you.";
-	}
+        final HyperlinkedStr nameChunk = new HyperlinkedStr();
+        nameChunk.str = getFollowerName();
+        nameChunk.url = "/author?id=" + getFollowerId();
+        msg.add(nameChunk);
 
-	@Override
-	public List<HyperlinkedStr> getHyperlinkedMsg() {
-		final List<HyperlinkedStr> msg = new ArrayList<HyperlinkedStr>();
+        final HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
+        unlinkedChunk.str = " is now following you.";
+        msg.add(unlinkedChunk);
 
-		final HyperlinkedStr nameChunk = new HyperlinkedStr();
-		nameChunk.str = this.getFollowerName();
-		nameChunk.url = "/author?id=" + this.getFollowerId();
-		msg.add(nameChunk);
+        return msg;
+    }
 
-		HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
-		unlinkedChunk.str = " is now following you.";
-		msg.add(unlinkedChunk);
+    @Override
+    public String getMsg() {
+        final String follower = getFollowerName();
+        return follower + " is now following you.";
+    }
 
-		return msg;
-	}
+    public void setFollowerId(final String followerId) {
+        this.followerId = followerId;
+    }
 
-	private String getFollowerName() {
-		final String id = this.getFollowerId();
-		final User follower = new User();
-		follower.setId(id);
-		follower.read();
-		return follower.getDefaultPenName();
-	}
+    private String getFollowerId() {
+        return followerId;
+    }
 
-	private String getFollowerId() {
-		return this.followerId;
-	}
+    private String getFollowerIdFromEntity(final DatastoreEntity entity) {
+        final String id = (String) entity.getProperty(FOLLOWER_ID_PROPERTY);
+        return id;
+    }
 
-	@Override
-	void readPropertiesFromEntity(final DatastoreEntity entity) {
-		super.readPropertiesFromEntity(entity);
-		this.readFollowerIdFromEntity(entity);
-	}
+    private String getFollowerName() {
+        final String id = getFollowerId();
+        final User follower = new User();
+        follower.setId(id);
+        follower.read();
+        return follower.getDefaultPenName();
+    }
 
-	private void readFollowerIdFromEntity(final DatastoreEntity entity) {
-		final String id = getFollowerIdFromEntity(entity);
-		this.setFollowerId(id);
-	}
+    private void readFollowerIdFromEntity(final DatastoreEntity entity) {
+        final String id = getFollowerIdFromEntity(entity);
+        setFollowerId(id);
+    }
 
-	private String getFollowerIdFromEntity(final DatastoreEntity entity) {
-		final String id = (String) entity.getProperty(FOLLOWER_ID_PROPERTY);
-		return id;
-	}
+    private void setFollowerIdInEntity(final DatastoreEntity entity) {
+        final String id = getFollowerId();
+        entity.setProperty(FOLLOWER_ID_PROPERTY, id);
+    }
 
-	@Override
-	void setPropertiesInEntity(final DatastoreEntity entity) {
-		super.setPropertiesInEntity(entity);
-		this.setFollowerIdInEntity(entity);
-		setTypeInEntity(entity);
-	}
+    @Override
+    void readPropertiesFromEntity(final DatastoreEntity entity) {
+        super.readPropertiesFromEntity(entity);
+        readFollowerIdFromEntity(entity);
+    }
 
-	private void setFollowerIdInEntity(final DatastoreEntity entity) {
-		final String id = this.getFollowerId();
-		entity.setProperty(FOLLOWER_ID_PROPERTY, id);
-	}
+    @Override
+    void setPropertiesInEntity(final DatastoreEntity entity) {
+        super.setPropertiesInEntity(entity);
+        setFollowerIdInEntity(entity);
+        setTypeInEntity(entity);
+    }
 }

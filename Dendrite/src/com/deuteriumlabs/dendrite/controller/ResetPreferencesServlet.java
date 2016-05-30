@@ -13,8 +13,9 @@ public class ResetPreferencesServlet extends UpdatePreferencesServlet {
     private static final long serialVersionUID = 5970059991233726340L;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    protected void doGet(final HttpServletRequest req,
+            final HttpServletResponse resp)
+                    throws ServletException, IOException {
         setResponse(resp);
         final ResetPreferencesController controller;
         controller = new ResetPreferencesController();

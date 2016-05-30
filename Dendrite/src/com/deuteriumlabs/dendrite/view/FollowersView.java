@@ -15,141 +15,141 @@ import com.deuteriumlabs.dendrite.model.User;
  */
 public class FollowersView extends View {
 
-	private User author;
-	private String id;
+    private User author;
+    private String id;
 
-	private User getAuthor() {
-		return this.author;
-	}
+    public int getAuthorAvatarId() {
+        return author.getAvatarId();
+    }
 
-	public int getAuthorAvatarId() {
-		return author.getAvatarId();
-	}
+    public String getAuthorId() {
+        final User author = getAuthor();
+        return author.getId();
+    }
 
-	public String getAuthorId() {
-		final User author = this.getAuthor();
-		return author.getId();
-	}
+    public List<String> getFollowerIds() {
+        final User author = getAuthor();
+        final List<String> ids = author.getFollowers();
+        if (ids == null) {
+            return new ArrayList<String>();
+        }
+        return ids;
+    }
 
-	public String getId() {
-		return this.id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getPenName() {
-		final User user = this.author;
-		final String penName = user.getDefaultPenName();
-		return penName;
-	}
+    public String getPenName() {
+        final User user = author;
+        final String penName = user.getDefaultPenName();
+        return penName;
+    }
 
-	@Override
-	public String getUrl() {
-		final String id = this.getId();
-		return "/followers?id=" + id;
-	}
+    @Override
+    public String getUrl() {
+        final String id = getId();
+        return "/followers?id=" + id;
+    }
 
-	@Override
-	public void initialise() {
-		final HttpServletRequest request = this.getRequest();
-		final String id = request.getParameter("id");
-		this.setId(id);
-		final String penName = this.getPenName();
+    @Override
+    public void initialise() {
+        final HttpServletRequest request = getRequest();
+        final String id = request.getParameter("id");
+        setId(id);
+        final String penName = getPenName();
 
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("penName", penName);
-		pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("penName", penName);
+        pageContext.setAttribute("webPageTitle", "Dendrite - " + penName);
 
-		this.prepareAvatarId();
-	}
+        prepareAvatarId();
+    }
 
-	public boolean isAuthorAvatarAvailable() {
-		final User author = this.author;
-		return author.isAvatarAvailable();
-	}
+    public boolean isAuthorAvatarAvailable() {
+        final User author = this.author;
+        return author.isAvatarAvailable();
+    }
 
-	public boolean isAuthorPageOfUser() {
-		final String myUserId = View.getMyUserId();
-		final String id = this.getId();
-		return id.equals(myUserId);
-	}
+    public boolean isAuthorPageOfUser() {
+        final String myUserId = View.getMyUserId();
+        final String id = getId();
+        return id.equals(myUserId);
+    }
 
-	public boolean isUserFollowingAuthor() {
-		final User author = this.getAuthor();
-		final List<String> followers = author.getFollowers();
-		final String myUserId = User.getMyUserId();
-		return followers.contains(myUserId);
-	}
+    public boolean isUserFollowingAuthor() {
+        final User author = getAuthor();
+        final List<String> followers = author.getFollowers();
+        final String myUserId = User.getMyUserId();
+        return followers.contains(myUserId);
+    }
 
-	public void prepareAuthorPageUrl() {
-		final PageContext pageContext = this.getPageContext();
-		final String id = this.getId();
-		String url = "/author?id=" + id;
-		pageContext.setAttribute("authorPageUrl", url);
-	}
+    public void prepareAuthorId() {
+        final PageContext pageContext = getPageContext();
+        final String id = getAuthorId();
+        pageContext.setAttribute("authorId", id);
+    }
 
-	public void prepareAvatarId() {
-		final int avatarId;
-		if (this.isAuthorAvatarAvailable() == true) {
-			avatarId = this.getAuthorAvatarId();
-		} else {
-			avatarId = 1;
-		}
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("avatarId", avatarId);
-	}
+    public void prepareAuthorPageUrl() {
+        final PageContext pageContext = getPageContext();
+        final String id = getId();
+        final String url = "/author?id=" + id;
+        pageContext.setAttribute("authorPageUrl", url);
+    }
 
-	public void prepareTitle(final String title) {
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("title", title);
-	}
+    public void prepareAvatarId() {
+        final int avatarId;
+        if (isAuthorAvatarAvailable() == true) {
+            avatarId = getAuthorAvatarId();
+        } else {
+            avatarId = 1;
+        }
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("avatarId", avatarId);
+    }
 
-	private void setAuthor(final User author) {
-		this.author = author;
-	}
+    public void prepareFollower(final String id) {
+        final User follower = new User();
+        follower.setId(id);
+        follower.read();
+        final String name = follower.getDefaultPenName();
 
-	public void setId(final String id) {
-		this.id = id;
-		final User user = new User();
-		user.setId(id);
-		user.read();
-		this.setAuthor(user);
-	}
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("followerName", name);
 
-	@Override
-	public void setPageContext(final PageContext pageContext) {
-		super.setPageContext(pageContext);
-	}
+        final String url = "/author?id=" + id;
+        pageContext.setAttribute("followerProfileUrl", url);
 
-	public List<String> getFollowerIds() {
-		final User author = this.getAuthor();
-		final List<String> ids = author.getFollowers();
-		if (ids == null) {
-			return new ArrayList<String>();
-		}
-		return ids;
-	}
+        final int avatarId = follower.getAvatarId();
+        pageContext.setAttribute("followerAvatarId", avatarId);
 
-	public void prepareFollower(final String id) {
-		final User follower = new User();
-		follower.setId(id);
-		follower.read();
-		final String name = follower.getDefaultPenName();
+        final String avatarDesc = User.getAvatarDesc(avatarId);
+        pageContext.setAttribute("followerAvatarDesc", avatarDesc);
+    }
 
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("followerName", name);
+    public void prepareTitle(final String title) {
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("title", title);
+    }
 
-		final String url = "/author?id=" + id;
-		pageContext.setAttribute("followerProfileUrl", url);
+    public void setId(final String id) {
+        this.id = id;
+        final User user = new User();
+        user.setId(id);
+        user.read();
+        setAuthor(user);
+    }
 
-		final int avatarId = follower.getAvatarId();
-		pageContext.setAttribute("followerAvatarId", avatarId);
+    @Override
+    public void setPageContext(final PageContext pageContext) {
+        super.setPageContext(pageContext);
+    }
 
-		final String avatarDesc = User.getAvatarDesc(avatarId);
-		pageContext.setAttribute("followerAvatarDesc", avatarDesc);
-	}
+    private User getAuthor() {
+        return author;
+    }
 
-	public void prepareAuthorId() {
-		final PageContext pageContext = this.getPageContext();
-		final String id = this.getAuthorId();
-		pageContext.setAttribute("authorId", id);
-	}
+    private void setAuthor(final User author) {
+        this.author = author;
+    }
 }

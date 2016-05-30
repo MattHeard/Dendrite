@@ -22,18 +22,18 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
  */
 public class ContentsView extends View {
     public class Link {
-        public PageId pageId;
         public String number;
+        public PageId pageId;
         public String text;
         public String url;
         public String version;
     }
 
-    private static final String BODY_MAIN_TITLE                     = "Table of Contents";
+    private static final String BODY_MAIN_TITLE = "Table of Contents";
     private static final String CONTENTS_PAGE_NUMBER_PARAMETER_NAME = "p";
-    private static final int    DEFAULT_CONTENTS_PAGE_NUMBER        = 1;
-    private static final int    NUM_STORIES_DISPLAYED               = 10;
-    private static final String FILTER_PARAMETER_NAME               = "filter";
+    private static final int DEFAULT_CONTENTS_PAGE_NUMBER = 1;
+    private static final String FILTER_PARAMETER_NAME = "filter";
+    private static final int NUM_STORIES_DISPLAYED = 10;
 
     // OPTIMISE
     // This function is called once per contents page link and each call makes
@@ -51,12 +51,12 @@ public class ContentsView extends View {
         return "/read?p=" + num + version;
     }
 
-    private List<StoryBeginning>          beginnings;
-    private int                           contentsPageNumber;
-    private List<Link>                    links;
-    private String                        filter;
+    private List<StoryBeginning> beginnings;
+    private int contentsPageNumber;
+    private String filter;
+    private List<Link> links;
+    private int numFilteredBeginnings;
     private Map<Integer, List<StoryPage>> pgsMap;
-    private int                           numFilteredBeginnings;
 
     /**
      * Default constructor. Sets the default page number to 1, which displays
@@ -99,17 +99,6 @@ public class ContentsView extends View {
         return Integer.toString(next);
     }
 
-    private List<String> getPageNumbers(final Store store, final DatastoreQuery query) {
-        final List<String> numbers = new ArrayList<String>();
-        final List<StoryBeginning> beginnings = getBeginnings(store, query);
-        for (final StoryBeginning beginning : beginnings) {
-            final int numberValue = beginning.getPageNumber();
-            final String numberString = Integer.toString(numberValue);
-            numbers.add(numberString);
-        }
-        return numbers;
-    }
-
     public String getPrevPageNumber() {
         final int curr = getContentsPageNumber();
         int prev = curr - 1;
@@ -119,21 +108,9 @@ public class ContentsView extends View {
         return Integer.toString(prev);
     }
 
-    private List<String> getTitles(final Store store, final DatastoreQuery query) {
-        final List<String> titles = new ArrayList<String>();
-        final List<StoryBeginning> beginnings = getBeginnings(store, query);
-        for (final StoryBeginning beginning : beginnings) {
-            final String title = beginning.getTitle();
-            titles.add(title);
-        }
-        return titles;
-    }
-
-    /*
-     * (non-Javadoc)
+    /* (non-Javadoc)
      *
-     * @see com.deuteriumlabs.dendrite.view.View#getUrl()
-     */
+     * @see com.deuteriumlabs.dendrite.view.View#getUrl() */
     @Override
     public String getUrl() {
         return "/contents";
@@ -337,7 +314,7 @@ public class ContentsView extends View {
                 "ix", "v", "iv", "i" };
         String romanPgNum = "";
         for (int i = 0; i < keys.length; i++) {
-            while (arabicPgNum / keys[i] > 0) {
+            while ((arabicPgNum / keys[i]) > 0) {
                 romanPgNum += vals[i];
                 arabicPgNum -= keys[i];
             }
@@ -428,7 +405,20 @@ public class ContentsView extends View {
         return numFilteredBeginnings;
     }
 
-    private List<String> getPageVersions(final Store store, final DatastoreQuery query) {
+    private List<String> getPageNumbers(final Store store,
+            final DatastoreQuery query) {
+        final List<String> numbers = new ArrayList<String>();
+        final List<StoryBeginning> beginnings = getBeginnings(store, query);
+        for (final StoryBeginning beginning : beginnings) {
+            final int numberValue = beginning.getPageNumber();
+            final String numberString = Integer.toString(numberValue);
+            numbers.add(numberString);
+        }
+        return numbers;
+    }
+
+    private List<String> getPageVersions(final Store store,
+            final DatastoreQuery query) {
         final List<String> versions = new ArrayList<String>();
         final List<String> numbers = getPageNumbers(store, query);
         for (final String number : numbers) {
@@ -440,6 +430,17 @@ public class ContentsView extends View {
 
     private List<StoryPage> getPgsList(final int number) {
         return pgsMap.get(number);
+    }
+
+    private List<String> getTitles(final Store store,
+            final DatastoreQuery query) {
+        final List<String> titles = new ArrayList<String>();
+        final List<StoryBeginning> beginnings = getBeginnings(store, query);
+        for (final StoryBeginning beginning : beginnings) {
+            final String title = beginning.getTitle();
+            titles.add(title);
+        }
+        return titles;
     }
 
     private boolean isFiltered() {
@@ -474,7 +475,7 @@ public class ContentsView extends View {
         final Random generator = new Random();
         int randomNum = generator.nextInt(totalWeight) + 1;
         int i = 0;
-        while (randomNum > 0 && i < pgs.size()) {
+        while ((randomNum > 0) && (i < pgs.size())) {
             final StoryPage pg = pgs.get(i);
             final int weight = pg.getNumLovingUsers() + 1;
 

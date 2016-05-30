@@ -19,305 +19,305 @@ import com.google.appengine.api.datastore.Text;
  */
 public class ReadView extends View {
 
-	public enum Format {
-		BOLD, BOLD_ITALIC, ITALIC, NONE
-	}
+    public enum Format {
+        BOLD, BOLD_ITALIC, ITALIC, NONE
+    }
 
-	public static String getAvatarDesc(final int id) {
-		return User.getAvatarDesc(id);
-	}
+    public static String getAvatarDesc(final int id) {
+        return User.getAvatarDesc(id);
+    }
 
-	private User author;
-	private StoryBeginning beginning;
-	private StoryPage page;
-	private PageId pageId;
+    private User author;
+    private StoryBeginning beginning;
+    private StoryPage page;
+    private PageId pageId;
 
-	public ReadView() { }
+    public ReadView() {
+    }
 
-	public List<PageId> getAncestry() {
-		return page.getAncestry();
-	}
+    public List<PageId> getAncestry() {
+        return page.getAncestry();
+    }
 
-	private User getAuthor() {
-		if (author == null) {
-			final String userId = page.getAuthorId();
-			author = new User();
-			author.setId(userId);
-			author.read();
-		}
-		return author;
-	}
+    public int getAuthorAvatarId() {
+        final User user = getAuthor();
+        return user.getAvatarId();
+    }
 
-	public int getAuthorAvatarId() {
-		final User user = getAuthor();
-		return user.getAvatarId();
-	}
+    public String getAuthorId() {
+        return page.getAuthorId();
+    }
 
-	public String getAuthorId() {
-		return page.getAuthorId();
-	}
+    public String getAuthorName() {
+        return page.getAuthorName();
+    }
 
-	public String getAuthorName() {
-		return page.getAuthorName();
-	}
+    public String getChance() {
+        return page.getChance();
+    }
 
-	private StoryBeginning getBeginning() {
-		return beginning;
-	}
+    public String getFirstUrl() {
+        final PageId firstPageId = page.getBeginning();
+        return "read?p=" + firstPageId;
+    }
 
-	public String getFirstUrl() {
-		final PageId firstPageId = page.getBeginning();
-		return "read?p=" + firstPageId;
-	}
+    public int getNumberOfOptions() {
+        return StoryOption.countOptions(pageId);
+    }
 
-	public int getNumberOfOptions() {
-		return StoryOption.countOptions(pageId);
-	}
+    public int getNumLovingUsers() {
+        return page.getNumLovingUsers();
+    }
 
-	public String getOptionLink(final int index) {
-		final StoryOption option = getOptionByIndex(index);
-		final int target = option.getTarget();
-		if (target == 0) {
-			final PageId source = getPageId();
-			final String from = source.toString();
-			return "/write?from=" + from + "&linkIndex=" + index;
-		} else {
-			return "/read?p=" + target;
-		}
-	}
+    public String getNumLovingUsersString() {
+        final int numLovingUsers = getNumLovingUsers();
+        if (numLovingUsers > 0) {
+            return Integer.toString(numLovingUsers);
+        } else {
+            return "";
+        }
+    }
 
-	public String getOptionText(final int index) {
-		final StoryOption option = getOptionByIndex(index);
-		return option.getText();
-	}
+    public String getOptionLink(final int index) {
+        final StoryOption option = getOptionByIndex(index);
+        final int target = option.getTarget();
+        if (target == 0) {
+            final PageId source = getPageId();
+            final String from = source.toString();
+            return "/write?from=" + from + "&linkIndex=" + index;
+        } else {
+            return "/read?p=" + target;
+        }
+    }
 
-	private StoryOption getOptionByIndex(final int index) {
-		final StoryOption option = new StoryOption();
-		option.setSource(pageId);
-		option.setListIndex(index);
-		option.read();
-		return option;
-	}
-	
-	public boolean isOptionWritten(final int index) {
-		final StoryOption option = getOptionByIndex(index);
-		return option.isConnected();
-	}
+    public String getOptionText(final int index) {
+        final StoryOption option = getOptionByIndex(index);
+        return option.getText();
+    }
 
-	public PageId getPageId() {
-		return pageId;
-	}
+    public PageId getPageId() {
+        return pageId;
+    }
 
-	public String getPageNumber() {
-		final int number = pageId.getNumber();
-		return Integer.toString(number);
-	}
+    public String getPageNumber() {
+        final int number = pageId.getNumber();
+        return Integer.toString(number);
+    }
 
-	public String getPageText() {
-		final Text text = page.getText();
-		if (text != null)
-			return text.getValue();
-		else
-			return null;
-	}
+    public String getPageText() {
+        final Text text = page.getText();
+        if (text != null) {
+            return text.getValue();
+        } else {
+            return null;
+        }
+    }
 
-	public List<String> getParagraphs() {
-		final String text = this.getPageText();
-		List<String> list = new ArrayList<String>();
-		if (text != null) {
-			String[] array = text.split("\n");
-			for (String paragraph : array) {
-				paragraph = paragraph.replaceAll("[\n\r]", "");
-				if (paragraph.length() > 0) {
-					list.add(paragraph);
-				}
-			}
-		}
-		return list;
-	}
+    public List<String> getParagraphs() {
+        final String text = getPageText();
+        final List<String> list = new ArrayList<String>();
+        if (text != null) {
+            final String[] array = text.split("\n");
+            for (String paragraph : array) {
+                paragraph = paragraph.replaceAll("[\n\r]", "");
+                if (paragraph.length() > 0) {
+                    list.add(paragraph);
+                }
+            }
+        }
+        return list;
+    }
 
-	private PageId getSpecificPageId(final String string) {
-		final PageId id = new PageId(string);
-		String version = id.getVersion();
-		if (version == null) {
-		    final Random generator = new Random();
-			version = StoryPage.getRandomVersion(id, generator);
-			id.setVersion(version);
-		}
-		return id;
-	}
+    public String getParentId() {
+        final List<PageId> ancestry = getAncestry();
+        if (ancestry.size() > 1) {
+            final PageId parentId = ancestry.get(ancestry.size() - 2);
+            return parentId.toString();
+        } else {
+            return null;
+        }
+    }
 
-	public String getTitle() {
-		final StoryBeginning beginning = this.getBeginning();
-		return beginning.getTitle();
-	}
+    public List<String> getTags() {
+        final List<String> tags = page.getTags();
+        return tags;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.deuteriumlabs.dendrite.view.View#getUrl()
-	 */
-	@Override
-	public String getUrl() {
-		return "/read?p=" + pageId.toString();
-	}
+    public String getTitle() {
+        final StoryBeginning beginning = getBeginning();
+        return beginning.getTitle();
+    }
 
-	public boolean isAuthorAnonymous() {
-		final String authorId = page.getAuthorId();
-		return (authorId == null);
-	}
+    /* (non-Javadoc)
+     * 
+     * @see com.deuteriumlabs.dendrite.view.View#getUrl() */
+    @Override
+    public String getUrl() {
+        return "/read?p=" + pageId.toString();
+    }
 
-	public boolean isAvatarAvailable() {
-		final User user = getAuthor();
-		return user.isAvatarAvailable();
-	}
+    public boolean isAuthorAnonymous() {
+        final String authorId = page.getAuthorId();
+        return (authorId == null);
+    }
 
-	public boolean isBeginning() {
-		final int currPageNumber = pageId.getNumber();
-		final StoryBeginning beginning = this.getBeginning();
-		final int beginningPageNumber = beginning.getPageNumber();
-		return (currPageNumber == beginningPageNumber);
-	}
+    public boolean isAvatarAvailable() {
+        final User user = getAuthor();
+        return user.isAvatarAvailable();
+    }
 
-	public boolean isPageInStore() {
-		return page.isInStore();
-	}
+    public boolean isBeginning() {
+        final int currPageNumber = pageId.getNumber();
+        final StoryBeginning beginning = getBeginning();
+        final int beginningPageNumber = beginning.getPageNumber();
+        return (currPageNumber == beginningPageNumber);
+    }
 
-	public boolean isShowingFirstPage() {
-		return (pageId.getNumber() == 1);
-	}
+    /**
+     * @return
+     */
+    public boolean isLoved() {
+        final String userId = View.getMyUserId();
+        return page.isLovedBy(userId);
+    }
 
-	public void prepareNextPageNum() {
-		final PageContext pageContext = this.getPageContext();
-		final PageId id = this.getPageId();
-		final int currPageNum = id.getNumber();
-		final int nextPageNum = currPageNum + 1;
-		pageContext.setAttribute("nextPageNum", nextPageNum);
-	}
+    public boolean isNotLoved() {
+        final boolean isLoved = isLoved();
+        return (isLoved == false);
+    }
 
-	public void preparePrevPageNum() {
-		final PageContext pageContext = this.getPageContext();
-		final PageId id = this.getPageId();
-		final int currPageNum = id.getNumber();
-		final int prevPageNum = currPageNum - 1;
-		pageContext.setAttribute("prevPageNum", prevPageNum);
-	}
+    public boolean isOptionWritten(final int index) {
+        final StoryOption option = getOptionByIndex(index);
+        return option.isConnected();
+    }
 
-	private void setBeginning(final StoryBeginning beginning) {
-		this.beginning = beginning;
-	}
+    public boolean isPageInStore() {
+        return page.isInStore();
+    }
 
-	private void setPage(final StoryPage page) {
-		this.page = page;
-	}
+    public boolean isShowingFirstPage() {
+        return (pageId.getNumber() == 1);
+    }
 
-	private void setPageId(final PageId id) {
-		this.pageId = id;
-		final StoryPage page = new StoryPage();
-		page.setId(id);
-		page.read();
-		this.setPage(page);
-		final PageId beginningId = page.getBeginning();
-		final StoryBeginning beginning = new StoryBeginning();
-		final int pageNumber = beginningId.getNumber();
-		beginning.setPageNumber(pageNumber);
-		beginning.read();
-		this.setBeginning(beginning);
-	}
+    public void prepareIsNotLoved() {
+        final boolean isNotLoved = isNotLoved();
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("isNotLoved", isNotLoved);
+    }
 
-	public void setPageId(final String idString) {
-		final PageId id = getSpecificPageId(idString);
-		this.setPageId(id);
-	}
+    public void prepareMyUserId() {
+        final String userId = View.getMyUserId();
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("myUserId", userId);
+    }
 
-	public String getParentId() {
-		final List<PageId> ancestry = this.getAncestry();
-		if (ancestry.size() > 1) {
-			final PageId parentId = ancestry.get(ancestry.size() - 2);
-			return parentId.toString();
-		} else {
-			return null;
-		}
-	}
+    public void prepareNextPageNum() {
+        final PageContext pageContext = getPageContext();
+        final PageId id = getPageId();
+        final int currPageNum = id.getNumber();
+        final int nextPageNum = currPageNum + 1;
+        pageContext.setAttribute("nextPageNum", nextPageNum);
+    }
 
-	public String getChance() {
-		return page.getChance();
-	}
+    public void prepareNumLovers() {
+        final String num = getNumLovingUsersString();
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("numLovers", num);
+    }
 
-	public boolean isNotLoved() {
-		final boolean isLoved = this.isLoved();
-		return (isLoved == false);
-	}
+    public void prepareParentId() {
+        final String id = getParentId();
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("parentId", id);
+    }
 
-	/**
-	 * @return
-	 */
-	public boolean isLoved() {
-		final String userId = View.getMyUserId();
-		return page.isLovedBy(userId);
-	}
+    public void preparePgId() {
+        final PageId id = getPageId();
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("pgId", id.toString());
+    }
 
-	public int getNumLovingUsers() {
-		return page.getNumLovingUsers();
-	}
+    public void preparePrevPageNum() {
+        final PageContext pageContext = getPageContext();
+        final PageId id = getPageId();
+        final int currPageNum = id.getNumber();
+        final int prevPageNum = currPageNum - 1;
+        pageContext.setAttribute("prevPageNum", prevPageNum);
+    }
 
-	public String getNumLovingUsersString() {
-		final int numLovingUsers = this.getNumLovingUsers();
-		if (numLovingUsers > 0) {
-			return Integer.toString(numLovingUsers);
-		} else {
-			return "";
-		}
-	}
+    public void prepareTag(final String tag) {
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("tagClass", tag.toLowerCase());
+        pageContext.setAttribute("tagName", tag.toUpperCase());
+    }
 
-	public void prepareTag(final String tag) {
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("tagClass", tag.toLowerCase());
-		pageContext.setAttribute("tagName", tag.toUpperCase());
-	}
+    public void prepareTagName(final String tag) {
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("tagName", tag);
+    }
 
-	public List<String> getTags() {
-		final List<String> tags = page.getTags();
-		return tags;
-	}
+    public void setPageId(final String idString) {
+        final PageId id = getSpecificPageId(idString);
+        this.setPageId(id);
+    }
 
-	public void preparePgId() {
-		final PageId id = this.getPageId();
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("pgId", id.toString());
-	}
+    private User getAuthor() {
+        if (author == null) {
+            final String userId = page.getAuthorId();
+            author = new User();
+            author.setId(userId);
+            author.read();
+        }
+        return author;
+    }
 
-	public void prepareTagName(final String tag) {
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("tagName", tag);
-	}
+    private StoryBeginning getBeginning() {
+        return beginning;
+    }
 
-	public void prepareIsNotLoved() {
-		final boolean isNotLoved = this.isNotLoved();
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("isNotLoved", isNotLoved);
-	}
+    private StoryOption getOptionByIndex(final int index) {
+        final StoryOption option = new StoryOption();
+        option.setSource(pageId);
+        option.setListIndex(index);
+        option.read();
+        return option;
+    }
 
-	public void prepareMyUserId() {
-		final String userId = View.getMyUserId();
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("myUserId", userId);
-	}
+    private PageId getSpecificPageId(final String string) {
+        final PageId id = new PageId(string);
+        String version = id.getVersion();
+        if (version == null) {
+            final Random generator = new Random();
+            version = StoryPage.getRandomVersion(id, generator);
+            id.setVersion(version);
+        }
+        return id;
+    }
 
-	public void prepareNumLovers() {
-		final String num = this.getNumLovingUsersString();
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("numLovers", num);
-	}
+    private void setBeginning(final StoryBeginning beginning) {
+        this.beginning = beginning;
+    }
 
-	public void prepareParentId() {
-		final String id = this.getParentId();
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("parentId", id);
-	}
+    private void setPage(final StoryPage page) {
+        this.page = page;
+    }
 
-	@Override
-	protected String getMetaDesc() {
-		return page.getLongSummary();
-	}
+    private void setPageId(final PageId id) {
+        pageId = id;
+        final StoryPage page = new StoryPage();
+        page.setId(id);
+        page.read();
+        setPage(page);
+        final PageId beginningId = page.getBeginning();
+        final StoryBeginning beginning = new StoryBeginning();
+        final int pageNumber = beginningId.getNumber();
+        beginning.setPageNumber(pageNumber);
+        beginning.read();
+        setBeginning(beginning);
+    }
+
+    @Override
+    protected String getMetaDesc() {
+        return page.getLongSummary();
+    }
 }

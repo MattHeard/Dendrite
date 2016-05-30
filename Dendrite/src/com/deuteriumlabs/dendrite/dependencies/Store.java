@@ -7,18 +7,19 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 
 public class Store {
-    private static DatastoreService store = DatastoreServiceFactory.getDatastoreService();
-    
-    public DatastoreService get() {
-        return store;
-    }
-    
-    public PreparedQuery prepare(final DatastoreQuery query) {
-        return store.prepare(query.get());
-    }
+    private static DatastoreService store = DatastoreServiceFactory
+            .getDatastoreService();
 
     public void delete(final Key key) {
         store.delete(key);
+    }
+
+    public DatastoreService get() {
+        return store;
+    }
+
+    public PreparedQuery prepare(final DatastoreQuery query) {
+        return store.prepare(query.get());
     }
 
     public void put(final Entity entity) {

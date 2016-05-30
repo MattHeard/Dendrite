@@ -2,19 +2,20 @@
 package com.deuteriumlabs.dendrite.model;
 
 /**
- *Represents a unique identifier for a story page. The IDs are two-
- *dimensional, where differing page numbers represent different points in the
- *story (or possibly even different stories) while differing versions of the
- *same page number represent different alternatives of the same point in the
- *  story. Both dimensions are theoretically unlimited, intending for
- *  unrestricted expansion of stories by increasing the page numbers and for
- *  unrestricted rewriting of stories by increasing the page versions. As
- *currently implemented, there is an upper limit on the page number because
- *  of the <code>int</code> representation.
+ * Represents a unique identifier for a story page. The IDs are two-
+ * dimensional, where differing page numbers represent different points in the
+ * story (or possibly even different stories) while differing versions of the
+ * same page number represent different alternatives of the same point in the
+ * story. Both dimensions are theoretically unlimited, intending for
+ * unrestricted expansion of stories by increasing the page numbers and for
+ * unrestricted rewriting of stories by increasing the page versions. As
+ * currently implemented, there is an upper limit on the page number because of
+ * the <code>int</code> representation.
  */
 public class PageId {
     private static final int INVALID_PAGE_NUM = 0;
     private static final int MIN_PAGE_NUM = 1;
+
     /**
      * @param version
      * @return
@@ -26,19 +27,22 @@ public class PageId {
         } else {
             allButLast = "";
         }
-        char last = version.charAt(version.length() - 1);
+        final char last = version.charAt(version.length() - 1);
         final String incrementedVersion;
-        if (last >= 'a' && last < 'z') {
+        if ((last >= 'a') && (last < 'z')) {
             incrementedVersion = allButLast + (char) (last + 1);
         } else {
             incrementedVersion = PageId.increment(allButLast) + 'a';
         }
         return incrementedVersion;
     }
+
     /**
      * Determines whether a version String is "valid" by checking whether all of
      * the characters are letters.
-     * @param version the candidate version to validate
+     * 
+     * @param version
+     *            the candidate version to validate
      * @return true if the version is valid, false otherwise
      */
     private static boolean isValidVersion(final String version) {
@@ -48,7 +52,7 @@ public class PageId {
         for (int i = 0; i < version.length(); i++) {
             char ch = version.charAt(i);
             ch = Character.toLowerCase(ch);
-            final boolean isCharacterValid = (ch >= 'a' && ch <= 'z');
+            final boolean isCharacterValid = ((ch >= 'a') && (ch <= 'z'));
             if (isCharacterValid == false) {
                 return false;
             }
@@ -60,9 +64,10 @@ public class PageId {
 
     private String version = null;
 
-    public PageId() { }
+    public PageId() {
+    }
 
-    public PageId(String string) {
+    public PageId(final String string) {
         if (string != null) {
             String digits = "";
             int i = 0;
@@ -77,7 +82,7 @@ public class PageId {
             }
             int number = parseInt(digits);
             number = (number < MIN_PAGE_NUM) ? INVALID_PAGE_NUM : number;
-            this.setNumber(number);
+            setNumber(number);
 
             String letters = "";
             if (number > 0) {
@@ -96,12 +101,13 @@ public class PageId {
             } else {
                 letters = null;
             }
-            this.setVersion(letters);
+            setVersion(letters);
         }
     }
 
     /**
      * Returns the number component of the ID.
+     * 
      * @return the number component
      */
     public int getNumber() {
@@ -110,6 +116,7 @@ public class PageId {
 
     /**
      * Returns the version component of the ID.
+     * 
      * @return the version component
      */
     public String getVersion() {
@@ -117,62 +124,65 @@ public class PageId {
     }
 
     /**
-     * 
+     *
      */
     public void incrementVersion() {
-        final String version = this.getVersion();
+        final String version = getVersion();
         if (version == null) {
             final String message = "A null version cannot be incremented.";
             throw new IllegalStateException(message);
         } else {
             final String incrementedVersion = PageId.increment(version);
-            this.setVersion(incrementedVersion);
+            setVersion(incrementedVersion);
         }
     }
 
     public boolean isValid() {
-        final int number = this.getNumber();
+        final int number = getNumber();
         final boolean isValidNumber = (number > INVALID_PAGE_NUM);
-        final String version = this.getVersion();
+        final String version = getVersion();
         final boolean isValidVersion = isValidVersion(version);
         return (isValidNumber && isValidVersion);
     }
 
     /**
      * Sets the number component of the ID. Only positive numbers are valid.
-     * @param number the new number component for the ID
+     * 
+     * @param number
+     *            the new number component for the ID
      */
-    public void setNumber(int number) {
+    public void setNumber(final int number) {
         this.number = (number > INVALID_PAGE_NUM) ? number : INVALID_PAGE_NUM;
     }
 
     /**
      * Sets the version component of the ID. Only a String of letters is valid.
-     * @param version the new version component for the ID
+     * 
+     * @param version
+     *            the new version component for the ID
      */
-    public void setVersion(String version) {
+    public void setVersion(final String version) {
         final boolean isValid = isValidVersion(version);
         this.version = (isValid == true) ? version : null;
     }
 
     @Override
     public String toString() {
-        final int number = this.getNumber();
-        String version = this.getVersion();
+        final int number = getNumber();
+        String version = getVersion();
         version = (version == null) ? "" : version;
         final String string = number + version;
         return string;
     }
 
-    private int parseInt(String digits) {
+    private int parseInt(final String digits) {
         int number;
         try {
             number = Integer.parseInt(digits);
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             number = INVALID_PAGE_NUM;
         }
         return number;
     }
-
 
 }

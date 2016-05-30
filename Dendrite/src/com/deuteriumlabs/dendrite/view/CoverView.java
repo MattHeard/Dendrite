@@ -8,28 +8,28 @@ public class CoverView extends View {
         this.pageContext = pageContext;
     }
 
-	@Override
-	public String getUrl() {
-		return "/cover";
-	}
+    public String[] getTags() {
+        final String[] tags = { "ABSURD", "ACTION", "ADVENTURE", "COMEDY",
+                "CRIME", "DRAMA", "EROTIC", "FANFIC", "FANTASY", "HISTORICAL",
+                "HORROR", "INSPIRATIONAL", "MYSTERY", "POLITICAL", "REAL-LIFE",
+                "RELIGIOUS", "ROMANCE", "SCIFI", "SPAM", "THRILLER", "WESTERN",
+                "YOUNG-ADULT" };
+        return tags;
+    }
 
-	@Override
-	public void initialise() {
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("webPageTitle", "Dendrite");
-	}
+    @Override
+    public String getUrl() {
+        return "/cover";
+    }
 
-	public void prepareTagName(final String tag) {
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("tagName", tag);
-	}
-	
-	public String[] getTags() {
-	    final String[] tags = { "ABSURD", "ACTION", "ADVENTURE", "COMEDY",
-	            "CRIME", "DRAMA", "EROTIC", "FANFIC", "FANTASY", "HISTORICAL",
-	            "HORROR", "INSPIRATIONAL", "MYSTERY", "POLITICAL", "REAL-LIFE",
-	            "RELIGIOUS", "ROMANCE", "SCIFI", "SPAM", "THRILLER", "WESTERN",
-	            "YOUNG-ADULT" };
-	    return tags;
-	}
+    @Override
+    public void initialise() {
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("webPageTitle", "Dendrite");
+    }
+
+    public void prepareTagName(final String tag) {
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("tagName", tag);
+    }
 }

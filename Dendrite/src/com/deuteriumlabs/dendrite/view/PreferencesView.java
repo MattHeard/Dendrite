@@ -7,52 +7,52 @@ import com.deuteriumlabs.dendrite.model.User;
 
 public class PreferencesView extends View {
 
-	private static final String NEW_PEN_NAME_IS_BLANK = "blankNewPenName";
+    private static final String NEW_PEN_NAME_IS_BLANK = "blankNewPenName";
 
-	private String error;
+    public static String getAvatarDesc(final int id) {
+        return User.getAvatarDesc(id);
+    }
 
-	@Override
-	public String getUrl() {
-		return "/preferences";
-	}
+    private String error;
 
-	public static String getAvatarDesc(final int id) {
-		return User.getAvatarDesc(id);
-	}
+    public int getAvatarId(final User myUser) {
+        return myUser.getAvatarId();
+    }
 
-	public int getAvatarId(final User myUser) {
-		return myUser.getAvatarId();
-	}
+    public String getError() {
+        return error;
+    }
 
-	public boolean isNewPenNameBlank() {
-		final String error = this.getError();
-		return NEW_PEN_NAME_IS_BLANK.equals(error);
-	}
+    @Override
+    public String getUrl() {
+        return "/preferences";
+    }
 
-	public String getError() {
-		return error;
-	}
+    @Override
+    public void initialise() {
+        initialiseError();
 
-	public void setError(String error) {
-		this.error = error;
-	}
+        super.initialise();
+    }
 
-	@Override
-	public void initialise() {
-		this.initialiseError();
+    public boolean isNewPenNameBlank() {
+        final String error = getError();
+        return NEW_PEN_NAME_IS_BLANK.equals(error);
+    }
 
-		super.initialise();
-	}
+    public void setError(final String error) {
+        this.error = error;
+    }
 
-	private void initialiseError() {
-		final HttpServletRequest request = this.getRequest();
-		final String error = request.getParameter("error");
-		this.setError(error);
-	}
+    private void initialiseError() {
+        final HttpServletRequest request = getRequest();
+        final String error = request.getParameter("error");
+        setError(error);
+    }
 
-	@Override
-	protected String getMetaDesc() {
-		return "Customise your reading experience and the look and feel of "
-				+ "Dendrite.";
-	}
+    @Override
+    protected String getMetaDesc() {
+        return "Customise your reading experience and the look and feel of "
+                + "Dendrite.";
+    }
 }

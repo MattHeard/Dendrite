@@ -19,9 +19,9 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class DatastoreEntityTest {
-    private final LocalServiceTestHelper helper =
-            new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-    
+    private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
+            new LocalDatastoreServiceTestConfig());
+
     @Before
     public void setUp() {
         helper.setUp();
@@ -31,30 +31,51 @@ public class DatastoreEntityTest {
     public void tearDown() {
         helper.tearDown();
     }
-    
+
     @Test
     public void testConstructorWithEntity() {
         final Entity entity = null;
         assertNotNull(new DatastoreEntity(entity));
     }
-    
+
     @Test
     public void testConstructorWithKind() {
         final String kind = "testKind";
         assertNotNull(new DatastoreEntity(kind));
     }
-    
+
     @Test
     public void testConstructorWithKindAndKey() {
         final String kind = "testKind";
         final String key = "testKey";
         assertNotNull(new DatastoreEntity(kind, key));
     }
-    
+
+    @Test
+    public void testFromPreparedQuery() {
+        final String kind = "testKind";
+        final DatastoreQuery query = new DatastoreQuery(kind);
+        final PreparedQuery preparedQuery = DatastoreServiceFactory
+                .getDatastoreService().prepare(query.get());
+        final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+        final List<DatastoreEntity> entities = DatastoreEntity
+                .fromPreparedQuery(preparedQuery, fetchOptions);
+        assertNotNull(entities);
+    }
+
     @Test
     public void testGetKey() {
         final DatastoreEntity entity = buildTestEntity();
         assertNotNull(entity.getKey());
+    }
+
+    @Test
+    public void testGetProperty() {
+        final DatastoreEntity entity = buildTestEntity();
+        final String propertyName = "testPropertyName";
+        final String propertyValue = "testPropertyValue";
+        entity.setProperty(propertyName, propertyValue);
+        assertEquals(propertyValue, entity.getProperty(propertyName));
     }
 
     @Test
@@ -65,7 +86,13 @@ public class DatastoreEntityTest {
         entity.setProperty(propertyName, propertyValue);
         assertTrue(entity.hasProperty(propertyName));
     }
-    
+
+    @Test
+    public void testPutInStore() {
+        final DatastoreEntity entity = buildTestEntity();
+        entity.putInStore();
+    }
+
     @Test
     public void testSetProperty() {
         final DatastoreEntity entity = buildTestEntity();
@@ -75,34 +102,7 @@ public class DatastoreEntityTest {
         entity.setProperty(propertyName, propertyValue);
         assertTrue(entity.hasProperty(propertyName));
     }
-    
-    @Test
-    public void testGetProperty() {
-        final DatastoreEntity entity = buildTestEntity();
-        final String propertyName = "testPropertyName";
-        final String propertyValue = "testPropertyValue";
-        entity.setProperty(propertyName, propertyValue);
-        assertEquals(propertyValue, entity.getProperty(propertyName));
-    }
-    
-    @Test
-    public void testPutInStore() {
-        final DatastoreEntity entity = buildTestEntity();
-        entity.putInStore();
-    }
-    
-    @Test
-    public void testFromPreparedQuery() {
-        final String kind = "testKind";
-        final DatastoreQuery query = new DatastoreQuery(kind);
-        final PreparedQuery preparedQuery =
-                DatastoreServiceFactory.getDatastoreService().prepare(query.get());
-        final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-        final List<DatastoreEntity> entities =
-                DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
-        assertNotNull(entities);
-    }
-    
+
     private DatastoreEntity buildTestEntity() {
         final String kind = "testKind";
         final DatastoreEntity entity = new DatastoreEntity(kind);

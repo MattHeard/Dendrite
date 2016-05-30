@@ -12,352 +12,353 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
 
 public class BibliographyView {
 
-	public class StoryPageEntry {
-		String authorName;
-		String pageId;
-		String summary;
-		String title;
-	}
+    public class StoryPageEntry {
+        String authorName;
+        String pageId;
+        String summary;
+        String title;
+    }
 
-	private static final int DEFAULT_AUTHOR_PAGE_NUM = 1;
-	private static final int NUM_PAGES_DISPLAYED = 10;
-	private int authorPageNumber;
-	private String currTitle, prevTitle;
-	private String authorId;
-	private int numStoryPagesAlreadyDisplayed;
-	private List<StoryPage> pages;
-	private List<String> authorNames, titles, pageIds, summaries;
-	private List<StoryPageEntry> entries;
-	private PageContext pageContext;
-	private String currStoryPageAuthorName;
+    private static final int DEFAULT_AUTHOR_PAGE_NUM = 1;
+    private static final int NUM_PAGES_DISPLAYED = 10;
+    private String authorId;
+    private List<String> authorNames, titles, pageIds, summaries;
+    private int authorPageNumber;
+    private String currStoryPageAuthorName;
+    private String currTitle, prevTitle;
+    private List<StoryPageEntry> entries;
+    private int numStoryPagesAlreadyDisplayed;
+    private PageContext pageContext;
+    private List<StoryPage> pages;
 
-	public int getAuthorPageNumber() {
-		return authorPageNumber;
-	}
+    public void generateEntries() {
+        final List<String> titles = getTitles();
+        final int length = titles.size();
+        final List<String> summaries = getSummaries();
+        final List<String> pageIds = getPageIds();
+        final List<String> authorNames = getAuthorNames();
 
-	public String getCurrTitle() {
-		return currTitle;
-	}
+        final List<StoryPageEntry> pages = new ArrayList<StoryPageEntry>();
+        for (int i = 0; i < length; i++) {
+            final StoryPageEntry page = new StoryPageEntry();
+            page.title = titles.get(i);
+            page.summary = summaries.get(i);
+            page.pageId = pageIds.get(i);
+            page.authorName = authorNames.get(i);
+            pages.add(page);
+        }
 
-	public int getFirstIndex() {
-		final int authorPageNumber = this.getAuthorPageNumber();
-		return (authorPageNumber - 1) * NUM_PAGES_DISPLAYED;
-	}
+        setEntries(pages);
+    }
 
-	public String getAuthorId() {
-		return this.authorId;
-	}
+    public String getAuthorId() {
+        return authorId;
+    }
 
-	public int getLastIndex() {
-		final int firstIndex = this.getFirstIndex();
-		return firstIndex + NUM_PAGES_DISPLAYED;
-	}
+    public List<String> getAuthorNames() {
+        if (authorNames == null) {
+            readAuthorNames();
+        }
+        return authorNames;
+    }
 
-	public int getNumStoryPagesAlreadyDisplayed() {
-		return numStoryPagesAlreadyDisplayed;
-	}
+    public int getAuthorPageNumber() {
+        return authorPageNumber;
+    }
 
-	public int getNumStoryPagesToDisplay() {
-		final List<String> titles = this.getTitles();
-		return titles.size();
-	}
+    public String getCurrStoryPageAuthorName() {
+        return currStoryPageAuthorName;
+    }
 
-	public List<StoryPage> getPages() {
-		if (this.pages == null) {
-			this.readPages();
-		}
-		return this.pages;
-	}
+    public String getCurrTitle() {
+        return currTitle;
+    }
 
-	public String getPrevTitle() {
-		return prevTitle;
-	}
+    public List<StoryPageEntry> getEntries() {
+        if (entries == null) {
+            generateEntries();
+        }
+        return entries;
+    }
 
-	public List<String> getSummaries() {
-		if (this.summaries == null) {
-			this.readSummaries();
-		}
-		return this.summaries;
-	}
+    public int getFirstIndex() {
+        final int authorPageNumber = getAuthorPageNumber();
+        return (authorPageNumber - 1) * NUM_PAGES_DISPLAYED;
+    }
 
-	public List<String> getTitles() {
-		if (this.titles == null) {
-			this.readTitles();
-		}
-		return this.titles;
-	}
+    public int getLastIndex() {
+        final int firstIndex = getFirstIndex();
+        return firstIndex + NUM_PAGES_DISPLAYED;
+    }
 
-	public boolean hasAnotherStoryPage() {
-		final int numAlreadyDisplayed = this.getNumStoryPagesAlreadyDisplayed();
-		final int numToDisplay = this.getNumStoryPagesToDisplay();
-		return (numAlreadyDisplayed < numToDisplay);
-	}
+    public int getLastPageNumber() {
+        final int numStories = getNumPages();
+        int lastPgNum = numStories / NUM_PAGES_DISPLAYED;
+        if ((numStories % NUM_PAGES_DISPLAYED) != 0) {
+            lastPgNum++;
+        }
+        if (lastPgNum < 1) {
+            lastPgNum = 1;
+        }
+        return lastPgNum;
+    }
 
-	public void incrementNumStoryPagesAlreadyDisplayed() {
-		final int num = this.getNumStoryPagesAlreadyDisplayed();
-		this.setNumStoryPagesAlreadyDisplayed(num + 1);
-	}
+    public String getNextPageNumber() {
+        final int curr = getAuthorPageNumber();
+        final int next = curr + 1;
+        return Integer.toString(next);
+    }
 
-	public void readPages() {
-		final int firstIndex = this.getFirstIndex();
-		final int lastIndex = this.getLastIndex();
-		final List<StoryPage> pages;
-		final String authorId = this.getAuthorId();
-		pages = StoryPage.getPagesWrittenBy(authorId, firstIndex, lastIndex);
-		this.setPages(pages);
-	}
+    public StoryPageEntry getNextStoryPage() {
+        final List<StoryPageEntry> pages = getEntries();
+        final int index = getNumStoryPagesAlreadyDisplayed();
+        return pages.get(index);
+    }
 
-	public void readSummaries() {
-		final List<StoryPage> pages = this.getPages();
-		final List<String> summaries = new ArrayList<String>();
-		for (final StoryPage page : pages) {
-			final String summary = getSummary(page);
-			summaries.add(summary);
-		}
-		this.setSummaries(summaries);
-	}
+    public int getNumPages() {
+        final String authorId = getAuthorId();
+        return StoryPage.countAllPagesWrittenBy(authorId);
+    }
 
-	private String getSummary(final StoryPage page) {
-		return page.getSummary();
-	}
+    public int getNumStoryPagesAlreadyDisplayed() {
+        return numStoryPagesAlreadyDisplayed;
+    }
 
-	public void readTitles() {
-		final List<StoryPage> pages = this.getPages();
-		final List<String> titles = new ArrayList<String>();
-		for (final StoryPage page : pages) {
-			final PageId id = page.getBeginning();
-			final int number = id.getNumber();
-			final StoryBeginning beginning = new StoryBeginning();
-			beginning.setPageNumber(number);
-			beginning.read();
-			final String title = beginning.getTitle();
-			titles.add(title);
-		}
-		this.setTitles(titles);
-	}
+    public int getNumStoryPagesToDisplay() {
+        final List<String> titles = getTitles();
+        return titles.size();
+    }
 
-	public void savePrevTitle() {
-		final String currTitle = this.getCurrTitle();
-		this.setPrevTitle(currTitle);
-	}
+    public PageContext getPageContext() {
+        return pageContext;
+    }
 
-	public void setAuthorPageNumber(final int authorPageNumber) {
-		this.authorPageNumber = authorPageNumber;
-	}
+    public List<String> getPageIds() {
+        if (pageIds == null) {
+            readPageIds();
+        }
+        return pageIds;
+    }
 
-	public void setCurrTitle(final String currTitle) {
-		this.currTitle = currTitle;
-	}
+    public List<StoryPage> getPages() {
+        if (pages == null) {
+            readPages();
+        }
+        return pages;
+    }
 
-	public void setDefaultAuthorPageNumber() {
-		this.setAuthorPageNumber(DEFAULT_AUTHOR_PAGE_NUM);
-	}
+    public String getPrevPageNumber() {
+        final int curr = getAuthorPageNumber();
+        int prev = curr - 1;
+        if (prev < 1) {
+            prev = 1;
+        }
+        return Integer.toString(prev);
+    }
 
-	public void setAuthorId(final String authorId) {
-		this.authorId = authorId;
-	}
+    public String getPrevTitle() {
+        return prevTitle;
+    }
 
-	public void setNumStoryPagesAlreadyDisplayed(final int num) {
-		this.numStoryPagesAlreadyDisplayed = num;
-	}
+    public List<String> getSummaries() {
+        if (summaries == null) {
+            readSummaries();
+        }
+        return summaries;
+    }
 
-	public void setPages(final List<StoryPage> pages) {
-		this.pages = pages;
-	}
+    public List<String> getTitles() {
+        if (titles == null) {
+            readTitles();
+        }
+        return titles;
+    }
 
-	public void setPrevTitle(final String prevTitle) {
-		this.prevTitle = prevTitle;
-	}
+    public boolean hasAnotherStoryPage() {
+        final int numAlreadyDisplayed = getNumStoryPagesAlreadyDisplayed();
+        final int numToDisplay = getNumStoryPagesToDisplay();
+        return (numAlreadyDisplayed < numToDisplay);
+    }
 
-	public void setSummaries(final List<String> summaries) {
-		this.summaries = summaries;
-	}
+    public void incrementNumStoryPagesAlreadyDisplayed() {
+        final int num = getNumStoryPagesAlreadyDisplayed();
+        setNumStoryPagesAlreadyDisplayed(num + 1);
+    }
 
-	public void setTitles(final List<String> titles) {
-		this.titles = titles;
-	}
+    public boolean isCurrPageCreditedDifferently(final String penName) {
+        final String authorName = getCurrStoryPageAuthorName();
+        return ((authorName != null) && (authorName.equals(penName) == false));
+    }
 
-	public List<String> getPageIds() {
-		if (this.pageIds == null) {
-			this.readPageIds();
-		}
-		return this.pageIds;
-	}
+    public boolean isFirstPage() {
+        final int number = getAuthorPageNumber();
+        return (number == 1);
+    }
 
-	public void setPageIds(final List<String> pageIds) {
-		this.pageIds = pageIds;
-	}
+    public boolean isLastPage() {
+        final int curr = getAuthorPageNumber();
+        final int last = getLastPageNumber();
+        return (curr == last);
+    }
 
-	public void readPageIds() {
-		final List<StoryPage> pages = this.getPages();
-		final List<String> pageIds = new ArrayList<String>();
-		for (final StoryPage page : pages) {
-			final PageId id = page.getId();
-			final String idString = id.toString();
-			pageIds.add(idString);
-		}
-		this.setPageIds(pageIds);
-	}
+    public boolean isThisStoryPageInADifferentStory() {
+        final String prevTitle = getPrevTitle();
+        final String currTitle = getCurrTitle();
+        return ((prevTitle == null) || (prevTitle.equals(currTitle) == false));
+    }
 
-	public List<String> getAuthorNames() {
-		if (this.authorNames == null) {
-			this.readAuthorNames();
-		}
-		return this.authorNames;
-	}
+    public void prepareNextAuthorPageLink() {
+        final PageContext pageContext = getPageContext();
+        final String id = getAuthorId();
+        pageContext.setAttribute("id", id);
+        final String next = getNextPageNumber();
+        pageContext.setAttribute("next", next);
+    }
 
-	public void setAuthorNames(final List<String> authorNames) {
-		this.authorNames = authorNames;
-	}
+    public void prepareNextStoryPage() {
+        savePrevTitle();
+        final StoryPageEntry page = getNextStoryPage();
+        setCurrTitle(page.title);
+        prepareStoryPage(page);
+        setCurrStoryPageAuthorName(page.authorName);
+        incrementNumStoryPagesAlreadyDisplayed();
+    }
 
-	public void readAuthorNames() {
-		final List<StoryPage> pages = this.getPages();
-		final List<String> authorNames = new ArrayList<String>();
-		for (final StoryPage page : pages) {
-			final String authorName = page.getAuthorName();
-			authorNames.add(authorName);
-		}
-		this.setAuthorNames(authorNames);
-	}
+    public void preparePrevAuthorPageLink() {
+        final PageContext pageContext = getPageContext();
+        final String authorId = getAuthorId();
+        pageContext.setAttribute("id", authorId);
+        final String prev = getPrevPageNumber();
+        pageContext.setAttribute("prev", prev);
+    }
 
-	public List<StoryPageEntry> getEntries() {
-		if (this.entries == null) {
-			this.generateEntries();
-		}
-		return this.entries;
-	}
+    public void prepareStoryPage(final StoryPageEntry page) {
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute("title", page.title);
+        pageContext.setAttribute("summary", page.summary);
+        pageContext.setAttribute("pageId", page.pageId);
+        pageContext.setAttribute("authorName", page.authorName);
+    }
 
-	public void setEntries(final List<StoryPageEntry> entries) {
-		this.entries = entries;
-	}
+    public void readAuthorNames() {
+        final List<StoryPage> pages = getPages();
+        final List<String> authorNames = new ArrayList<String>();
+        for (final StoryPage page : pages) {
+            final String authorName = page.getAuthorName();
+            authorNames.add(authorName);
+        }
+        setAuthorNames(authorNames);
+    }
 
-	public void generateEntries() {
-		final List<String> titles = this.getTitles();
-		final int length = titles.size();
-		final List<String> summaries = this.getSummaries();
-		final List<String> pageIds = this.getPageIds();
-		final List<String> authorNames = this.getAuthorNames();
+    public void readPageIds() {
+        final List<StoryPage> pages = getPages();
+        final List<String> pageIds = new ArrayList<String>();
+        for (final StoryPage page : pages) {
+            final PageId id = page.getId();
+            final String idString = id.toString();
+            pageIds.add(idString);
+        }
+        setPageIds(pageIds);
+    }
 
-		final List<StoryPageEntry> pages = new ArrayList<StoryPageEntry>();
-		for (int i = 0; i < length; i++) {
-			final StoryPageEntry page = new StoryPageEntry();
-			page.title = titles.get(i);
-			page.summary = summaries.get(i);
-			page.pageId = pageIds.get(i);
-			page.authorName = authorNames.get(i);
-			pages.add(page);
-		}
+    public void readPages() {
+        final int firstIndex = getFirstIndex();
+        final int lastIndex = getLastIndex();
+        final List<StoryPage> pages;
+        final String authorId = getAuthorId();
+        pages = StoryPage.getPagesWrittenBy(authorId, firstIndex, lastIndex);
+        setPages(pages);
+    }
 
-		this.setEntries(pages);
-	}
+    public void readSummaries() {
+        final List<StoryPage> pages = getPages();
+        final List<String> summaries = new ArrayList<String>();
+        for (final StoryPage page : pages) {
+            final String summary = getSummary(page);
+            summaries.add(summary);
+        }
+        setSummaries(summaries);
+    }
 
-	public StoryPageEntry getNextStoryPage() {
-		final List<StoryPageEntry> pages = this.getEntries();
-		final int index = this.getNumStoryPagesAlreadyDisplayed();
-		return pages.get(index);
-	}
+    public void readTitles() {
+        final List<StoryPage> pages = getPages();
+        final List<String> titles = new ArrayList<String>();
+        for (final StoryPage page : pages) {
+            final PageId id = page.getBeginning();
+            final int number = id.getNumber();
+            final StoryBeginning beginning = new StoryBeginning();
+            beginning.setPageNumber(number);
+            beginning.read();
+            final String title = beginning.getTitle();
+            titles.add(title);
+        }
+        setTitles(titles);
+    }
 
-	public PageContext getPageContext() {
-		return pageContext;
-	}
+    public void savePrevTitle() {
+        final String currTitle = getCurrTitle();
+        setPrevTitle(currTitle);
+    }
 
-	public void setPageContext(final PageContext pageContext) {
-		this.pageContext = pageContext;
-	}
+    public void setAuthorId(final String authorId) {
+        this.authorId = authorId;
+    }
 
-	public void prepareStoryPage(final StoryPageEntry page) {
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute("title", page.title);
-		pageContext.setAttribute("summary", page.summary);
-		pageContext.setAttribute("pageId", page.pageId);
-		pageContext.setAttribute("authorName", page.authorName);
-	}
+    public void setAuthorNames(final List<String> authorNames) {
+        this.authorNames = authorNames;
+    }
 
-	public String getCurrStoryPageAuthorName() {
-		return currStoryPageAuthorName;
-	}
+    public void setAuthorPageNumber(final int authorPageNumber) {
+        this.authorPageNumber = authorPageNumber;
+    }
 
-	public void setCurrStoryPageAuthorName(String currStoryPageAuthorName) {
-		this.currStoryPageAuthorName = currStoryPageAuthorName;
-	}
+    public void setCurrStoryPageAuthorName(
+            final String currStoryPageAuthorName) {
+        this.currStoryPageAuthorName = currStoryPageAuthorName;
+    }
 
-	public void prepareNextStoryPage() {
-		this.savePrevTitle();
-		final StoryPageEntry page = this.getNextStoryPage();
-		this.setCurrTitle(page.title);
-		this.prepareStoryPage(page);
-		this.setCurrStoryPageAuthorName(page.authorName);
-		this.incrementNumStoryPagesAlreadyDisplayed();
-	}
+    public void setCurrTitle(final String currTitle) {
+        this.currTitle = currTitle;
+    }
 
-	public boolean isThisStoryPageInADifferentStory() {
-		final String prevTitle = this.getPrevTitle();
-		final String currTitle = this.getCurrTitle();
-		return (prevTitle == null || prevTitle.equals(currTitle) == false);
-	}
+    public void setDefaultAuthorPageNumber() {
+        setAuthorPageNumber(DEFAULT_AUTHOR_PAGE_NUM);
+    }
 
-	public boolean isCurrPageCreditedDifferently(final String penName) {
-		final String authorName = this.getCurrStoryPageAuthorName();
-		return (authorName != null && authorName.equals(penName) == false);
-	}
+    public void setEntries(final List<StoryPageEntry> entries) {
+        this.entries = entries;
+    }
 
-	public boolean isFirstPage() {
-		final int number = this.getAuthorPageNumber();
-		return (number == 1);
-	}
+    public void setNumStoryPagesAlreadyDisplayed(final int num) {
+        numStoryPagesAlreadyDisplayed = num;
+    }
 
-	public String getPrevPageNumber() {
-		final int curr = this.getAuthorPageNumber();
-		int prev = curr - 1;
-		if (prev < 1) {
-			prev = 1;
-		}
-		return Integer.toString(prev);
-	}
+    public void setPageContext(final PageContext pageContext) {
+        this.pageContext = pageContext;
+    }
 
-	public void preparePrevAuthorPageLink() {
-		final PageContext pageContext = this.getPageContext();
-		final String authorId = this.getAuthorId();
-		pageContext.setAttribute("id", authorId);
-		final String prev = this.getPrevPageNumber();
-		pageContext.setAttribute("prev", prev);
-	}
+    public void setPageIds(final List<String> pageIds) {
+        this.pageIds = pageIds;
+    }
 
-	public int getNumPages() {
-		final String authorId = this.getAuthorId();
-		return StoryPage.countAllPagesWrittenBy(authorId);
-	}
+    public void setPages(final List<StoryPage> pages) {
+        this.pages = pages;
+    }
 
-	public int getLastPageNumber() {
-		final int numStories = this.getNumPages();
-		int lastPgNum = numStories / NUM_PAGES_DISPLAYED;
-		if (numStories % NUM_PAGES_DISPLAYED != 0) {
-			lastPgNum++;
-		}
-		if (lastPgNum < 1) {
-			lastPgNum = 1;
-		}
-		return lastPgNum;
-	}
+    public void setPrevTitle(final String prevTitle) {
+        this.prevTitle = prevTitle;
+    }
 
-	public boolean isLastPage() {
-		final int curr = this.getAuthorPageNumber();
-		final int last = this.getLastPageNumber();
-		return (curr == last);
-	}
+    public void setSummaries(final List<String> summaries) {
+        this.summaries = summaries;
+    }
 
-	public String getNextPageNumber() {
-		final int curr = this.getAuthorPageNumber();
-		int next = curr + 1;
-		return Integer.toString(next);
-	}
+    public void setTitles(final List<String> titles) {
+        this.titles = titles;
+    }
 
-	public void prepareNextAuthorPageLink() {
-		final PageContext pageContext = this.getPageContext();
-		final String id = this.getAuthorId();
-		pageContext.setAttribute("id", id);
-		final String next = this.getNextPageNumber();
-		pageContext.setAttribute("next", next);
-	}
+    private String getSummary(final StoryPage page) {
+        return page.getSummary();
+    }
 
 }

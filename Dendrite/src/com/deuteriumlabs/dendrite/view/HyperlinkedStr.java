@@ -3,11 +3,12 @@ package com.deuteriumlabs.dendrite.view;
 
 public class HyperlinkedStr {
 
-	public HyperlinkedStr() {
-		this.str = null;
-		this.url = null;
-	}
+    public String str;
 
-	public String str;
-	public String url;
+    public String url;
+
+    public HyperlinkedStr() {
+        str = null;
+        url = null;
+    }
 }

@@ -15,11 +15,11 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
 import com.deuteriumlabs.dendrite.model.User;
 
 public class SubmitRewriteServlet extends SubmitServlet {
-	private static final long serialVersionUID = 6369008865421800462L;
-	
-	private String authorId;
-	private String authorName;
-	private String content;
+    private static final long serialVersionUID = 6369008865421800462L;
+
+    private String authorId;
+    private String authorName;
+    private String content;
     private List<String> options;
     private String pageNumber;
     private HttpServletRequest req;
@@ -50,91 +50,90 @@ public class SubmitRewriteServlet extends SubmitServlet {
     }
 
     @Override
-	final public String getUrl() {
-		return "/rewrite?p=" + pageNumber;
-	}
+    final public String getUrl() {
+        return "/rewrite?p=" + pageNumber;
+    }
 
-    public void setAuthorId(String authorId) {
+    public void setAuthorId(final String authorId) {
         this.authorId = authorId;
     }
-    
-	public void setAuthorName(String authorName) {
+
+    public void setAuthorName(final String authorName) {
         this.authorName = authorName;
     }
-	
-	public void setContent(String content) {
+
+    public void setContent(final String content) {
         this.content = content;
     }
-	
-	public void setOptions(List<String> options) {
+
+    public void setOptions(final List<String> options) {
         this.options = options;
     }
-	
-	public void setPageNumber(String pageNumber) {
+
+    public void setPageNumber(final String pageNumber) {
         this.pageNumber = pageNumber;
     }
 
-	public void setSession(HttpSession session) {
+    public void setSession(final HttpSession session) {
         this.session = session;
     }
 
-	private void handleReq(final User myUser) throws IOException {
-		session = req.getSession();
-		pageNumber = req.getParameter("pageNumber");
-		content = req.getParameter("content");
-		authorName = req.getParameter("authorName");
-		options = new ArrayList<String>();
-		for (int i = 0; i < 5; i++) {
-			final String option = req.getParameter("option" + i);
-			options.add(option);
-		}
-		authorId = req.getParameter("authorId");
+    private void handleReq(final User myUser) throws IOException {
+        session = req.getSession();
+        pageNumber = req.getParameter("pageNumber");
+        content = req.getParameter("content");
+        authorName = req.getParameter("authorName");
+        options = new ArrayList<String>();
+        for (int i = 0; i < 5; i++) {
+            final String option = req.getParameter("option" + i);
+            options.add(option);
+        }
+        authorId = req.getParameter("authorId");
 
-		processRewrite(myUser);
-	}
+        processRewrite(myUser);
+    }
 
-	@Override
-	protected final void doPost(final HttpServletRequest req,
-			final HttpServletResponse resp) throws ServletException,
-			IOException {
-		this.req = req;
-		setResponse(resp);
-		final User myUser = User.getMyUser();
-		handleReq(myUser);
-	}
+    @Override
+    protected final void doPost(final HttpServletRequest req,
+            final HttpServletResponse resp)
+                    throws ServletException, IOException {
+        this.req = req;
+        setResponse(resp);
+        final User myUser = User.getMyUser();
+        handleReq(myUser);
+    }
 
-	void processRewrite(final User myUser) throws IOException {
-		final SubmitRewriteController controller;
-		controller = new SubmitRewriteController();
-		controller.setSession(session);
-		controller.startDraft();
-		controller.setPageNumber(pageNumber);
-		controller.setContent(content);
-		controller.setAuthorName(authorName);
-		final StoryPage parent = StoryPage.getParentOf(new PageId(
-				pageNumber));
-		controller.setParent(parent);
-		for (final String option : options) {
-			if (option != null) {
-				controller.addOption(option);
-			}
-		}
-		controller.setAuthorId(authorId);
-		if (controller.isContentBlank()) {
-			redirectFromBlankContent();
-		} else if (controller.isContentTooLong()) {
-			redirectFromTooLongContent();
-		} else if (controller.isAnyOptionTooLong()) {
-			redirectFromTooLongOption();
-		} else if (controller.isAuthorNameBlank()) {
-			redirectFromBlankAuthorName();
-		} else if (controller.isAuthorNameTooLong()) {
-			redirectFromTooLongAuthorName();
-		} else {
-			controller.buildNewPage(myUser);
-			final PageId id = controller.getId();
-			final HttpServletResponse resp = getResponse();
-			resp.sendRedirect("/read?p=" + id);
-		}
-	}
+    void processRewrite(final User myUser) throws IOException {
+        final SubmitRewriteController controller;
+        controller = new SubmitRewriteController();
+        controller.setSession(session);
+        controller.startDraft();
+        controller.setPageNumber(pageNumber);
+        controller.setContent(content);
+        controller.setAuthorName(authorName);
+        final StoryPage parent = StoryPage.getParentOf(new PageId(pageNumber));
+        controller.setParent(parent);
+        for (final String option : options) {
+            if (option != null) {
+                controller.addOption(option);
+            }
+        }
+        controller.setAuthorId(authorId);
+        if (controller.isContentBlank()) {
+            redirectFromBlankContent();
+        } else if (controller.isContentTooLong()) {
+            redirectFromTooLongContent();
+        } else if (controller.isAnyOptionTooLong()) {
+            redirectFromTooLongOption();
+        } else if (controller.isAuthorNameBlank()) {
+            redirectFromBlankAuthorName();
+        } else if (controller.isAuthorNameTooLong()) {
+            redirectFromTooLongAuthorName();
+        } else {
+            controller.buildNewPage(myUser);
+            final PageId id = controller.getId();
+            final HttpServletResponse resp = getResponse();
+            resp.sendRedirect("/read?p=" + id);
+        }
+    }
 }

@@ -15,8 +15,22 @@ public class SubmitNewServlet extends SubmitServlet {
     private static final long serialVersionUID = -8415391685212281716L;
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    public String getUrl() {
+        return "/new";
+    }
+
+    private void redirectFromBlankTitle() {
+        redirect("/new?error=blankTitle");
+    }
+
+    private void redirectFromTooLongTitle() {
+        redirect("/new?error=titleTooLong");
+    }
+
+    @Override
+    protected void doPost(final HttpServletRequest req,
+            final HttpServletResponse resp)
+                    throws ServletException, IOException {
         setResponse(resp);
         final SubmitNewController controller;
         controller = new SubmitNewController();
@@ -38,30 +52,27 @@ public class SubmitNewServlet extends SubmitServlet {
         }
         final String authorId = req.getParameter("authorId");
         controller.setAuthorId(authorId);
-        if (controller.isTitleBlank() == true)
+        if (controller.isTitleBlank() == true) {
             redirectFromBlankTitle();
-        else if (controller.isTitleTooLong() == true)
+        } else if (controller.isTitleTooLong() == true) {
             redirectFromTooLongTitle();
-        else if (controller.isContentBlank() == true)
+        } else if (controller.isContentBlank() == true) {
             redirectFromBlankContent();
-        else if (controller.isContentTooLong() == true)
+        } else if (controller.isContentTooLong() == true) {
             redirectFromTooLongContent();
-        else if (controller.isAnyOptionTooLong() == true)
+        } else if (controller.isAnyOptionTooLong() == true) {
             redirectFromTooLongOption();
-        else if (controller.isAuthorNameBlank() == true)
+        } else if (controller.isAuthorNameBlank() == true) {
             redirectFromBlankAuthorName();
-        else if (controller.isAuthorNameTooLong() == true)
+        } else if (controller.isAuthorNameTooLong() == true) {
             redirectFromTooLongAuthorName();
-        else {
+        } else {
             final User myUser = User.getMyUser();
             controller.buildNewStory(myUser);
             final PageId id = controller.getId();
             resp.sendRedirect("/read?p=" + id);
         }
     }
-
-    @Override
-    public String getUrl() { return "/new"; }
 
     @Override
     protected void redirectFromBlankAuthorName() {
@@ -71,10 +82,6 @@ public class SubmitNewServlet extends SubmitServlet {
     @Override
     protected void redirectFromBlankContent() {
         redirect("/new?error=blankContent");
-    }
-
-    private void redirectFromBlankTitle() {
-        redirect("/new?error=blankTitle");
     }
 
     @Override
@@ -90,9 +97,5 @@ public class SubmitNewServlet extends SubmitServlet {
     @Override
     protected void redirectFromTooLongOption() {
         redirect("/new?error=optionTooLong");
-    }
-
-    private void redirectFromTooLongTitle() {
-        redirect("/new?error=titleTooLong");
     }
 }

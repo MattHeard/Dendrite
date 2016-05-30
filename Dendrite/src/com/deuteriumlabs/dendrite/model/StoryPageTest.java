@@ -1,6 +1,7 @@
 package com.deuteriumlabs.dendrite.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 
@@ -12,9 +13,9 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class StoryPageTest {
-    private final LocalServiceTestHelper helper =
-            new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-    
+    private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
+            new LocalDatastoreServiceTestConfig());
+
     @Before
     public void setUp() {
         helper.setUp();
@@ -26,37 +27,7 @@ public class StoryPageTest {
     }
 
     @Test
-    public void testCreate() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
-    public void testCreateNewEntity() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
-    public void testGetMatchingEntity() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
-    public void testGetKindName() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
-    public void testGetMatchingQuery() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
-    public void testReadPropertiesFromEntity() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
-    public void testSetPropertiesInEntity() {
+    public void testAddTag() {
         fail("Not yet implemented"); // TODO
     }
 
@@ -86,52 +57,32 @@ public class StoryPageTest {
     }
 
     @Test
-    public void testCountVersions() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
-    public void testGetAllVersions() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
-    public void testGetFirstPgsMatchingTag() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
-    public void testGetPagesWrittenBy() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
-    public void testGetParentOf() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
-    public void testGetRandomVersion() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
     public void testCountSubtreeBetween() {
         fail("Not yet implemented"); // TODO
     }
 
     @Test
-    public void testStoryPage() {
+    public void testCountVersions() {
         fail("Not yet implemented"); // TODO
     }
 
     @Test
-    public void testStoryPageDatastoreEntity() {
+    public void testCreate() {
         fail("Not yet implemented"); // TODO
     }
 
     @Test
-    public void testAddTag() {
+    public void testCreateNewEntity() {
+        fail("Not yet implemented"); // TODO
+    }
+
+    @Test
+    public void testDelete() {
+        fail("Not yet implemented"); // TODO
+    }
+
+    @Test
+    public void testGetAllVersions() {
         fail("Not yet implemented"); // TODO
     }
 
@@ -169,12 +120,22 @@ public class StoryPageTest {
     }
 
     @Test
+    public void testGetFirstPgsMatchingTag() {
+        fail("Not yet implemented"); // TODO
+    }
+
+    @Test
     public void testGetFormerlyLovingUsers() {
         fail("Not yet implemented"); // TODO
     }
 
     @Test
     public void testGetId() {
+        fail("Not yet implemented"); // TODO
+    }
+
+    @Test
+    public void testGetKindName() {
         fail("Not yet implemented"); // TODO
     }
 
@@ -189,12 +150,37 @@ public class StoryPageTest {
     }
 
     @Test
+    public void testGetMatchingEntity() {
+        fail("Not yet implemented"); // TODO
+    }
+
+    @Test
+    public void testGetMatchingQuery() {
+        fail("Not yet implemented"); // TODO
+    }
+
+    @Test
     public void testGetNumLovingUsers() {
         fail("Not yet implemented"); // TODO
     }
 
     @Test
+    public void testGetPagesWrittenBy() {
+        fail("Not yet implemented"); // TODO
+    }
+
+    @Test
     public void testGetParent() {
+        fail("Not yet implemented"); // TODO
+    }
+
+    @Test
+    public void testGetParentOf() {
+        fail("Not yet implemented"); // TODO
+    }
+
+    @Test
+    public void testGetRandomVersion() {
         fail("Not yet implemented"); // TODO
     }
 
@@ -219,7 +205,22 @@ public class StoryPageTest {
     }
 
     @Test
+    public void testIsInStore() {
+        fail("Not yet implemented"); // TODO
+    }
+
+    @Test
     public void testIsLovedBy() {
+        fail("Not yet implemented"); // TODO
+    }
+
+    @Test
+    public void testRead() {
+        fail("Not yet implemented"); // TODO
+    }
+
+    @Test
+    public void testReadPropertiesFromEntity() {
         fail("Not yet implemented"); // TODO
     }
 
@@ -264,6 +265,11 @@ public class StoryPageTest {
     }
 
     @Test
+    public void testSetPropertiesInEntity() {
+        fail("Not yet implemented"); // TODO
+    }
+
+    @Test
     public void testSetTextString() {
         fail("Not yet implemented"); // TODO
     }
@@ -274,22 +280,17 @@ public class StoryPageTest {
     }
 
     @Test
+    public void testStoryPage() {
+        fail("Not yet implemented"); // TODO
+    }
+
+    @Test
+    public void testStoryPageDatastoreEntity() {
+        fail("Not yet implemented"); // TODO
+    }
+
+    @Test
     public void testToString() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
-    public void testDelete() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
-    public void testIsInStore() {
-        fail("Not yet implemented"); // TODO
-    }
-
-    @Test
-    public void testRead() {
         fail("Not yet implemented"); // TODO
     }
 

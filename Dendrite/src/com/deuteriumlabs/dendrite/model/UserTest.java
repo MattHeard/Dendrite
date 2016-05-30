@@ -18,9 +18,9 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class UserTest {
-    private final LocalServiceTestHelper helper =
-            new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-    
+    private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
+            new LocalDatastoreServiceTestConfig());
+
     @Test
     public void testCreate() {
         helper.setUp();
@@ -108,8 +108,7 @@ public class UserTest {
         expectedFollowers.add("Test Follower");
         user.setFollowers(expectedFollowers);
         final List<String> actualFollowers = user.getFollowers();
-        assertArrayEquals(
-                expectedFollowers.toArray(),
+        assertArrayEquals(expectedFollowers.toArray(),
                 actualFollowers.toArray());
     }
 
@@ -141,8 +140,7 @@ public class UserTest {
         expectedFormerFollowers.add("Test Follower");
         user.setFollowers(expectedFormerFollowers);
         final List<String> actualFormerFollowers = user.getFollowers();
-        assertArrayEquals(
-                expectedFormerFollowers.toArray(),
+        assertArrayEquals(expectedFormerFollowers.toArray(),
                 actualFormerFollowers.toArray());
     }
 
@@ -212,7 +210,7 @@ public class UserTest {
         assertTrue(user.isInStore());
         helper.tearDown();
     }
-    
+
     @Test
     public void testIsInStoreAfterDelete() {
         helper.setUp();
@@ -223,7 +221,8 @@ public class UserTest {
         helper.tearDown();
     }
 
-    @Ignore @Test
+    @Ignore
+    @Test
     public void testIsMyUserLoggedIn() {
         fail("Not yet implemented"); // TODO
     }
@@ -338,14 +337,18 @@ public class UserTest {
         Mockito.verify(entity, Mockito.times(1)).setProperty("defaultPenName",
                 "???");
         Mockito.verify(entity, Mockito.times(1)).setProperty("fontSize", 1.0);
-        Mockito.verify(entity, Mockito.times(1)).setProperty("fontType", "Sans-serif");
-        Mockito.verify(entity, Mockito.times(1)).setProperty("fontColour", "Default");
+        Mockito.verify(entity, Mockito.times(1)).setProperty("fontType",
+                "Sans-serif");
+        Mockito.verify(entity, Mockito.times(1)).setProperty("fontColour",
+                "Default");
         Mockito.verify(entity, Mockito.times(1)).setProperty("spacing", 1.5);
-        Mockito.verify(entity, Mockito.times(1)).setProperty("alignment", "Justify");
+        Mockito.verify(entity, Mockito.times(1)).setProperty("alignment",
+                "Justify");
         Mockito.verify(entity, Mockito.times(1)).setProperty("theme", "Light");
         Mockito.verify(entity, Mockito.times(1)).setProperty("avatarId", 0);
         Mockito.verify(entity, Mockito.times(1)).setProperty("followers", null);
-        Mockito.verify(entity, Mockito.times(1)).setProperty("formerFollowers", null);
+        Mockito.verify(entity, Mockito.times(1)).setProperty("formerFollowers",
+                null);
     }
 
     @Test

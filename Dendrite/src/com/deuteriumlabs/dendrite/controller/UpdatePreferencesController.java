@@ -5,46 +5,24 @@ import com.deuteriumlabs.dendrite.model.User;
 
 public class UpdatePreferencesController {
     private String alignment;
+    private int avatarId;
     private String fontColour;
     private String fontSize;
     private String fontType;
     private String newPenName;
     private String spacing;
     private String theme;
-    private int avatarId;
-
-    private double getFontSizeNumber() {
-        // TODO Replace with switch or dictionary lookup
-        if (fontSize.equals("Huge")) {
-            return 2;
-        } else if (fontSize.equals("Large")) {
-            return 1.5;
-        } else if (fontSize.equals("Small")) {
-            return 0.8;
-        } else {
-            return 1; // Medium
-        }
-    }
-
-    private double getSpacingNumber() {
-        // TODO Replace with switch or dictionary lookup
-        if (spacing.equals("Huge")) {
-            return 3;
-        } else if (spacing.equals("Large")) {
-            return 2;
-        } else if (spacing.equals("Small")) {
-            return 1;
-        } else {
-            return 1.5; // Medium
-        }
-    }
 
     public boolean isNewPenNameBlank() {
-        return (newPenName == null || newPenName.equals(""));
+        return ((newPenName == null) || newPenName.equals(""));
     }
 
     public void setAlignment(final String alignment) {
         this.alignment = alignment;
+    }
+
+    public void setAvatarId(final int avatarId) {
+        this.avatarId = avatarId;
     }
 
     public void setFontColour(final String fontColour) {
@@ -86,12 +64,35 @@ public class UpdatePreferencesController {
 
             myUser.update();
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
-    public void setAvatarId(final int avatarId) {
-        this.avatarId = avatarId;
+    private double getFontSizeNumber() {
+        // TODO Replace with switch or dictionary lookup
+        if (fontSize.equals("Huge")) {
+            return 2;
+        } else if (fontSize.equals("Large")) {
+            return 1.5;
+        } else if (fontSize.equals("Small")) {
+            return 0.8;
+        } else {
+            return 1; // Medium
+        }
+    }
+
+    private double getSpacingNumber() {
+        // TODO Replace with switch or dictionary lookup
+        if (spacing.equals("Huge")) {
+            return 3;
+        } else if (spacing.equals("Large")) {
+            return 2;
+        } else if (spacing.equals("Small")) {
+            return 1;
+        } else {
+            return 1.5; // Medium
+        }
     }
 
 }

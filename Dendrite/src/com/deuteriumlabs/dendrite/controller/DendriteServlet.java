@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DendriteServlet extends HttpServlet {
     private static final long serialVersionUID = -8346778276358190966L;
-    
+
     private HttpServletResponse response;
 
     protected final HttpServletResponse getResponse() {
@@ -17,8 +17,8 @@ public class DendriteServlet extends HttpServlet {
 
     protected final void redirect(final String url) {
         try {
-            this.getResponse().sendRedirect(url);
-        } catch (IOException e) {
+            getResponse().sendRedirect(url);
+        } catch (final IOException e) {
             System.err.println("DendriteServlet.redirect failed.");
         }
     }

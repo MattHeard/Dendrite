@@ -13,19 +13,6 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
 public class ModelTest {
-    private final LocalServiceTestHelper helper =
-            new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-    
-    @Before
-    public void setUp() {
-      helper.setUp();
-    }
-
-    @After
-    public void tearDown() {
-      helper.tearDown();
-    }
-    
     private class TestModel extends Model {
         @Override
         String getKindName() {
@@ -38,10 +25,25 @@ public class ModelTest {
         }
 
         @Override
-        void readPropertiesFromEntity(DatastoreEntity entity) { }
+        void readPropertiesFromEntity(final DatastoreEntity entity) {
+        }
 
         @Override
-        void setPropertiesInEntity(DatastoreEntity entity) { }
+        void setPropertiesInEntity(final DatastoreEntity entity) {
+        }
+    }
+
+    private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
+            new LocalDatastoreServiceTestConfig());
+
+    @Before
+    public void setUp() {
+        helper.setUp();
+    }
+
+    @After
+    public void tearDown() {
+        helper.tearDown();
     }
 
     @Test
@@ -51,7 +53,7 @@ public class ModelTest {
         model.create();
         assertTrue(model.isInStore());
     }
-    
+
     @Test
     public void testDelete() {
         final TestModel model = new TestModel();
@@ -60,17 +62,17 @@ public class ModelTest {
         model.delete();
         assertFalse(model.isInStore());
     }
-    
+
+    @Test
+    public void testNonPersistedModelIsNotInStore() {
+        final TestModel model = new TestModel();
+        assertFalse(model.isInStore());
+    }
+
     @Test
     public void testPersistedModelIsInStore() {
         final TestModel model = new TestModel();
         model.create();
         assertTrue(model.isInStore());
-    }
-    
-    @Test
-    public void testNonPersistedModelIsNotInStore() {
-        final TestModel model = new TestModel();
-        assertFalse(model.isInStore());
     }
 }

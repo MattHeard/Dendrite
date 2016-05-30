@@ -5,19 +5,19 @@ import javax.servlet.jsp.PageContext;
 
 public class AboutView extends View {
 
-	private static final String URL = "/about";
-	private static final String WEB_PG_TITLE_ATTR_NAME = "webPageTitle";
-	private static final String WEB_PG_TITLE_ATTR_VAL = "Dendrite - About";
+    private static final String URL = "/about";
+    private static final String WEB_PG_TITLE_ATTR_NAME = "webPageTitle";
+    private static final String WEB_PG_TITLE_ATTR_VAL = "Dendrite - About";
 
-	@Override
+    @Override
     public String getUrl() {
-		return URL;
-	}
+        return URL;
+    }
 
-	@Override
-	public void initialise() {
-		final PageContext pageContext = this.getPageContext();
-		pageContext.setAttribute(WEB_PG_TITLE_ATTR_NAME, WEB_PG_TITLE_ATTR_VAL);
-		super.initialise();
-	}
+    @Override
+    public void initialise() {
+        final PageContext pageContext = getPageContext();
+        pageContext.setAttribute(WEB_PG_TITLE_ATTR_NAME, WEB_PG_TITLE_ATTR_VAL);
+        super.initialise();
+    }
 }

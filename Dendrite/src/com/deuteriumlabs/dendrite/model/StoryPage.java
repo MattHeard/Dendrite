@@ -24,27 +24,27 @@ import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Text;
 
 public class StoryPage extends Model {
-    private static final char   ANCESTRY_DELIMITER             = '>';
-    private static final String ANCESTRY_PROPERTY              = "ancestry";
-    private static final String AUTHOR_ID_PROPERTY             = "authorId";
-    private static final String AUTHOR_NAME_PROPERTY           = "authorName";
-    private static final String BEGINNING_NUMBER_PROPERTY      = "beginningNumber";
-    private static final String BEGINNING_VERSION_PROPERTY     = "beginningVersion";
-    private static final String ELLIPSIS                       = "…";
+    private static final char ANCESTRY_DELIMITER = '>';
+    private static final String ANCESTRY_PROPERTY = "ancestry";
+    private static final String AUTHOR_ID_PROPERTY = "authorId";
+    private static final String AUTHOR_NAME_PROPERTY = "authorName";
+    private static final String BEGINNING_NUMBER_PROPERTY = "beginningNumber";
+    private static final String BEGINNING_VERSION_PROPERTY = "beginningVersion";
+    private static final String ELLIPSIS = "…";
     private static final String FORMERLY_LOVING_USERS_PROPERTY = "formerlyLovingUsers";
-    private static final String ID_NUMBER_PROPERTY             = "idNumber";
-    private static final String ID_VERSION_PROPERTY            = "idVersion";
-    private static final String IS_FIRST_PG_PROPERTY           = "isFirstPg";
-    private static final String KIND_NAME                      = "StoryPage";
-    private static final int    LEN_ALPHABET                   = 26;
-    private static final char[] LETTERS                        = "abcdefghijklmnopqrstuvwxyz"
+    private static final String ID_NUMBER_PROPERTY = "idNumber";
+    private static final String ID_VERSION_PROPERTY = "idVersion";
+    private static final String IS_FIRST_PG_PROPERTY = "isFirstPg";
+    private static final String KIND_NAME = "StoryPage";
+    private static final int LEN_ALPHABET = 26;
+    private static final char[] LETTERS = "abcdefghijklmnopqrstuvwxyz"
             .toCharArray();
-    private static final int    LOVE_INFLUENCE                 = 1;
-    private static final String LOVING_USERS_PROPERTY          = "lovingUsers";
-    private static final int    MAX_SUMMARY_LEN                = 30;
-    private static final int    SIZE_INFLUENCE                 = 1;
-    private static final String TAGS_PROPERTY                  = "tags";
-    private static final String TEXT_PROPERTY                  = "text";
+    private static final int LOVE_INFLUENCE = 1;
+    private static final String LOVING_USERS_PROPERTY = "lovingUsers";
+    private static final int MAX_SUMMARY_LEN = 30;
+    private static final int SIZE_INFLUENCE = 1;
+    private static final String TAGS_PROPERTY = "tags";
+    private static final String TEXT_PROPERTY = "text";
 
     // TODO(Matt Heard): Extract into service object
     public static String convertNumberToVersion(final int num) {
@@ -112,12 +112,13 @@ public class StoryPage extends Model {
         final Store store = new Store();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-        final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
+        final List<DatastoreEntity> entities = DatastoreEntity
+                .fromPreparedQuery(preparedQuery, fetchOptions);
         int count = 0;
         for (final DatastoreEntity entity : entities) {
             final String loverId;
             loverId = (String) entity.getProperty(projectionProperty);
-            if (loverId != null && loverId.equals("") == false) {
+            if ((loverId != null) && (loverId.equals("") == false)) {
                 count++;
             }
         }
@@ -142,7 +143,8 @@ public class StoryPage extends Model {
         final Store store = new Store();
         final PreparedQuery preparedQuery = store.prepare(query);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-        final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
+        final List<DatastoreEntity> entities = DatastoreEntity
+                .fromPreparedQuery(preparedQuery, fetchOptions);
         final List<StoryPage> pages = getPgsFromEntities(entities);
         return pages;
     }
@@ -151,7 +153,8 @@ public class StoryPage extends Model {
         final PreparedQuery preparedQuery = getPreparedQueryForFirstPgsMatchingTag(
                 tag);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-        final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
+        final List<DatastoreEntity> entities = DatastoreEntity
+                .fromPreparedQuery(preparedQuery, fetchOptions);
         final List<StoryPage> pgs = new ArrayList<StoryPage>();
         for (final DatastoreEntity entity : entities) {
             final StoryPage pg = new StoryPage(entity);
@@ -174,7 +177,8 @@ public class StoryPage extends Model {
         final FetchOptions fetchOptions = FetchOptions.Builder.withLimit(limit);
         final int offset = start;
         fetchOptions.offset(offset);
-        final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
+        final List<DatastoreEntity> entities = DatastoreEntity
+                .fromPreparedQuery(preparedQuery, fetchOptions);
         final List<StoryPage> pgs = getPgsFromEntities(entities);
         return pgs;
     }
@@ -187,7 +191,8 @@ public class StoryPage extends Model {
         return child.getParent();
     }
 
-    public static String getRandomVersion(final PageId id, final Random generator) {
+    public static String getRandomVersion(final PageId id,
+            final Random generator) {
         id.setVersion("a");
         final StoryPage pg = new StoryPage();
         pg.setId(id);
@@ -229,7 +234,8 @@ public class StoryPage extends Model {
         final Store store = new Store();
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         final PreparedQuery preparedQuery = store.prepare(query);
-        final List<DatastoreEntity> entities = DatastoreEntity.fromPreparedQuery(preparedQuery, fetchOptions);
+        final List<DatastoreEntity> entities = DatastoreEntity
+                .fromPreparedQuery(preparedQuery, fetchOptions);
         int count = 0;
         for (final DatastoreEntity entity : entities) {
             if (entity.getProperty(LOVING_USERS_PROPERTY) != null) {
@@ -330,17 +336,17 @@ public class StoryPage extends Model {
     }
 
     private List<PageId> ancestry;
-    private String       authorId;
-    private String       authorName;
-    private PageId       beginning;
-    private String       chance;
+    private String authorId;
+    private String authorName;
+    private PageId beginning;
+    private String chance;
     private List<String> formerlyLovingUsers;
-    private PageId       id;
-    private boolean      isFirstPg;
+    private PageId id;
+    private boolean isFirstPg;
     private List<String> lovingUsers;
-    private StoryPage    parent;
+    private StoryPage parent;
     private List<String> tags;
-    private Text         text;
+    private Text text;
 
     public StoryPage() {
         setBeginning(null);
@@ -594,12 +600,15 @@ public class StoryPage extends Model {
     }
 
     @SuppressWarnings("unchecked")
-    private List<String> getFormerlyLovingUsersFromEntity(final DatastoreEntity entity) {
-        return (List<String>) entity.getProperty(FORMERLY_LOVING_USERS_PROPERTY);
+    private List<String> getFormerlyLovingUsersFromEntity(
+            final DatastoreEntity entity) {
+        return (List<String>) entity
+                .getProperty(FORMERLY_LOVING_USERS_PROPERTY);
     }
 
     private boolean getIsFirstPgFromEntity(final DatastoreEntity entity) {
-        final Boolean property = (Boolean) entity.getProperty(IS_FIRST_PG_PROPERTY);
+        final Boolean property = (Boolean) entity
+                .getProperty(IS_FIRST_PG_PROPERTY);
         return (property == null) ? false : property.booleanValue();
     }
 
@@ -620,7 +629,8 @@ public class StoryPage extends Model {
     }
 
     @SuppressWarnings("unchecked")
-    private List<String> getLovingUsersFromEntity(final DatastoreEntity entity) {
+    private List<String> getLovingUsersFromEntity(
+            final DatastoreEntity entity) {
         return (List<String>) entity.getProperty(LOVING_USERS_PROPERTY);
     }
 
@@ -631,16 +641,14 @@ public class StoryPage extends Model {
 
     private int getSizeDenominator() {
         if (isTheFirstPage()) {
-            /*
-             * For example, the first page of the story is 1a. Find the number
+            /* For example, the first page of the story is 1a. Find the number
              * of nodes in all subtrees of all versions of 1a. So, if there are
              * two versions, 1a and 1b, I need to find the size of both subtrees
              * and add 1 to each size and then add them together. This is O(n)
              * where n is the number of versions. Is there an O(1) solution?
              * We're looking for all nodes with subtrees which match the
              * following regex: "1[a-z]+.*". From this, we know that the string
-             * must be greater than "1\`" and less than "1\{".
-             */
+             * must be greater than "1\`" and less than "1\{". */
             return getSizeOfBeginningSubtree();
         } else {
             return getSizeOfSiblingSubtrees();
@@ -664,7 +672,7 @@ public class StoryPage extends Model {
 
     private int getSizeOfSiblingSubtrees() {
         String subtreeAncestry = "";
-        for (int i = 0; i < ancestry.size() - 1; i++) {
+        for (int i = 0; i < (ancestry.size() - 1); i++) {
             subtreeAncestry += ancestry.get(i);
             subtreeAncestry += String.valueOf(ANCESTRY_DELIMITER);
         }
@@ -678,7 +686,7 @@ public class StoryPage extends Model {
         String subtreeAncestry = "";
         for (int i = 0; i < ancestry.size(); i++) {
             subtreeAncestry += ancestry.get(i);
-            if (i < ancestry.size() - 1) {
+            if (i < (ancestry.size() - 1)) {
                 subtreeAncestry += String.valueOf(ANCESTRY_DELIMITER);
             }
         }
@@ -716,7 +724,7 @@ public class StoryPage extends Model {
 
     private List<PageId> parseAncestry(final String str) {
         final List<PageId> ancestry = new ArrayList<PageId>();
-        if (str != null && str.equals("") == false) {
+        if ((str != null) && (str.equals("") == false)) {
             final String regex = String.valueOf(ANCESTRY_DELIMITER);
             final String[] words = str.split(regex);
             for (final String word : words) {
@@ -754,7 +762,8 @@ public class StoryPage extends Model {
         }
     }
 
-    private void readFormerlyLovingUsersFromEntity(final DatastoreEntity entity) {
+    private void readFormerlyLovingUsersFromEntity(
+            final DatastoreEntity entity) {
         List<String> users = getFormerlyLovingUsersFromEntity(entity);
         if (users == null) {
             users = new ArrayList<String>();
@@ -806,7 +815,7 @@ public class StoryPage extends Model {
         String entityVal = "";
         for (int i = 0; i < ancestry.size(); i++) {
             entityVal += ancestry.get(i);
-            if (i < ancestry.size() - 1) {
+            if (i < (ancestry.size() - 1)) {
                 entityVal += ANCESTRY_DELIMITER;
             }
         }
@@ -910,7 +919,8 @@ public class StoryPage extends Model {
     }
 
     @Override
-    protected DatastoreEntity getMatchingEntity() throws EntityNotFoundException {
+    protected DatastoreEntity getMatchingEntity()
+            throws EntityNotFoundException {
         final Key key = getKey();
         return new DatastoreEntity(new Store().get().get(key));
     }

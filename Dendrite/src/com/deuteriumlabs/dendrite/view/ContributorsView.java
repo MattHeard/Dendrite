@@ -12,7 +12,7 @@ public class ContributorsView extends View {
 
     @Override
     public void initialise() {
-        final PageContext pageContext = this.getPageContext();
+        final PageContext pageContext = getPageContext();
         pageContext.setAttribute("webPageTitle", "Dendrite - Contributors");
     }
 }
