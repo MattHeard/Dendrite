@@ -56,7 +56,9 @@ public class PgRewriteNotification extends Notification {
 
 		final HyperlinkedStr nameChunk = new HyperlinkedStr();
 		nameChunk.str = this.getRewriteAuthorName();
-		nameChunk.url = "/author?id=" + this.getRewriteAuthorId();
+		if (getRewriteAuthorId() != null) {
+		    nameChunk.url = "/author?id=" + this.getRewriteAuthorId();
+		}
 		msg.add(nameChunk);
 
 		HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
@@ -95,11 +97,14 @@ public class PgRewriteNotification extends Notification {
 	 */
 	private String getRewriteAuthorName() {
 		final String id = this.getRewriteAuthorId();
-		final User author = new User();
-		author.setId(id);
-		author.read();
-		final String name = author.getDefaultPenName();
-		return name;
+		if (id != null) {
+	        final User author = new User();
+    		author.setId(id);
+    		author.read();
+            return author.getDefaultPenName();
+		} else {
+		    return "Someone";
+		}
 	}
 
 	private void readPgIdFromEntity(final DatastoreEntity entity) {

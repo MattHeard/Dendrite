@@ -37,7 +37,8 @@ public class User extends Model {
     private static final String               KIND_NAME                 = "User";
     private static final String               SPACING_PROPERTY          = "spacing";
     private static final String               THEME_PROPERTY            = "theme";
-    private static final String               UNKNOWN_PEN_NAME          = "???";
+    
+    public static final String               UNKNOWN_PEN_NAME          = "???";
 
     static {
         final Map<Integer, String> map = new HashMap<Integer, String>();
