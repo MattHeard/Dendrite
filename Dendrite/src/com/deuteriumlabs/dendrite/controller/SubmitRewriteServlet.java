@@ -25,30 +25,6 @@ public class SubmitRewriteServlet extends SubmitServlet {
     private HttpServletRequest req;
     private HttpSession session;
 
-    public String getAuthorId() {
-        return authorId;
-    }
-
-    public String getAuthorName() {
-        return authorName;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public List<String> getOptions() {
-        return options;
-    }
-
-    public String getPageNumber() {
-        return pageNumber;
-    }
-
-    public HttpSession getSession() {
-        return session;
-    }
-
     @Override
     final public String getUrl() {
         return "/rewrite?p=" + pageNumber;
@@ -103,7 +79,7 @@ public class SubmitRewriteServlet extends SubmitServlet {
         handleReq(myUser);
     }
 
-    void processRewrite(final User myUser) throws IOException {
+    public void processRewrite(final User myUser) throws IOException {
         final SubmitRewriteController controller;
         controller = new SubmitRewriteController();
         controller.setSession(session);

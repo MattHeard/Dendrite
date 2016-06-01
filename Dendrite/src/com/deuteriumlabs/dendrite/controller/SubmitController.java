@@ -128,6 +128,40 @@ public abstract class SubmitController {
         return id;
     }
 
+    private int findUnallocatedPageNumber() {
+        int exponent = 0;
+        while (exponent <= MAX_EXPONENT) {
+            final int randomNumber = generateRandomNumber(exponent);
+            final boolean isUnallocated = isUnallocated(randomNumber);
+            if (isUnallocated) {
+                return randomNumber;
+            } else if (exponent != MAX_EXPONENT) {
+                exponent++;
+            }
+        }
+        return -1; // Dead code
+    }
+
+    private int generateRandomNumber(final int exponent) {
+        final int POWER_BASE = 2;
+        final double upper = Math.pow(POWER_BASE, exponent);
+        final Random generator = new Random();
+        final double randomDouble = generator.nextDouble();
+        final double newNumber = (upper * randomDouble) + 1;
+        return (int) newNumber;
+    }
+
+    private boolean isUnallocated(final int candidate) {
+        final PageId id = new PageId();
+        id.setNumber(candidate);
+        final String version = "a";
+        id.setVersion(version);
+        final StoryPage page = new StoryPage();
+        page.setId(id);
+        final boolean isInStore = page.isInStore();
+        return (isInStore == false);
+    }
+
     protected void addStoryPageValues(final StoryPage page) {
         final PageId id = getId();
         page.setId(id);
@@ -217,38 +251,4 @@ public abstract class SubmitController {
     }
 
     abstract void buildStoryPage(final User myUser);
-
-    int findUnallocatedPageNumber() {
-        int exponent = 0;
-        while (exponent <= MAX_EXPONENT) {
-            final int randomNumber = generateRandomNumber(exponent);
-            final boolean isUnallocated = isUnallocated(randomNumber);
-            if (isUnallocated) {
-                return randomNumber;
-            } else if (exponent != MAX_EXPONENT) {
-                exponent++;
-            }
-        }
-        return -1; // Dead code
-    }
-
-    int generateRandomNumber(final int exponent) {
-        final int POWER_BASE = 2;
-        final double upper = Math.pow(POWER_BASE, exponent);
-        final Random generator = new Random();
-        final double randomDouble = generator.nextDouble();
-        final double newNumber = (upper * randomDouble) + 1;
-        return (int) newNumber;
-    }
-
-    boolean isUnallocated(final int candidate) {
-        final PageId id = new PageId();
-        id.setNumber(candidate);
-        final String version = "a";
-        id.setVersion(version);
-        final StoryPage page = new StoryPage();
-        page.setId(id);
-        final boolean isInStore = page.isInStore();
-        return (isInStore == false);
-    }
 }

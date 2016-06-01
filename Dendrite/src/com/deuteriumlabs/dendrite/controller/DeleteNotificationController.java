@@ -20,10 +20,6 @@ public class DeleteNotificationController {
         return isDeletionSuccessful;
     }
 
-    public String getNotificationId() {
-        return notificationId;
-    }
-
     public boolean isMyUserTheRecipient() {
         if (notificationId != null) {
             final Notification notification = new Notification();

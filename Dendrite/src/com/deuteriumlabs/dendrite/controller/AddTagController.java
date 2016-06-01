@@ -13,7 +13,6 @@ public class AddTagController {
 
     public boolean addTag(final User myUser) {
         final StoryPage page = getStoryPage();
-        final String tag = getTag();
         final boolean isTagAdded = page.addTag(tag);
         if (isTagAdded) {
             page.update();
@@ -25,14 +24,6 @@ public class AddTagController {
         } else {
             return false;
         }
-    }
-
-    public PageId getPageId() {
-        return pageId;
-    }
-
-    public String getTag() {
-        return tag;
     }
 
     public void setPageId(final PageId pageId) {
@@ -49,9 +40,8 @@ public class AddTagController {
     }
 
     private StoryPage getStoryPage() {
-        final PageId id = getPageId();
         final StoryPage page = new StoryPage();
-        page.setId(id);
+        page.setId(pageId);
         page.read();
         return page;
     }
@@ -80,10 +70,10 @@ public class AddTagController {
 
     private void notifyAuthor(final User myUser) {
         final AuthorTagNotification notification = new AuthorTagNotification();
-        notification.setPageId(getPageId());
+        notification.setPageId(pageId);
         notification.setTaggerId(getTaggerId());
         notification.setTaggerName(getTaggerName(myUser));
-        notification.setTag(getTag());
+        notification.setTag(tag);
         notification.setRecipientId(getAuthorId());
         notification.create();
     }
