@@ -93,14 +93,14 @@ public class BibliographyView {
 
     public int getLastPageNumber() {
         final int numStories = getNumPages();
-        int lastPgNum = numStories / NUM_PAGES_DISPLAYED;
+        int lastPageNum = numStories / NUM_PAGES_DISPLAYED;
         if ((numStories % NUM_PAGES_DISPLAYED) != 0) {
-            lastPgNum++;
+            lastPageNum++;
         }
-        if (lastPgNum < 1) {
-            lastPgNum = 1;
+        if (lastPageNum < 1) {
+            lastPageNum = 1;
         }
-        return lastPgNum;
+        return lastPageNum;
     }
 
     public String getNextPageNumber() {

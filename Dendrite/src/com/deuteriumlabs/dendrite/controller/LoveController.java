@@ -82,7 +82,7 @@ public class LoveController {
 
     private void notifyLove() {
         final PgLovedNotification notification = new PgLovedNotification();
-        notification.setPgId(pageId);
+        notification.setPageId(pageId);
         notification.setLoverId(loverId);
         notification.setRecipientId(authorId);
         notification.create();

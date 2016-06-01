@@ -54,7 +54,7 @@ public class SubmitNewController extends SubmitController {
                 for (final String followerId : followerIds) {
                     final FolloweeNewNotification notification;
                     notification = new FolloweeNewNotification();
-                    notification.setPgId(getId());
+                    notification.setPageId(getId());
                     notification.setAuthorId(getAuthorId());
                     notification.setAuthorName(getAuthorName());
                     notification.setTitle(title);

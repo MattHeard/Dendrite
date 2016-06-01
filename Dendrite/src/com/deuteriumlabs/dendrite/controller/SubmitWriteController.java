@@ -98,7 +98,7 @@ public class SubmitWriteController extends SubmitController {
                     if (isFollowerNeedingNotification(followerId)) {
                         final FollowerWriteNotification notification;
                         notification = new FollowerWriteNotification();
-                        notification.setPgId(getId());
+                        notification.setPageId(getId());
                         notification.setAuthorId(getAuthorId());
                         notification.setAuthorName(getAuthorName());
                         notification.setRecipientId(followerId);
@@ -114,8 +114,8 @@ public class SubmitWriteController extends SubmitController {
      */
     private void notifyParent() {
         final PgChildNotification notification = new PgChildNotification();
-        final PageId childPgId = getId();
-        notification.setPgId(childPgId);
+        final PageId childPageId = getId();
+        notification.setPageId(childPageId);
         final String childAuthorId = getAuthorId();
         notification.setChildAuthorId(childAuthorId);
         final String parentAuthorId = getParent().getAuthorId();

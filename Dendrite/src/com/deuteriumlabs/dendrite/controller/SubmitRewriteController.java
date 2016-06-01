@@ -33,7 +33,7 @@ public class SubmitRewriteController extends SubmitController {
         }
     }
 
-    private List<String> getAuthorsOfAltPgs() {
+    private List<String> getAuthorsOfAltPages() {
         final List<String> authorIds = new ArrayList<String>();
         final PageId pageId = new PageId();
         final int num = pageNumber;
@@ -78,16 +78,16 @@ public class SubmitRewriteController extends SubmitController {
         return StoryPage.convertNumberToVersion(count + 1);
     }
 
-    private void notifyAuthorsOfAltPgs() {
-        final List<String> altPgAuthorIds = getAuthorsOfAltPgs();
-        for (final String altPgAuthorId : altPgAuthorIds) {
+    private void notifyAuthorsOfAltPages() {
+        final List<String> altPageAuthorIds = getAuthorsOfAltPages();
+        for (final String altPageAuthorId : altPageAuthorIds) {
             final PgRewriteNotification notification;
             notification = new PgRewriteNotification();
-            final PageId rewritePgId = getId();
-            notification.setPgId(rewritePgId);
+            final PageId rewritePageId = getId();
+            notification.setPageId(rewritePageId);
             final String rewriteAuthorId = getAuthorId();
             notification.setRewriteAuthorId(rewriteAuthorId);
-            notification.setRecipientId(altPgAuthorId);
+            notification.setRecipientId(altPageAuthorId);
             notification.create();
         }
     }
@@ -95,13 +95,13 @@ public class SubmitRewriteController extends SubmitController {
     private void notifyFollowers(final User myUser) {
         if (myUser != null) {
             final List<String> followerIds = myUser.getFollowers();
-            final List<String> altPgAuthorIds = getAuthorsOfAltPgs();
+            final List<String> altPageAuthorIds = getAuthorsOfAltPages();
             if (followerIds != null) {
                 for (final String followerId : followerIds) {
-                    if (altPgAuthorIds.contains(followerId) == false) {
+                    if (altPageAuthorIds.contains(followerId) == false) {
                         final FollowerRewriteNotification notification;
                         notification = new FollowerRewriteNotification();
-                        notification.setPgId(getId());
+                        notification.setPageId(getId());
                         notification.setAuthorId(getAuthorId());
                         notification.setAuthorName(getAuthorName());
                         notification.setRecipientId(followerId);
@@ -138,7 +138,7 @@ public class SubmitRewriteController extends SubmitController {
             page.create();
         }
 
-        notifyAuthorsOfAltPgs();
+        notifyAuthorsOfAltPages();
         notifyFollowers(myUser);
     }
 }

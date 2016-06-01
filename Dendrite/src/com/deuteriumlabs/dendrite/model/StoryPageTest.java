@@ -42,13 +42,13 @@ public class StoryPageTest {
     }
 
     @Test
-    public void testCountAllPgs() {
+    public void testCountAllPages() {
         fail("Not yet implemented"); // TODO
     }
 
     @Test
-    public void testCountFirstPgsMatchingTag() {
-        assertEquals(0, StoryPage.countFirstPgsMatchingTag("test tag"));
+    public void testCountFirstPagesMatchingTag() {
+        assertEquals(0, StoryPage.countFirstPagesMatchingTag("test tag"));
     }
 
     @Test
@@ -120,7 +120,7 @@ public class StoryPageTest {
     }
 
     @Test
-    public void testGetFirstPgsMatchingTag() {
+    public void testGetFirstPagesMatchingTag() {
         fail("Not yet implemented"); // TODO
     }
 
@@ -200,7 +200,7 @@ public class StoryPageTest {
     }
 
     @Test
-    public void testIsFirstPg() {
+    public void testIsFirstPage() {
         fail("Not yet implemented"); // TODO
     }
 

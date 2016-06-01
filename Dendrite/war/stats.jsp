@@ -25,8 +25,8 @@ view.initialise();
 %>
 <h1>Stats</h1><%
 
-view.prepareNumPgs();
+view.prepareNumPages();
 
 %>
-<p>Number of pages: ${fn:escapeXml(numPgs)}</p>
+<p>Number of pages: ${fn:escapeXml(numPages)}</p>
 <%@include file="bottom.jspf" %>

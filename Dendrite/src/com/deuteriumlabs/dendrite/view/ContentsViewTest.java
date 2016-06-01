@@ -174,7 +174,7 @@ public class ContentsViewTest {
     }
 
     @Test
-    public void testIsPastTheLastPg() {
+    public void testIsPastTheLastPage() {
         fail("Not yet implemented"); // TODO
     }
 
@@ -224,12 +224,12 @@ public class ContentsViewTest {
     }
 
     @Test
-    public void testPrepareRomanPgNum() {
+    public void testPrepareRomanPageNum() {
         final ContentsView view = new ContentsView();
         final PageContext pageContext = Mockito.mock(PageContext.class);
         view.setPageContext(pageContext);
-        view.prepareRomanPgNum();
-        Mockito.verify(pageContext).setAttribute("romanPgNum", "i");
+        view.prepareRomanPageNum();
+        Mockito.verify(pageContext).setAttribute("romanPageNum", "i");
     }
 
     @Test

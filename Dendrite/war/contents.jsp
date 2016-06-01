@@ -33,7 +33,7 @@ view.initialise();
 // header bar which is common to all Dendrite web pages.
 %><%@include file="top_simplified_theming.jspf" %><%
 
-if (view.isPastTheLastPg()) {
+if (view.isPastTheLastPage()) {
 	
 	%>
         <p class="notice">You have stumbled off the trail. Turn around and go
@@ -98,10 +98,10 @@ if (isFirstPage == false) {
           <span>&nbsp;</span><!-- Hacky center balancing --><%
 }
 
-view.prepareRomanPgNum();
+view.prepareRomanPageNum();
 
 %>
-          <span id="contentsPgNum">${fn:escapeXml(romanPgNum)}</span><%
+          <span id="contentsPageNum">${fn:escapeXml(romanPageNum)}</span><%
 
 final boolean isLastPage = view.isLastPage();
 if (isLastPage == false) {

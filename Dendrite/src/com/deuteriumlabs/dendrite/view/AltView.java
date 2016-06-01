@@ -19,7 +19,7 @@ public class AltView extends View {
         public String authorId;
         public String authorName;
         public int numLovers;
-        public String pgId;
+        public String pageId;
         public String summary;
         public List<String> tags;
     }
@@ -29,17 +29,17 @@ public class AltView extends View {
 
     private static final String WEB_PG_TITLE_ATTR_VAL = "Dendrite - Alternatives";
 
-    private int pgNum;
+    private int pageNum;
 
     public List<Alt> getAlts() {
         final List<Alt> alts = new ArrayList<Alt>();
-        final int pgNum = getPgNum();
-        final int count = StoryPage.countVersions(pgNum);
+        final int pageNum = getPageNum();
+        final int count = StoryPage.countVersions(pageNum);
 
         for (int i = 0; i < count; i++) {
             final String version = StoryPage.convertNumberToVersion(i + 1);
             final PageId id = new PageId();
-            id.setNumber(pgNum);
+            id.setNumber(pageNum);
             id.setVersion(version);
             final Alt alt = getAlt(id);
             alts.add(alt);
@@ -48,14 +48,14 @@ public class AltView extends View {
         return alts;
     }
 
-    public int getPgNum() {
-        return pgNum;
+    public int getPageNum() {
+        return pageNum;
     }
 
     @Override
     public String getUrl() {
-        if (pgNum > 0) {
-            return URL + "?p=" + pgNum;
+        if (pageNum > 0) {
+            return URL + "?p=" + pageNum;
         } else {
             return URL;
         }
@@ -65,17 +65,17 @@ public class AltView extends View {
     public void initialise() {
         final PageContext pageContext = getPageContext();
         pageContext.setAttribute(WEB_PG_TITLE_ATTR_NAME, WEB_PG_TITLE_ATTR_VAL);
-        extractPgNumFromRequest();
+        extractPageNumFromRequest();
         super.initialise();
     }
 
-    public boolean isPgNumInvalid() {
-        return (pgNum == 0);
+    public boolean isPageNumInvalid() {
+        return (pageNum == 0);
     }
 
     public void prepareAlt(final Alt alt) {
         final PageContext pageContext = getPageContext();
-        pageContext.setAttribute("pgId", alt.pgId);
+        pageContext.setAttribute("pageId", alt.pageId);
         pageContext.setAttribute("numLovers", alt.numLovers);
         pageContext.setAttribute("summary", alt.summary);
         pageContext.setAttribute("authorId", alt.authorId);
@@ -90,17 +90,17 @@ public class AltView extends View {
         pageContext.setAttribute("tagName", tag.toUpperCase());
     }
 
-    private void extractPgNumFromRequest() {
+    private void extractPageNumFromRequest() {
         final HttpServletRequest req = getRequest();
         final String p = req.getParameter("p");
         final PageId id = new PageId(p);
         final int num = id.getNumber();
-        setPgNum(num);
+        setPageNum(num);
     }
 
     private Alt getAlt(final PageId id) {
         final Alt alt = new Alt();
-        alt.pgId = id.toString();
+        alt.pageId = id.toString();
 
         final StoryPage page = new StoryPage();
         page.setId(id);
@@ -125,13 +125,13 @@ public class AltView extends View {
         return alt;
     }
 
-    private void setPgNum(final int num) {
-        pgNum = num;
+    private void setPageNum(final int num) {
+        pageNum = num;
     }
 
     @Override
     protected String getMetaDesc() {
         return "Select from all of the alternative versions of "
-                + (isPgNumInvalid() ? "a page." : "page " + pgNum + ".");
+                + (isPageNumInvalid() ? "a page." : "page " + pageNum + ".");
     }
 }

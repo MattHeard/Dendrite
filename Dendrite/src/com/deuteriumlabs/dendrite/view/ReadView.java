@@ -231,10 +231,10 @@ public class ReadView extends View {
         pageContext.setAttribute("parentId", id);
     }
 
-    public void preparePgId() {
+    public void preparePageId() {
         final PageId id = getPageId();
         final PageContext pageContext = getPageContext();
-        pageContext.setAttribute("pgId", id.toString());
+        pageContext.setAttribute("pageId", id.toString());
     }
 
     public void preparePrevPageNum() {

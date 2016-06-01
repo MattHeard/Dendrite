@@ -8,17 +8,17 @@ import com.deuteriumlabs.dendrite.model.User;
 
 public class AddTagController {
 
-    private PageId pgId;
+    private PageId pageId;
     private String tag;
 
     public boolean addTag(final User myUser) {
-        final StoryPage page = getStoryPg();
+        final StoryPage page = getStoryPage();
         final String tag = getTag();
         final boolean isTagAdded = page.addTag(tag);
         if (isTagAdded) {
             page.update();
-            final boolean isPgAuthorCurrentUser = isPgAuthorCurrentUser();
-            if (isPgAuthorCurrentUser == false) {
+            final boolean isPageAuthorCurrentUser = isPageAuthorCurrentUser();
+            if (isPageAuthorCurrentUser == false) {
                 notifyAuthor(myUser);
             }
             return true;
@@ -27,16 +27,16 @@ public class AddTagController {
         }
     }
 
-    public PageId getPgId() {
-        return pgId;
+    public PageId getPageId() {
+        return pageId;
     }
 
     public String getTag() {
         return tag;
     }
 
-    public void setPgId(final PageId pgId) {
-        this.pgId = pgId;
+    public void setPageId(final PageId pageId) {
+        this.pageId = pageId;
     }
 
     public void setTag(final String tag) {
@@ -44,12 +44,12 @@ public class AddTagController {
     }
 
     private String getAuthorId() {
-        final StoryPage page = getStoryPg();
+        final StoryPage page = getStoryPage();
         return page.getAuthorId();
     }
 
-    private StoryPage getStoryPg() {
-        final PageId id = getPgId();
+    private StoryPage getStoryPage() {
+        final PageId id = getPageId();
         final StoryPage page = new StoryPage();
         page.setId(id);
         page.read();
@@ -68,7 +68,7 @@ public class AddTagController {
         }
     }
 
-    private boolean isPgAuthorCurrentUser() {
+    private boolean isPageAuthorCurrentUser() {
         if (User.isMyUserLoggedIn()) {
             final String myUserId = User.getMyUserId();
             final String authorId = getAuthorId();
@@ -80,7 +80,7 @@ public class AddTagController {
 
     private void notifyAuthor(final User myUser) {
         final AuthorTagNotification notification = new AuthorTagNotification();
-        notification.setPgId(getPgId());
+        notification.setPageId(getPageId());
         notification.setTaggerId(getTaggerId());
         notification.setTaggerName(getTaggerName(myUser));
         notification.setTag(getTag());

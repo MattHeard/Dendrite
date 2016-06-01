@@ -20,7 +20,7 @@ public class PgLovedNotification extends Notification {
     private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
 
     private String loverId;
-    private PageId pgId;
+    private PageId pageId;
 
     public PgLovedNotification() {
     }
@@ -45,11 +45,11 @@ public class PgLovedNotification extends Notification {
         unlinkedChunk.str = " loves page ";
         msg.add(unlinkedChunk);
 
-        final HyperlinkedStr pgIdChunk = new HyperlinkedStr();
-        final PageId pgId = getPgId();
-        pgIdChunk.str = pgId.toString();
-        pgIdChunk.url = "/read?p=" + pgId;
-        msg.add(pgIdChunk);
+        final HyperlinkedStr pageIdChunk = new HyperlinkedStr();
+        final PageId pageId = getPageId();
+        pageIdChunk.str = pageId.toString();
+        pageIdChunk.url = "/read?p=" + pageId;
+        msg.add(pageIdChunk);
 
         unlinkedChunk = new HyperlinkedStr();
         unlinkedChunk.str = ".";
@@ -61,8 +61,8 @@ public class PgLovedNotification extends Notification {
     @Override
     public String getMsg() {
         final String lover = getLoverName();
-        final PageId pgId = getPgId();
-        return lover + " loves page " + pgId + ".";
+        final PageId pageId = getPageId();
+        return lover + " loves page " + pageId + ".";
     }
 
     /**
@@ -74,11 +74,11 @@ public class PgLovedNotification extends Notification {
     }
 
     /**
-     * @param pgId
+     * @param pageId
      *            The page which has been loved.
      */
-    public void setPgId(final PageId pgId) {
-        this.pgId = pgId;
+    public void setPageId(final PageId pageId) {
+        this.pageId = pageId;
     }
 
     /**
@@ -111,15 +111,15 @@ public class PgLovedNotification extends Notification {
     /**
      * @return
      */
-    private PageId getPgId() {
-        return pgId;
+    private PageId getPageId() {
+        return pageId;
     }
 
     /**
      * @param entity
      * @return
      */
-    private int getPgIdNumFromEntity(final DatastoreEntity entity) {
+    private int getPageIdNumFromEntity(final DatastoreEntity entity) {
         final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
         return num.intValue();
     }
@@ -128,7 +128,7 @@ public class PgLovedNotification extends Notification {
      * @param entity
      * @return
      */
-    private String getPgIdVersionFromEntity(final DatastoreEntity entity) {
+    private String getPageIdVersionFromEntity(final DatastoreEntity entity) {
         return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
     }
 
@@ -143,13 +143,13 @@ public class PgLovedNotification extends Notification {
     /**
      * @param entity
      */
-    private void readPgIdFromEntity(final DatastoreEntity entity) {
+    private void readPageIdFromEntity(final DatastoreEntity entity) {
         final PageId id = new PageId();
-        final int number = getPgIdNumFromEntity(entity);
+        final int number = getPageIdNumFromEntity(entity);
         id.setNumber(number);
-        final String version = getPgIdVersionFromEntity(entity);
+        final String version = getPageIdVersionFromEntity(entity);
         id.setVersion(version);
-        setPgId(id);
+        setPageId(id);
     }
 
     /**
@@ -163,8 +163,8 @@ public class PgLovedNotification extends Notification {
     /**
      * @param entity
      */
-    private void setPgIdInEntity(final DatastoreEntity entity) {
-        final PageId id = getPgId();
+    private void setPageIdInEntity(final DatastoreEntity entity) {
+        final PageId id = getPageId();
         final int num = id.getNumber();
         entity.setProperty(PG_ID_NUM_PROPERTY, num);
         final String version = id.getVersion();
@@ -174,14 +174,14 @@ public class PgLovedNotification extends Notification {
     @Override
     void readPropertiesFromEntity(final DatastoreEntity entity) {
         super.readPropertiesFromEntity(entity);
-        readPgIdFromEntity(entity);
+        readPageIdFromEntity(entity);
         readLoverIdFromEntity(entity);
     }
 
     @Override
     void setPropertiesInEntity(final DatastoreEntity entity) {
         super.setPropertiesInEntity(entity);
-        setPgIdInEntity(entity);
+        setPageIdInEntity(entity);
         setLoverIdInEntity(entity);
         setTypeInEntity(entity);
     }

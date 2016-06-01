@@ -322,15 +322,15 @@ ul#contents {
 	padding: 0px;
 }
 
-p#contentsNav, p#pgNav {
+p#contentsNav, p#pageNav {
 	text-align: center;
 }
 
-p#contentsNav > span, p#pgNav > span {
+p#contentsNav > span, p#pageNav > span {
 	padding: 20px;
 }
 
-span#contentsPgNum {
+span#contentsPageNum {
 	font-style: italic;
 }
 
@@ -463,7 +463,7 @@ ul.alt {
 	padding: 0px;
 }
 
-.alt .pgId {
+.alt .pageId {
 	float: left;
 	font-size: 1.5em;
 	margin-right: 10px;
@@ -1447,7 +1447,7 @@ ul.optionPair > li > a:hover {
 	color: #eee;
 }
 
-.pgArrow {
+.pageArrow {
 	opacity: 0.2;
 }
 

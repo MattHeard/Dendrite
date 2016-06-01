@@ -14,19 +14,19 @@ public class RemoveTagServlet extends DendriteServlet {
     private static final long serialVersionUID = 3945779238617014034L;
     private static final String TAG_PARAMETER_NAME = "tag";
 
-    private PageId pgId;
+    private PageId pageId;
     private HttpServletRequest req;
     private HttpServletResponse resp;
     private String tag;
 
     private void extractParameters() {
-        extractPgId();
+        extractPageId();
         extractTag();
     }
 
-    private void extractPgId() {
+    private void extractPageId() {
         final String idString = req.getParameter(PG_ID_PARAMETER_NAME);
-        pgId = new PageId(idString);
+        pageId = new PageId(idString);
     }
 
     private void extractTag() {
@@ -52,7 +52,7 @@ public class RemoveTagServlet extends DendriteServlet {
         this.req = req;
         this.resp = resp;
         extractParameters();
-        if (pgId.isValid() == false) {
+        if (pageId.isValid() == false) {
             returnFailure();
         } else {
             final boolean isTagValid = isTagValid(tag);
@@ -61,7 +61,7 @@ public class RemoveTagServlet extends DendriteServlet {
             } else {
                 final RemoveTagController controller;
                 controller = new RemoveTagController();
-                controller.setPgId(pgId);
+                controller.setPageId(pageId);
                 controller.setTag(tag);
                 controller.removeTag();
                 returnOk();

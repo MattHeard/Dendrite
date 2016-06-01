@@ -12,8 +12,8 @@ public class FolloweeNewNotification extends Notification {
     public static final String NEW_AUTHOR_ID_PROPERTY = "newAuthorId";
 
     private static final String NEW_AUTHOR_NAME_PROPERTY = "newAuthorName";
-    private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
-    private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
+    private static final String PG_ID_NUM_PROPERTY = "pageIdNum";
+    private static final String PG_ID_VERSION_PROPERTY = "pageIdVersion";
     private static final String TITLE_PROPERTY = "title";
 
     private static String getAuthorIdFromEntity(final DatastoreEntity entity) {
@@ -29,12 +29,12 @@ public class FolloweeNewNotification extends Notification {
         return name;
     }
 
-    private static int getPgIdNumFromEntity(final DatastoreEntity entity) {
+    private static int getPageIdNumFromEntity(final DatastoreEntity entity) {
         final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
         return num.intValue();
     }
 
-    private static String getPgIdVersionFromEntity(
+    private static String getPageIdVersionFromEntity(
             final DatastoreEntity entity) {
         return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
     }
@@ -47,7 +47,7 @@ public class FolloweeNewNotification extends Notification {
 
     private String authorId;
     private String authorName;
-    private PageId pgId;
+    private PageId pageId;
     private String title;
 
     public FolloweeNewNotification() {
@@ -71,11 +71,11 @@ public class FolloweeNewNotification extends Notification {
         unlinkedChunk.str = " started the story '" + title + "' at page ";
         msg.add(unlinkedChunk);
 
-        final HyperlinkedStr pgIdChunk = new HyperlinkedStr();
-        final PageId pgId = getPgId();
-        pgIdChunk.str = pgId.toString();
-        pgIdChunk.url = "/read?p=" + pgId;
-        msg.add(pgIdChunk);
+        final HyperlinkedStr pageIdChunk = new HyperlinkedStr();
+        final PageId pageId = getPageId();
+        pageIdChunk.str = pageId.toString();
+        pageIdChunk.url = "/read?p=" + pageId;
+        msg.add(pageIdChunk);
 
         unlinkedChunk = new HyperlinkedStr();
         unlinkedChunk.str = ".";
@@ -88,9 +88,9 @@ public class FolloweeNewNotification extends Notification {
     public String getMsg() {
         final String name = getAuthorName();
         final String title = getTitle();
-        final PageId pgId = getPgId();
+        final PageId pageId = getPageId();
         final String msg;
-        msg = name + " started the story '" + title + "' at page " + pgId + ".";
+        msg = name + " started the story '" + title + "' at page " + pageId + ".";
         return msg;
     }
 
@@ -102,8 +102,8 @@ public class FolloweeNewNotification extends Notification {
         authorName = name;
     }
 
-    public void setPgId(final PageId id) {
-        pgId = id;
+    public void setPageId(final PageId id) {
+        pageId = id;
     }
 
     public void setTitle(final String title) {
@@ -118,8 +118,8 @@ public class FolloweeNewNotification extends Notification {
         return authorName;
     }
 
-    private PageId getPgId() {
-        return pgId;
+    private PageId getPageId() {
+        return pageId;
     }
 
     private String getTitle() {
@@ -136,13 +136,13 @@ public class FolloweeNewNotification extends Notification {
         setAuthorName(name);
     }
 
-    private void readPgIdFromEntity(final DatastoreEntity entity) {
+    private void readPageIdFromEntity(final DatastoreEntity entity) {
         final PageId id = new PageId();
-        final int number = getPgIdNumFromEntity(entity);
+        final int number = getPageIdNumFromEntity(entity);
         id.setNumber(number);
-        final String version = getPgIdVersionFromEntity(entity);
+        final String version = getPageIdVersionFromEntity(entity);
         id.setVersion(version);
-        setPgId(id);
+        setPageId(id);
     }
 
     private void readTitleFromEntity(final DatastoreEntity entity) {
@@ -160,8 +160,8 @@ public class FolloweeNewNotification extends Notification {
         entity.setProperty(NEW_AUTHOR_NAME_PROPERTY, name);
     }
 
-    private void setPgIdInEntity(final DatastoreEntity entity) {
-        final PageId id = getPgId();
+    private void setPageIdInEntity(final DatastoreEntity entity) {
+        final PageId id = getPageId();
         final int num = id.getNumber();
         entity.setProperty(PG_ID_NUM_PROPERTY, num);
         final String version = id.getVersion();
@@ -178,7 +178,7 @@ public class FolloweeNewNotification extends Notification {
         super.readPropertiesFromEntity(entity);
         readAuthorIdFromEntity(entity);
         readAuthorNameFromEntity(entity);
-        readPgIdFromEntity(entity);
+        readPageIdFromEntity(entity);
         readTitleFromEntity(entity);
     }
 
@@ -187,7 +187,7 @@ public class FolloweeNewNotification extends Notification {
         super.setPropertiesInEntity(entity);
         setAuthorIdInEntity(entity);
         setAuthorNameInEntity(entity);
-        setPgIdInEntity(entity);
+        setPageIdInEntity(entity);
         setTitleInEntity(entity);
         setTypeInEntity(entity);
     }

@@ -20,7 +20,7 @@ public class PgChildNotification extends Notification {
     private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
 
     private String childAuthorId;
-    private PageId pgId;
+    private PageId pageId;
 
     public PgChildNotification() {
     }
@@ -42,11 +42,11 @@ public class PgChildNotification extends Notification {
         unlinkedChunk.str = " extended one of your pages and wrote page ";
         msg.add(unlinkedChunk);
 
-        final HyperlinkedStr pgIdChunk = new HyperlinkedStr();
-        final PageId pgId = getPgId();
-        pgIdChunk.str = pgId.toString();
-        pgIdChunk.url = "/read?p=" + pgId;
-        msg.add(pgIdChunk);
+        final HyperlinkedStr pageIdChunk = new HyperlinkedStr();
+        final PageId pageId = getPageId();
+        pageIdChunk.str = pageId.toString();
+        pageIdChunk.url = "/read?p=" + pageId;
+        msg.add(pageIdChunk);
 
         unlinkedChunk = new HyperlinkedStr();
         unlinkedChunk.str = ".";
@@ -58,9 +58,9 @@ public class PgChildNotification extends Notification {
     @Override
     public String getMsg() {
         final String name = getChildAuthorName();
-        final PageId pgId = getPgId();
+        final PageId pageId = getPageId();
         final String msg;
-        msg = name + " extended one of your pages and wrote page " + pgId + ".";
+        msg = name + " extended one of your pages and wrote page " + pageId + ".";
         return msg;
     }
 
@@ -74,8 +74,8 @@ public class PgChildNotification extends Notification {
     /**
      * @param id
      */
-    public void setPgId(final PageId id) {
-        pgId = id;
+    public void setPageId(final PageId id) {
+        pageId = id;
     }
 
     /**
@@ -105,16 +105,16 @@ public class PgChildNotification extends Notification {
     /**
      * @return
      */
-    private PageId getPgId() {
-        return pgId;
+    private PageId getPageId() {
+        return pageId;
     }
 
-    private int getPgIdNumFromEntity(final DatastoreEntity entity) {
+    private int getPageIdNumFromEntity(final DatastoreEntity entity) {
         final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
         return num.intValue();
     }
 
-    private String getPgIdVersionFromEntity(final DatastoreEntity entity) {
+    private String getPageIdVersionFromEntity(final DatastoreEntity entity) {
         return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
     }
 
@@ -123,13 +123,13 @@ public class PgChildNotification extends Notification {
         setChildAuthorId(id);
     }
 
-    private void readPgIdFromEntity(final DatastoreEntity entity) {
+    private void readPageIdFromEntity(final DatastoreEntity entity) {
         final PageId id = new PageId();
-        final int number = getPgIdNumFromEntity(entity);
+        final int number = getPageIdNumFromEntity(entity);
         id.setNumber(number);
-        final String version = getPgIdVersionFromEntity(entity);
+        final String version = getPageIdVersionFromEntity(entity);
         id.setVersion(version);
-        setPgId(id);
+        setPageId(id);
     }
 
     private void setChildAuthorIdInEntity(final DatastoreEntity entity) {
@@ -140,8 +140,8 @@ public class PgChildNotification extends Notification {
     /**
      * @param entity
      */
-    private void setPgIdInEntity(final DatastoreEntity entity) {
-        final PageId id = getPgId();
+    private void setPageIdInEntity(final DatastoreEntity entity) {
+        final PageId id = getPageId();
         final int num = id.getNumber();
         entity.setProperty(PG_ID_NUM_PROPERTY, num);
         final String version = id.getVersion();
@@ -151,14 +151,14 @@ public class PgChildNotification extends Notification {
     @Override
     void readPropertiesFromEntity(final DatastoreEntity entity) {
         super.readPropertiesFromEntity(entity);
-        readPgIdFromEntity(entity);
+        readPageIdFromEntity(entity);
         readChildAuthorIdFromEntity(entity);
     }
 
     @Override
     void setPropertiesInEntity(final DatastoreEntity entity) {
         super.setPropertiesInEntity(entity);
-        setPgIdInEntity(entity);
+        setPageIdInEntity(entity);
         setChildAuthorIdInEntity(entity);
         setTypeInEntity(entity);
     }

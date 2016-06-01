@@ -75,12 +75,12 @@ if (view.isAuthorPageOfUser() == true) {
               <h2>Pages Written</h2>
               <div><%
               
-if (view.isInvalidPgNum()) {
-	view.preparePg1Url();
+if (view.isInvalidPageNum()) {
+	view.preparePage1Url();
 	
 	%>
                 <p class="notice">Are you lost? There are no stories on this
-                  page. <a href="${fn:escapeXml(pg1Url)}">Go to page
+                  page. <a href="${fn:escapeXml(page1Url)}">Go to page
                   1.</a></p><%
 	
 } else {

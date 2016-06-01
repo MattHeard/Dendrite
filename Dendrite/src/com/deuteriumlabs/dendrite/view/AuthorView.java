@@ -22,7 +22,7 @@ public class AuthorView extends View {
 
     private boolean isAuthorValid;
 
-    private boolean isInvalidPgNum;
+    private boolean isInvalidPageNum;
 
     public AuthorView() {
         initialiseBibilographyView();
@@ -70,7 +70,7 @@ public class AuthorView extends View {
             setId(myUserId);
         }
 
-        extractAuthorPgNum();
+        extractAuthorPageNum();
 
         final String penName = getPenName();
 
@@ -103,8 +103,8 @@ public class AuthorView extends View {
         return bibliographyView.isFirstPage();
     }
 
-    public boolean isInvalidPgNum() {
-        return isInvalidPgNum;
+    public boolean isInvalidPageNum() {
+        return isInvalidPageNum;
     }
 
     public boolean isLastPage() {
@@ -168,10 +168,10 @@ public class AuthorView extends View {
         bibliographyView.prepareNextStoryPage();
     }
 
-    public void preparePg1Url() {
+    public void preparePage1Url() {
         final PageContext pageContext = getPageContext();
         final String url = getUrl();
-        pageContext.setAttribute("pg1Url", url);
+        pageContext.setAttribute("page1Url", url);
     }
 
     public void preparePrevAuthorPageLink() {
@@ -227,7 +227,7 @@ public class AuthorView extends View {
         bibliographyView.setPrevTitle(prevTitle);
     }
 
-    private void extractAuthorPgNum() {
+    private void extractAuthorPageNum() {
         final HttpServletRequest req = getRequest();
         final String pParameter = req.getParameter("p");
         int authorPageNumber;
@@ -236,11 +236,11 @@ public class AuthorView extends View {
         } catch (final NumberFormatException e) {
             authorPageNumber = 1;
         }
-        final int lastPgNum = getLastPgNum();
-        if (authorPageNumber > lastPgNum) {
-            isInvalidPgNum = true;
+        final int lastPageNum = getLastPageNum();
+        if (authorPageNumber > lastPageNum) {
+            isInvalidPageNum = true;
         } else {
-            isInvalidPgNum = false;
+            isInvalidPageNum = false;
         }
         setAuthorPageNumber(authorPageNumber);
     }
@@ -253,7 +253,7 @@ public class AuthorView extends View {
         return bibliographyView;
     }
 
-    private int getLastPgNum() {
+    private int getLastPageNum() {
         return bibliographyView.getLastPageNumber();
     }
 

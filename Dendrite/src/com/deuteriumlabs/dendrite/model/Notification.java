@@ -35,7 +35,7 @@ public class Notification extends Model {
     private static final String TYPE_PROPERTY = "type";
 
     /**
-     * @param pgId
+     * @param pageId
      * @return
      */
     public static int countNewNotificationsForRecipient(

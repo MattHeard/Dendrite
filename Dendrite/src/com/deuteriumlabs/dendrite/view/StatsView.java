@@ -7,7 +7,7 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
 
 public class StatsView extends View {
 
-    private static final String NUM_PGS_ATTR_NAME = "numPgs";
+    private static final String NUM_PGS_ATTR_NAME = "numPages";
     private static final String URL = "/stats";
     private static final String WEB_PG_TITLE_ATTR_NAME = "webPageTitle";
     private static final String WEB_PG_TITLE_ATTR_VAL = "Dendrite - Stats";
@@ -24,10 +24,10 @@ public class StatsView extends View {
         super.initialise();
     }
 
-    public void prepareNumPgs() {
+    public void prepareNumPages() {
         final PageContext pageContext = getPageContext();
-        final String numPgsAttrName = NUM_PGS_ATTR_NAME;
-        final int numPgsAttrVal = StoryPage.countAllPgs();
-        pageContext.setAttribute(numPgsAttrName, numPgsAttrVal);
+        final String numPagesAttrName = NUM_PGS_ATTR_NAME;
+        final int numPagesAttrVal = StoryPage.countAllPages();
+        pageContext.setAttribute(numPagesAttrName, numPagesAttrVal);
     }
 }

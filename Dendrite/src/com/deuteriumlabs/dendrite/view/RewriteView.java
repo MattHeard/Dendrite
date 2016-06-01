@@ -11,7 +11,7 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
  */
 public class RewriteView extends FormView {
 
-    private String pgNum;
+    private String pageNum;
 
     public String getIncomingOptionText() {
         final StoryOption option = getIncomingOption();
@@ -28,7 +28,7 @@ public class RewriteView extends FormView {
 
     @Override
     public String getUrl() {
-        final String pageNumber = pgNum;
+        final String pageNumber = pageNum;
         return "/rewrite?p=" + pageNumber;
     }
 
@@ -38,7 +38,7 @@ public class RewriteView extends FormView {
     }
 
     public boolean isExistingPage() {
-        final String pageNumber = pgNum;
+        final String pageNumber = pageNum;
         final PageId id = new PageId(pageNumber);
         id.setVersion("a");
         final StoryPage page = new StoryPage();
@@ -46,8 +46,8 @@ public class RewriteView extends FormView {
         return page.isInStore();
     }
 
-    public void setPageNumber(final String pgNum) {
-        this.pgNum = pgNum;
+    public void setPageNumber(final String pageNum) {
+        this.pageNum = pageNum;
     }
 
     private StoryBeginning getBeginning() {
@@ -66,7 +66,7 @@ public class RewriteView extends FormView {
     }
 
     private int getPageNumberAsInt() {
-        final String pageNumberString = pgNum;
+        final String pageNumberString = pageNum;
         int pageNumber;
         try {
             pageNumber = Integer.parseInt(pageNumberString);
@@ -78,6 +78,6 @@ public class RewriteView extends FormView {
 
     @Override
     protected String getMetaDesc() {
-        return "Rewrite the story at page " + pgNum;
+        return "Rewrite the story at page " + pageNum;
     }
 }

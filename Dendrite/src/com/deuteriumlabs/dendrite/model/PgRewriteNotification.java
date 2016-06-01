@@ -16,12 +16,12 @@ public class PgRewriteNotification extends Notification {
     private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
     private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
 
-    private static int getPgIdNumFromEntity(final DatastoreEntity entity) {
+    private static int getPageIdNumFromEntity(final DatastoreEntity entity) {
         final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
         return num.intValue();
     }
 
-    private static String getPgIdVersionFromEntity(
+    private static String getPageIdVersionFromEntity(
             final DatastoreEntity entity) {
         return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
     }
@@ -33,7 +33,7 @@ public class PgRewriteNotification extends Notification {
         return id;
     }
 
-    private PageId pgId;
+    private PageId pageId;
     private String rewriteAuthorId;
 
     public PgRewriteNotification() {
@@ -58,11 +58,11 @@ public class PgRewriteNotification extends Notification {
         unlinkedChunk.str = " rewrote one of your pages and wrote page ";
         msg.add(unlinkedChunk);
 
-        final HyperlinkedStr pgIdChunk = new HyperlinkedStr();
-        final PageId pgId = getPgId();
-        pgIdChunk.str = pgId.toString();
-        pgIdChunk.url = "/read?p=" + pgId;
-        msg.add(pgIdChunk);
+        final HyperlinkedStr pageIdChunk = new HyperlinkedStr();
+        final PageId pageId = getPageId();
+        pageIdChunk.str = pageId.toString();
+        pageIdChunk.url = "/read?p=" + pageId;
+        msg.add(pageIdChunk);
 
         unlinkedChunk = new HyperlinkedStr();
         unlinkedChunk.str = ".";
@@ -74,17 +74,17 @@ public class PgRewriteNotification extends Notification {
     @Override
     public String getMsg() {
         final String name = getRewriteAuthorName();
-        final PageId pgId = getPgId();
+        final PageId pageId = getPageId();
         final String msg;
-        msg = name + " rewrote one of your pages and wrote page " + pgId + ".";
+        msg = name + " rewrote one of your pages and wrote page " + pageId + ".";
         return msg;
     }
 
     /**
      * @param id
      */
-    public void setPgId(final PageId id) {
-        pgId = id;
+    public void setPageId(final PageId id) {
+        pageId = id;
     }
 
     /**
@@ -97,8 +97,8 @@ public class PgRewriteNotification extends Notification {
     /**
      * @return
      */
-    private PageId getPgId() {
-        return pgId;
+    private PageId getPageId() {
+        return pageId;
     }
 
     /**
@@ -123,13 +123,13 @@ public class PgRewriteNotification extends Notification {
         }
     }
 
-    private void readPgIdFromEntity(final DatastoreEntity entity) {
+    private void readPageIdFromEntity(final DatastoreEntity entity) {
         final PageId id = new PageId();
-        final int number = getPgIdNumFromEntity(entity);
+        final int number = getPageIdNumFromEntity(entity);
         id.setNumber(number);
-        final String version = getPgIdVersionFromEntity(entity);
+        final String version = getPageIdVersionFromEntity(entity);
         id.setVersion(version);
-        setPgId(id);
+        setPageId(id);
     }
 
     private void readRewriteAuthorIdFromEntity(final DatastoreEntity entity) {
@@ -140,8 +140,8 @@ public class PgRewriteNotification extends Notification {
     /**
      * @param entity
      */
-    private void setPgIdInEntity(final DatastoreEntity entity) {
-        final PageId id = getPgId();
+    private void setPageIdInEntity(final DatastoreEntity entity) {
+        final PageId id = getPageId();
         final int num = id.getNumber();
         entity.setProperty(PG_ID_NUM_PROPERTY, num);
         final String version = id.getVersion();
@@ -156,14 +156,14 @@ public class PgRewriteNotification extends Notification {
     @Override
     void readPropertiesFromEntity(final DatastoreEntity entity) {
         super.readPropertiesFromEntity(entity);
-        readPgIdFromEntity(entity);
+        readPageIdFromEntity(entity);
         readRewriteAuthorIdFromEntity(entity);
     }
 
     @Override
     void setPropertiesInEntity(final DatastoreEntity entity) {
         super.setPropertiesInEntity(entity);
-        setPgIdInEntity(entity);
+        setPageIdInEntity(entity);
         setRewriteAuthorIdInEntity(entity);
         setTypeInEntity(entity);
     }

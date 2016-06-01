@@ -46,7 +46,7 @@ public class ContentsView extends View {
         return page.getTags();
     }
 
-    private static String convertPgNumAndVersionToUrl(final String num,
+    private static String convertPageNumAndVersionToUrl(final String num,
             final String version) {
         return "/read?p=" + num + version;
     }
@@ -56,7 +56,7 @@ public class ContentsView extends View {
     private String filter;
     private List<Link> links;
     private int numFilteredBeginnings;
-    private Map<Integer, List<StoryPage>> pgsMap;
+    private Map<Integer, List<StoryPage>> pagesMap;
 
     /**
      * Default constructor. Sets the default page number to 1, which displays
@@ -130,7 +130,7 @@ public class ContentsView extends View {
         for (int i = 0; i < numbers.size(); i++) {
             final String number = numbers.get(i);
             final String version = versions.get(i);
-            final String url = convertPgNumAndVersionToUrl(number, version);
+            final String url = convertPageNumAndVersionToUrl(number, version);
             urls.add(url);
         }
         return urls;
@@ -160,15 +160,15 @@ public class ContentsView extends View {
         return (curr == last);
     }
 
-    public boolean isPastTheLastPg() {
+    public boolean isPastTheLastPage() {
         final int curr = getContentsPageNumber();
         final int last = getLastPageNumber();
         return (curr > last);
     }
 
     public void prepareLastPageLink() {
-        final int numContentPgs = getLastPageNumber();
-        final String lastNum = Integer.toString(numContentPgs);
+        final int numContentPages = getLastPageNumber();
+        final String lastNum = Integer.toString(numContentPages);
         String link = "/contents?p=" + lastNum;
         if (isFiltered()) {
             link += "&filter=" + filter;
@@ -206,16 +206,16 @@ public class ContentsView extends View {
         pageContext.setAttribute("prevLink", link);
     }
 
-    public void prepareRomanPgNum() {
-        final int arabicPgNum = getContentsPageNumber();
-        final String romanPgNum;
-        if (arabicPgNum > 0) {
-            romanPgNum = convertArabicNumToRoman(arabicPgNum);
+    public void prepareRomanPageNum() {
+        final int arabicPageNum = getContentsPageNumber();
+        final String romanPageNum;
+        if (arabicPageNum > 0) {
+            romanPageNum = convertArabicNumToRoman(arabicPageNum);
         } else {
-            romanPgNum = "?";
+            romanPageNum = "?";
         }
         final PageContext pageContext = getPageContext();
-        pageContext.setAttribute("romanPgNum", romanPgNum);
+        pageContext.setAttribute("romanPageNum", romanPageNum);
     }
 
     public void prepareTag(final String tag) {
@@ -254,7 +254,7 @@ public class ContentsView extends View {
         setContentsPageNumber(number);
     }
 
-    private List<Integer> buildContentsPgBeginningNums(
+    private List<Integer> buildContentsPageBeginningNums(
             final Map<Integer, List<Integer>> storyMap) {
         final List<Integer> flattenedNums = new ArrayList<Integer>();
         for (final List<Integer> unflattenedNums : storyMap.values()) {
@@ -275,10 +275,10 @@ public class ContentsView extends View {
     }
 
     private Map<Integer, List<Integer>> buildStoryMap(
-            final List<StoryPage> pgs) {
+            final List<StoryPage> pages) {
         final Map<Integer, Integer> unsortedMap;
         unsortedMap = new TreeMap<Integer, Integer>();
-        for (final StoryPage page : pgs) {
+        for (final StoryPage page : pages) {
             final int idNum = page.getId().getNumber();
             final int numLovers = page.getNumLovingUsers();
             Integer total = unsortedMap.remove(idNum);
@@ -303,8 +303,8 @@ public class ContentsView extends View {
         return sortedMap;
     }
 
-    private String convertArabicNumToRoman(int arabicPgNum) {
-        if (arabicPgNum < 1) {
+    private String convertArabicNumToRoman(int arabicPageNum) {
+        if (arabicPageNum < 1) {
             final String msg = "Input must be greater than 0.";
             throw new IllegalArgumentException(msg);
         }
@@ -312,18 +312,18 @@ public class ContentsView extends View {
                 1 };
         final String[] vals = { "m", "cm", "d", "cd", "c", "xc", "l", "xl", "x",
                 "ix", "v", "iv", "i" };
-        String romanPgNum = "";
+        String romanPageNum = "";
         for (int i = 0; i < keys.length; i++) {
-            while ((arabicPgNum / keys[i]) > 0) {
-                romanPgNum += vals[i];
-                arabicPgNum -= keys[i];
+            while ((arabicPageNum / keys[i]) > 0) {
+                romanPageNum += vals[i];
+                arabicPageNum -= keys[i];
             }
         }
-        return romanPgNum;
+        return romanPageNum;
     }
 
     private int countFilteredBeginnings() {
-        return StoryPage.countFirstPgsMatchingTag(filter);
+        return StoryPage.countFirstPagesMatchingTag(filter);
     }
 
     /**
@@ -358,13 +358,13 @@ public class ContentsView extends View {
 
     private List<StoryBeginning> getFilteredBeginnings() {
         final String tag = filter;
-        final List<StoryPage> pgs = StoryPage.getFirstPgsMatchingTag(tag);
-        setFirstPgsMatchingTag(pgs);
+        final List<StoryPage> pages = StoryPage.getFirstPagesMatchingTag(tag);
+        setFirstPagesMatchingTag(pages);
 
-        final Map<Integer, List<Integer>> storyMap = buildStoryMap(pgs);
+        final Map<Integer, List<Integer>> storyMap = buildStoryMap(pages);
 
         final List<Integer> storyBeginningNums;
-        storyBeginningNums = buildContentsPgBeginningNums(storyMap);
+        storyBeginningNums = buildContentsPageBeginningNums(storyMap);
 
         final List<StoryBeginning> beginnings = new ArrayList<StoryBeginning>();
         for (final int num : storyBeginningNums) {
@@ -428,8 +428,8 @@ public class ContentsView extends View {
         return versions;
     }
 
-    private List<StoryPage> getPgsList(final int number) {
-        return pgsMap.get(number);
+    private List<StoryPage> getPagesList(final int number) {
+        return pagesMap.get(number);
     }
 
     private List<String> getTitles(final Store store,
@@ -465,18 +465,18 @@ public class ContentsView extends View {
         setBeginnings(beginnings);
     }
 
-    private String selectByWeight(final List<StoryPage> pgs) {
+    private String selectByWeight(final List<StoryPage> pages) {
         int totalWeight = 0;
-        for (final StoryPage page : pgs) {
+        for (final StoryPage page : pages) {
             totalWeight += page.getNumLovingUsers();
         }
-        totalWeight += pgs.size();
+        totalWeight += pages.size();
 
         final Random generator = new Random();
         int randomNum = generator.nextInt(totalWeight) + 1;
         int i = 0;
-        while ((randomNum > 0) && (i < pgs.size())) {
-            final StoryPage page = pgs.get(i);
+        while ((randomNum > 0) && (i < pages.size())) {
+            final StoryPage page = pages.get(i);
             final int weight = page.getNumLovingUsers() + 1;
 
             randomNum -= weight;
@@ -486,8 +486,8 @@ public class ContentsView extends View {
             i++;
         }
 
-        if (pgs.size() > 0) {
-            return pgs.get(0).getId().getVersion();
+        if (pages.size() > 0) {
+            return pages.get(0).getId().getVersion();
         } else {
             return "a";
         }
@@ -513,11 +513,11 @@ public class ContentsView extends View {
         setFilter(filter);
     }
 
-    private void setFirstPgsMatchingTag(final List<StoryPage> pgs) {
+    private void setFirstPagesMatchingTag(final List<StoryPage> pages) {
         final Map<Integer, List<StoryPage>> map;
         map = new TreeMap<Integer, List<StoryPage>>();
 
-        for (final StoryPage page : pgs) {
+        for (final StoryPage page : pages) {
             final int idNum = page.getId().getNumber();
             List<StoryPage> alts = map.remove(idNum);
             if (alts == null) {
@@ -527,15 +527,15 @@ public class ContentsView extends View {
             map.put(idNum, alts);
         }
 
-        setPgsMap(map);
+        setPagesMap(map);
     }
 
     private void setNumFilteredBeginnings(final int size) {
         numFilteredBeginnings = size;
     }
 
-    private void setPgsMap(final Map<Integer, List<StoryPage>> map) {
-        pgsMap = map;
+    private void setPagesMap(final Map<Integer, List<StoryPage>> map) {
+        pagesMap = map;
     }
 
     private String specifyVersion(final String number) {
@@ -547,8 +547,8 @@ public class ContentsView extends View {
             return version;
         } else {
             final int num = Integer.parseInt(number);
-            final List<StoryPage> pgs = getPgsList(num);
-            final String version = selectByWeight(pgs);
+            final List<StoryPage> pages = getPagesList(num);
+            final String version = selectByWeight(pages);
             return version;
         }
     }

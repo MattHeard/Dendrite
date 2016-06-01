@@ -34,7 +34,7 @@ public class StoryPage extends Model {
     private static final String FORMERLY_LOVING_USERS_PROPERTY = "formerlyLovingUsers";
     private static final String ID_NUMBER_PROPERTY = "idNumber";
     private static final String ID_VERSION_PROPERTY = "idVersion";
-    private static final String IS_FIRST_PG_PROPERTY = "isFirstPg";
+    private static final String IS_FIRST_PG_PROPERTY = "isFirstPage";
     private static final String KIND_NAME = "StoryPage";
     private static final int LEN_ALPHABET = 26;
     private static final char[] LETTERS = "abcdefghijklmnopqrstuvwxyz"
@@ -72,7 +72,7 @@ public class StoryPage extends Model {
 
     // TODO(Matt Heard): Extract into service object
     // TODO(Matt Heard): Investigate using Datastore statistics value instead
-    public static int countAllPgs() {
+    public static int countAllPages() {
         final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
         final Store store = new Store();
         final PreparedQuery preparedQuery = store.prepare(query);
@@ -81,8 +81,8 @@ public class StoryPage extends Model {
     }
 
     // TODO(Matt Heard): Extract into service object
-    public static int countFirstPgsMatchingTag(final String tag) {
-        final PreparedQuery preparedQuery = getPreparedQueryForFirstPgsMatchingTag(
+    public static int countFirstPagesMatchingTag(final String tag) {
+        final PreparedQuery preparedQuery = getPreparedQueryForFirstPagesMatchingTag(
                 tag);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         return preparedQuery.countEntities(fetchOptions);
@@ -145,22 +145,22 @@ public class StoryPage extends Model {
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         final List<DatastoreEntity> entities = DatastoreEntity
                 .fromPreparedQuery(preparedQuery, fetchOptions);
-        final List<StoryPage> pages = getPgsFromEntities(entities);
+        final List<StoryPage> pages = getPagesFromEntities(entities);
         return pages;
     }
 
-    public static List<StoryPage> getFirstPgsMatchingTag(final String tag) {
-        final PreparedQuery preparedQuery = getPreparedQueryForFirstPgsMatchingTag(
+    public static List<StoryPage> getFirstPagesMatchingTag(final String tag) {
+        final PreparedQuery preparedQuery = getPreparedQueryForFirstPagesMatchingTag(
                 tag);
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
         final List<DatastoreEntity> entities = DatastoreEntity
                 .fromPreparedQuery(preparedQuery, fetchOptions);
-        final List<StoryPage> pgs = new ArrayList<StoryPage>();
+        final List<StoryPage> pages = new ArrayList<StoryPage>();
         for (final DatastoreEntity entity : entities) {
             final StoryPage page = new StoryPage(entity);
-            pgs.add(page);
+            pages.add(page);
         }
-        return pgs;
+        return pages;
     }
 
     public static List<StoryPage> getPagesWrittenBy(final String authorId,
@@ -179,8 +179,8 @@ public class StoryPage extends Model {
         fetchOptions.offset(offset);
         final List<DatastoreEntity> entities = DatastoreEntity
                 .fromPreparedQuery(preparedQuery, fetchOptions);
-        final List<StoryPage> pgs = getPgsFromEntities(entities);
-        return pgs;
+        final List<StoryPage> pages = getPagesFromEntities(entities);
+        return pages;
     }
 
     public static StoryPage getParentOf(final PageId childId) {
@@ -222,14 +222,14 @@ public class StoryPage extends Model {
         return map.get(num);
     }
 
-    private static int countLoversOfAllVersions(final int pgNum) {
+    private static int countLoversOfAllVersions(final int pageNum) {
         final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
         Projection loversProjection;
         final String propertyName = LOVING_USERS_PROPERTY;
         loversProjection = new PropertyProjection(propertyName, String.class);
         query.addProjection(loversProjection);
         FilterPredicate filter;
-        filter = FilterOperator.EQUAL.of(ID_NUMBER_PROPERTY, pgNum);
+        filter = FilterOperator.EQUAL.of(ID_NUMBER_PROPERTY, pageNum);
         query.setFilter(filter);
         final Store store = new Store();
         final FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
@@ -283,29 +283,29 @@ public class StoryPage extends Model {
         return (String) entity.getProperty(ID_VERSION_PROPERTY);
     }
 
-    private static List<StoryPage> getPgsFromEntities(
+    private static List<StoryPage> getPagesFromEntities(
             final List<DatastoreEntity> entities) {
-        final List<StoryPage> pgs = new ArrayList<StoryPage>();
+        final List<StoryPage> pages = new ArrayList<StoryPage>();
         for (final DatastoreEntity entity : entities) {
             final StoryPage page = new StoryPage(entity);
-            pgs.add(page);
+            pages.add(page);
         }
-        return pgs;
+        return pages;
     }
 
-    private static PreparedQuery getPreparedQueryForFirstPgsMatchingTag(
+    private static PreparedQuery getPreparedQueryForFirstPagesMatchingTag(
             final String tag) {
         final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
         String propertyName = IS_FIRST_PG_PROPERTY;
         final FilterOperator operator = FilterOperator.EQUAL;
-        final Filter isFirstPgFilter;
-        isFirstPgFilter = new FilterPredicate(propertyName, operator, true);
+        final Filter isFirstPageFilter;
+        isFirstPageFilter = new FilterPredicate(propertyName, operator, true);
         propertyName = TAGS_PROPERTY;
         final String propertyVal = tag;
         final Filter tagFilter;
         tagFilter = new FilterPredicate(propertyName, operator, propertyVal);
         final Filter filter;
-        filter = CompositeFilterOperator.and(isFirstPgFilter, tagFilter);
+        filter = CompositeFilterOperator.and(isFirstPageFilter, tagFilter);
         query.setFilter(filter);
         query.addSort(ID_NUMBER_PROPERTY);
         final Store store = new Store();
@@ -342,7 +342,7 @@ public class StoryPage extends Model {
     private String chance;
     private List<String> formerlyLovingUsers;
     private PageId id;
-    private boolean isFirstPg;
+    private boolean isFirstPage;
     private List<String> lovingUsers;
     private StoryPage parent;
     private List<String> tags;
@@ -371,7 +371,7 @@ public class StoryPage extends Model {
     @Override
     public void create() {
         generateAncestry();
-        determineWhetherFirstPg();
+        determineWhetherFirstPage();
         super.create();
     }
 
@@ -442,8 +442,8 @@ public class StoryPage extends Model {
         return text;
     }
 
-    public boolean isFirstPg() {
-        return isFirstPg;
+    public boolean isFirstPage() {
+        return isFirstPage;
     }
 
     public boolean isLovedBy(final String userId) {
@@ -559,9 +559,9 @@ public class StoryPage extends Model {
                 + (loveNumerator + loveInfluence);
     }
 
-    private void determineWhetherFirstPg() {
-        final boolean isFirstPg = (beginning.getNumber() == id.getNumber());
-        setFirstPg(isFirstPg);
+    private void determineWhetherFirstPage() {
+        final boolean isFirstPage = (beginning.getNumber() == id.getNumber());
+        setFirstPage(isFirstPage);
     }
 
     private void generateAncestry() {
@@ -606,7 +606,7 @@ public class StoryPage extends Model {
                 .getProperty(FORMERLY_LOVING_USERS_PROPERTY);
     }
 
-    private boolean getIsFirstPgFromEntity(final DatastoreEntity entity) {
+    private boolean getIsFirstPageFromEntity(final DatastoreEntity entity) {
         final Boolean property = (Boolean) entity
                 .getProperty(IS_FIRST_PG_PROPERTY);
         return (property == null) ? false : property.booleanValue();
@@ -635,8 +635,8 @@ public class StoryPage extends Model {
     }
 
     private int getNumLoversOfAllVersions() {
-        final int pgNum = id.getNumber();
-        return StoryPage.countLoversOfAllVersions(pgNum);
+        final int pageNum = id.getNumber();
+        return StoryPage.countLoversOfAllVersions(pageNum);
     }
 
     private int getSizeDenominator() {
@@ -780,9 +780,9 @@ public class StoryPage extends Model {
         setId(id);
     }
 
-    private void readIsFirstPgFromEntity(final DatastoreEntity entity) {
-        final boolean isFirstPg = getIsFirstPgFromEntity(entity);
-        setFirstPg(isFirstPg);
+    private void readIsFirstPageFromEntity(final DatastoreEntity entity) {
+        final boolean isFirstPage = getIsFirstPageFromEntity(entity);
+        setFirstPage(isFirstPage);
     }
 
     private void readLovingUsersFromEntity(final DatastoreEntity entity) {
@@ -848,8 +848,8 @@ public class StoryPage extends Model {
         this.chance = chance;
     }
 
-    private void setFirstPg(final boolean isFirstPg) {
-        this.isFirstPg = isFirstPg;
+    private void setFirstPage(final boolean isFirstPage) {
+        this.isFirstPage = isFirstPage;
     }
 
     private void setFormerlyLovingUsersInEntity(final DatastoreEntity entity) {
@@ -865,9 +865,9 @@ public class StoryPage extends Model {
         entity.setProperty(ID_VERSION_PROPERTY, version);
     }
 
-    private void setIsFirstPgInEntity(final DatastoreEntity entity) {
-        final boolean isFirstPg = isFirstPg();
-        entity.setProperty(IS_FIRST_PG_PROPERTY, isFirstPg);
+    private void setIsFirstPageInEntity(final DatastoreEntity entity) {
+        final boolean isFirstPage = isFirstPage();
+        entity.setProperty(IS_FIRST_PG_PROPERTY, isFirstPage);
     }
 
     private void setLovingUsersInEntity(final DatastoreEntity entity) {
@@ -950,7 +950,7 @@ public class StoryPage extends Model {
         readLovingUsersFromEntity(entity);
         readFormerlyLovingUsersFromEntity(entity);
         readTagsFromEntity(entity);
-        readIsFirstPgFromEntity(entity);
+        readIsFirstPageFromEntity(entity);
     }
 
     @Override
@@ -964,6 +964,6 @@ public class StoryPage extends Model {
         setLovingUsersInEntity(entity);
         setFormerlyLovingUsersInEntity(entity);
         setTagsInEntity(entity);
-        setIsFirstPgInEntity(entity);
+        setIsFirstPageInEntity(entity);
     }
 }

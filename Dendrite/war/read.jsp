@@ -218,11 +218,11 @@ if (isPageInStore == true) {
       <div class="clear"></div>
       <script><%
 
-        view.preparePgId();
+        view.preparePageId();
       
         %>
-        var ADD_TAG_URL_WITHOUT_TAG = "/addTag?p=${fn:escapeXml(pgId)}&tag=";
-        var REMOVE_TAG_URL_WITHOUT_TAG = "/removeTag?p=${fn:escapeXml(pgId)}&tag=";
+        var ADD_TAG_URL_WITHOUT_TAG = "/addTag?p=${fn:escapeXml(pageId)}&tag=";
+        var REMOVE_TAG_URL_WITHOUT_TAG = "/removeTag?p=${fn:escapeXml(pageId)}&tag=";
         </script>
       <ul class="read tags"><%
       
@@ -301,7 +301,7 @@ for (final String tag : tagNames) {
       
       %>
         var IS_NOT_CURRENTLY_LOVED = ${fn:escapeXml(isNotLoved)};
-        var LOVE_URI_WITHOUT_VAL = "/love?p=${fn:escapeXml(pgId)}&isAdded=";
+        var LOVE_URI_WITHOUT_VAL = "/love?p=${fn:escapeXml(pageId)}&isAdded=";
         var love_uri = LOVE_URI_WITHOUT_VAL + IS_NOT_CURRENTLY_LOVED;
       </script><%
       
@@ -341,13 +341,13 @@ for (final String tag : tagNames) {
     }
 
 	%>
-      <p id="pgNav"><%
+      <p id="pageNav"><%
 	
 	if (view.isShowingFirstPage() == false) {
 		view.preparePrevPageNum();
 		
 		%>
-        <span class="pgArrow"><a href="/read?p=${fn:escapeXml(prevPageNum)}">◀</a></span><%
+        <span class="pageArrow"><a href="/read?p=${fn:escapeXml(prevPageNum)}">◀</a></span><%
 		
 	}
 	
@@ -356,6 +356,6 @@ for (final String tag : tagNames) {
 	
 	view.prepareNextPageNum();
 	%>
-        <span class="pgArrow"><a href="/read?p=${fn:escapeXml(nextPageNum)}">▶</a></span>
+        <span class="pageArrow"><a href="/read?p=${fn:escapeXml(nextPageNum)}">▶</a></span>
       </p>
 <%@include file="bottom.jspf" %>

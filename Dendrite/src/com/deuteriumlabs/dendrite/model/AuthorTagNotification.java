@@ -8,13 +8,13 @@ import com.deuteriumlabs.dendrite.dependencies.DatastoreEntity;
 import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 
 public class AuthorTagNotification extends Notification {
-    private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
-    private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
+    private static final String PG_ID_NUM_PROPERTY = "pageIdNum";
+    private static final String PG_ID_VERSION_PROPERTY = "pageIdVersion";
     private static final String TAG_PROPERTY = "tag";
     private static final String TAGGER_ID_PROPERTY = "taggerId";
     private static final String TAGGER_NAME_PROPERTY = "taggerName";
 
-    private PageId pgId;
+    private PageId pageId;
     private String tag;
     private String taggerId;
     private String taggerName;
@@ -40,10 +40,10 @@ public class AuthorTagNotification extends Notification {
             unlinkedChunk.str = " tagged your page ";
             msg.add(unlinkedChunk);
 
-            final HyperlinkedStr pgIdChunk = new HyperlinkedStr();
-            pgIdChunk.str = pgId.toString();
-            pgIdChunk.url = "/read?p=" + pgId;
-            msg.add(pgIdChunk);
+            final HyperlinkedStr pageIdChunk = new HyperlinkedStr();
+            pageIdChunk.str = pageId.toString();
+            pageIdChunk.url = "/read?p=" + pageId;
+            msg.add(pageIdChunk);
 
             unlinkedChunk = new HyperlinkedStr();
             unlinkedChunk.str = " as " + tag + ".";
@@ -53,10 +53,10 @@ public class AuthorTagNotification extends Notification {
             unlinkedChunk.str = "Someone tagged your page ";
             msg.add(unlinkedChunk);
 
-            final HyperlinkedStr pgIdChunk = new HyperlinkedStr();
-            pgIdChunk.str = pgId.toString();
-            pgIdChunk.url = "/read?p=" + pgId;
-            msg.add(pgIdChunk);
+            final HyperlinkedStr pageIdChunk = new HyperlinkedStr();
+            pageIdChunk.str = pageId.toString();
+            pageIdChunk.url = "/read?p=" + pageId;
+            msg.add(pageIdChunk);
 
             unlinkedChunk = new HyperlinkedStr();
             unlinkedChunk.str = " as " + tag + ".";
@@ -71,15 +71,15 @@ public class AuthorTagNotification extends Notification {
         final String msg;
         if (taggerId != null) {
             final String name = taggerName;
-            msg = name + " tagged your page " + pgId + " as " + tag + ".";
+            msg = name + " tagged your page " + pageId + " as " + tag + ".";
         } else {
-            msg = "Someone tagged your page " + pgId + " as " + tag + ".";
+            msg = "Someone tagged your page " + pageId + " as " + tag + ".";
         }
         return msg;
     }
 
-    public void setPgId(final PageId id) {
-        pgId = id;
+    public void setPageId(final PageId id) {
+        pageId = id;
     }
 
     public void setTag(final String tag) {
@@ -94,11 +94,11 @@ public class AuthorTagNotification extends Notification {
         taggerName = name;
     }
 
-    private int getPgIdNumFromEntity(final DatastoreEntity entity) {
+    private int getPageIdNumFromEntity(final DatastoreEntity entity) {
         return ((Long) entity.getProperty(PG_ID_NUM_PROPERTY)).intValue();
     }
 
-    private String getPgIdVersionFromEntity(final DatastoreEntity entity) {
+    private String getPageIdVersionFromEntity(final DatastoreEntity entity) {
         return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
     }
 
@@ -114,11 +114,11 @@ public class AuthorTagNotification extends Notification {
         return (String) entity.getProperty(TAGGER_NAME_PROPERTY);
     }
 
-    private void readPgIdFromEntity(final DatastoreEntity entity) {
+    private void readPageIdFromEntity(final DatastoreEntity entity) {
         final PageId id = new PageId();
-        id.setNumber(getPgIdNumFromEntity(entity));
-        id.setVersion(getPgIdVersionFromEntity(entity));
-        setPgId(id);
+        id.setNumber(getPageIdNumFromEntity(entity));
+        id.setVersion(getPageIdVersionFromEntity(entity));
+        setPageId(id);
     }
 
     private void readTagFromEntity(final DatastoreEntity entity) {
@@ -133,8 +133,8 @@ public class AuthorTagNotification extends Notification {
         setTaggerName(getTaggerNameFromEntity(entity));
     }
 
-    private void setPgIdInEntity(final DatastoreEntity entity) {
-        final PageId id = pgId;
+    private void setPageIdInEntity(final DatastoreEntity entity) {
+        final PageId id = pageId;
         entity.setProperty(PG_ID_NUM_PROPERTY, id.getNumber());
         entity.setProperty(PG_ID_VERSION_PROPERTY, id.getVersion());
     }
@@ -154,7 +154,7 @@ public class AuthorTagNotification extends Notification {
     @Override
     void readPropertiesFromEntity(final DatastoreEntity entity) {
         super.readPropertiesFromEntity(entity);
-        readPgIdFromEntity(entity);
+        readPageIdFromEntity(entity);
         readTagFromEntity(entity);
         readTaggerIdFromEntity(entity);
         readTaggerNameFromEntity(entity);
@@ -163,7 +163,7 @@ public class AuthorTagNotification extends Notification {
     @Override
     void setPropertiesInEntity(final DatastoreEntity entity) {
         super.setPropertiesInEntity(entity);
-        setPgIdInEntity(entity);
+        setPageIdInEntity(entity);
         setTagInEntity(entity);
         if (taggerId != null) {
             setTaggerIdInEntity(entity);

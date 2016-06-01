@@ -19,7 +19,7 @@ view.initialise();
 
 %><%
 
-if (view.isPgNumInvalid()) {
+if (view.isPageNumInvalid()) {
 	
 	%>
         <p class="notice">Uh oh. This isn't the right page. To view the
@@ -37,8 +37,8 @@ for (final Alt alt : alts) {
 	
     %>
           <li>
-            <div class="pgId">
-              <a href="/read?p=${fn:escapeXml(pgId)}">${fn:escapeXml(pgId)}</a>
+            <div class="pageId">
+              <a href="/read?p=${fn:escapeXml(pageId)}">${fn:escapeXml(pageId)}</a>
             </div>
             <div class="altBody">
             <div class="summary">"${fn:escapeXml(summary)}"</div>
