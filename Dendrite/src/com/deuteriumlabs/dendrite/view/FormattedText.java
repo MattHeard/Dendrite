@@ -82,7 +82,6 @@ public class FormattedText {
         test();
     }
 
-    // Called in 'read'
     public static FormattedText[] parseFormattedText(final String input) {
         final List<FormattedText> list = extractFormattedText(input);
         final FormattedText[] array = new FormattedText[list.size()];

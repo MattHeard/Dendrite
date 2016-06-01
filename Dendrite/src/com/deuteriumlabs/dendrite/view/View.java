@@ -12,25 +12,10 @@ import com.deuteriumlabs.dendrite.model.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
-/**
- * Represents the visible face of the website. The view gets data from the model
- * and displays it to the user in JSPs.
- */
 public abstract class View {
-
-    /**
-     * Lists the links in the footer bar.
-     */
     public class FooterLinkList {
-
-        /**
-         * The index used for iterating over the list.
-         */
         private int currIndex;
 
-        /**
-         * The list of link texts to display.
-         */
         private final String[] list = { "About", "Terms", "Privacy",
                 "Contact" };
 
@@ -46,11 +31,6 @@ public abstract class View {
             return "/" + list[currIndex].toLowerCase();
         }
 
-        /**
-         * Returns whether the end of the list has not yet finished iterating.
-         * 
-         * @return true if there are remaining links to display
-         */
         public final boolean hasAnotherLink() {
             return currIndex < list.length;
         }
@@ -60,12 +40,6 @@ public abstract class View {
         }
     }
 
-    /**
-     * Returns the URL to the author page of the logged-in user, using the App
-     * Engine user ID.
-     * 
-     * @return The URL to the author page of the logged-in user
-     */
     // TODO Make private and non-static
     public static String getAuthorLink(final User myUser) {
         if (myUser != null) {
@@ -80,11 +54,6 @@ public abstract class View {
         return User.getMyUserId();
     }
 
-    /**
-     * Returns the default pen name of the logged-in user.
-     * 
-     * @return The default pen name of the logged-in user
-     */
     public static String getMyUserName(final User myUser) {
         if (myUser != null) {
             return myUser.getDefaultPenName();
@@ -141,12 +110,6 @@ public abstract class View {
         }
     }
 
-    /**
-     * Returns whether the visitor is logged in or not.
-     * 
-     * @return <code>true</code> if the visitor is logged in, <code>false</code>
-     *         otherwise
-     */
     public static boolean isUserLoggedIn() {
         return User.isMyUserLoggedIn();
     }
@@ -256,9 +219,6 @@ public abstract class View {
     private HttpServletRequest request;
     protected PageContext pageContext;
 
-    /**
-     * Displays content to the user.
-     */
     protected View() {
         footerLinks = new FooterLinkList();
     }
@@ -273,26 +233,12 @@ public abstract class View {
         return Notification.countNewNotificationsForRecipient(id);
     }
 
-    /**
-     * Returns a link for logging in, with a redirect back to this page after
-     * the login has completed.
-     * 
-     * @return The URL to the login page
-     */
     public final String getLoginLink() {
         final String returnUrl = getUrl();
         final UserService userService = UserServiceFactory.getUserService();
         return userService.createLoginURL(returnUrl);
     }
 
-    /**
-     * Returns a link for logging out, with a redirect back to this page after
-     * the logout has completed.
-     * 
-     * TODO: Figure out how to test this method.
-     * 
-     * @return The URL to the logout page
-     */
     public final String getLogoutLink() {
         final String returnUrl = getUrl();
         final UserService userService = UserServiceFactory.getUserService();
@@ -303,19 +249,8 @@ public abstract class View {
         return request;
     }
 
-    /**
-     * Returns a link to this page, which can be supplied for when the user
-     * should be redirected back to this page.
-     * 
-     * @return The URL to this page
-     */
     abstract public String getUrl();
 
-    /**
-     * Returns the title of the web page displaying this View.
-     * 
-     * @return The title of the web page displaying this View.
-     */
     public final String getWebPageTitle() {
         return "Dendrite";
     }

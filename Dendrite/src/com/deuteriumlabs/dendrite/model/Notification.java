@@ -1,7 +1,4 @@
 /* © 2013-2015 Deuterium Labs Limited */
-/**
- *
- */
 package com.deuteriumlabs.dendrite.model;
 
 import java.util.ArrayList;
@@ -23,9 +20,6 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
-/**
- *
- */
 public class Notification extends Model {
 
     private static final String IS_NEW_PROPERTY = "isNew";
@@ -34,10 +28,6 @@ public class Notification extends Model {
     private static final String TIME_PROPERTY = "time";
     private static final String TYPE_PROPERTY = "type";
 
-    /**
-     * @param pageId
-     * @return
-     */
     public static int countNewNotificationsForRecipient(
             final String recipientId) {
         final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
@@ -53,10 +43,6 @@ public class Notification extends Model {
         return preparedQuery.countEntities(fetchOptions);
     }
 
-    /**
-     * @param userId
-     * @return
-     */
     public static List<Notification> getNotificationsForUser(
             final String userId) {
         final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
@@ -77,19 +63,11 @@ public class Notification extends Model {
         return TYPE_PROPERTY;
     }
 
-    /**
-     * @param entity
-     * @return
-     */
     private static long getEntityIdFromEntity(final DatastoreEntity entity) {
         final long id = entity.getKey().getId();
         return id;
     }
 
-    /**
-     * @param isNew
-     * @return
-     */
     private static Filter getIsNewFilter(final boolean isNew) {
         final String propertyName = IS_NEW_PROPERTY;
         final FilterOperator operator = FilterOperator.EQUAL;
@@ -97,19 +75,11 @@ public class Notification extends Model {
         return new FilterPredicate(propertyName, operator, value);
     }
 
-    /**
-     * @param entity
-     * @return
-     */
     private static boolean getIsNewFromEntity(final DatastoreEntity entity) {
         final Boolean isNew = (Boolean) entity.getProperty(IS_NEW_PROPERTY);
         return isNew;
     }
 
-    /**
-     * @param entities
-     * @return
-     */
     private static List<Notification> getNotificationsFromEntities(
             final List<DatastoreEntity> entities) {
         final List<Notification> notifications = new ArrayList<Notification>();
@@ -148,10 +118,6 @@ public class Notification extends Model {
         return notifications;
     }
 
-    /**
-     * @param recipientId
-     * @return
-     */
     private static Filter getRecipientFilter(final String recipientId) {
         final String propertyName = RECIPIENT_ID_PROPERTY;
         final FilterOperator operator = FilterOperator.EQUAL;
@@ -159,19 +125,11 @@ public class Notification extends Model {
         return new FilterPredicate(propertyName, operator, value);
     }
 
-    /**
-     * @param entity
-     * @return
-     */
     private static String getRecipientFromEntity(final DatastoreEntity entity) {
         final String id = (String) entity.getProperty(RECIPIENT_ID_PROPERTY);
         return id;
     }
 
-    /**
-     * @param time
-     * @return
-     */
     private static Filter getTimeFilter(final Date time) {
         final String propertyName = TIME_PROPERTY;
         final FilterOperator operator = FilterOperator.EQUAL;
@@ -179,21 +137,14 @@ public class Notification extends Model {
         return new FilterPredicate(propertyName, operator, value);
     }
 
-    /**
-     * @param entity
-     * @return
-     */
     private static Date getTimeFromEntity(final DatastoreEntity entity) {
         final Date time = (Date) entity.getProperty(TIME_PROPERTY);
         return time;
     }
 
     private long entityId;
-
     private boolean isNew;
-
     private String recipientId;
-
     private Date time;
 
     public Notification() {
@@ -201,16 +152,10 @@ public class Notification extends Model {
         setAsNew();
     }
 
-    /**
-     * @param entity
-     */
     public Notification(final DatastoreEntity entity) {
         readPropertiesFromEntity(entity);
     }
 
-    /**
-     * @return
-     */
     public void deleteById() {
         final long id = getEntityId();
         final Key key = KeyFactory.createKey(KIND_NAME, id);
@@ -231,23 +176,14 @@ public class Notification extends Model {
         return getEntityId();
     }
 
-    /**
-     * @return
-     */
     public String getMsg() {
         return "Something happened. (Unknown notification.)";
     }
 
-    /**
-     * @return
-     */
     public String getRecipientId() {
         return recipientId;
     }
 
-    /**
-     * @param notificationId
-     */
     public void setId(final String notificationId) {
         try {
             final long entityId = Long.parseLong(notificationId);
@@ -257,16 +193,10 @@ public class Notification extends Model {
         }
     }
 
-    /**
-     * @param id
-     */
     public void setRecipientId(final String id) {
         recipientId = id;
     }
 
-    /**
-     * @return
-     */
     private long getEntityId() {
         return entityId;
     }
@@ -294,9 +224,6 @@ public class Notification extends Model {
         return query;
     }
 
-    /**
-     * @return
-     */
     private Date getTime() {
         return time;
     }
@@ -306,104 +233,62 @@ public class Notification extends Model {
         return (id > 0);
     }
 
-    /**
-     * @param entity
-     */
     private void readEntityIdFromEntity(final DatastoreEntity entity) {
         final long id = getEntityIdFromEntity(entity);
         setEntityId(id);
     }
 
-    /**
-     * @param entity
-     */
     private void readIsNewFromEntity(final DatastoreEntity entity) {
         final boolean isNew = getIsNewFromEntity(entity);
         setNew(isNew);
     }
 
-    /**
-     * @param entity
-     */
     private void readRecipientFromEntity(final DatastoreEntity entity) {
         final String id = getRecipientFromEntity(entity);
         setRecipientId(id);
     }
 
-    /**
-     * @param entity
-     */
     private void readTimeFromEntity(final DatastoreEntity entity) {
         final Date time = getTimeFromEntity(entity);
         setTime(time);
     }
 
-    /**
-     *
-     */
     private void setAsNew() {
         setNew(true);
     }
 
-    /**
-     * @param id
-     */
     private void setEntityId(final long id) {
         entityId = id;
     }
 
-    /**
-     * @param entity
-     */
     private void setIsNewInEntity(final DatastoreEntity entity) {
         final boolean isNew = isNew();
         entity.setProperty(IS_NEW_PROPERTY, isNew);
     }
 
-    /**
-     * @param isNew
-     */
     private void setNew(final boolean isNew) {
         this.isNew = isNew;
     }
 
-    /**
-     * @param entity
-     */
     private void setRecipientInEntity(final DatastoreEntity entity) {
         final String id = getRecipientId();
         entity.setProperty(RECIPIENT_ID_PROPERTY, id);
     }
 
-    /**
-     * @param time
-     */
     private void setTime(final Date time) {
         this.time = time;
     }
 
-    /**
-     * @param entity
-     */
     private void setTimeInEntity(final DatastoreEntity entity) {
         final Date time = getTime();
         entity.setProperty(TIME_PROPERTY, time);
     }
 
-    /**
-     *
-     */
     private void setTimeToNow() {
-        // Date() allocates a Date object and initialises it so that it
-        // represents the time at which it was allocated, measured to the
-        // nearest millisecond.
         final Date now = new Date();
         setTime(now);
     }
 
-    /**
-     * @return
-     */
     protected boolean isNew() {
         return isNew;
     }
@@ -414,17 +299,11 @@ public class Notification extends Model {
         entity.setProperty(propertyName, type);
     }
 
-    /* (non-Javadoc)
-     * 
-     * @see com.deuteriumlabs.dendrite.model.Model#getKindName() */
     @Override
     String getKindName() {
         return KIND_NAME;
     }
 
-    /* (non-Javadoc)
-     * 
-     * @see com.deuteriumlabs.dendrite.model.Model#getMatchingQuery() */
     @Override
     DatastoreQuery getMatchingQuery() {
         final boolean isIdDefined = isIdDefined();
@@ -435,10 +314,6 @@ public class Notification extends Model {
         }
     }
 
-    /* (non-Javadoc)
-     * 
-     * @see com.deuteriumlabs.dendrite.model.Model#readPropertiesFromEntity(com.
-     * google .appengine.api.datastore.Entity) */
     @Override
     void readPropertiesFromEntity(final DatastoreEntity entity) {
         readRecipientFromEntity(entity);
@@ -447,11 +322,6 @@ public class Notification extends Model {
         readEntityIdFromEntity(entity);
     }
 
-    /* (non-Javadoc)
-     * 
-     * @see
-     * com.deuteriumlabs.dendrite.model.Model#setPropertiesInEntity(com.google
-     * .appengine.api.datastore.Entity) */
     @Override
     void setPropertiesInEntity(final DatastoreEntity entity) {
         setRecipientInEntity(entity);

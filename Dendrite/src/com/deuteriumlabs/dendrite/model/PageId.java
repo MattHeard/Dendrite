@@ -1,25 +1,10 @@
 /* © 2013-2015 Deuterium Labs Limited */
 package com.deuteriumlabs.dendrite.model;
 
-/**
- * Represents a unique identifier for a story page. The IDs are two-
- * dimensional, where differing page numbers represent different points in the
- * story (or possibly even different stories) while differing versions of the
- * same page number represent different alternatives of the same point in the
- * story. Both dimensions are theoretically unlimited, intending for
- * unrestricted expansion of stories by increasing the page numbers and for
- * unrestricted rewriting of stories by increasing the page versions. As
- * currently implemented, there is an upper limit on the page number because of
- * the <code>int</code> representation.
- */
 public class PageId {
     private static final int INVALID_PAGE_NUM = 0;
     private static final int MIN_PAGE_NUM = 1;
 
-    /**
-     * @param version
-     * @return
-     */
     private static String increment(final String version) {
         final String allButLast;
         if (version.length() > 1) {
@@ -37,14 +22,6 @@ public class PageId {
         return incrementedVersion;
     }
 
-    /**
-     * Determines whether a version String is "valid" by checking whether all of
-     * the characters are letters.
-     * 
-     * @param version
-     *            the candidate version to validate
-     * @return true if the version is valid, false otherwise
-     */
     private static boolean isValidVersion(final String version) {
         if (version == null) {
             return false;
@@ -61,11 +38,9 @@ public class PageId {
     }
 
     private int number = INVALID_PAGE_NUM;
-
     private String version = null;
 
-    public PageId() {
-    }
+    public PageId() { }
 
     public PageId(final String string) {
         if (string != null) {
@@ -105,27 +80,14 @@ public class PageId {
         }
     }
 
-    /**
-     * Returns the number component of the ID.
-     * 
-     * @return the number component
-     */
     public int getNumber() {
         return number;
     }
 
-    /**
-     * Returns the version component of the ID.
-     * 
-     * @return the version component
-     */
     public String getVersion() {
         return version;
     }
 
-    /**
-     *
-     */
     public void incrementVersion() {
         final String version = getVersion();
         if (version == null) {
@@ -145,22 +107,10 @@ public class PageId {
         return (isValidNumber && isValidVersion);
     }
 
-    /**
-     * Sets the number component of the ID. Only positive numbers are valid.
-     * 
-     * @param number
-     *            the new number component for the ID
-     */
     public void setNumber(final int number) {
         this.number = (number > INVALID_PAGE_NUM) ? number : INVALID_PAGE_NUM;
     }
 
-    /**
-     * Sets the version component of the ID. Only a String of letters is valid.
-     * 
-     * @param version
-     *            the new version component for the ID
-     */
     public void setVersion(final String version) {
         final boolean isValid = isValidVersion(version);
         this.version = (isValid == true) ? version : null;
@@ -184,5 +134,4 @@ public class PageId {
         }
         return number;
     }
-
 }

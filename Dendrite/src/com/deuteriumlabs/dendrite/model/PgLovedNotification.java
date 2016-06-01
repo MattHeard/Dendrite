@@ -1,7 +1,4 @@
 /* © 2013-2015 Deuterium Labs Limited */
-/**
- *
- */
 package com.deuteriumlabs.dendrite.model;
 
 import java.util.ArrayList;
@@ -10,9 +7,6 @@ import java.util.List;
 import com.deuteriumlabs.dendrite.dependencies.DatastoreEntity;
 import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 
-/**
- *
- */
 public class PgLovedNotification extends Notification {
 
     public static final String LOVER_ID_PROPERTY = "loverId";
@@ -22,12 +16,8 @@ public class PgLovedNotification extends Notification {
     private String loverId;
     private PageId pageId;
 
-    public PgLovedNotification() {
-    }
+    public PgLovedNotification() { }
 
-    /**
-     * @param entity
-     */
     public PgLovedNotification(final DatastoreEntity entity) {
         readPropertiesFromEntity(entity);
     }
@@ -65,41 +55,23 @@ public class PgLovedNotification extends Notification {
         return lover + " loves page " + pageId + ".";
     }
 
-    /**
-     * @param loverId
-     *            The user who now loves the page.
-     */
     public void setLoverId(final String loverId) {
         this.loverId = loverId;
     }
 
-    /**
-     * @param pageId
-     *            The page which has been loved.
-     */
     public void setPageId(final PageId pageId) {
         this.pageId = pageId;
     }
 
-    /**
-     * @param entity
-     * @return
-     */
     private String getLoverFromEntity(final DatastoreEntity entity) {
         final String id = (String) entity.getProperty(LOVER_ID_PROPERTY);
         return id;
     }
 
-    /**
-     * @return
-     */
     private String getLoverId() {
         return loverId;
     }
 
-    /**
-     * @return
-     */
     private String getLoverName() {
         final String id = getLoverId();
         final User lover = new User();
@@ -108,41 +80,24 @@ public class PgLovedNotification extends Notification {
         return lover.getDefaultPenName();
     }
 
-    /**
-     * @return
-     */
     private PageId getPageId() {
         return pageId;
     }
 
-    /**
-     * @param entity
-     * @return
-     */
     private int getPageIdNumFromEntity(final DatastoreEntity entity) {
         final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
         return num.intValue();
     }
 
-    /**
-     * @param entity
-     * @return
-     */
     private String getPageIdVersionFromEntity(final DatastoreEntity entity) {
         return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
     }
 
-    /**
-     * @param entity
-     */
     private void readLoverIdFromEntity(final DatastoreEntity entity) {
         final String id = getLoverFromEntity(entity);
         setLoverId(id);
     }
 
-    /**
-     * @param entity
-     */
     private void readPageIdFromEntity(final DatastoreEntity entity) {
         final PageId id = new PageId();
         final int number = getPageIdNumFromEntity(entity);
@@ -152,17 +107,11 @@ public class PgLovedNotification extends Notification {
         setPageId(id);
     }
 
-    /**
-     * @param entity
-     */
     private void setLoverIdInEntity(final DatastoreEntity entity) {
         final String id = getLoverId();
         entity.setProperty(LOVER_ID_PROPERTY, id);
     }
 
-    /**
-     * @param entity
-     */
     private void setPageIdInEntity(final DatastoreEntity entity) {
         final PageId id = getPageId();
         final int num = id.getNumber();

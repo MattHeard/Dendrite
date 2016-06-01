@@ -37,7 +37,6 @@ public class User extends Model {
     private static final String ID_PROPERTY = "id";
     private static final String KIND_NAME = "User";
     private static final String SPACING_PROPERTY = "spacing";
-
     private static final String THEME_PROPERTY = "theme";
 
     static {

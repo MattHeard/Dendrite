@@ -14,11 +14,6 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 
-/**
- * Represents the beginning of a story. <code>StoryBeginning</code> instances
- * provide an easy way to find the first page in a story and to provide storage
- * for information shared across all pages in a story, such as the story title.
- */
 public class StoryBeginning extends Model {
     private static final String KIND_NAME = "StoryBeginning";
     private static final String LOVE_PROPERTY = "love";
@@ -36,16 +31,6 @@ public class StoryBeginning extends Model {
         return preparedQuery.countEntities(fetchOptions);
     }
 
-    /**
-     * Returns a subsection of the list of all beginnings. This is particularly
-     * useful for getting paginated lists of beginnings in order of page number.
-     * 
-     * @param start
-     *            The first index for retrieval
-     * @param end
-     *            The off-the-end index for retrieval
-     * @return The list of beginnings between start and end, not including end
-     */
     public static List<StoryBeginning> getBeginnings(final int start,
             final int end, final Store store, final DatastoreQuery query) {
         query.addSort(QUALITY_PROPERTY, SortDirection.DESCENDING);
@@ -62,13 +47,6 @@ public class StoryBeginning extends Model {
         return beginnings;
     }
 
-    /**
-     * Returns a list of story beginnings extracted from beginning entities.
-     * 
-     * @param entities
-     *            The entities containing the story beginning properties
-     * @return The list of story beginnings with extracted properties
-     */
     private static List<StoryBeginning> getBeginningsFromEntities(
             final List<DatastoreEntity> entities) {
         final List<StoryBeginning> beginnings = new ArrayList<StoryBeginning>();
@@ -79,13 +57,6 @@ public class StoryBeginning extends Model {
         return beginnings;
     }
 
-    /**
-     * Builds a filter to restrict a query to a particular page number.
-     * 
-     * @param pageNumber
-     *            The page number to filter for
-     * @return The filter to apply to the query
-     */
     private static Filter getPageNumberFilter(final int pageNumber) {
         final String propertyName = PAGE_NUMBER_PROPERTY;
         final FilterOperator operator = FilterOperator.EQUAL;
@@ -93,25 +64,11 @@ public class StoryBeginning extends Model {
         return new FilterPredicate(propertyName, operator, value);
     }
 
-    /**
-     * Returns the page number from the given entity.
-     * 
-     * @param entity
-     *            The entity containing the page number
-     * @return The page number
-     */
     private static int getPageNumberFromEntity(final DatastoreEntity entity) {
         final Long pageNumber = (Long) entity.getProperty(PAGE_NUMBER_PROPERTY);
         return pageNumber.intValue();
     }
 
-    /**
-     * Returns the title of the story from the given entity.
-     * 
-     * @param entity
-     *            The entity containing the title
-     * @return The title of the story
-     */
     private static String getTitleFromEntity(final DatastoreEntity entity) {
         return (String) entity.getProperty(TITLE_PROPERTY);
     }
@@ -123,27 +80,13 @@ public class StoryBeginning extends Model {
 
     private String title;
 
-    /**
-     * Default constructor. Explicitly defined because of the other constructor.
-     */
     public StoryBeginning() {
     }
 
-    /**
-     * Builds a story beginning from the properties extracted from the entity.
-     * 
-     * @param entity
-     *            The entity containing the properties
-     */
     public StoryBeginning(final DatastoreEntity entity) {
         readPropertiesFromEntity(entity);
     }
 
-    /**
-     * Returns the page number of the first page in this story.
-     * 
-     * @return the page number of the first page in this story
-     */
     public int getPageNumber() {
         return pageNumber;
     }
@@ -162,11 +105,6 @@ public class StoryBeginning extends Model {
         return size;
     }
 
-    /**
-     * Returns the title of this story.
-     * 
-     * @return the title of this story
-     */
     public String getTitle() {
         return title;
     }
@@ -180,22 +118,10 @@ public class StoryBeginning extends Model {
         setQuality(quality);
     }
 
-    /**
-     * Sets the page number of the first page in this story.
-     * 
-     * @param pageNumber
-     *            the page number of the first page in this story
-     */
     public void setPageNumber(final int pageNumber) {
         this.pageNumber = ((pageNumber > 0 ? pageNumber : 0));
     }
 
-    /**
-     * Sets the title of this story.
-     * 
-     * @param title
-     *            The title of this story
-     */
     public void setTitle(final String title) {
         this.title = title;
     }
@@ -239,13 +165,6 @@ public class StoryBeginning extends Model {
         setLove(love);
     }
 
-    /**
-     * Reads the value from the entity corresponding to the page number of the
-     * first page in this story.
-     * 
-     * @param entity
-     *            The entity storing the page number
-     */
     private void readPageNumberFromEntity(final DatastoreEntity entity) {
         final int pageNumber = getPageNumberFromEntity(entity);
         setPageNumber(pageNumber);
@@ -261,12 +180,6 @@ public class StoryBeginning extends Model {
         setSize(size);
     }
 
-    /**
-     * Reads the value from the entity corresponding to the title of this story.
-     * 
-     * @param entity
-     *            The entity storing the title
-     */
     private void readTitleFromEntity(final DatastoreEntity entity) {
         final String title = getTitleFromEntity(entity);
         if (title == null) {
@@ -303,13 +216,6 @@ public class StoryBeginning extends Model {
         entity.setProperty(LOVE_PROPERTY, love);
     }
 
-    /**
-     * Sets the value in the entity corresponding to the page number of the
-     * first page in this story.
-     * 
-     * @param entity
-     *            The entity in which the value is to be stored
-     */
     private void setPageNumberInEntity(final DatastoreEntity entity) {
         final int pageNumber = getPageNumber();
         entity.setProperty(PAGE_NUMBER_PROPERTY, pageNumber);
@@ -333,28 +239,16 @@ public class StoryBeginning extends Model {
         entity.setProperty(SIZE_PROPERTY, size);
     }
 
-    /**
-     * Sets the value in the entity corresponding to the title of this story.
-     * 
-     * @param entity
-     *            The entity in which the value is to be stored
-     */
     private void setTitleInEntity(final DatastoreEntity entity) {
         final String title = getTitle();
         entity.setProperty(TITLE_PROPERTY, title);
     }
 
-    /* (non-Javadoc)
-     * 
-     * @see com.deuteriumlabs.dendrite.model.Model#getKindName() */
     @Override
     String getKindName() {
         return KIND_NAME;
     }
 
-    /* (non-Javadoc)
-     * 
-     * @see com.deuteriumlabs.dendrite.model.Model#getMatchingQuery() */
     @Override
     DatastoreQuery getMatchingQuery() {
         final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
@@ -364,10 +258,6 @@ public class StoryBeginning extends Model {
         return query;
     }
 
-    /* (non-Javadoc)
-     * 
-     * @see com.deuteriumlabs.dendrite.model.Model#readPropertiesFromEntity(com.
-     * google .appengine.api.datastore.Entity) */
     @Override
     void readPropertiesFromEntity(final DatastoreEntity entity) {
         readPageNumberFromEntity(entity);
@@ -377,11 +267,6 @@ public class StoryBeginning extends Model {
         readQualityFromEntity(entity);
     }
 
-    /* (non-Javadoc)
-     * 
-     * @see
-     * com.deuteriumlabs.dendrite.model.Model#setPropertiesInEntity(com.google
-     * .appengine.api.datastore.Entity) */
     @Override
     void setPropertiesInEntity(final DatastoreEntity entity) {
         setPageNumberInEntity(entity);

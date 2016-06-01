@@ -16,10 +16,6 @@ import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 
-/**
- * Represents the table of contents from which the user can select a story to
- * read.
- */
 public class ContentsView extends View {
     public class Link {
         public String number;
@@ -35,7 +31,7 @@ public class ContentsView extends View {
     private static final String FILTER_PARAMETER_NAME = "filter";
     private static final int NUM_STORIES_DISPLAYED = 10;
 
-    // OPTIMISE
+    // TODO OPTIMISE
     // This function is called once per contents page link and each call makes
     // a datastore query. This might be able to be optimised into a single
     // query.
@@ -58,10 +54,6 @@ public class ContentsView extends View {
     private int numFilteredBeginnings;
     private Map<Integer, List<StoryPage>> pagesMap;
 
-    /**
-     * Default constructor. Sets the default page number to 1, which displays
-     * the first page of story beginnings.
-     */
     public ContentsView() {
         setBeginnings(null);
         setContentsPageNumber(1);
@@ -108,22 +100,11 @@ public class ContentsView extends View {
         return Integer.toString(prev);
     }
 
-    /* (non-Javadoc)
-     *
-     * @see com.deuteriumlabs.dendrite.view.View#getUrl() */
     @Override
     public String getUrl() {
         return "/contents";
     }
 
-    /**
-     * Returns the list of links to all beginnings on this page of contents.
-     *
-     * @param versions
-     * @param numbers
-     *
-     * @return The list of links to all beginnings on this page of contents
-     */
     public List<String> getUrls(final List<String> numbers,
             final List<String> versions) {
         final List<String> urls = new ArrayList<String>();
@@ -226,15 +207,6 @@ public class ContentsView extends View {
         pageContext.setAttribute("tagName", tagName);
     }
 
-    /**
-     * Sets the current contents page number. The page number must be positive.
-     * If the page number is changed successfully, the cached list of beginnings
-     * is nulled so that the new page is loaded the next time the getter for the
-     * beginnings is called.
-     *
-     * @param contentsPageNumber
-     *            The contents page number to change to
-     */
     public void setContentsPageNumber(final int contentsPageNumber) {
         final int previousPageNum = getContentsPageNumber();
         if (contentsPageNumber > 1) {
@@ -326,11 +298,6 @@ public class ContentsView extends View {
         return StoryPage.countFirstPagesMatchingTag(filter);
     }
 
-    /**
-     * Returns the list of all beginnings on this page of contents.
-     *
-     * @return The list of all beginnings on this page of contents
-     */
     private List<StoryBeginning> getBeginnings(final Store store,
             final DatastoreQuery query) {
         if (beginnings == null) {
@@ -339,11 +306,6 @@ public class ContentsView extends View {
         return beginnings;
     }
 
-    /**
-     * Returns which page of beginnings are currently being displayed.
-     *
-     * @return The page number of contents currently being displayed
-     */
     private int getContentsPageNumber() {
         return contentsPageNumber;
     }
@@ -447,11 +409,6 @@ public class ContentsView extends View {
         return (filter != null) && (filter.length() > 0);
     }
 
-    /**
-     * Loads a page of beginnings from the datastore. The beginnings are
-     * paginated so that a limited number of beginnings are displayed at one
-     * time.
-     */
     private void readBeginnings(final Store store, final DatastoreQuery query) {
         final List<StoryBeginning> beginnings;
         if (isFiltered() == false) {
@@ -493,12 +450,6 @@ public class ContentsView extends View {
         }
     }
 
-    /**
-     * Sets the list of beginnings to display.
-     *
-     * @param beginnings
-     *            The list of beginnings to display
-     */
     private void setBeginnings(final List<StoryBeginning> beginnings) {
         this.beginnings = beginnings;
     }

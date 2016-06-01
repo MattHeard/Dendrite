@@ -6,9 +6,6 @@ import com.deuteriumlabs.dendrite.model.StoryBeginning;
 import com.deuteriumlabs.dendrite.model.StoryOption;
 import com.deuteriumlabs.dendrite.model.StoryPage;
 
-/**
- * Represents a story page.
- */
 public class RewriteView extends FormView {
 
     private String pageNum;

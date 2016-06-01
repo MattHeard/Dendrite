@@ -9,10 +9,6 @@ import javax.servlet.jsp.PageContext;
 
 import com.deuteriumlabs.dendrite.model.User;
 
-/**
- * Presents a list of pages written by a particular user and presents user
- * preferences visible only to the matching user.
- */
 public class FollowersView extends View {
 
     private User author;

@@ -1,7 +1,4 @@
 /* © 2013-2015 Deuterium Labs Limited */
-/**
- *
- */
 package com.deuteriumlabs.dendrite.model;
 
 import java.util.ArrayList;
@@ -10,9 +7,6 @@ import java.util.List;
 import com.deuteriumlabs.dendrite.dependencies.DatastoreEntity;
 import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 
-/**
- *
- */
 public class PgChildNotification extends Notification {
 
     private static final String CHILD_AUTHOR_ID_PROPERTY = "childAuthorId";
@@ -64,23 +58,14 @@ public class PgChildNotification extends Notification {
         return msg;
     }
 
-    /**
-     * @param id
-     */
     public void setChildAuthorId(final String id) {
         childAuthorId = id;
     }
 
-    /**
-     * @param id
-     */
     public void setPageId(final PageId id) {
         pageId = id;
     }
 
-    /**
-     * @return
-     */
     private String getChildAuthorId() {
         return childAuthorId;
     }
@@ -90,9 +75,6 @@ public class PgChildNotification extends Notification {
         return id;
     }
 
-    /**
-     * @return
-     */
     private String getChildAuthorName() {
         final String id = getChildAuthorId();
         final User author = new User();
@@ -102,9 +84,6 @@ public class PgChildNotification extends Notification {
         return name;
     }
 
-    /**
-     * @return
-     */
     private PageId getPageId() {
         return pageId;
     }
@@ -137,9 +116,6 @@ public class PgChildNotification extends Notification {
         entity.setProperty(CHILD_AUTHOR_ID_PROPERTY, id);
     }
 
-    /**
-     * @param entity
-     */
     private void setPageIdInEntity(final DatastoreEntity entity) {
         final PageId id = getPageId();
         final int num = id.getNumber();

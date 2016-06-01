@@ -53,16 +53,10 @@ public class SubmitWriteController extends SubmitController {
         return parent.getBeginning();
     }
 
-    /**
-     * @return
-     */
     private boolean isAuthorNotifiable() {
         return (getParent().getAuthorId() != null);
     }
 
-    /**
-     * @return
-     */
     private boolean isAuthorOfParentPage() {
         final String childAuthorId = getAuthorId();
         final String parentAuthorId = getParent().getAuthorId();
@@ -83,9 +77,6 @@ public class SubmitWriteController extends SubmitController {
         }
     }
 
-    /**
-     * @return
-     */
     private boolean isParentNotificationNeeded() {
         return (isAuthorNotifiable() && !isAuthorOfParentPage());
     }
@@ -109,9 +100,6 @@ public class SubmitWriteController extends SubmitController {
         }
     }
 
-    /**
-     *
-     */
     private void notifyParent() {
         final PgChildNotification notification = new PgChildNotification();
         final PageId childPageId = getId();

@@ -48,9 +48,6 @@ public class NotificationsView extends View {
         return msg;
     }
 
-    /**
-     * @return
-     */
     public List<Notification> getNotifications() {
         if (notifications == null) {
             readNotifications();
@@ -99,33 +96,21 @@ public class NotificationsView extends View {
         pageContext.setAttribute("id", id);
     }
 
-    /**
-     * @return
-     */
     private int getNumNotificationsAlreadyDisplayed() {
         return numNotificationsAlreadyDisplayed;
     }
 
-    /**
-     * @return
-     */
     private int getNumNotificationsToDisplay() {
         final List<Notification> notifications = getNotifications();
         return notifications.size();
     }
 
-    /**
-     *
-     */
     private void incrementNumNotificationsAlreadyDisplayed() {
         int num = getNumNotificationsAlreadyDisplayed();
         num++;
         setNumNotificationsAlreadyDisplayed(num);
     }
 
-    /**
-     *
-     */
     private void readNotifications() {
         final List<Notification> notifications;
         final String userId = View.getMyUserId();
@@ -133,16 +118,10 @@ public class NotificationsView extends View {
         setNotifications(notifications);
     }
 
-    /**
-     * @param notifications
-     */
     private void setNotifications(final List<Notification> notifications) {
         this.notifications = notifications;
     }
 
-    /**
-     * @param num
-     */
     private void setNumNotificationsAlreadyDisplayed(final int num) {
         numNotificationsAlreadyDisplayed = num;
     }

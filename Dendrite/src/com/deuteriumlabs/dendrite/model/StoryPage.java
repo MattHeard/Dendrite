@@ -715,9 +715,6 @@ public class StoryPage extends Model {
         setTags(tags);
     }
 
-    /**
-     * @return
-     */
     private boolean isTheFirstPage() {
         return id.getNumber() == beginning.getNumber();
     }

@@ -26,7 +26,6 @@ public class AltView extends View {
 
     private static final String URL = "/alt";
     private static final String WEB_PG_TITLE_ATTR_NAME = "webPageTitle";
-
     private static final String WEB_PG_TITLE_ATTR_VAL = "Dendrite - Alternatives";
 
     private int pageNum;

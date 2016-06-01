@@ -128,6 +128,7 @@ public abstract class SubmitController {
         return id;
     }
 
+    // TODO Replace return with a break to remove dead code
     private int findUnallocatedPageNumber() {
         int exponent = 0;
         while (exponent <= MAX_EXPONENT) {

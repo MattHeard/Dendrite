@@ -14,9 +14,6 @@ import com.deuteriumlabs.dendrite.model.StoryPage;
 import com.deuteriumlabs.dendrite.model.User;
 import com.google.appengine.api.datastore.Text;
 
-/**
- * Represents a story page.
- */
 public class ReadView extends View {
 
     public enum Format {
@@ -148,9 +145,6 @@ public class ReadView extends View {
         return beginning.getTitle();
     }
 
-    /* (non-Javadoc)
-     * 
-     * @see com.deuteriumlabs.dendrite.view.View#getUrl() */
     @Override
     public String getUrl() {
         return "/read?p=" + pageId.toString();
@@ -173,9 +167,6 @@ public class ReadView extends View {
         return (currPageNumber == beginningPageNumber);
     }
 
-    /**
-     * @return
-     */
     public boolean isLoved() {
         final String userId = View.getMyUserId();
         return page.isLovedBy(userId);

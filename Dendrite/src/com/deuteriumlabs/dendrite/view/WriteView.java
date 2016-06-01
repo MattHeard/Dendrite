@@ -4,9 +4,6 @@ package com.deuteriumlabs.dendrite.view;
 import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.StoryOption;
 
-/**
- * Represents a story page.
- */
 public class WriteView extends FormView {
 
     private static int getListIndexValue(final String listIndex) {

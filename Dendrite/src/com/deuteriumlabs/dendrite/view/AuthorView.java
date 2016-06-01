@@ -8,10 +8,6 @@ import javax.servlet.jsp.PageContext;
 
 import com.deuteriumlabs.dendrite.model.User;
 
-/**
- * Presents a list of pages written by a particular user and presents user
- * preferences visible only to the matching user.
- */
 public class AuthorView extends View {
 
     private static final int DEF_AUTHOR_PG_NUM = 1;

@@ -1,7 +1,4 @@
 /* © 2013-2015 Deuterium Labs Limited */
-/**
- *
- */
 package com.deuteriumlabs.dendrite.model;
 
 import java.util.ArrayList;
@@ -36,8 +33,7 @@ public class PgRewriteNotification extends Notification {
     private PageId pageId;
     private String rewriteAuthorId;
 
-    public PgRewriteNotification() {
-    }
+    public PgRewriteNotification() { }
 
     public PgRewriteNotification(final DatastoreEntity entity) {
         readPropertiesFromEntity(entity);
@@ -80,37 +76,22 @@ public class PgRewriteNotification extends Notification {
         return msg;
     }
 
-    /**
-     * @param id
-     */
     public void setPageId(final PageId id) {
         pageId = id;
     }
 
-    /**
-     * @param id
-     */
     public void setRewriteAuthorId(final String id) {
         rewriteAuthorId = id;
     }
 
-    /**
-     * @return
-     */
     private PageId getPageId() {
         return pageId;
     }
 
-    /**
-     * @return
-     */
     private String getRewriteAuthorId() {
         return rewriteAuthorId;
     }
 
-    /**
-     * @return
-     */
     private String getRewriteAuthorName() {
         final String id = getRewriteAuthorId();
         if (id != null) {
@@ -137,9 +118,6 @@ public class PgRewriteNotification extends Notification {
         setRewriteAuthorId(id);
     }
 
-    /**
-     * @param entity
-     */
     private void setPageIdInEntity(final DatastoreEntity entity) {
         final PageId id = getPageId();
         final int num = id.getNumber();
