@@ -19,8 +19,7 @@ public class AuthorTagNotification extends Notification {
     private String taggerId;
     private String taggerName;
 
-    public AuthorTagNotification() {
-    }
+    public AuthorTagNotification() { }
 
     public AuthorTagNotification(final DatastoreEntity entity) {
         readPropertiesFromEntity(entity);

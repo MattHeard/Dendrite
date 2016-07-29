@@ -8,7 +8,6 @@ import com.deuteriumlabs.dendrite.dependencies.DatastoreEntity;
 import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 
 public class FolloweeNewNotification extends Notification {
-
     public static final String NEW_AUTHOR_ID_PROPERTY = "newAuthorId";
 
     private static final String NEW_AUTHOR_NAME_PROPERTY = "newAuthorName";
@@ -50,8 +49,7 @@ public class FolloweeNewNotification extends Notification {
     private PageId pageId;
     private String title;
 
-    public FolloweeNewNotification() {
-    }
+    public FolloweeNewNotification() { }
 
     public FolloweeNewNotification(final DatastoreEntity entity) {
         readPropertiesFromEntity(entity);
@@ -62,17 +60,15 @@ public class FolloweeNewNotification extends Notification {
         final List<HyperlinkedStr> msg = new ArrayList<HyperlinkedStr>();
 
         final HyperlinkedStr nameChunk = new HyperlinkedStr();
-        nameChunk.str = getAuthorName();
-        nameChunk.url = "/author?id=" + getAuthorId();
+        nameChunk.str = authorName;
+        nameChunk.url = "/author?id=" + authorId;
         msg.add(nameChunk);
 
         HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
-        final String title = getTitle();
         unlinkedChunk.str = " started the story '" + title + "' at page ";
         msg.add(unlinkedChunk);
 
         final HyperlinkedStr pageIdChunk = new HyperlinkedStr();
-        final PageId pageId = getPageId();
         pageIdChunk.str = pageId.toString();
         pageIdChunk.url = "/read?p=" + pageId;
         msg.add(pageIdChunk);
@@ -86,12 +82,7 @@ public class FolloweeNewNotification extends Notification {
 
     @Override
     public String getMsg() {
-        final String name = getAuthorName();
-        final String title = getTitle();
-        final PageId pageId = getPageId();
-        final String msg;
-        msg = name + " started the story '" + title + "' at page " + pageId + ".";
-        return msg;
+        return authorName + " started the story '" + title + "' at page " + pageId + ".";
     }
 
     public void setAuthorId(final String id) {
@@ -110,30 +101,12 @@ public class FolloweeNewNotification extends Notification {
         this.title = title;
     }
 
-    private String getAuthorId() {
-        return authorId;
-    }
-
-    private String getAuthorName() {
-        return authorName;
-    }
-
-    private PageId getPageId() {
-        return pageId;
-    }
-
-    private String getTitle() {
-        return title;
-    }
-
     private void readAuthorIdFromEntity(final DatastoreEntity entity) {
-        final String id = getAuthorIdFromEntity(entity);
-        setAuthorId(id);
+        setAuthorId(getAuthorIdFromEntity(entity));
     }
 
     private void readAuthorNameFromEntity(final DatastoreEntity entity) {
-        final String name = getAuthorNameFromEntity(entity);
-        setAuthorName(name);
+        setAuthorName(getAuthorNameFromEntity(entity));
     }
 
     private void readPageIdFromEntity(final DatastoreEntity entity) {
@@ -146,30 +119,25 @@ public class FolloweeNewNotification extends Notification {
     }
 
     private void readTitleFromEntity(final DatastoreEntity entity) {
-        final String title = getTitleFromEntity(entity);
-        setTitle(title);
+        setTitle(getTitleFromEntity(entity));
     }
 
     private void setAuthorIdInEntity(final DatastoreEntity entity) {
-        final String id = getAuthorId();
-        entity.setProperty(NEW_AUTHOR_ID_PROPERTY, id);
+        entity.setProperty(NEW_AUTHOR_ID_PROPERTY, authorId);
     }
 
     private void setAuthorNameInEntity(final DatastoreEntity entity) {
-        final String name = getAuthorName();
-        entity.setProperty(NEW_AUTHOR_NAME_PROPERTY, name);
+        entity.setProperty(NEW_AUTHOR_NAME_PROPERTY, authorName);
     }
 
     private void setPageIdInEntity(final DatastoreEntity entity) {
-        final PageId id = getPageId();
-        final int num = id.getNumber();
+        final int num = pageId.getNumber();
         entity.setProperty(PG_ID_NUM_PROPERTY, num);
-        final String version = id.getVersion();
+        final String version = pageId.getVersion();
         entity.setProperty(PG_ID_VERSION_PROPERTY, version);
     }
 
     private void setTitleInEntity(final DatastoreEntity entity) {
-        final String title = getTitle();
         entity.setProperty(TITLE_PROPERTY, title);
     }
 

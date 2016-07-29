@@ -313,7 +313,7 @@ public class StoryPage extends Model {
         return preparedQuery;
     }
 
-    static int countSubtreeBetween(final String greater, final String less) {
+    public static int countSubtreeBetween(final String greater, final String less) {
         final DatastoreQuery query = new DatastoreQuery(KIND_NAME);
         final String propertyName = ANCESTRY_PROPERTY;
         FilterOperator operator = FilterOperator.GREATER_THAN;
@@ -545,7 +545,7 @@ public class StoryPage extends Model {
         final int sizeDenominator = getSizeDenominator();
         final int sizeInfluence = getSizeInfluence();
         final int loveDenominator = getLoveDenominator();
-        final int loveInfluence = getLoveInfluence();
+        final int loveInfluence = LOVE_INFLUENCE;
         return (sizeDenominator * sizeInfluence)
                 + (loveDenominator * loveInfluence);
     }
@@ -554,7 +554,7 @@ public class StoryPage extends Model {
         final int sizeNumerator = getSizeNumerator();
         final int sizeInfluence = getSizeInfluence();
         final int loveNumerator = getLoveNumerator();
-        final int loveInfluence = getLoveInfluence();
+        final int loveInfluence = LOVE_INFLUENCE;
         return (sizeNumerator * sizeInfluence)
                 + (loveNumerator + loveInfluence);
     }
@@ -618,10 +618,6 @@ public class StoryPage extends Model {
 
     private int getLoveDenominator() {
         return getNumLoversOfAllVersions();
-    }
-
-    private int getLoveInfluence() {
-        return LOVE_INFLUENCE;
     }
 
     private int getLoveNumerator() {

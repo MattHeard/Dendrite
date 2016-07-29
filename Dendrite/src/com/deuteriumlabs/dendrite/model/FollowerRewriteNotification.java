@@ -8,28 +8,22 @@ import com.deuteriumlabs.dendrite.dependencies.DatastoreEntity;
 import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 
 public class FollowerRewriteNotification extends Notification {
-
     private static final String AUTHOR_ID_PROPERTY = "authorId";
     private static final String AUTHOR_NAME_PROPERTY = "authorName";
     private static final String PG_ID_NUM_PROPERTY = "pageIdNum";
     private static final String PG_ID_VERSION_PROPERTY = "pageIdVersion";
 
     private static String getAuthorIdFromEntity(final DatastoreEntity entity) {
-        final String propertyName = AUTHOR_ID_PROPERTY;
-        final String id = (String) entity.getProperty(propertyName);
-        return id;
+        return (String) entity.getProperty(AUTHOR_ID_PROPERTY);
     }
 
     private static String getAuthorNameFromEntity(
             final DatastoreEntity entity) {
-        final String propertyName = AUTHOR_NAME_PROPERTY;
-        final String name = (String) entity.getProperty(propertyName);
-        return name;
+        return (String) entity.getProperty(AUTHOR_NAME_PROPERTY);
     }
 
     private static int getPageIdNumFromEntity(final DatastoreEntity entity) {
-        final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
-        return num.intValue();
+        return ((Long) entity.getProperty(PG_ID_NUM_PROPERTY)).intValue();
     }
 
     private static String getPageIdVersionFromEntity(
@@ -53,8 +47,8 @@ public class FollowerRewriteNotification extends Notification {
         final List<HyperlinkedStr> msg = new ArrayList<HyperlinkedStr>();
 
         final HyperlinkedStr nameChunk = new HyperlinkedStr();
-        nameChunk.str = getAuthorName();
-        nameChunk.url = "/author?id=" + getAuthorId();
+        nameChunk.str = authorName;
+        nameChunk.url = "/author?id=" + authorId;
         msg.add(nameChunk);
 
         HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
@@ -62,7 +56,6 @@ public class FollowerRewriteNotification extends Notification {
         msg.add(unlinkedChunk);
 
         final HyperlinkedStr pageIdChunk = new HyperlinkedStr();
-        final PageId pageId = getPageId();
         pageIdChunk.str = pageId.toString();
         pageIdChunk.url = "/read?p=" + pageId;
         msg.add(pageIdChunk);
@@ -76,9 +69,7 @@ public class FollowerRewriteNotification extends Notification {
 
     @Override
     public String getMsg() {
-        final String name = getAuthorName();
-        final PageId pageId = getPageId();
-        return name + " rewrote a page at page " + pageId + ".";
+        return authorName + " rewrote a page at page " + pageId + ".";
     }
 
     public void setAuthorId(final String id) {
@@ -93,26 +84,12 @@ public class FollowerRewriteNotification extends Notification {
         pageId = id;
     }
 
-    private String getAuthorId() {
-        return authorId;
-    }
-
-    private String getAuthorName() {
-        return authorName;
-    }
-
-    private PageId getPageId() {
-        return pageId;
-    }
-
     private void readAuthorIdFromEntity(final DatastoreEntity entity) {
-        final String id = getAuthorIdFromEntity(entity);
-        setAuthorId(id);
+        setAuthorId(getAuthorIdFromEntity(entity));
     }
 
     private void readAuthorNameFromEntity(final DatastoreEntity entity) {
-        final String name = getAuthorNameFromEntity(entity);
-        setAuthorName(name);
+        setAuthorName(getAuthorNameFromEntity(entity));
     }
 
     private void readPageIdFromEntity(final DatastoreEntity entity) {
@@ -125,21 +102,16 @@ public class FollowerRewriteNotification extends Notification {
     }
 
     private void setAuthorIdInEntity(final DatastoreEntity entity) {
-        final String id = getAuthorId();
-        entity.setProperty(AUTHOR_ID_PROPERTY, id);
+        entity.setProperty(AUTHOR_ID_PROPERTY, authorId);
     }
 
     private void setAuthorNameInEntity(final DatastoreEntity entity) {
-        final String name = getAuthorName();
-        entity.setProperty(AUTHOR_NAME_PROPERTY, name);
+        entity.setProperty(AUTHOR_NAME_PROPERTY, authorName);
     }
 
     private void setPageIdInEntity(final DatastoreEntity entity) {
-        final PageId id = getPageId();
-        final int num = id.getNumber();
-        entity.setProperty(PG_ID_NUM_PROPERTY, num);
-        final String version = id.getVersion();
-        entity.setProperty(PG_ID_VERSION_PROPERTY, version);
+        entity.setProperty(PG_ID_NUM_PROPERTY, pageId.getNumber());
+        entity.setProperty(PG_ID_VERSION_PROPERTY, pageId.getVersion());
     }
 
     @Override

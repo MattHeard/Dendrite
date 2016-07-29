@@ -15,21 +15,16 @@ public class FollowerWriteNotification extends Notification {
     private static final String PG_ID_VERSION_PROPERTY = "pageIdVersion";
 
     private static String getAuthorIdFromEntity(final DatastoreEntity entity) {
-        final String propertyName = AUTHOR_ID_PROPERTY;
-        final String id = (String) entity.getProperty(propertyName);
-        return id;
+        return (String) entity.getProperty(AUTHOR_ID_PROPERTY);
     }
 
     private static String getAuthorNameFromEntity(
             final DatastoreEntity entity) {
-        final String propertyName = AUTHOR_NAME_PROPERTY;
-        final String name = (String) entity.getProperty(propertyName);
-        return name;
+        return (String) entity.getProperty(AUTHOR_NAME_PROPERTY);
     }
 
     private static int getPageIdNumFromEntity(final DatastoreEntity entity) {
-        final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
-        return num.intValue();
+        return ((Long) entity.getProperty(PG_ID_NUM_PROPERTY)).intValue();
     }
 
     private static String getPageIdVersionFromEntity(
@@ -53,8 +48,8 @@ public class FollowerWriteNotification extends Notification {
         final List<HyperlinkedStr> msg = new ArrayList<HyperlinkedStr>();
 
         final HyperlinkedStr nameChunk = new HyperlinkedStr();
-        nameChunk.str = getAuthorName();
-        nameChunk.url = "/author?id=" + getAuthorId();
+        nameChunk.str = authorName;
+        nameChunk.url = "/author?id=" + authorId;
         msg.add(nameChunk);
 
         HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
@@ -62,7 +57,6 @@ public class FollowerWriteNotification extends Notification {
         msg.add(unlinkedChunk);
 
         final HyperlinkedStr pageIdChunk = new HyperlinkedStr();
-        final PageId pageId = getPageId();
         pageIdChunk.str = pageId.toString();
         pageIdChunk.url = "/read?p=" + pageId;
         msg.add(pageIdChunk);
@@ -76,9 +70,7 @@ public class FollowerWriteNotification extends Notification {
 
     @Override
     public String getMsg() {
-        final String name = getAuthorName();
-        final PageId pageId = getPageId();
-        return name + " continued a story by writing page " + pageId + ".";
+        return authorName + " continued a story by writing page " + pageId + ".";
     }
 
     public void setAuthorId(final String id) {
@@ -93,26 +85,12 @@ public class FollowerWriteNotification extends Notification {
         pageId = id;
     }
 
-    private String getAuthorId() {
-        return authorId;
-    }
-
-    private String getAuthorName() {
-        return authorName;
-    }
-
-    private PageId getPageId() {
-        return pageId;
-    }
-
     private void readAuthorIdFromEntity(final DatastoreEntity entity) {
-        final String id = getAuthorIdFromEntity(entity);
-        setAuthorId(id);
+        setAuthorId(getAuthorIdFromEntity(entity));
     }
 
     private void readAuthorNameFromEntity(final DatastoreEntity entity) {
-        final String name = getAuthorNameFromEntity(entity);
-        setAuthorName(name);
+        setAuthorName(getAuthorNameFromEntity(entity));
     }
 
     private void readPageIdFromEntity(final DatastoreEntity entity) {
@@ -125,20 +103,17 @@ public class FollowerWriteNotification extends Notification {
     }
 
     private void setAuthorIdInEntity(final DatastoreEntity entity) {
-        final String id = getAuthorId();
-        entity.setProperty(AUTHOR_ID_PROPERTY, id);
+        entity.setProperty(AUTHOR_ID_PROPERTY, authorId);
     }
 
     private void setAuthorNameInEntity(final DatastoreEntity entity) {
-        final String name = getAuthorName();
-        entity.setProperty(AUTHOR_NAME_PROPERTY, name);
+        entity.setProperty(AUTHOR_NAME_PROPERTY, authorName);
     }
 
     private void setPageIdInEntity(final DatastoreEntity entity) {
-        final PageId id = getPageId();
-        final int num = id.getNumber();
+        final int num = pageId.getNumber();
         entity.setProperty(PG_ID_NUM_PROPERTY, num);
-        final String version = id.getVersion();
+        final String version = pageId.getVersion();
         entity.setProperty(PG_ID_VERSION_PROPERTY, version);
     }
 

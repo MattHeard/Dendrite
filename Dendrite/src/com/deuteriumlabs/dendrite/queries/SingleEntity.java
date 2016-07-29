@@ -15,6 +15,7 @@ public class SingleEntity {
         try {
             return new DatastoreEntity(preparedQuery.asSingleEntity());
         } catch (final TooManyResultsException e) {
+            System.out.println(e);
             return null;
         }
     }

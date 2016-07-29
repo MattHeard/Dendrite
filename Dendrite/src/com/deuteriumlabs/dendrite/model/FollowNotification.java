@@ -9,7 +9,7 @@ import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 
 public class FollowNotification extends Notification {
 
-    static final String FOLLOWER_ID_PROPERTY = "followerId";
+    private static final String FOLLOWER_ID_PROPERTY = "followerId";
 
     private String followerId;
 
@@ -26,7 +26,7 @@ public class FollowNotification extends Notification {
 
         final HyperlinkedStr nameChunk = new HyperlinkedStr();
         nameChunk.str = getFollowerName();
-        nameChunk.url = "/author?id=" + getFollowerId();
+        nameChunk.url = "/author?id=" + followerId;
         msg.add(nameChunk);
 
         final HyperlinkedStr unlinkedChunk = new HyperlinkedStr();
@@ -38,39 +38,30 @@ public class FollowNotification extends Notification {
 
     @Override
     public String getMsg() {
-        final String follower = getFollowerName();
-        return follower + " is now following you.";
+        return getFollowerName() + " is now following you.";
     }
 
     public void setFollowerId(final String followerId) {
         this.followerId = followerId;
     }
 
-    private String getFollowerId() {
-        return followerId;
-    }
-
     private String getFollowerIdFromEntity(final DatastoreEntity entity) {
-        final String id = (String) entity.getProperty(FOLLOWER_ID_PROPERTY);
-        return id;
+        return (String) entity.getProperty(FOLLOWER_ID_PROPERTY);
     }
 
     private String getFollowerName() {
-        final String id = getFollowerId();
         final User follower = new User();
-        follower.setId(id);
+        follower.setId(followerId);
         follower.read();
         return follower.getDefaultPenName();
     }
 
     private void readFollowerIdFromEntity(final DatastoreEntity entity) {
-        final String id = getFollowerIdFromEntity(entity);
-        setFollowerId(id);
+        setFollowerId(getFollowerIdFromEntity(entity));
     }
 
     private void setFollowerIdInEntity(final DatastoreEntity entity) {
-        final String id = getFollowerId();
-        entity.setProperty(FOLLOWER_ID_PROPERTY, id);
+        entity.setProperty(FOLLOWER_ID_PROPERTY, followerId);
     }
 
     @Override

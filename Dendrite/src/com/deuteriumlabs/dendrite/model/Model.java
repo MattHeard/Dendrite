@@ -18,8 +18,7 @@ public abstract class Model {
     private DatastoreEntity entity = null;
 
     public void create() {
-        final String kindName = getKindName();
-        entity = createNewEntity(kindName);
+        entity = createNewEntity(getKindName());
         putEntityInStore(entity);
     }
 
@@ -34,6 +33,8 @@ public abstract class Model {
         if (entity != null) {
             deleteEntityByKey(entity);
             entity = null;
+        } else {
+            // TODO Log error
         }
     }
 
@@ -69,6 +70,8 @@ public abstract class Model {
         }
         if (entity != null) {
             putEntityInStore(entity);
+        } else {
+            // TODO Log error
         }
     }
 
@@ -85,8 +88,8 @@ public abstract class Model {
     }
 
     private void setCreationDate(final DatastoreEntity entity) {
-        final Date date = new Date();
-        entity.setProperty(CREATION_DATE_PROPERTY, date);
+        final Date now = new Date();
+        entity.setProperty(CREATION_DATE_PROPERTY, now);
     }
 
     protected DatastoreEntity createNewEntity(final String kindName) {

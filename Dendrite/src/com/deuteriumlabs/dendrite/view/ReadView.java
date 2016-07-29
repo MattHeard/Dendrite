@@ -295,16 +295,18 @@ public class ReadView extends View {
 
     private void setPageId(final PageId id) {
         pageId = id;
-        final StoryPage page = new StoryPage();
+        page = new StoryPage();
         page.setId(id);
-        page.read();
-        setPage(page);
-        final PageId beginningId = page.getBeginning();
-        final StoryBeginning beginning = new StoryBeginning();
-        final int pageNumber = beginningId.getNumber();
-        beginning.setPageNumber(pageNumber);
-        beginning.read();
-        setBeginning(beginning);
+        if (page.isInStore()) {
+            page.read();
+            setPage(page);
+            final PageId beginningId = page.getBeginning();
+            final StoryBeginning beginning = new StoryBeginning();
+            final int pageNumber = beginningId.getNumber();
+            beginning.setPageNumber(pageNumber);
+            beginning.read();
+            setBeginning(beginning);
+        }
     }
 
     @Override

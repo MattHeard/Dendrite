@@ -54,4 +54,8 @@ public class DatastoreEntity {
     public void setProperty(final String name, final Object value) {
         entity.setProperty(name, value);
     }
+    
+    public void debug() {
+        System.out.println(entity);
+    }
 }
