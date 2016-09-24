@@ -55,4 +55,8 @@ public class PreferencesView extends View {
         return "Customise your reading experience and the look and feel of "
                 + "Dendrite.";
     }
+    
+    public String getCheckedIfDeletionRequested(final User myUser) {
+        return myUser.isDeletionRequested() ? "checked" : "";
+    }
 }

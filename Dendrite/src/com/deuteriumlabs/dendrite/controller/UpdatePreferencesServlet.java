@@ -59,6 +59,8 @@ public class UpdatePreferencesServlet extends DendriteServlet {
         controller.setAlignment(alignment);
         final String theme = req.getParameter("theme");
         controller.setTheme(theme);
+        final boolean isDeletionRequested = isDeletionRequested(req);
+        controller.setDeletionRequested(isDeletionRequested);
 
         final int avatarId = getAvatarId(req);
         controller.setAvatarId(avatarId);
@@ -74,6 +76,10 @@ public class UpdatePreferencesServlet extends DendriteServlet {
                 redirectFromUpdateFailure();
             }
         }
+    }
+
+    private boolean isDeletionRequested(final HttpServletRequest req) {
+        return "on".equals(req.getParameter("request_deletion"));
     }
 
     protected void redirectToMyPreferencesPage() {

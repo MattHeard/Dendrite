@@ -11,7 +11,7 @@ import com.deuteriumlabs.dendrite.model.PageId;
 import com.deuteriumlabs.dendrite.model.User;
 
 public class AddTagServlet extends DendriteServlet {
-    private static final String PG_ID_PARAMETER_NAME = "p";
+    private static final String PAGE_ID_PARAMETER_NAME = "p";
     private static final long serialVersionUID = 3295021739229957210L;
     private static final String TAG_PARAMETER_NAME = "tag";
 
@@ -26,7 +26,7 @@ public class AddTagServlet extends DendriteServlet {
     }
 
     private void extractPageId() {
-        final String idString = req.getParameter(PG_ID_PARAMETER_NAME);
+        final String idString = req.getParameter(PAGE_ID_PARAMETER_NAME);
         pageId = new PageId(idString);
     }
 

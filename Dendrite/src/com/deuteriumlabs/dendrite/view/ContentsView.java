@@ -166,6 +166,14 @@ public class ContentsView extends View {
         final String number = link.number;
         pageContext.setAttribute("pageNumber", number);
     }
+    
+    public void prepareFirstPageLink() {
+        String link = "/contents?p=1";
+        if (isFiltered()) {
+            link += "&filter=" + filter;
+        }
+        pageContext.setAttribute("firstLink", link);
+    }
 
     public void prepareNextPageLink() {
         final PageContext pageContext = getPageContext();

@@ -173,6 +173,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <servlet-name>Stats</servlet-name>
         <url-pattern>/stats</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AccountDeletionHelp</servlet-name>
+        <jsp-file>/account_deletion_help.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AccountDeletionHelp</servlet-name>
+        <url-pattern>/account_deletion_help</url-pattern>
+    </servlet-mapping>
 	<servlet>
 		<servlet-name>Love</servlet-name>
 		<servlet-class>com.deuteriumlabs.dendrite.controller.LoveServlet</servlet-class>

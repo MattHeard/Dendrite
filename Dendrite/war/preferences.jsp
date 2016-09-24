@@ -279,6 +279,16 @@ if (isNewPenNameBlank == true) {
     
     %>
           </div>
+          <hr class="minor_separator" />
+          <%
+            final String checkedIfDeletionRequested = view.getCheckedIfDeletionRequested(myUser);
+            pageContext.setAttribute("checkedIfDeletionRequested", checkedIfDeletionRequested);
+          %>
+          <label><input type="checkbox" name="request_deletion" style="width: inherit" ${fn:escapeXml(checkedIfDeletionRequested)}>
+            <h4 style="display: inline">Request account deletion</h4>
+          </input></label>
+          (<a href="account_deletion_help">❓</a>)
+          <hr class="minor_separator" />
           <button type="submit">Update</button>
           <a href="/resetPreferences"><div class="button">Reset to
               defaults</div></a>

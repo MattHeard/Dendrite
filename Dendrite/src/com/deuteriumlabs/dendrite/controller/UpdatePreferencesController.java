@@ -12,6 +12,7 @@ public class UpdatePreferencesController {
     private String newPenName;
     private String spacing;
     private String theme;
+    private boolean isDeletionRequested;
 
     public boolean isNewPenNameBlank() {
         return ((newPenName == null) || newPenName.equals(""));
@@ -61,6 +62,7 @@ public class UpdatePreferencesController {
             myUser.setAlignment(alignment);
             myUser.setTheme(theme);
             myUser.setAvatarId(avatarId);
+            myUser.setDeletionRequested(isDeletionRequested);
 
             myUser.update();
             return true;
@@ -93,6 +95,10 @@ public class UpdatePreferencesController {
         } else {
             return 1.5; // Medium
         }
+    }
+
+    public void setDeletionRequested(final boolean isDeletionRequested) {
+        this.isDeletionRequested = isDeletionRequested;
     }
 
 }

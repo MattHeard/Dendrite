@@ -10,8 +10,8 @@ import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 public class PgLovedNotification extends Notification {
 
     public static final String LOVER_ID_PROPERTY = "loverId";
-    private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
-    private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
+    private static final String PAGE_ID_NUM_PROPERTY = "pageIdNum";
+    private static final String PAGE_ID_VERSION_PROPERTY = "pageIdVersion";
 
     private String loverId;
     private PageId pageId;
@@ -85,12 +85,12 @@ public class PgLovedNotification extends Notification {
     }
 
     private int getPageIdNumFromEntity(final DatastoreEntity entity) {
-        final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
+        final Long num = (Long) entity.getProperty(PAGE_ID_NUM_PROPERTY);
         return num.intValue();
     }
 
     private String getPageIdVersionFromEntity(final DatastoreEntity entity) {
-        return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
+        return (String) entity.getProperty(PAGE_ID_VERSION_PROPERTY);
     }
 
     private void readLoverIdFromEntity(final DatastoreEntity entity) {
@@ -115,9 +115,9 @@ public class PgLovedNotification extends Notification {
     private void setPageIdInEntity(final DatastoreEntity entity) {
         final PageId id = getPageId();
         final int num = id.getNumber();
-        entity.setProperty(PG_ID_NUM_PROPERTY, num);
+        entity.setProperty(PAGE_ID_NUM_PROPERTY, num);
         final String version = id.getVersion();
-        entity.setProperty(PG_ID_VERSION_PROPERTY, version);
+        entity.setProperty(PAGE_ID_VERSION_PROPERTY, version);
     }
 
     @Override

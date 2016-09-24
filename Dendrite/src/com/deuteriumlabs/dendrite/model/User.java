@@ -38,6 +38,7 @@ public class User extends Model {
     private static final String KIND_NAME = "User";
     private static final String SPACING_PROPERTY = "spacing";
     private static final String THEME_PROPERTY = "theme";
+    private static final String IS_DELETION_REQUESTED_PROPERTY = "isDeletionRequested";
 
     static {
         final Map<Integer, String> map = new HashMap<Integer, String>();
@@ -240,6 +241,7 @@ public class User extends Model {
     private String id;
     private double spacing;
     private String theme;
+    private boolean isDeletionRequested;
 
     public User() {
         setDefaultPenName(UNKNOWN_PEN_NAME);
@@ -513,6 +515,16 @@ public class User extends Model {
         readAvatarIdFromEntity(entity);
         readFollowersFromEntity(entity);
         readFormerFollowersFromEntity(entity);
+        readDeletionRequestedFromEntity(entity);
+    }
+
+    private void readDeletionRequestedFromEntity(final DatastoreEntity entity) {
+        isDeletionRequested = getDeletionRequestedFromEntity(entity);
+    }
+
+    private boolean getDeletionRequestedFromEntity(final DatastoreEntity entity) {
+        final Boolean isDeletionRequested = (Boolean) entity.getProperty(IS_DELETION_REQUESTED_PROPERTY);
+        return isDeletionRequested != null && isDeletionRequested.booleanValue();
     }
 
     @Override
@@ -528,5 +540,18 @@ public class User extends Model {
         setAvatarIdInEntity(entity);
         setFollowersInEntity(entity);
         setFormerFollowersInEntity(entity);
+        setDeletionRequestedInEntity(entity);
+    }
+
+    private void setDeletionRequestedInEntity(final DatastoreEntity entity) {
+        entity.setProperty(IS_DELETION_REQUESTED_PROPERTY, isDeletionRequested);
+    }
+
+    public void setDeletionRequested(final boolean isDeletionRequested) {
+        this.isDeletionRequested = isDeletionRequested;
+    }
+    
+    public boolean isDeletionRequested() {
+        return isDeletionRequested;
     }
 }

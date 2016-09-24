@@ -34,7 +34,7 @@ public class StoryPage extends Model {
     private static final String FORMERLY_LOVING_USERS_PROPERTY = "formerlyLovingUsers";
     private static final String ID_NUMBER_PROPERTY = "idNumber";
     private static final String ID_VERSION_PROPERTY = "idVersion";
-    private static final String IS_FIRST_PG_PROPERTY = "isFirstPage";
+    private static final String IS_FIRST_PG_PROPERTY = "isFirstPg";
     private static final String KIND_NAME = "StoryPage";
     private static final int LEN_ALPHABET = 26;
     private static final char[] LETTERS = "abcdefghijklmnopqrstuvwxyz"
@@ -420,7 +420,11 @@ public class StoryPage extends Model {
     }
 
     public int getNumLovingUsers() {
-        return lovingUsers.size();
+        if (lovingUsers != null) {
+            return lovingUsers.size();
+        } else {
+            return 0;
+        }
     }
 
     public StoryPage getParent() {

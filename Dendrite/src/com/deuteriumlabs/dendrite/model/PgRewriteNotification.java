@@ -10,17 +10,17 @@ import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 public class PgRewriteNotification extends Notification {
 
     public static final String REWRITE_AUTHOR_ID_PROPERTY = "rewriteAuthorId";
-    private static final String PG_ID_NUM_PROPERTY = "pgIdNum";
-    private static final String PG_ID_VERSION_PROPERTY = "pgIdVersion";
+    private static final String PAGE_ID_NUM_PROPERTY = "pageIdNum";
+    private static final String PAGE_ID_VERSION_PROPERTY = "pageIdVersion";
 
     private static int getPageIdNumFromEntity(final DatastoreEntity entity) {
-        final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
+        final Long num = (Long) entity.getProperty(PAGE_ID_NUM_PROPERTY);
         return num.intValue();
     }
 
     private static String getPageIdVersionFromEntity(
             final DatastoreEntity entity) {
-        return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
+        return (String) entity.getProperty(PAGE_ID_VERSION_PROPERTY);
     }
 
     private static String getRewriteAuthorIdFromEntity(
@@ -121,9 +121,9 @@ public class PgRewriteNotification extends Notification {
     private void setPageIdInEntity(final DatastoreEntity entity) {
         final PageId id = getPageId();
         final int num = id.getNumber();
-        entity.setProperty(PG_ID_NUM_PROPERTY, num);
+        entity.setProperty(PAGE_ID_NUM_PROPERTY, num);
         final String version = id.getVersion();
-        entity.setProperty(PG_ID_VERSION_PROPERTY, version);
+        entity.setProperty(PAGE_ID_VERSION_PROPERTY, version);
     }
 
     private void setRewriteAuthorIdInEntity(final DatastoreEntity entity) {

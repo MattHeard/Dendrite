@@ -86,10 +86,11 @@ for (final Link link : view.getLinks(store, query)) {
     
 final boolean isFirstPage = view.isFirstPage();
 if (isFirstPage == false) {
+    view.prepareFirstPageLink();
     view.preparePrevPageLink();
     	
     %>
-          <span><a title="First page of contents" href="/contents?p=1">|◀</a></span>
+          <span><a title="First page of contents" href="${fn:escapeXml(firstLink)}">|◀</a></span>
           <span><a title="Previous page of contents" href="${fn:escapeXml(prevLink)}">◀</a></span><%
     	
 } else {

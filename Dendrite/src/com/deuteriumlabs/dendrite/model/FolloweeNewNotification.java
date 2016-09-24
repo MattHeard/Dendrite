@@ -11,8 +11,8 @@ public class FolloweeNewNotification extends Notification {
     public static final String NEW_AUTHOR_ID_PROPERTY = "newAuthorId";
 
     private static final String NEW_AUTHOR_NAME_PROPERTY = "newAuthorName";
-    private static final String PG_ID_NUM_PROPERTY = "pageIdNum";
-    private static final String PG_ID_VERSION_PROPERTY = "pageIdVersion";
+    private static final String PAGE_ID_NUM_PROPERTY = "pageIdNum";
+    private static final String PAGE_ID_VERSION_PROPERTY = "pageIdVersion";
     private static final String TITLE_PROPERTY = "title";
 
     private static String getAuthorIdFromEntity(final DatastoreEntity entity) {
@@ -29,13 +29,13 @@ public class FolloweeNewNotification extends Notification {
     }
 
     private static int getPageIdNumFromEntity(final DatastoreEntity entity) {
-        final Long num = (Long) entity.getProperty(PG_ID_NUM_PROPERTY);
+        final Long num = (Long) entity.getProperty(PAGE_ID_NUM_PROPERTY);
         return num.intValue();
     }
 
     private static String getPageIdVersionFromEntity(
             final DatastoreEntity entity) {
-        return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
+        return (String) entity.getProperty(PAGE_ID_VERSION_PROPERTY);
     }
 
     private static String getTitleFromEntity(final DatastoreEntity entity) {
@@ -132,9 +132,9 @@ public class FolloweeNewNotification extends Notification {
 
     private void setPageIdInEntity(final DatastoreEntity entity) {
         final int num = pageId.getNumber();
-        entity.setProperty(PG_ID_NUM_PROPERTY, num);
+        entity.setProperty(PAGE_ID_NUM_PROPERTY, num);
         final String version = pageId.getVersion();
-        entity.setProperty(PG_ID_VERSION_PROPERTY, version);
+        entity.setProperty(PAGE_ID_VERSION_PROPERTY, version);
     }
 
     private void setTitleInEntity(final DatastoreEntity entity) {

@@ -8,8 +8,8 @@ import com.deuteriumlabs.dendrite.dependencies.DatastoreEntity;
 import com.deuteriumlabs.dendrite.view.HyperlinkedStr;
 
 public class AuthorTagNotification extends Notification {
-    private static final String PG_ID_NUM_PROPERTY = "pageIdNum";
-    private static final String PG_ID_VERSION_PROPERTY = "pageIdVersion";
+    private static final String PAGE_ID_NUM_PROPERTY = "pageIdNum";
+    private static final String PAGE_ID_VERSION_PROPERTY = "pageIdVersion";
     private static final String TAG_PROPERTY = "tag";
     private static final String TAGGER_ID_PROPERTY = "taggerId";
     private static final String TAGGER_NAME_PROPERTY = "taggerName";
@@ -94,11 +94,11 @@ public class AuthorTagNotification extends Notification {
     }
 
     private int getPageIdNumFromEntity(final DatastoreEntity entity) {
-        return ((Long) entity.getProperty(PG_ID_NUM_PROPERTY)).intValue();
+        return ((Long) entity.getProperty(PAGE_ID_NUM_PROPERTY)).intValue();
     }
 
     private String getPageIdVersionFromEntity(final DatastoreEntity entity) {
-        return (String) entity.getProperty(PG_ID_VERSION_PROPERTY);
+        return (String) entity.getProperty(PAGE_ID_VERSION_PROPERTY);
     }
 
     private String getTagFromEntity(final DatastoreEntity entity) {
@@ -134,8 +134,8 @@ public class AuthorTagNotification extends Notification {
 
     private void setPageIdInEntity(final DatastoreEntity entity) {
         final PageId id = pageId;
-        entity.setProperty(PG_ID_NUM_PROPERTY, id.getNumber());
-        entity.setProperty(PG_ID_VERSION_PROPERTY, id.getVersion());
+        entity.setProperty(PAGE_ID_NUM_PROPERTY, id.getNumber());
+        entity.setProperty(PAGE_ID_VERSION_PROPERTY, id.getVersion());
     }
 
     private void setTaggerIdInEntity(final DatastoreEntity entity) {
